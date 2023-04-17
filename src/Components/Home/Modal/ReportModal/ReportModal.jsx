@@ -16,7 +16,7 @@ const [showThanksModal, setShowThanksModal] = useState(false)
     }
   return (
     <>
-    <div className='bg-white w-[35%]  h-[400px] flex flex-col items-center gap-2 rounded-xl absolute z-10' >
+    <div className='bg-white w-[35%]  h-[400px] flex flex-col items-center gap-2 rounded-xl absolute' >
        <h1 className='text-2xl font-bold mt-3'>Why are you Reporting this Post ?</h1>
        <hr className='w-full h-[80%] text-[gray]'/>
        {dataList.map((elem,index)=>(<p key={index} className='text-[14px] text-gray-500 self-start pl-5 hover:bg-gray-200 w-[95%] ml-2 cursor-pointer'>{elem.name}</p>))}

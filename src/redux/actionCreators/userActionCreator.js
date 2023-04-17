@@ -39,8 +39,16 @@ export const selectKicksType = (kicksType)=>(dispatch)=>{
 }
 
 
+// SELECTED TAB IN MENU MODAL SECTION
+export const menuModalTabSelect = (menuTab)=>(dispatch)=>{
+    dispatch({
+        type:"MENU_MODAL_SELCTED_TAB",
+        payload:menuTab
+    })
+}
+
+
 export const commentsData = (comments)=>(dispatch)=>{
-    console.log("comments",comments);
     dispatch({
         type:"ADD_COMMENTS",
         payload:comments

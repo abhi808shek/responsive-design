@@ -10,10 +10,10 @@ const PostContent = ({data,showModal,showReportModel,width}) => {
 {/* <ShareWithModal /> */}
       <PostCard data={data}
       showModal={showModal } width={width}/>
-     {/* <PostCard data={data}
-      showModal={showModal } width={width}/> */}
-     {/* <PostCard data={data}
-      showModal={showModal } width={width}/> */}
+     <PostCard data={data}
+      showModal={showModal } width={width}/>
+     <PostCard data={data}
+      showModal={showModal } width={width}/>
     </div>
   )
 }

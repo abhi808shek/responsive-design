@@ -3,7 +3,7 @@ import { AiOutlineDown } from "react-icons/ai";
 import ProfileModal from "../Modal/ProfileModal/ProfileModal";
 import NotificationModal from "../Modal/NotificationModal/NotificationModal";
 import FriendsModal from "../Modal/FriendsModal/FriendsModal";
-import dataList from "./data";
+import { dataList, data } from "./data";
 import { useSelector, useDispatch } from "react-redux";
 import { isTabSelected } from "../../../redux/actionCreators/userActionCreator";
 import { BsChevronCompactDown } from "react-icons/bs";
@@ -28,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <section className="h-[80px] w-full flex bg-white fixed top-0">
+    <section className="h-[80px] w-full flex bg-white fixed top-0 z-10">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
       <div className=" w-[30%] flex h-[80px] flex-row justify-evenly items-center ">
@@ -86,10 +86,14 @@ const Navbar = () => {
         <div className="w-full flex justify-evenly items-center h-full">
           {/* Peoples */}
 
-          {[1, 2, 3, 4, 5].map(() => (
-            <div className="flex flex-col items-center cursor-pointer relative" onClick={userNotificationModal}>
+          {data.map((elem) => (
+            <div
+              key={elem.name}
+              className="flex flex-col items-center cursor-pointer relative"
+              onClick={userFriendsModal}
+            >
               <img src="./images/groups.png" alt="" className=" h-[40px] " />
-              <div className="text-[12px] font-bold">Peoples</div>
+              <div className="lg:text-[10px] xl:text-[12px] font-bold">{elem.name}</div>
             </div>
           ))}
           {/* User Profile */}
@@ -106,74 +110,10 @@ const Navbar = () => {
           </div>
           {profileModal && <ProfileModal />}
           {notificationModal && <NotificationModal />}
+          {friendsModal && <FriendsModal />}
         </div>
       </div>
     </section>
-    // <div className="w-full h-[55px] bg-white flex pt-1">
-    //
-    //  
-    //   {friendsModal && <FriendsModal />}
-    //   {/* logo */}
-
-    //   {/* user Details */}
-    //   <section className="w-[30%] flex justify-between">
-    //     <div className="w-full flex justify-evenly items-center">
-    //       {/* Peoples */}
-    //       <div className="flex flex-col items-center ">
-    //         <img src="./images/groups.png" alt="" className=" h-[30px]" />
-    //         <div className="text-[10px] font-bold">Peoples</div>
-    //       </div>
-
-    //       {/* Chats */}
-    //       <div className="flex flex-col items-center">
-    //         <img
-    //           src="./images/Messages.png"
-    //           alt=""
-    //           className="w-[30px] h-[30px]"
-    //         />
-    //         <div className="text-[10px] font-bold">Chats</div>
-    //       </div>
-    //       {/* Radios Media */}
-    //       <div
-    //         className="flex flex-col items-center cursor-pointer"
-    //         onClick={userFriendsModal}
-    //       >
-    //         <img src="./images/user.png" alt="" className="w-[30px] h-[30px]" />
-    //         <div className="text-[10px] font-bold">Interest</div>
-    //       </div>
-    //       {/* Notification*/}
-    //       <div
-    //         className="flex flex-col items-center cursor-pointer"
-    //         onClick={userNotificationModal}
-    //       >
-    //         <img src="./images/Mute.png" alt="" className="w-[30px] h-[30px]" />
-    //         <div className="text-[10px] font-bold">U-Stream</div>
-    //       </div>
-
-    //       <div className="flex flex-col items-center">
-    //         <img
-    //           src="./images/Notifications.png"
-    //           alt=""
-    //           className="w-[30px] h-[30px]"
-    //         />
-    //         <div className="text-[10px] font-bold">Notifications</div>
-    //       </div>
-    //       {/* User Profile */}
-    //       <div
-    //         className="flex flex-col items-center cursor-pointer"
-    //         onClick={userProfileModal}
-    //       >
-    //         <img
-    //           src="./images/events.jpg"
-    //           alt=""
-    //           className="w-[30px] h-[30px] rounded-full"
-    //         />
-
-    //         <BsChevronCompactDown />
-    //       </div>
-    //     </div>
-    //   </section>
-    // </div>
   );
 };
 

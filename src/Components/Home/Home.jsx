@@ -33,7 +33,6 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import Kicks from "./KicksPage/Kicks";
 import CreatePostModal from "./Modal/CreatePostModal/CreatePostModal";
 import SearchKicksPage from "./SearchKicksPage/SearchKicksPage";
-
 const Home = () => {
   return (
     // <div className="flex flex-col h-[550px]">
@@ -86,21 +85,26 @@ const Home = () => {
     //   {/* <SearchComponent /> */}
     // </div>
 // -----------------USER PAGE----------------
-    <div className="w-full h-[1080px] bg-[#E4E7EC]">
+    <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
     //   {/* NAVBAR */}
       <Navbar />
 
-      {/* <PostForm /> */}
-      <section className="w-full h-[550px] overflow-scroll fixed top-[140px]  mt-2">
-        {/* <HeroSection /> */}
-        {/* <SliderSection /> */}
-        {/* <PostContent /> */}
+   
+  
+       <div className="bg-[#E4E7EC]  mt-[80px] w-[41%] h-[75px] fixed z-10">
+       <PostForm />
+       </div>
+      <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
+        <HeroSection />
+        <SliderSection />
+        <PostContent data={dataList}/>
 
 
         {/* <MyFriendsPage /> */}
         {/* <FindFriendsPage /> */}
         {/* <FriendRequestPage isFriend={true} /> */}
-        <ProfilePage />
+        {/* <ProfilePage /> */}
+        {/* <Kicks /> */}
       </section>
     </div>
     // --------------------------------END USER PAGE ---------------

@@ -36,17 +36,11 @@ const onSubmit =()=>{
   // const shortDescription =
   return (
     <>
-      {/* {showReportModel && <ReportModal />} */}
       <div
-        className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col bg-white`}
+      // {showReportModel && <ReportModal />}
+        className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col mt-2 bg-white`}
       >
-        {showMenuList && (
-          <MenuModal
-            data={data}
-            showModal={setShowReportModel}
-            closeModel={setShowMenuList}
-          />
-        )}
+       
         {/* Top Section */}
         <section className="w-full flex items-center">
           <div className="flex w-[50px] h-[50px]">
@@ -67,7 +61,7 @@ const onSubmit =()=>{
 
             <div className="flex items-center gap-1">
               {/* <HiUserGroup size={16} /> */}
-              <img src="./images/groups.png" alt="" className="w-[12px]" />
+              <img src="./images/groups.png" alt="" className="w-[12px] relative" />
 
               <span className="text-xs font-semibold">1 year ago</span>
               <GrLocation size={10} />
@@ -79,10 +73,17 @@ const onSubmit =()=>{
           <CiMenuKebab
             size={25}
             color="gray"
-            className="cursor-pointer"
+            className="cursor-pointer "
             onClick={showMenuListModal}
           />
-        </section>
+             </section>
+           {showMenuList && (
+          <MenuModal
+            data={data}
+            showModal={setShowReportModel}
+            closeModel={setShowMenuList}
+          />
+        )}
 
         {/* Content/About And Images Section */}
         <section className="w-full flex flex-col items-center mt-2 px-2">
@@ -116,14 +117,14 @@ const onSubmit =()=>{
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
-            <span>100</span>
+            <span className="lg:text-[14px] xl:text-[16px] font-semibold">100</span>
           </div>
 
           <div className="flex w-[40%] gap-5 items-center">
-            <span className="text-[14px] font-semibold text-gray-500">
+            <span className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500">
               5 Comments
             </span>
-            <span className="text-[14px] font-semibold text-gray-500">
+            <span className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500">
               28 Shares
             </span>
           </div>

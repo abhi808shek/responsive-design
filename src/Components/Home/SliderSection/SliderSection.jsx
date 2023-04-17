@@ -24,27 +24,24 @@ const SliderSection = () => {
     },
   };
   return (
-    <div className="w-full h-[270px] flex justify-center">
-      <div className="flex flex-col w-[40%]">
-        <div className="flex justify-between w-full ">
+      <div className="flex flex-col w-[40%] h-[60%]">
+        <div className="flex justify-between w-full py-2">
           <span className="font-bold text-sm">Recent Kicks</span>
           <span className="text-sm">
             <Link>View All</Link>
           </span>
         </div>
         {/* Slider */}
-        <div className="flex justify-evenly h-full">
           <Carousel
             responsive={responsive}
-            containerClass={`w-full h-full`}
+            containerClass={`w-full h-[180px] z-[1]`}
           >
             {[12, 3, 334, 434, 5434, 453].map((elem,index) => (
-              <div key={index} className="w-[80%] h-full  rounded-3xl">
-                <div className="w-full h-full rounded-3xl">
+              <div key={index} className="w-[80%] mt-4 h-[70%] rounded-3xl">
                   <img
                     src="./images/diwali.jpg"
                     alt=""
-                    className="w-full h-full rounded-3xl"
+                    className=" rounded-3xl"
                   />
 
                   <img
@@ -54,13 +51,11 @@ const SliderSection = () => {
                   />
                 </div>
                
-              </div>
+       
             ))}
           </Carousel>
          
-        </div>
       </div>
-    </div>
   );
 };
 

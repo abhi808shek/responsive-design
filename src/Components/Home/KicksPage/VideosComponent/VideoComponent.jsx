@@ -1,4 +1,5 @@
 import React from "react";
+import ReactPlayer from "react-player";
 
 const VideoComponent = ({dataList}) => {
  
@@ -6,6 +7,7 @@ const VideoComponent = ({dataList}) => {
   return (
     <>
       <div className="flex h-[50px] px-4 items-center py-2 relative">
+      {/* <ReactPlayer url='https://www.youtube.com/watch?v=vNeN13EQbqk' /> */}
         <div className="">
           <img
             src="./images/events.jpg"

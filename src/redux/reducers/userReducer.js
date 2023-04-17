@@ -4,7 +4,8 @@ const initialState = {
   selectedTab: "Root",
   friendsTab: " My Friends (5)",
   kicksType: "Following",
-  totalComments:[]
+  totalComments:[],
+  menuModalTab:"Nudity or Sexual activity"
 };
 
 const userReducer = (state = initialState, action) => {
@@ -22,6 +23,9 @@ const userReducer = (state = initialState, action) => {
 
     case "SELECT_KICKS_TYPE":
       return { ...state, kicksType: action.payload };
+
+      case "MENU_MODAL_SELCTED_TAB":
+        return { ...state, menuModalTab:action.payload };
 
       case "ADD_COMMENTS":
       return { ...state, totalComments: [...state.totalComments,action.payload] };
