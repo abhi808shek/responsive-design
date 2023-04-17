@@ -27,6 +27,15 @@ const Navbar = () => {
     setNotificationModal(!notificationModal);
   };
 
+const handleClick = (optionName) =>{
+  if (optionName === "Friends") {
+    userFriendsModal()
+  }
+  else if(optionName === "Notifications") {
+    userNotificationModal()
+  }
+}
+
   return (
     <section className="h-[80px] w-full flex bg-white fixed top-0 z-10">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
@@ -90,12 +99,14 @@ const Navbar = () => {
             <div
               key={elem.name}
               className="flex flex-col items-center cursor-pointer relative"
-              onClick={userFriendsModal}
+              onClick={()=>handleClick(elem.name)}
             >
               <img src="./images/groups.png" alt="" className=" h-[40px] " />
               <div className="lg:text-[10px] xl:text-[12px] font-bold">{elem.name}</div>
             </div>
           ))}
+
+
           {/* User Profile */}
           <div
             className="flex flex-col items-center cursor-pointer relative"
