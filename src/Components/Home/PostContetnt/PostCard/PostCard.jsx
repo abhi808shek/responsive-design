@@ -6,20 +6,47 @@ import { RiDislikeFill } from "react-icons/ri";
 import CommentBox from "./CommentBox/CommentBox";
 import MenuModal from "../../Modal/MenuModel/MenuModal";
 import ReportModal from "../../Modal/ReportModal/ReportModal";
+import { useDispatch } from "react-redux";
+import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
 
-const PostCard = ({data,showModal,width}) => {
+const PostCard = ({ data, showModal, width }) => {
   const [showReportModel, setShowReportModel] = useState(false);
-  const [showMenuList,setShowMenuList]=useState(false)
-  const showMenuListModal = ()=>{
+  const [showMenuList, setShowMenuList] = useState(false);
+  const [inputComment, setInputComment] = useState("");
+const dispatch = useDispatch()
+  const showMenuListModal = () => {
     setShowMenuList(!showMenuList);
-  }
+  };
 
+const onHandleChange = (event)=>{
+  setInputComment(event.target.value)
+}
+
+const onSubmit =()=>{
+  const commentData = {
+    id:1,
+    comment:inputComment,
+    like:0,
+    reply:[]
+  }
+  console.log("commentData",commentData);
+  dispatch(commentsData(commentData))
+  setInputComment("")
+}
   // const shortDescription =
   return (
-    <div className="w-[95%] h-[100%] flex flex-col items-center mt-2 relative">
-  {/* {showReportModel && <ReportModal />} */}
-      <div className={`flex w-[${width}%] rounded-md justify-between items-center px-2 py-2 flex-col bg-white`}>
-       {showMenuList && <MenuModal data={data} showModal={setShowReportModel} closeModel={setShowMenuList}/>}
+    <>
+      {/* {showReportModel && <ReportModal />} */}
+      <div
+        className={`flex w-[40%] rounded-md justify-between items-center px-2 py-2 mt-2 flex-col bg-white`}
+      >
+        {showMenuList && (
+          <MenuModal
+            data={data}
+            showModal={setShowReportModel}
+            closeModel={setShowMenuList}
+          />
+        )}
         {/* Top Section */}
         <section className="w-full flex items-center">
           <div className="flex w-[50px] h-[50px]">
@@ -49,7 +76,12 @@ const PostCard = ({data,showModal,width}) => {
             </div>
           </div>
 
-          <CiMenuKebab size={25} color="gray" className="cursor-pointer" onClick={showMenuListModal}/>
+          <CiMenuKebab
+            size={25}
+            color="gray"
+            className="cursor-pointer"
+            onClick={showMenuListModal}
+          />
         </section>
 
         {/* Content/About And Images Section */}
@@ -88,8 +120,12 @@ const PostCard = ({data,showModal,width}) => {
           </div>
 
           <div className="flex w-[40%] gap-5 items-center">
-            <span className="text-[14px] font-semibold text-gray-500">5 Comments</span>
-            <span className="text-[14px] font-semibold text-gray-500">28 Shares</span>
+            <span className="text-[14px] font-semibold text-gray-500">
+              5 Comments
+            </span>
+            <span className="text-[14px] font-semibold text-gray-500">
+              28 Shares
+            </span>
           </div>
         </section>
 
@@ -105,21 +141,29 @@ const PostCard = ({data,showModal,width}) => {
               <span className="text-xs font-semibold mt-1">Like</span>
             </div>
 
+            {/* Input Box Section */}
             <div className="flex grow items-center border-[1px] w-[100%] border-gray-500 justify-center gap-2 mx-3 rounded-xl mt-1.5 h-[35px]">
               <input
                 type="text"
                 className="w-full h-full outline-none rounded-xl pl-3"
                 placeholder="add comment"
+                value={inputComment}
+                onChange={onHandleChange}
               />
               <img
                 src="./images/sendIcon.png"
                 alt=""
-                className="w-[40px] pr-2"
+                className="w-[40px] pr-2 cursor-pointer"
+                onClick={onSubmit}
               />
             </div>
 
             <div className="mr-2 flex flex-col items-center">
-              <img src="./images/share.png" alt="" className="w-[50%] " />
+              <img
+                src="./images/share.png"
+                alt=""
+                className="w-[50%] cursor-pointer"
+              />
               <span className="text-xs font-semibold mt-1">Share</span>
             </div>
           </div>
@@ -131,16 +175,16 @@ const PostCard = ({data,showModal,width}) => {
           {/* Single Comment */}
           <div className="flex flex-col w-full ">
             {/* User Comment */}
-          {/* <CommentBox /> */}
+            {/* <CommentBox /> */}
 
             {/* Reply Comment */}
-        <div className="w-[90%] flex flex-col self-end">
-        {/* <CommentBox /> */}
-        </div>
+            <div className="w-[90%] flex flex-col self-end">
+              {/* <CommentBox /> */}
+            </div>
           </div>
         </section>
       </div>
-    </div>
+  </>
   );
 };
 

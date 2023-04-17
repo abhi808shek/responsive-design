@@ -30,53 +30,75 @@ import FindFriendsPage from "./SearchFriendPage/SearchFriendsPage";
 import FriendRequestPage from "./SearchFriendPage/SearchFriendsPage";
 import dataList from "./Modal/ReportModal/data";
 import ProfilePage from "./ProfilePage/ProfilePage";
-import Kicks from "./KicksPage/Kicks"
+import Kicks from "./KicksPage/Kicks";
 import CreatePostModal from "./Modal/CreatePostModal/CreatePostModal";
 import SearchKicksPage from "./SearchKicksPage/SearchKicksPage";
 
 const Home = () => {
   return (
-    <div>
+    // <div className="flex flex-col h-[550px]">
+    //   <section className="w-full fixed bg-blue-700">
+    //   
+    //   </section>
+
+    //   <section className="w-full fixed top-[55px] h-[70px]">
+    //     <PostForm width={47} bgColor={"#E4E7EC"} />
+    //   </section>
+
+    //   <section className="bg-[#E4E7EC] mt-[115px] bg-green-400 overflow-y-scroll">
+    //     <HeroSection />
+    //     <SliderSection />
+    //     <PostContent width={47} data={dataList} />
+    //     <Outlet />
+    //   </section>
+    //   {/* <User /> */}
+    //   {/* <Friends /> */}
+    //   {/* <ThankuModal /> */}
+    //   {/* <OriginalPostModal /> */}
+    //   {/* <ChooseFreindsModal /> */}
+    //   {/* <ShareWithModal /> */}
+    //   {/* <CustomGroupModal /> */}
+    //   {/* <ChangeRelationshipModal /> */}
+    //   {/* <UnfriendModal /> */}
+    //   {/* <BlockModal /> */}
+    //   {/* <SearchFriendsPage /> */}
+    //   {/* <FollowersModal title="Followers"/> */}
+    //   {/* <FollowingModal title="Following"/> */}
+    //   {/* <PreferredCategoriesModal /> */}
+    //   {/* <UserProfilePage /> */}
+
+    //   {/* <ProfilePage /> */}
+
+    //   {/* <SharePostModal /> */}
+    //   {/* <FriendsModal /> */}
+    //   {/* <VerifiedAccount /> */}
+    //   {/* <ChatPages /> */}
+    //   {/* <MyFriendsPage /> */}
+    //   {/* <Kicks /> */}
+    //   {/* <SearchKicksPage /> */}
+    //   {/* <CreatePostModal /> */}
+    //   <Routes>
+    //     <Route path="/myfriendspage" element={<MyFriendsPage />} />
+    //     <Route path="/findfriends" element={<FindFriendsPage />} />
+    //     <Route
+    //       path="/friendsrequest"
+    //       element={<FriendRequestPage isFriend={true} />}
+    //     />
+    //     <Route path="/post" element={<PostContent width={47} />} />
+    //   </Routes>
+    //   {/* <SearchComponent /> */}
+    // </div>
+
+    <div className="w-full h-[1080px] bg-[#E4E7EC]">
+      {/* NAVBAR */}
       <Navbar />
-      {/* <PostForm width={47} bgColor={"#E4E7EC"} /> */}
-      {/* <PostContent width={47} data={dataList}/> */}
-      {/* <HeroSection /> */}
-      {/* <Outlet /> */}
-      {/* <SliderSection /> */}
-      {/* <User /> */}
-      {/* <Friends /> */}
-      {/* <ThankuModal /> */}
-      {/* <OriginalPostModal /> */}
-      {/* <ChooseFreindsModal /> */}
-      {/* <ShareWithModal /> */}
-      {/* <CustomGroupModal /> */}
-      {/* <ChangeRelationshipModal /> */}
-      {/* <UnfriendModal /> */}
-      {/* <BlockModal /> */}
-      {/* <SearchFriendsPage /> */}
-      {/* <FollowersModal title="Followers"/> */}
-      {/* <FollowingModal title="Following"/> */}
-      {/* <PreferredCategoriesModal /> */}
-      {/* <UserProfilePage /> */}
-      
-      {/* <ProfilePage /> */}
 
-      {/* <SharePostModal /> */}
-      {/* <FriendsModal /> */}
-      {/* <VerifiedAccount /> */}
-      {/* <ChatPages /> */}
-      {/* <MyFriendsPage /> */}
-      {/* <Kicks /> */}
-      <SearchKicksPage />
-      {/* <CreatePostModal /> */}
-      <Routes>
-        <Route path="/myfriendspage" element={ <MyFriendsPage />}/>
-        <Route path="/findfriends" element={ <FindFriendsPage />}/>
-        <Route path="/friendsrequest" element={ <FriendRequestPage isFriend={true}/>}/>
-        <Route path="/post" element={ <PostContent width={47} /> }/>
-
-      </Routes>
-      {/* <SearchComponent /> */}
+      <PostForm />
+      <section className="w-full h-full overflow-scroll fixed top-[130px]">
+        <HeroSection />
+        <SliderSection />
+        <PostContent />
+      </section>
     </div>
   );
 };

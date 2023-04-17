@@ -5,18 +5,15 @@ import ShareWithModal from './../Modal/ShareWithModal/ShareWithModal';
 
 const PostContent = ({data,showModal,showReportModel,width}) => {
   return (
-    <div className="w-[95%] h-[80%] flex items-center justify-center flex-col overflow-scroll">
+    <div className="w-full flex items-center justify-center flex-col">
 
 {/* <ShareWithModal /> */}
       <PostCard data={data}
       showModal={showModal } width={width}/>
-      <PostCard data={data}
+     <PostCard data={data}
       showModal={showModal } width={width}/>
-      <PostCard data={data}
+     <PostCard data={data}
       showModal={showModal } width={width}/>
-      <PostCard data={data}
-      showModal={showModal } width={width}/>
-    
     </div>
   )
 }

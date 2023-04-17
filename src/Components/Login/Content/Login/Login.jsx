@@ -7,7 +7,7 @@ import Button2 from "../Button/Button2";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { settingUserData } from "../../../../redux/actionCreators/userActionCreator";
+import { settingUserLoginData } from "../../../../redux/actionCreators/userActionCreator";
 import { useDispatch } from "react-redux";
 
 
@@ -25,14 +25,14 @@ const Login = () => {
         .email('"Email address incorrect. Please Try again"')
         .required("Required"),
       password: Yup.string()
-      // .min(
-      //   8,
-      //   "Password should be minimum of 8 length characters with one numerical value"
-      // )
-      // .matches(passwordRules, {
-      //   message:
-      //     "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
-      // })
+      .min(
+        8,
+        "Password should be minimum of 8 length characters with one numerical value"
+      )
+      .matches(passwordRules, {
+        message:
+          "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
+      })
       .required("Required")
     }),
     onSubmit: (e) => {
@@ -44,7 +44,7 @@ const Login = () => {
           isLoggedIn: true,
         };
 
-        dispatch(settingUserData(true,{email:dataObj.email,password: formik.values.password}))
+        dispatch(settingUserLoginData(true,{email:dataObj.email,password: formik.values.password}))
         localStorage.setItem("userData", JSON.stringify(dataObj));
         navigate("/");
       } catch (error) {

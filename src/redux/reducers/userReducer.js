@@ -4,11 +4,12 @@ const initialState = {
   selectedTab: "Root",
   friendsTab: " My Friends (5)",
   kicksType: "Following",
+  totalComments:[]
 };
 
 const userReducer = (state = initialState, action) => {
   switch (action.type) {
-    case "SET_USER_DATA":
+    case "SET_USER_LOGIN_DATA":
       return {
         ...state,
         isLoggedIn: action.payload.isLoggedIn,
@@ -21,6 +22,9 @@ const userReducer = (state = initialState, action) => {
 
     case "SELECT_KICKS_TYPE":
       return { ...state, kicksType: action.payload };
+
+      case "ADD_COMMENTS":
+      return { ...state, totalComments: [...state.totalComments,action.payload] };
     default:
       return state;
   }

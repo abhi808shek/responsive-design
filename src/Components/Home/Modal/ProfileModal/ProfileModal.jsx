@@ -3,7 +3,7 @@ import dataList from "./data";
 import Footer from "../../../Footer/Footer";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { settingUserData } from "../../../../redux/actionCreators/userActionCreator";
+import { settingUserLoginData } from "../../../../redux/actionCreators/userActionCreator";
 
 const ProfileModal = () => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const ProfileModal = () => {
   const onHandleClick = (option) => {
     if (option === "Logout") {
       localStorage.clear();
-      dispatch(settingUserData(false, {}));
+      dispatch(settingUserLoginData(false, {}));
       navigate("/auth/login");
     }
   };

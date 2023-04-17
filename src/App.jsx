@@ -11,7 +11,7 @@ import User from "./Components/Home/User/User";
 import Friends from "./Components/Home/Friends/Friends";
 import WelcomePage from "./Components/Login/Content/WelcomePage/WelcomePage";
 import { useDispatch } from "react-redux";
-import { settingUserData } from "./redux/actionCreators/userActionCreator";
+import { settingUserLoginData } from "./redux/actionCreators/userActionCreator";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
 
 const App = () => {
@@ -20,9 +20,9 @@ const App = () => {
     let userData = localStorage.getItem("userData");
     userData = JSON.parse(userData);
     if (userData === null) {
-      dispatch(settingUserData(false, {}));
+      dispatch(settingUserLoginData(false, {}));
     } else {
-      dispatch(settingUserData(true, { email: userData.email }));
+      dispatch(settingUserLoginData(true, { email: userData.email }));
     }
   };
 
@@ -31,7 +31,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="bg-[#CDD6E8] w-full min-h-screen flex flex-col justify-around">
+    <div className="">
       <Routes>
         <Route path="/auth" element={<LoginPage />}>
           <Route path="signup" element={<Signup />} />

@@ -12,7 +12,7 @@ const Input = ({title ,errorMessage,inputValue,onHandleChange,name,touched,onBlu
         onChange={onHandleChange}
         onBlur={onBlur}
       />
-     {touched &&  errorMessage ? <p className="text-[10px] text-[red] self-start ml-8 mt-1 w-[80%] ">
+     {touched &&  errorMessage ? <p className="text-[10px] text-[red] self-start mt-1 w-[80%] ">
        {errorMessage}
       </p> : null}
     </div>
