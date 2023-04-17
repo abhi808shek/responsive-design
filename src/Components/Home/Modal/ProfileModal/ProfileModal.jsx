@@ -17,7 +17,7 @@ const ProfileModal = () => {
   };
 
   return (
-    <div className=" lg:w-[28%] xl:w-[22%] bg-white gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[52px] mt-2">
+    <div className=" lg:w-[28%] xl:w-[22%] bg-white gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[95%] mt-2 z-50">
       <div className="flex gap-2 py-2  px-3">
         <img
           src="./images/events.jpg"

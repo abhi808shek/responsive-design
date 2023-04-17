@@ -5,8 +5,8 @@ import SearchComponent from "../SearchComponent/SearchComponent";
 
 const MyFriendsPage = () => {
   return (
-    <div className="w-[95%] flex justify-center items-center">
-      <div className="w-[47%] h-[538px] bg-white mt-3">
+    <div className="w-[100%] flex justify-center items-center z-10">
+      <div className="w-[40%] h-[538px] bg-white ">
         <section className="flex gap-2 px-2 items-center">
           <span className="md:text-sm md:w-[12%]">View By: </span>
           <div className="">

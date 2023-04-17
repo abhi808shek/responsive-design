@@ -28,7 +28,7 @@ const Navbar = () => {
   };
 
   return (
-    <section className="h-[80px] w-full flex bg-white fixed">
+    <section className="h-[80px] w-full flex bg-white fixed top-0">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
       <div className=" w-[30%] flex h-[80px] flex-row justify-evenly items-center ">
@@ -87,14 +87,14 @@ const Navbar = () => {
           {/* Peoples */}
 
           {[1, 2, 3, 4, 5].map(() => (
-            <div className="flex flex-col items-center">
-              <img src="./images/groups.png" alt="" className=" h-[40px]" />
+            <div className="flex flex-col items-center cursor-pointer relative" onClick={userNotificationModal}>
+              <img src="./images/groups.png" alt="" className=" h-[40px] " />
               <div className="text-[12px] font-bold">Peoples</div>
             </div>
           ))}
           {/* User Profile */}
           <div
-            className="flex flex-col items-center cursor-pointer"
+            className="flex flex-col items-center cursor-pointer relative"
             onClick={userProfileModal}
           >
             <img
@@ -102,15 +102,16 @@ const Navbar = () => {
               alt=""
               className="w-[40px] h-[40px] rounded-full"
             />
-
-            <BsChevronCompactDown />
+            <BsChevronCompactDown className="" />
           </div>
+          {profileModal && <ProfileModal />}
+          {notificationModal && <NotificationModal />}
         </div>
       </div>
     </section>
     // <div className="w-full h-[55px] bg-white flex pt-1">
-    //   {profileModal && <ProfileModal />}
-    //   {notificationModal && <NotificationModal />}
+    //
+    //  
     //   {friendsModal && <FriendsModal />}
     //   {/* logo */}
 

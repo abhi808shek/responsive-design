@@ -45,14 +45,9 @@ const Home = () => {
     //     <PostForm width={47} bgColor={"#E4E7EC"} />
     //   </section>
 
-    //   <section className="bg-[#E4E7EC] mt-[115px] bg-green-400 overflow-y-scroll">
-    //     <HeroSection />
-    //     <SliderSection />
-    //     <PostContent width={47} data={dataList} />
-    //     <Outlet />
-    //   </section>
+    //  
     //   {/* <User /> */}
-    //   {/* <Friends /> */}
+    //  <Friends />
     //   {/* <ThankuModal /> */}
     //   {/* <OriginalPostModal /> */}
     //   {/* <ChooseFreindsModal /> */}
@@ -67,7 +62,7 @@ const Home = () => {
     //   {/* <PreferredCategoriesModal /> */}
     //   {/* <UserProfilePage /> */}
 
-    //   {/* <ProfilePage /> */}
+    // 
 
     //   {/* <SharePostModal /> */}
     //   {/* <FriendsModal /> */}
@@ -77,6 +72,8 @@ const Home = () => {
     //   {/* <Kicks /> */}
     //   {/* <SearchKicksPage /> */}
     //   {/* <CreatePostModal /> */}
+
+    
     //   <Routes>
     //     <Route path="/myfriendspage" element={<MyFriendsPage />} />
     //     <Route path="/findfriends" element={<FindFriendsPage />} />
@@ -88,18 +85,25 @@ const Home = () => {
     //   </Routes>
     //   {/* <SearchComponent /> */}
     // </div>
-
+// -----------------USER PAGE----------------
     <div className="w-full h-[1080px] bg-[#E4E7EC]">
-      {/* NAVBAR */}
+    //   {/* NAVBAR */}
       <Navbar />
 
-      <PostForm />
-      <section className="w-full h-full overflow-scroll fixed top-[130px]">
-        <HeroSection />
-        <SliderSection />
-        <PostContent />
+      {/* <PostForm /> */}
+      <section className="w-full h-[550px] overflow-scroll fixed top-[140px]  mt-2">
+        {/* <HeroSection /> */}
+        {/* <SliderSection /> */}
+        {/* <PostContent /> */}
+
+
+        {/* <MyFriendsPage /> */}
+        {/* <FindFriendsPage /> */}
+        {/* <FriendRequestPage isFriend={true} /> */}
+        <ProfilePage />
       </section>
     </div>
+    // --------------------------------END USER PAGE ---------------
   );
 };
 

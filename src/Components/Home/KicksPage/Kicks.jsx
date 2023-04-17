@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectKicksType } from "../../../redux/actionCreators/userActionCreator";
 import events from "./events.jpg"
 import VideoComponent from "./VideosComponent/VideoComponent";
-
+import ReactPlayer from 'react-player'
 const Kicks = () => {
   const data = [
     { title: "Following" },

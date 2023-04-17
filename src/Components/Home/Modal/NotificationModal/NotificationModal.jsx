@@ -2,7 +2,7 @@ import React from "react";
 
 const NotificationModal = () => {
   return (
-    <div className="lg:w-[29%] xl:w-[24%] bg-white rounded-lg absolute  lg:left-[70.5%] xl:left-[72.5%] top-[60px]">
+    <div className="lg:w-[29%] xl:w-[24%] bg-white rounded-lg absolute  lg:left-[70.5%] xl:left-[72.5%] top-[84px]">
       <div className="text-[#6780AF] flex justify-between py-2 mx-2">
         <button className="text-[12px] font-bold">Mark all as Read</button>
         <button className="text-[12px] font-bold">
@@ -34,7 +34,7 @@ const NotificationModal = () => {
       ))}
       </div>
       <div className="w-full flex items-center justify-center">
-      <button className="text-[#6780AF] py-2 text-[12px] font-bold">See more</button>
+      <button className="text-[#6780AF] py-2 text-[12px] font-bold cursor-pointer">See more</button>
 
       </div>
     </div>

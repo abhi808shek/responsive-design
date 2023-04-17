@@ -26,12 +26,12 @@ const ProfilePage = () => {
         
         {/* Post Form Section */}
         <section className="w-full pl-2">
-          <PostForm width={98} bgColor={"#E4E7EC"}/>
+          {/* <PostForm width={98} bgColor={"#E4E7EC"}/> */}
         </section>
 
         {/* All Post Section */}
         <section className="w-full">
-          <PostContent width={100}/>
+          {/* <PostContent width={100}/> */}
         </section>
 
         {/* Private Page Section */}
@@ -41,8 +41,8 @@ const ProfilePage = () => {
 
 
 
-        <section className="w-full mt-3 h-full rounded-xl">
-          {/* <GridBoxes selectedOption={selectedOption}/> */}
+        <section className="w-full mt-3 h-[65%] rounded-xl flex justify-center">
+          <GridBoxes selectedOption={selectedOption}/>
         </section>
       </section>
     </div>

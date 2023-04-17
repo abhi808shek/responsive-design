@@ -2,8 +2,8 @@ import React from "react";
 
 const SearchFriendsPage = ({ isFriend }) => {
   return (
-    <div className="w-[95%] bg-[#E4E7EC] flex items-center justify-center py-2">
-      <div className="flex w-[47%] bg-white rounded-md flex-col items-center">
+    <div className="w-[100%] bg-[#E4E7EC] flex items-center justify-center py-2">
+      <div className="flex w-[40%] bg-white rounded-md flex-col items-center">
         {/* Search Section */}
         <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
           <input

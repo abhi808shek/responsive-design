@@ -38,7 +38,7 @@ const onSubmit =()=>{
     <>
       {/* {showReportModel && <ReportModal />} */}
       <div
-        className={`flex w-[40%] rounded-md justify-between items-center px-2 py-2 mt-2 flex-col bg-white`}
+        className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col bg-white`}
       >
         {showMenuList && (
           <MenuModal
@@ -53,7 +53,7 @@ const onSubmit =()=>{
             <img
               src="./images/events.jpg"
               alt=""
-              className="w-full h-full rounded-full"
+              className="w-full h-full rounded-full mt-1"
             />
           </div>
 
