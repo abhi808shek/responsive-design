@@ -37,14 +37,14 @@ const Home = () => {
   return (
     // <div className="flex flex-col h-[550px]">
     //   <section className="w-full fixed bg-blue-700">
-    //   
+    //
     //   </section>
 
     //   <section className="w-full fixed top-[55px] h-[70px]">
     //     <PostForm width={47} bgColor={"#E4E7EC"} />
     //   </section>
 
-    //  
+    //
     //   {/* <User /> */}
     //  <Friends />
     //   {/* <ThankuModal /> */}
@@ -61,7 +61,7 @@ const Home = () => {
     //   {/* <PreferredCategoriesModal /> */}
     //   {/* <UserProfilePage /> */}
 
-    // 
+    //
 
     //   {/* <SharePostModal /> */}
     //   {/* <FriendsModal /> */}
@@ -72,7 +72,6 @@ const Home = () => {
     //   {/* <SearchKicksPage /> */}
     //   {/* <CreatePostModal /> */}
 
-    
     //   <Routes>
     //     <Route path="/myfriendspage" element={<MyFriendsPage />} />
     //     <Route path="/findfriends" element={<FindFriendsPage />} />
@@ -84,27 +83,17 @@ const Home = () => {
     //   </Routes>
     //   {/* <SearchComponent /> */}
     // </div>
-// -----------------USER PAGE----------------
+    // -----------------USER PAGE----------------
     <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
-    //   {/* NAVBAR */}
+      {/* NAVBAR */}
       <Navbar />
-
-   
-  
-       <div className="bg-[#E4E7EC]  mt-[80px] w-[41%] h-[75px] fixed z-10">
-       <PostForm />
-       </div>
+      <div className="bg-[#E4E7EC]  mt-[80px] w-[41%] h-[75px] fixed z-10">
+        <PostForm />
+      </div>
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
         <HeroSection />
         <SliderSection />
-        <PostContent data={dataList}/>
-
-
-        {/* <MyFriendsPage /> */}
-        {/* <FindFriendsPage /> */}
-        {/* <FriendRequestPage isFriend={true} /> */}
-        {/* <ProfilePage /> */}
-        {/* <Kicks /> */}
+        <PostContent data={dataList} />
       </section>
     </div>
     // --------------------------------END USER PAGE ---------------

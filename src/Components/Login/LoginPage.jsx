@@ -13,10 +13,10 @@ const LoginPage = () => {
   return (
     <>
     
-      <div className="w-full flex justify-end mb-5">
+      <div className="w-full flex justify-end mb-5 bg-[#CDD6E8]">
         <Topbar />
       </div>
-      <div className=" w-full sm:m-0">
+      <div className=" w-full sm:m-0 bg-[#CDD6E8]">
         <div className="w-full h-full flex flex-col md:flex-row ">
           <div className="md:w-[50%] flex items-center mb-5">
             <img
@@ -26,7 +26,7 @@ const LoginPage = () => {
               
             />
           </div>
-          <div className="xs:w-[100%] md:w-[50%] flex justify-center items-center">
+          <div className="xs:w-[100%] md:w-[50%] flex justify-center items-center bg-[#CDD6E8]">
             <div className="bg-white xs:w-[78%] md:w-[70%] lg:w-[60%] xl:w-[55%] h-[80%] rounded-[20px] border-3 w-[80%]">
               <Outlet />
             </div>

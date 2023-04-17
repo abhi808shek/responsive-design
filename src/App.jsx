@@ -31,7 +31,7 @@ const App = () => {
   }, []);
 
   return (
-    <div className="">
+    <div className="bg-[#CDD6E8]">
       <Routes>
         <Route path="/auth" element={<LoginPage />}>
           <Route path="signup" element={<Signup />} />
