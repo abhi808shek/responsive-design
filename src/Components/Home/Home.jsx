@@ -8,7 +8,7 @@ import ReportModal from "./Modal/ReportModal/ReportModal";
 import ThankuModal from "./Modal/ThankuModal/ThankuModal";
 import OriginalPostModal from "./Modal/OriginalPostModal/OriginalPostModal";
 import ChooseFreindsModal from "./Modal/ChooseFreindsModal/ChooseFreindsModal";
-import User from "./User/User";
+import User from "../User/User";
 import Friends from "./Friends/Friends";
 import ShareWithModal from "./Modal/ShareWithModal/ShareWithModal";
 import CustomGroupModal from "./Modal/CustomGroupModal/CustomGroupModal";
@@ -33,7 +33,11 @@ import ProfilePage from "./ProfilePage/ProfilePage";
 import Kicks from "./KicksPage/Kicks";
 import CreatePostModal from "./Modal/CreatePostModal/CreatePostModal";
 import SearchKicksPage from "./SearchKicksPage/SearchKicksPage";
-const Home = () => {
+import postData, { userData } from "./dataList";
+
+
+const Home = ({onShowReportModal,showReportModal}) => {
+ 
   return (
     // <div className="flex flex-col h-[550px]">
     //   <section className="w-full fixed bg-blue-700">
@@ -59,7 +63,7 @@ const Home = () => {
     //   {/* <FollowersModal title="Followers"/> */}
     //   {/* <FollowingModal title="Following"/> */}
     //   {/* <PreferredCategoriesModal /> */}
-    //   {/* <UserProfilePage /> */}
+    //   {/* */}
 
     //
 
@@ -72,30 +76,19 @@ const Home = () => {
     //   {/* <SearchKicksPage /> */}
     //   {/* <CreatePostModal /> */}
 
-    //   <Routes>
-    //     <Route path="/myfriendspage" element={<MyFriendsPage />} />
-    //     <Route path="/findfriends" element={<FindFriendsPage />} />
-    //     <Route
-    //       path="/friendsrequest"
-    //       element={<FriendRequestPage isFriend={true} />}
-    //     />
-    //     <Route path="/post" element={<PostContent width={47} />} />
-    //   </Routes>
-    //   {/* <SearchComponent /> */}
-    // </div>
+
     // -----------------USER PAGE----------------
     <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
-      <Navbar />
-      <div className="bg-[#E4E7EC]  mt-[80px] w-[41%] h-[75px] fixed z-10">
+    
         <PostForm />
-      </div>
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
         <HeroSection />
         <SliderSection />
-        <PostContent data={dataList} />
+        <PostContent data={postData} showModalFunc={onShowReportModal} userData={userData}/>
       </section>
     </div>
+    
     // --------------------------------END USER PAGE ---------------
   );
 };

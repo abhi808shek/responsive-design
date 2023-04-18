@@ -23,7 +23,7 @@ const SharePostModal = () => {
     },
   };
   return (
-    <div className="w-full bg-gray-200 flex items-center">
+    <div className="w-full bg-gray-200 flex items-center h-[100vh]">
       <div className="w-[30%] bg-white flex-col flex items-center rounded-xl">
         {/* Top Section */}
         <section className="flex w-full justify-between my-2 px-3">

@@ -19,7 +19,7 @@ export default function MainCarousel() {
   };
   return (
     <>
-      <div className="float-right">DEL</div>
+      <div className="float-right "><img src="./images/groups.png" alt="" className="z-10 w-[30px] h-[30px] cursor-pointer"/></div>
       <div className="mt-2 ml-3 items-center text-center w-[360px]">
         <Carousel
           responsive={responsive}

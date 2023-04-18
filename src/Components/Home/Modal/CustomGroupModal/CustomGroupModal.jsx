@@ -1,8 +1,11 @@
 import React from "react";
 
-const CustomGroupModal = () => {
+const CustomGroupModal = ({setGroupModal}) => {
+  const onCloseGroupModal = ()=>{
+    setGroupModal(false)
+  }
   return (
-    <div className="flex w-[35%] bg-white items-center flex-col rounded-lg">
+    <div className="flex w-[35%] bg-white items-center flex-col rounded-lg h-[400px]">
       <div className="flex w-full justify-between my-2 px-2">
         <span className="text-md font-bold">Custom Group</span>
         <button className="text-md font-semibold rounded-lg flex items-center text-white bg-[#6780AF] px-[30px] py-0.5">
@@ -46,9 +49,11 @@ const CustomGroupModal = () => {
         <span className="text-sm font-bold text-blue-400 mr-2">Edit List</span>
       </div>
 
-      <div className="bg-white w-full flex justify-end mr-4">
-        <button className="bg-[#6780AF] text-white w-[250px] py-1 rounded-xl mb-2 font-semibold mt-2">Create Group</button>
+      <div className="bg-white w-[96%] flex justify-end gap-3">
+        <button className="bg-[#6780AF] text-white w-[120px] text-sm py-1 rounded-xl mb-2 font-semibold mt-2">Create Group</button>
+        <button className="bg-[#6780AF] text-white w-[120px] text-sm py-1 rounded-xl mb-2 font-semibold mt-2" onClick={onCloseGroupModal}>Cancel</button>
       </div>
+    
     </div>
   );
 };

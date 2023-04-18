@@ -20,7 +20,7 @@ const Kicks = () => {
   const dispatch = useDispatch();
   const { kicksType } = useSelector((state) => state.userReducer);
   return (
-    <div className={`w-full grid grid-cols-3 h-[89vh] mt-2 bg-[url(${events})] z-10`}>
+    <div className={`w-full grid grid-cols-3 h-[100vh] bg-[url(${events})] z-10`}>
       <section className="flex items-center justify-center bg-black">
         <div className="w-[80%] flex flex-col items-center">
           <div className="flex flex-col gap-3">
@@ -69,8 +69,13 @@ const Kicks = () => {
       </section>
 
       {/* Reels Section */}
-      <section className="bg-blue-200 pb-2">
-      <VideoComponent dataList={dataList}/>
+      <section className="">
+      {/* <VideoComponent dataList={dataList}/> */}
+      <video width="440px" className="h-full" loop={true} autoPlay="autoplay" controls>
+  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/mp4" />
+  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/ogv" />
+  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/webm" />
+</video>
       </section>
 
       {/* Comment Section */}

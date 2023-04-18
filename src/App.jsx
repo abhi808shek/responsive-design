@@ -7,22 +7,39 @@ import Signup from "./Components/Login/Content/Signup/Signup";
 import Login from "./Components/Login/Content/Login/Login";
 import NewPassword from "./Components/Login/Content/NewPassword/NewPassword";
 import EnterCode from "./Components/Login/Content/EnterCode/EnterCode";
-import User from "./Components/Home/User/User";
+import User from "./Components/User/User";
 import Friends from "./Components/Home/Friends/Friends";
 import WelcomePage from "./Components/Login/Content/WelcomePage/WelcomePage";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { settingUserLoginData } from "./redux/actionCreators/userActionCreator";
 import PrivateRoute from "./Components/PrivateRoute/PrivateRoute";
+import ThankuModal from "./Components/Home/Modal/ThankuModal/ThankuModal";
+import SharePostModal from "./Components/Home/Modal/SharePostModal/SharePostModal";
+import UserProfilePage from "./Components/Home/ProfilePage/ProfilePage";
+import VerifiedAccount from "./Components/Home/VerifiedAccount/VerifiedAccount";
+import OriginalPostModal from "./Components/Home/Modal/OriginalPostModal/OriginalPostModal";
+import CreatePostModal from "./Components/Home/Modal/CreatePostModal/CreatePostModal";
+import UpdateProfile from "../../../../Downloads/UpdateProfile";
+import Kicks from "./Components/Home/KicksPage/Kicks";
+import SearchKicksPage from "./Components/Home/SearchKicksPage/SearchKicksPage";
+import MyFriendsPage from "./Components/Home/MyFriendsPage/MyFriendsPage";
+import FindFriendsPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
+import FriendRequestPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
+
+import MainView from "./Layouts/MainView";
+import ChatPages from "./Components/Home/ChatPages/ChatPages";
+// import User from "./Components/Home/User/User"
 
 const App = () => {
   const dispatch = useDispatch();
+  const { isLoggedIn } = useSelector((state) => state.userReducer);
   const isUserLoggedIn = () => {
     let userData = localStorage.getItem("userData");
     userData = JSON.parse(userData);
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-      dispatch(settingUserLoginData(true, { email: userData.email }));
+      dispatch(settingUserLoginData(true, { email: userData.email ,userId: userData.userId}));
     }
   };
 
@@ -50,14 +67,25 @@ const App = () => {
           />
         </Route>
 
+
+        {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="/" element={<Home />}>
-            <Route path="user" element={<User />} />
-            <Route path="friends" element={<Friends />} />
+          <Route path="/" element={<MainView />}>
+            <Route path="root" element={<Home />} />
+            <Route path="kicks" element={<Kicks />} />
+            <Route path="myfriend" element={<MyFriendsPage />} />
+            <Route path="find-friend" element={<FindFriendsPage />} />
+            <Route path="friend-request" element={<FriendRequestPage isFriend={true}/>} />
+            <Route path="chat-page" element={<ChatPages />} />
+            {/* <Route path="kicks" element={<Kicks />} /> */}
+
+
+
+            {/* <Route path="user" element={<User />} /> */}
+            {/* <Route path="friends" element={<Friends />} /> */}
           </Route>
         </Route>
       </Routes>
-      <div className="w-full">{/* <Footer /> */}</div>
     </div>
   );
 };

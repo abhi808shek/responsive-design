@@ -28,7 +28,7 @@ const userReducer = (state = initialState, action) => {
         return { ...state, menuModalTab:action.payload };
 
       case "ADD_COMMENTS":
-      return { ...state, totalComments: [...state.totalComments,action.payload] };
+      return { ...state, totalComments:[...state.totalComments,action.payload] };
     default:
       return state;
   }

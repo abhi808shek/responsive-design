@@ -1,16 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import PostForm from "../PostForm/PostForm";
 import FriendList from "../FriendList/FriendList";
+import CustomGroupModal from "../Modal/CustomGroupModal/CustomGroupModal";
+import Portals from "../../Portals/Portals";
 
 const ChatPages = () => {
+  const [createGroupModal,setCreateGroupModal] = useState(false)
+  const showCreateGroupModal = ()=>{
+    setCreateGroupModal(true)
+  }
   return (
-    <div className=" w-full grid grid-cols-12 gap-2 mt-3">
+    <>
+    <div className=" w-full grid grid-cols-12 gap-2 mt-1">
 
       {/* Recent Chats */}
       <section className=" col-span-3 bg-white">
         <div className="py-2 flex justify-between items-center px-3">
           <h1 className="font-bold text-lg ">Recent Chat</h1>
-          <span className="text-[#6780AF] text-[13px] font-bold cursor-pointer">
+          <span className="text-[#6780AF] text-[13px] font-bold cursor-pointer" onClick={showCreateGroupModal}>
             Form a group
           </span>
         </div>
@@ -18,7 +25,7 @@ const ChatPages = () => {
           <PostForm width={96}/>
         </div>
         <div className="h-[450px] overflow-y-scroll pt-3 flex flex-col gap-4">
-          {[1,2,3,4,55,56,67,7,4,43,43,33,2,2,2,2].map(()=>(<FriendList icon={true} desc={true}/>))}
+          {[1,2,3,4,55,56,67,7,4,43,43,33,2,2,2,2].map((elem,index)=>(<FriendList key={index} icon={true} desc={true}/>))}
         </div>
       </section>
 
@@ -63,6 +70,8 @@ const ChatPages = () => {
         </div>
       </div>
     </div>
+    {createGroupModal && <Portals><CustomGroupModal setGroupModal={setCreateGroupModal}/></Portals>}
+    </>
   );
 };
 

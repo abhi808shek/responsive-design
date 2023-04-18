@@ -3,6 +3,7 @@ import Topbar from "../Topbar/Topbar";
 import { Outlet,Navigate } from "react-router-dom";
 import HumanIcon from "./Human.png"
 import { useSelector } from 'react-redux';
+import Footer from "../Footer/Footer";
 
 const LoginPage = () => {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
@@ -32,6 +33,7 @@ const LoginPage = () => {
             </div>
           </div>
         </div>
+        <Footer />
       </div>
     </>
   );

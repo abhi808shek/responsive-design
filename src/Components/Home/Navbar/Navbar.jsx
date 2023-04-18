@@ -7,6 +7,7 @@ import { dataList, data } from "./data";
 import { useSelector, useDispatch } from "react-redux";
 import { isTabSelected } from "../../../redux/actionCreators/userActionCreator";
 import { BsChevronCompactDown } from "react-icons/bs";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const Navbar = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -14,7 +15,7 @@ const Navbar = () => {
   const [friendsModal, setFriendsModal] = useState(false);
   const { selectedTab } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
-
+  const navigate = useNavigate();
   const userFriendsModal = () => {
     setFriendsModal(!friendsModal);
   };
@@ -27,17 +28,23 @@ const Navbar = () => {
     setNotificationModal(!notificationModal);
   };
 
-const handleClick = (optionName) =>{
-  if (optionName === "Friends") {
-    userFriendsModal()
-  }
-  else if(optionName === "Notifications") {
-    userNotificationModal()
-  }
-}
+  const onHandleClick = (option) => {
+    if (option.name === "Friends") {
+      userFriendsModal();
+    } else if (option.name === "Notifications") {
+      userNotificationModal();
+    } else {
+      navigate(option.url);
+    }
+  };
+
+  const onClickSlectedTab = (option) => {
+    dispatch(isTabSelected(option.name));
+    navigate(option.url);
+  };
 
   return (
-    <section className="h-[80px] w-full flex bg-white fixed top-0 z-10">
+    <section className="h-[80px] w-full flex bg-white relative top-0 z-10">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
       <div className=" w-[30%] flex h-[80px] flex-row justify-evenly items-center ">
@@ -75,7 +82,7 @@ const handleClick = (optionName) =>{
                   backgroundColor:
                     selectedTab === elem.name ? "#6780AF" : "#D8D8D8",
                 }}
-                onClick={() => dispatch(isTabSelected(elem.name))}
+                onClick={() => onClickSlectedTab(elem)}
               >
                 <div className="w-[35px] h-full flex items-center justify-center">
                   <img src={elem.icon} alt="" className="w-[35px]" />
@@ -99,13 +106,14 @@ const handleClick = (optionName) =>{
             <div
               key={elem.name}
               className="flex flex-col items-center cursor-pointer relative"
-              onClick={()=>handleClick(elem.name)}
+              onClick={() => onHandleClick(elem)}
             >
               <img src="./images/groups.png" alt="" className=" h-[40px] " />
-              <div className="lg:text-[10px] xl:text-[12px] font-bold">{elem.name}</div>
+              <div className="lg:text-[10px] xl:text-[12px] font-bold">
+                {elem.name}
+              </div>
             </div>
           ))}
-
 
           {/* User Profile */}
           <div
@@ -121,7 +129,7 @@ const handleClick = (optionName) =>{
           </div>
           {profileModal && <ProfileModal />}
           {notificationModal && <NotificationModal />}
-          {friendsModal && <FriendsModal />}
+          {friendsModal && <FriendsModal setFriendsModal={setFriendsModal} />}
         </div>
       </div>
     </section>

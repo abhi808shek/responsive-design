@@ -1,7 +1,5 @@
 import React, { useState } from "react";
 import PostContent from "../PostContetnt/PostContent";
-import dataList from "./data";
-import { createPortal } from "react-dom";
 import ReportModal from "../Modal/ReportModal/ReportModal";
 
 const Friends = () => {
@@ -15,7 +13,7 @@ const Friends = () => {
   return (
     <div className="">
        
-      <PostContent data={dataList} showModal={showReportModels}/>
+      <PostContent showModal={showReportModels}/>
      
     </div>
   );

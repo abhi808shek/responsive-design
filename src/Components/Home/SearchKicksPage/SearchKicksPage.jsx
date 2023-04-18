@@ -8,7 +8,7 @@ const SearchKicksPage = () => {
     { title: "Trending" },
   ];
   return (
-    <div className={`w-full grid grid-cols-3 h-[89vh] `}>
+    <div className={`w-full grid grid-cols-3 h-[100vh] `}>
       <section className="flex items-center justify-center bg-black">
         <div className="w-[80%] flex flex-col items-center">
           <div className="flex flex-col gap-3">

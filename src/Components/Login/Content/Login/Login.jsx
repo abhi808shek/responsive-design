@@ -42,8 +42,8 @@ const Login = () => {
         const dataObj = {
           email: formik.values.email,
           isLoggedIn: true,
+          userId:1
         };
-
         dispatch(settingUserLoginData(true,{email:dataObj.email,password: formik.values.password}))
         localStorage.setItem("userData", JSON.stringify(dataObj));
         navigate("/");
@@ -55,7 +55,7 @@ const Login = () => {
 
   return (
     <>
-      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 p-4">
+      <div className="lg:w-full h-[calc(100vh-148px)] rounded-[20px] flex flex-col justify-center items-center gap-2 p-4">
         <Heading title="Get Started" />
         <Input
           title="Email or Phone"

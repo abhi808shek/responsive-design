@@ -6,46 +6,58 @@ import { RiDislikeFill } from "react-icons/ri";
 import CommentBox from "./CommentBox/CommentBox";
 import MenuModal from "../../Modal/MenuModel/MenuModal";
 import ReportModal from "../../Modal/ReportModal/ReportModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
+import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
+import { createPortal } from "react-dom";
+import Portals from "../../../Portals/Portals";
 
-const PostCard = ({ data, showModal, width }) => {
+const PostCard = ({ userData,item, showModal, width }) => {
   const [showReportModel, setShowReportModel] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
-const dispatch = useDispatch()
+const [userStatus,setUserStatus] = useState(0);
+  const [showShareModal, setShowShareModal] = useState(false);
+
+  const onShowShareModal = () => {
+    console.log("jwww");
+    // setShowShareModal(true);
+  };
+  // const {totalComments} = useSelector((state)=>state.userReducer)
+  const dispatch = useDispatch();
   const showMenuListModal = () => {
     setShowMenuList(!showMenuList);
+    setUserStatus(item.userId)
   };
 
-const onHandleChange = (event)=>{
-  setInputComment(event.target.value)
-}
+  const onHandleChange = (event) => {
+    setInputComment(event.target.value);
+  };
 
-const onSubmit =()=>{
-  const commentData = {
-    id:1,
-    comment:inputComment,
-    like:0,
-    reply:[]
-  }
-  console.log("commentData",commentData);
-  dispatch(commentsData(commentData))
-  setInputComment("")
-}
+  const onSubmit = () => {
+    const commentData = {
+      id: 1,
+      comment: inputComment,
+      like: 0,
+      share: 0,
+      reply: [],
+    };
+    dispatch(commentsData(commentData));
+    setInputComment("");
+    console.log("totalComments", totalComments);
+  };
   // const shortDescription =
   return (
     <>
       <div
-      // {showReportModel && <ReportModal />}
+        // {showReportModel && <ReportModal />}
         className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col mt-2 bg-white`}
       >
-       
         {/* Top Section */}
         <section className="w-full flex items-center">
           <div className="flex w-[50px] h-[50px]">
             <img
-              src="./images/events.jpg"
+              src={item.userIcon}
               alt=""
               className="w-full h-full rounded-full mt-1"
             />
@@ -61,7 +73,11 @@ const onSubmit =()=>{
 
             <div className="flex items-center gap-1">
               {/* <HiUserGroup size={16} /> */}
-              <img src="./images/groups.png" alt="" className="w-[12px] relative" />
+              <img
+                src="./images/groups.png"
+                alt=""
+                className="w-[12px] relative"
+              />
 
               <span className="text-xs font-semibold">1 year ago</span>
               <GrLocation size={10} />
@@ -76,12 +92,14 @@ const onSubmit =()=>{
             className="cursor-pointer "
             onClick={showMenuListModal}
           />
-             </section>
-           {showMenuList && (
+        </section>
+        {showMenuList && (
           <MenuModal
-            data={data}
+            data={userData}
+            userStatus={userStatus}
             showModal={setShowReportModel}
             closeModel={setShowMenuList}
+            setUserStatus={setUserStatus}
           />
         )}
 
@@ -117,11 +135,16 @@ const onSubmit =()=>{
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
-            <span className="lg:text-[14px] xl:text-[16px] font-semibold">100</span>
+            <span className="lg:text-[14px] xl:text-[16px] font-semibold">
+              100
+            </span>
           </div>
 
           <div className="flex w-[40%] gap-5 items-center">
-            <span className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500">
+            <span
+              className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500"
+              onClick={{}}
+            >
               5 Comments
             </span>
             <span className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500">
@@ -159,7 +182,10 @@ const onSubmit =()=>{
               />
             </div>
 
-            <div className="mr-2 flex flex-col items-center">
+            <div
+              className="mr-2 flex flex-col items-center"
+              onClick={onShowShareModal}
+            >
               <img
                 src="./images/share.png"
                 alt=""
@@ -176,16 +202,26 @@ const onSubmit =()=>{
           {/* Single Comment */}
           <div className="flex flex-col w-full ">
             {/* User Comment */}
-            {/* <CommentBox /> */}
-
+            {/* <CommentBox />
+            <CommentBox />
+            <CommentBox />
+            <CommentBox /> */}
             {/* Reply Comment */}
             <div className="w-[90%] flex flex-col self-end">
-              {/* <CommentBox /> */}
+              {/* <CommentBox />
+              <CommentBox />
+              <CommentBox />
+              <CommentBox /> */}
             </div>
           </div>
         </section>
       </div>
-  </>
+      {showShareModal && (
+        <Portals>
+          <ShareWithModal setShowShareModal={setShowShareModal} />
+        </Portals>
+      )}
+    </>
   );
 };
 

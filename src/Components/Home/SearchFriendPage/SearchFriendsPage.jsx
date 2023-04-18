@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchFriendsPage = ({ isFriend }) => {
   return (
-    <div className="w-[100%] bg-[#E4E7EC] flex items-center justify-center py-2">
+    <div className="w-[100%] bg-[#E4E7EC] flex items-center justify-center py-2 mt-1">
       <div className="flex w-[40%] bg-white rounded-md flex-col items-center">
         {/* Search Section */}
         <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
@@ -17,7 +17,7 @@ const SearchFriendsPage = ({ isFriend }) => {
         </section>
 
         {/* Unknown Friends List Section */}
-        <section className=" w-[95%] flex rounded-md flex-col justify-between items-center mt-2 h-[480px] overflow-scroll">
+        <section className=" w-[95%] flex rounded-md flex-col justify-between items-center mt-2 h-[480px] overflow-y-scroll">
           {[1, 3, 3, 4, 3, 2, 2, 3, 4, 5, 2].map(() => (
             <>
               <div className="flex w-full pb-1 flex-col">

@@ -28,7 +28,7 @@ const SliderSection = () => {
         <div className="flex justify-between w-full py-2">
           <span className="font-bold text-sm">Recent Kicks</span>
           <span className="text-sm">
-            <Link>View All</Link>
+            <Link to="/kicks">View All</Link>
           </span>
         </div>
         {/* Slider */}
