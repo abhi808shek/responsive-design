@@ -14,7 +14,7 @@ const LoginPage = () => {
   }
   return (
     <>
-      {/* the custom css file created to fix the height of UI*/}
+      {/*  the custom css file created to fix the height of UI*/}
       <div className="w-full flex justify-end bg-[#CDD6E8]">
         <Topbar />
       </div>
