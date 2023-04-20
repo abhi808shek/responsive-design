@@ -6,7 +6,7 @@ import PasswordInput from "../InputBox/PasswordInput";
 import Button2 from "../Button/Button2";
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import Logo from "./Logo.png"
+// import Logo from "./Logo.png"
 
 
 const WelcomePage = () => {
@@ -49,7 +49,7 @@ const WelcomePage = () => {
           onSubmit={formik.handleSubmit}
         >
        
-        <img src={Logo} alt="" className=' w-[25%]' />
+        {/* <img src={Logo} alt="" className=' w-[25%]' /> */}
        
           <Input
             title="Email or Phone"

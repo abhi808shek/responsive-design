@@ -97,7 +97,7 @@ const Signup = () => {
           />
         </div>
         {formik.touched.phone && formik.errors.phone ? (
-          <p className="text-[10px] text-[red] self-start ml-8 w-[80%] ">
+          <p className="text-[10px] text-[red] self-start w-[80%] ">
             {formik.errors.phone}
           </p>
         ) : null}
@@ -130,7 +130,7 @@ const Signup = () => {
             <br />
           </div>
           {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
-            <p className="text-[10px] text-[red] self-start ml-8 w-[80%] ">
+            <p className="text-[10px] text-[red] self-start w-[80%] ">
               {formik.errors.termsAndConditions}
             </p>
           ) : null}

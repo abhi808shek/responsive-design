@@ -8,13 +8,17 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { settingUserLoginData } from "../../../../redux/actionCreators/userActionCreator";
-import { useDispatch } from "react-redux";
-
+import { useDispatch, useSelector } from "react-redux";
+import Logo from "./Logo.png"
+import { checkingUserExist } from "../../../../redux/actionCreators/authActionCreator";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch()
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+
+const {emailExist} = useSelector((state)=>state.authReducer)
+console.log("emailExist",emailExist);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -53,10 +57,16 @@ const Login = () => {
     },
   });
 
+ const onAuthDataSubmit =()=>{
+  console.log("formik.values.email",formik.values.email);
+  dispatch(checkingUserExist(formik.values.email))
+  console.log("After Getting Result");
+ }
   return (
     <>
-      <div className="lg:w-full h-[calc(100vh-148px)] rounded-[20px] flex flex-col justify-center items-center gap-2 p-4">
-        <Heading title="Get Started" />
+      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-4">
+        {/* <Heading title="Get Started" /> */}
+         <img src={Logo} alt="" className=' w-[55px] mb-4' />
         <Input
           title="Email or Phone"
           name="email"
@@ -78,9 +88,9 @@ const Login = () => {
           className="w-full"
         />
         <div className="w-full">
-          <Link to="/auth/forgetpassword" className="text-xs font-bold mb-2">
+          <div  className="text-xs font-bold mb-2" onClick={onAuthDataSubmit}>
             Forget Password ?
-          </Link>
+          </div>
         </div>
         <Button2
           title="Sign In"

@@ -10,10 +10,12 @@ const MainView = ({children}) => {
     }, [])
     
   return (
-    <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
-      <Navbar />
+    <>
+  <div className='w-full h-[80px]'>
+  <Navbar />
+  </div>
       <Outlet />
-    </div>
+    </>
   )
 }
 

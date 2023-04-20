@@ -2,21 +2,18 @@ import React, { useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { GrLocation } from "react-icons/gr";
 import { HiUserGroup } from "react-icons/hi";
-import { RiDislikeFill } from "react-icons/ri";
 import CommentBox from "./CommentBox/CommentBox";
 import MenuModal from "../../Modal/MenuModel/MenuModal";
 import ReportModal from "../../Modal/ReportModal/ReportModal";
 import { useDispatch, useSelector } from "react-redux";
 import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
 import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
-import { createPortal } from "react-dom";
 import Portals from "../../../Portals/Portals";
 
-const PostCard = ({ userData,item, showModal, width }) => {
-  const [showReportModel, setShowReportModel] = useState(false);
+const PostCard = ({ userData, item }) => {
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
-const [userStatus,setUserStatus] = useState(0);
+  const [userStatus, setUserStatus] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
 
   const onShowShareModal = () => {
@@ -27,7 +24,7 @@ const [userStatus,setUserStatus] = useState(0);
   const dispatch = useDispatch();
   const showMenuListModal = () => {
     setShowMenuList(!showMenuList);
-    setUserStatus(item.userId)
+    setUserStatus(item.userId);
   };
 
   const onHandleChange = (event) => {
@@ -50,7 +47,6 @@ const [userStatus,setUserStatus] = useState(0);
   return (
     <>
       <div
-        // {showReportModel && <ReportModal />}
         className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col mt-2 bg-white`}
       >
         {/* Top Section */}
@@ -97,9 +93,7 @@ const [userStatus,setUserStatus] = useState(0);
           <MenuModal
             data={userData}
             userStatus={userStatus}
-            showModal={setShowReportModel}
             closeModel={setShowMenuList}
-            setUserStatus={setUserStatus}
           />
         )}
 
@@ -143,7 +137,7 @@ const [userStatus,setUserStatus] = useState(0);
           <div className="flex w-[40%] gap-5 items-center">
             <span
               className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500"
-              onClick={{}}
+              // onClick={{}}
             >
               5 Comments
             </span>

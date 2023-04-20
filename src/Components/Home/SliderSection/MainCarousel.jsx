@@ -25,51 +25,24 @@ export default function MainCarousel() {
           responsive={responsive}
           showDots={true}
           infinite={true}
-          className="ml-16 w-[97%]"
+          className="lg:ml[10px] xl:ml-16 w-[97%]"
         >
-          <div>
+        {[1,2,3,4].map((elem,index)=>(  <div key={index}>
             <img
               src="./images/events.jpg"
               alt=""
-              className="h-[50vh] rounded-lg"
+              className="lg:h-[40vh] xl:h-[50vh] rounded-lg lg:ml-[20px] xl:ml-0"
             />
-          </div>
-          <div>
-            <img
-              src="./images/events.jpg"
-              alt=""
-              className="h-[50vh] rounded-lg"
-            />
-          </div>
-          <div>
-            <img
-              src="./images/events.jpg"
-              alt=""
-              className="h-[50vh] rounded-lg"
-            />
-          </div>
-          <div>
-            <img
-              src="./images/events.jpg"
-              alt=""
-              className="h-[50vh] rounded-lg"
-            />
-          </div>
-          <div>
-            <img
-              src="./images/events.jpg"
-              alt=""
-              className="h-[50vh] rounded-lg"
-            />
-          </div>
+          </div>))}
+      
         </Carousel>
-        <div className="flex justify-around my-3 items-center text-center ml-20">
+        <div className="flex justify-around my-3 items-center text-center xl:ml-20">
           <div className="ratio">A</div>
           <div className="filter">B</div>
           <div className="effect">C</div>
           <div className="adj">D</div>
         </div>
-        <div className=" w-[120%] rounded border-gray-400 border-2 flex justify-around items-center text-center">
+        <div className="lg:w-[100%] xl:w-[120%] rounded lg:[90px] xl:h-full border-gray-400 border-2 flex justify-around items-center text-center">
           <div className=" w-[20%] h-20 p-2 rounded border-gray-400 border-2 m-3 flex items-center justify-center">
             Original
           </div>

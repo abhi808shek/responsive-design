@@ -1,7 +1,10 @@
 import React from "react";
 import { GrLocation } from "react-icons/gr";
 
-const OriginalPostModal = () => {
+const OriginalPostModal = ({setOriginalPost}) => {
+  const onCloseOriginalPost = ()=>{
+    setOriginalPost(false)
+  }
   return (
     // Original Post Section
     <div className="flex w-[80%] bg-white justify-around pt-2">
@@ -63,7 +66,7 @@ const OriginalPostModal = () => {
       <div className="w-[45%] h-[500px] overflow-y-scroll">
         <div className="flex justify-between  ">
           <span className="text-md font-bold">Edit History</span>
-          <button className="text-md font-bold text-blue-400">Close</button>
+          <button className="text-md font-bold text-blue-400" onClick={onCloseOriginalPost}>Close</button>
         </div>
 
         {[1, 2, 34, 56, 323, 2323, 434].map(() => (

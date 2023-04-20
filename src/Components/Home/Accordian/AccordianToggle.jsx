@@ -32,19 +32,19 @@ const AccordionToggle = () => {
 
   return (
     <Fragment>
-      <Accordion open={open === 1} icon={<Icon id={1} open={open} />}>
-        <AccordionHeader
+      <Accordion open={open === 1} icon={<Icon id={1} open={open}  style={{magrin:"0px"}}/>}>
+        <AccordionHeader style={{magrin:"0px"}}
           onClick={() => handleOpen(1)}
           className="w-[90%] text-gray-500 font-bold text-md"
         >
           Advanced Settings
         </AccordionHeader>
-        <AccordionBody className="w-[90%]">
-          <div className="advanced">
+        <AccordionBody className="w-[90%]" style={{magrin:"0px"}} >
+          <div className="advanced my-0">
             <div className="flex mx-3">
               <p className="mx-3 text-gray-500 font-bold">Background Color: </p>
               <div className="">
-                {" "}
+               
                 <span className="border border-gray-400 mx-2 px-0.5">
                   {val2}
                 </span>
@@ -59,7 +59,7 @@ const AccordionToggle = () => {
             <div className="flex mx-3">
               <p className="mx-4 text-gray-500 font-bold">Text Color: </p>
               <div className="ml-12">
-                {" "}
+              
                 <span className="border border-gray-400 mx-2 px-0.5">
                   {val}
                 </span>
