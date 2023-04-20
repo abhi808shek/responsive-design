@@ -22,21 +22,25 @@ const PasswordInput = ({
 
   return (
     <div className="w-full flex flex-col items-center justify-center ">
-      <div className=" flex w-full items-center border-[1px] border-gray-600 rounded-[5px] pl-1">
+      <div className=" flex w-full items-center border-[1px] border-gray-300 rounded-[5px] pl-1">
+        {/* heigth of input changed */}
         <input
           type={passwordType}
           placeholder={title}
           name={name}
           value={inputValue}
           onBlur={onBlur}
-          className="outline-none w-[90%] text-xs py-1.5 pl-2 font-semibold border-none"
+          className="outline-none w-[90%] h-[34px] text-xs py-1.5 pl-2 font-semibold border-none"
           onChange={onHandleChange}
         />
+        
+        {/* the color of icon changed */}
+
         {passwordType !== "password" ? (
           <AiFillEye className="cursor-pointer" onClick={onShowHidePassword} />
-        ) : (
+        ) : (          
           <AiFillEyeInvisible
-            className="cursor-pointer"
+            className="cursor-pointer text-[#7991bd]"
             onClick={onShowHidePassword}
           />
         )}

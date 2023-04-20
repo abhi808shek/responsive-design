@@ -19,7 +19,7 @@ import UserProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 import VerifiedAccount from "./Components/Home/VerifiedAccount/VerifiedAccount";
 import OriginalPostModal from "./Components/Home/Modal/OriginalPostModal/OriginalPostModal";
 import CreatePostModal from "./Components/Home/Modal/CreatePostModal/CreatePostModal";
-import UpdateProfile from "../../../../Downloads/UpdateProfile";
+//import UpdateProfile from "../../../../Downloads/UpdateProfile";
 import Kicks from "./Components/Home/KicksPage/Kicks";
 import SearchKicksPage from "./Components/Home/SearchKicksPage/SearchKicksPage";
 import MyFriendsPage from "./Components/Home/MyFriendsPage/MyFriendsPage";

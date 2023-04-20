@@ -17,7 +17,7 @@ const NewPassword = () => {
         <p className="text-xs font-bold text-[#7B8FA1] flex items-center self-start ">
           Password Help
           <span
-            className="ml-1 mt-0.5"
+            className="ml-1 mt-0.5"            
             title="Password should be minimum of 8 length characters with one numerical value"
           >
             <BsFillQuestionCircleFill />

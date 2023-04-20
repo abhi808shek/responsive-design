@@ -18,7 +18,7 @@ const PersonalModal = () => {
           <div className=" grid grid-cols-2 mt-2  ">
             <div className="border-r-2 border-neutral-400 h-full">
               <div className="mt-8">
-                <h2 className="text-center">Add Picture</h2>
+                <h2 className="text-center text-[18px] font-medium">Add Picture</h2>
               </div>
               <div>
                 <img src="" alt="" />

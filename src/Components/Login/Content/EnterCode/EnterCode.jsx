@@ -19,9 +19,11 @@ const EnterCode = ({ title }) => {
   const navigate = useNavigate()
   return (
     <>
-      <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2">
+      {/* padding added */}
+      <div className="w-full h-full p-1 rounded-[20px] flex flex-col justify-center items-center gap-2">
         <Heading title={title} />
-        <p className="text-[10px] font-bold text-[#7B8FA1] w-[78%] mb-1">
+        {/* font-size increased, color changed */}
+        <p className="text-[11px] font-bold w-[78%] mb-1">
           We've have sent a code to your email address
         </p>
        <div className="w-[85%]">
@@ -31,8 +33,9 @@ const EnterCode = ({ title }) => {
         />
        </div>
         <Button2 title="Confirm" />
-        {timer ? (
-        <div disabled="disabled" className="bg-gray-600 text-white w-[70%] rounded-3xl py-1.5 text-center font-bold text-xs">05:00</div>
+        {/* padding added to send code button */}
+        {timer ? (          
+        <div disabled="disabled" className="bg-gray-600 text-white w-[70%] rounded-3xl py-2 text-center font-bold text-xs">05:00</div>
         ) : (
           <Button1 title="Send Code Again" onClick={timerFunction} />
         )}

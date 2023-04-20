@@ -7,19 +7,21 @@ import { TbPhotoPlus } from "react-icons/tb";
 const Modal = ({ modalType, handleClose }) => {
   const isPersonal = modalType === "personal";
   return (
+    {/* corner radius added to componenet */},
     <div
-      className="absolute px-10 top-1/2 left-1/2 bg-white max-w-[60rem] w-[75vw] text-center"
+      className="absolute py-2 rounded-xl px-10 top-1/2 left-1/2 bg-white max-w-[60rem] w-[75vw] text-center"
       style={{
         transform: "translate(-50%, -50%)",
         boxShadow: "0px 10px 8px #3f3f3fd9",
       }}
     >
-      <h2 className="font-semibold text-2xl border-b-[3px] border-grey-400 py-2">
+      <h2 className="font-semibold text-xl border-b-[3px] border-grey-400 py-2">
         Let's Create Profile
       </h2>
       <div className="flex flex-col md:flex-row my-4">
         <div className="md:w-1/2 mr-4 border-r-[3px] border-grey-400">
-          <h2 className="font-semibold text-2xl ">Add Profile Picture</h2>
+          {/* font-weight removed, font-size reduced, padding added,*/}
+          <h2 className="text-xl py-3">Add Profile Picture</h2>
           <div>
             <input
               id="profilePic"
@@ -36,16 +38,17 @@ const Modal = ({ modalType, handleClose }) => {
               </span>
             </label>
             <div className="pt-6">
+              {/* bg-color, padding, font-weight of label changed */}
               <label
                 htmlFor="profilePic"
-                className="bg-[#add8eb] cursor-pointer p-[4px 20px] rounded-2xl py-2 mt-6 px-6"
+                className="bg-[#6780af] cursor-pointer p-[4px 20px] rounded-xl py-2 text-white font-medium mt-6 px-6"
               >
                 Select from computer
               </label>
             </div>
           </div>
         </div>
-        <div className="md:w-1/2 max-w-[25rem] px-4">
+        <div className="md:w-1/2 max-w-[25rem] px-4 relative">
           <div className="mx-auto">
             <Dropdown
               name={isPersonal ? "Select Profile Type*" : "Organization"}
@@ -56,25 +59,40 @@ const Modal = ({ modalType, handleClose }) => {
             </div>
             {isPersonal ? (
               <>
-                <div className="flex justify-evenly items-center mt-3">
+                {/* size of radio button incresed, accent color of button changed,
+                    margin top of rdio button removed and margin added to input component*/}
+                <div className="flex justify-evenly items-center">
+
+                {/* input and label grouped in a div, padding added to label*/}
+                 <div className='flex justify-center items-center'>
                   <input
                     type="radio"
                     name="gender"
+                    className='h-5 w-4 accent-stone-500'
                     //  onChange={(e) => handleGender(e)}
                   />{" "}
-                  <label>Male</label>
+                  <label className='pl-2'>Male</label>
+                 </div>
+
+                 <div className='flex justify-center items-center'>
                   <input
                     type="radio"
                     name="gender"
+                    className='h-5 w-4 accent-stone-500'
                     //  onChange={(e) => handleGender(e)}
                   />
-                  <label>Female</label>
+                  <label className='pl-2'>Female</label>
+                 </div>
+
+                 <div className='flex justify-center items-center'>
                   <input
                     type="radio"
                     name="gender"
+                    className='h-5 w-4 accent-stone-500'
                     // onChange={(e) => handleGender(e)}
                   />
-                  <label>Other</label>
+                  <label className='pl-2'>Other</label>
+                 </div>
                 </div>
                 <Dropdown name={"Date of birth"} options={[]} />
                 <Dropdown name={"Select country"} />
@@ -91,19 +109,25 @@ const Modal = ({ modalType, handleClose }) => {
                   name="address"
                   className="w-full mt-[10px]"
                 />
+                {/* text area default rows increased*/}
                 <textarea
+                  rows='5'
                   placeholder="Write your intro..."
                   className="mt-[10px] outline-none p-2 border-[1px] border-gray-400 rounded-[5px] w-full text-xs"
                 ></textarea>
               </>
             )}
           </div>
-          <label
+          
+          {/* create button positioned to top level div */}
+          <div className='flex justify-center'>
+            <label
             htmlFor=""
-            className="bg-[#add8eb] py-1.5 rounded-2xl block mt-[60px] cursor-pointer"
-          >
+            className="bg-[#6780af] w-52 py-1.5 flex justify-center py-1 rounded-xl block mt-[60px] cursor-pointer text-white font-medium"
+            >
             Create
-          </label>
+            </label>
+          </div>
         </div>
       </div>
       <span

@@ -64,9 +64,10 @@ console.log("emailExist",emailExist);
  }
   return (
     <>
-      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-4">
+      {/* padding increased */}
+      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-7">
         {/* <Heading title="Get Started" /> */}
-         <img src={Logo} alt="" className=' w-[55px] mb-4' />
+        <img src={Logo} alt="" className=' w-[55px] mb-4' />
         <Input
           title="Email or Phone"
           name="email"
@@ -87,8 +88,9 @@ console.log("emailExist",emailExist);
           onBlur={formik.handleBlur}
           className="w-full"
         />
+        {/* font wight changed */}
         <div className="w-full">
-          <div  className="text-xs font-bold mb-2" onClick={onAuthDataSubmit}>
+          <div  className="text-xs font-semibold mb-2 py-1" onClick={onAuthDataSubmit}>
             Forget Password ?
           </div>
         </div>
@@ -97,7 +99,8 @@ console.log("emailExist",emailExist);
           className="w-full"
           onClick={formik.handleSubmit}
         />
-        <p className="text-xs font-bold text-[#7B8FA1] mt-4">
+        {/* color of text changed */}
+        <p className="text-xs font-bold text-gray-500 mt-4">
           Don't have an account?
           <Link to="/auth/signup" className="text-[#7991BD] ml-2">
             Sign Up
