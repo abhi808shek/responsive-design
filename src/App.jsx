@@ -19,7 +19,7 @@ import UserProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 import VerifiedAccount from "./Components/Home/VerifiedAccount/VerifiedAccount";
 import OriginalPostModal from "./Components/Home/Modal/OriginalPostModal/OriginalPostModal";
 import CreatePostModal from "./Components/Home/Modal/CreatePostModal/CreatePostModal";
-import UpdateProfile from "../../../../Downloads/UpdateProfile";
+// import UpdateProfile from "../../../../Downloads/UpdateProfile";
 import Kicks from "./Components/Home/KicksPage/Kicks";
 import SearchKicksPage from "./Components/Home/SearchKicksPage/SearchKicksPage";
 import MyFriendsPage from "./Components/Home/MyFriendsPage/MyFriendsPage";
@@ -39,7 +39,7 @@ const App = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-      dispatch(settingUserLoginData(true, { email: userData.email ,userId: userData.userId}));
+      dispatch(settingUserLoginData(true, { email: userData.email, userId: userData.userId }));
     }
   };
 
@@ -75,7 +75,7 @@ const App = () => {
             <Route path="kicks" element={<Kicks />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
-            <Route path="friend-request" element={<FriendRequestPage isFriend={true}/>} />
+            <Route path="friend-request" element={<FriendRequestPage isFriend={true} />} />
             <Route path="chat-page" element={<ChatPages />} />
             {/* <Route path="kicks" element={<Kicks />} /> */}
 

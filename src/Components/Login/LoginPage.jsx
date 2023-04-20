@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Topbar from "../Topbar/Topbar";
-import { Outlet,Navigate } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import HumanIcon from "./Human.png"
 import { useSelector } from 'react-redux';
 import Footer from "../Footer/Footer";
@@ -13,7 +13,7 @@ const LoginPage = () => {
   }
   return (
     <>
-    
+
       <div className="w-full flex justify-end bg-[#CDD6E8]">
         <Topbar />
       </div>
@@ -24,7 +24,7 @@ const LoginPage = () => {
               src={HumanIcon}
               className="w-full p-[10%]"
               alt=""
-              
+
             />
           </div>
           <div className="xs:w-[100%] md:w-[50%] flex justify-center items-center bg-[#CDD6E8]">

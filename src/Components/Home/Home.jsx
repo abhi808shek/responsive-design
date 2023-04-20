@@ -36,8 +36,8 @@ import SearchKicksPage from "./SearchKicksPage/SearchKicksPage";
 import postData, { userData } from "./dataList";
 
 
-const Home = ({onShowReportModal,showReportModal}) => {
- 
+const Home = ({ onShowReportModal, showReportModal }) => {
+
   return (
     // <div className="flex flex-col h-[550px]">
     //   <section className="w-full fixed bg-blue-700">
@@ -80,15 +80,15 @@ const Home = ({onShowReportModal,showReportModal}) => {
     // -----------------USER PAGE----------------
     <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
-    
-        <PostForm />
+
+      <PostForm />
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
         <HeroSection />
         <SliderSection />
-        <PostContent data={postData} showModalFunc={onShowReportModal} userData={userData}/>
+        <PostContent data={postData} showModalFunc={onShowReportModal} userData={userData} />
       </section>
     </div>
-    
+
     // --------------------------------END USER PAGE ---------------
   );
 };
