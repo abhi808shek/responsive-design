@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Button1 from "../Button/Button1";
 import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
@@ -6,16 +6,40 @@ import Button2 from "../Button/Button2";
 import { useNavigate } from "react-router-dom";
 
 const EnterCode = ({ title }) => {
+  {/* send code timing implemented dynamically */}
   const [timer, setTimer] = useState(false);
+
   const timerFunction = () => {
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
         setTimer(false);
-      }, 4000);
+      }, 300000);
     } 
   };
 
+  function Timer() {
+  const [seconds, setSeconds] = useState(5 * 60);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setSeconds((prevSeconds) => prevSeconds - 1);
+    }, 1000);
+
+    return () => clearInterval(intervalId);
+  }, []);
+
+  const minutes = Math.floor(seconds / 60);
+  const remainingSeconds = seconds % 60;
+
+  return (
+    <div disabled="disabled" className="bg-gray-600 text-white w-[70%] rounded-3xl py-2 text-center font-bold text-xs">
+      {minutes}:{remainingSeconds < 10 ? "0" : ""}
+      {remainingSeconds}
+    </div>
+  );
+  }
+  
   const navigate = useNavigate()
   return (
     <>
@@ -35,9 +59,9 @@ const EnterCode = ({ title }) => {
         <Button2 title="Confirm" />
         {/* padding added to send code button */}
         {timer ? (          
-        <div disabled="disabled" className="bg-gray-600 text-white w-[70%] rounded-3xl py-2 text-center font-bold text-xs">05:00</div>
+          <Timer />
         ) : (
-          <Button1 title="Send Code Again" onClick={timerFunction} />
+          <Button1 title="Send Code Again" onClick={timerFunction} />        
         )}
         <Button1 title="Cancel" path="/" onClick={()=>navigate(-1)}/>
       </div>

@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
-import Dropdown3 from "./Dropdown3";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
