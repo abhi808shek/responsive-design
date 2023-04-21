@@ -30,7 +30,7 @@ const LoginPage = () => {
           </div>
           {/* heigh of right page changed */}
           <div className="xs:w-[100%] md:w-[50%] flex justify-center items-center bg-[#CDD6E8]">
-            <div className="bg-white xs:w-[78%] md:w-[70%] lg:w-[60%] xl:w-[55%] lg:h-[90%] xl:h-[87%] 2xl:h-[50%] rounded-[20px] border-3 w-[80%]">
+            <div className="bg-white  xs:w-[78%] md:w-[70%] lg:w-[60%] xl:w-[55%] lg:h-[90%] xl:h-[87%] 2xl:h-[50%] rounded-[20px] border-3 w-[80%]">
               <Outlet />
             </div>
           </div>
