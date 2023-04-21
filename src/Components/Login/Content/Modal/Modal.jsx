@@ -1,11 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import Dropdown from "./Dropdown";
+import Dropdown2 from "./Dropdown2";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
 
 const Modal = ({ modalType, handleClose }) => {
+  const [country, setCountry] = useState(null)
+
   const isPersonal = modalType === "personal";
+
+  const handleCountry = (val)=>{
+    setCountry(val)
+  }
+  
   return (
     {/* corner radius added to componenet */},
     <div
@@ -50,12 +58,18 @@ const Modal = ({ modalType, handleClose }) => {
         </div>
         <div className="md:w-1/2 max-w-[25rem] px-4 relative">
           <div className="mx-auto">
-            <Dropdown
+            {/*<Dropdown
               name={isPersonal ? "Select Profile Type*" : "Organization"}
               options={isPersonal ? ["Personal"] : ["World Trade Org"]}
-            />
-            <div className="mt-[10px]">
+            />*/}
+
+            {/* last name field added */}
+            <div className="mt-[9px]">
               <Input title="Full Name*" name="email" className="w-full" />
+            </div>
+            {/* Lastname field was added */}
+            <div className="mt-[2px]">
+              <Input title="Last Name*" name="email" className="w-full" />
             </div>
             {isPersonal ? (
               <>
@@ -95,7 +109,38 @@ const Modal = ({ modalType, handleClose }) => {
                  </div>
                 </div>
                 <Dropdown name={"Date of birth"} options={[]} />
-                <Dropdown name={"Select country"} />
+                <Dropdown2 name={"Select country"} options={['India', 'US']} handleCountry={handleCountry} />
+
+                {/* created Dropdown2 component, when selecting country new dropdowns are shown ,
+                    for this local state added, a function created for
+                    getting value from child componenet*/}
+
+                {
+                  country ?
+                   country.toLowerCase() === 'india' ? (
+                    <>
+                     <div className='flex'>
+                      <Dropdown name={"State"} options={[]} />
+                      <Dropdown name={"District"} options={[]} />
+                     </div>
+                     <div className='flex'>
+                      <Dropdown name={"Loksabha"} options={[]} />
+                      <Dropdown name={"Assembly"} options={[]} />
+                     </div>
+                     <div className='mt-1.5'>
+                      <Input title="Living Location*" className="w-full" />
+                     </div>
+                    </>
+                    ) : (
+                    <>
+                      <Dropdown name={"State"} options={[]} />
+                      <div className='mt-1.5'>
+                       <Input title="Living Location*" className="w-full" />
+                      </div>
+                    </>
+                    )
+                  : null
+                }
               </>
             ) : (
               <>
