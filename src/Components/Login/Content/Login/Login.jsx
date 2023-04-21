@@ -9,16 +9,20 @@ import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
 import { settingUserLoginData } from "../../../../redux/actionCreators/userActionCreator";
 import { useDispatch, useSelector } from "react-redux";
-import Logo from "./Logo.png"
-import { checkingUserExist } from "../../../../redux/actionCreators/authActionCreator";
+import Logo from "./Logo.png";
+import {
+  checkingUserExist,
+  sendingMailForOtp,
+} from "../../../../redux/actionCreators/authActionCreator";
+import { toasterFunction } from "../../../Utility/utility";
 
 const Login = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
-const {emailExist} = useSelector((state)=>state.authReducer)
-console.log("emailExist",emailExist);
+  const { emailExist, mailSended } = useSelector((state) => state.authReducer);
+  console.log("emailExist", emailExist);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -29,26 +33,30 @@ console.log("emailExist",emailExist);
         .email('"Email address incorrect. Please Try again"')
         .required("Required"),
       password: Yup.string()
-      .min(
-        8,
-        "Password should be minimum of 8 length characters with one numerical value"
-      )
-      .matches(passwordRules, {
-        message:
-          "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
-      })
-      .required("Required")
+        .min(
+          8,
+          "Password should be minimum of 8 length characters with one numerical value"
+        )
+        .matches(passwordRules, {
+          message:
+            "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
+        })
+        .required("Required"),
     }),
     onSubmit: (e) => {
       console.log("formik.values.password", formik.values.password);
-      // e.preventDefault();
       try {
         const dataObj = {
           email: formik.values.email,
           isLoggedIn: true,
-          userId:1
+          userId: 1,
         };
-        dispatch(settingUserLoginData(true,{email:dataObj.email,password: formik.values.password}))
+        dispatch(
+          settingUserLoginData(true, {
+            email: dataObj.email,
+            password: formik.values.password,
+          })
+        );
         localStorage.setItem("userData", JSON.stringify(dataObj));
         navigate("/select");
       } catch (error) {
@@ -57,16 +65,29 @@ console.log("emailExist",emailExist);
     },
   });
 
- const onAuthDataSubmit =()=>{
-  console.log("formik.values.email",formik.values.email);
-  dispatch(checkingUserExist(formik.values.email))
-  console.log("After Getting Result");
- }
+  const onForgetPasswordClick = () => {
+    const email = formik.values.email
+    dispatch(checkingUserExist(email));
+    if (emailExist.status === true) {
+      const data = {
+        datetime: Date.now().toString(),
+        uemail: formik.values.email,
+      };
+      dispatch(sendingMailForOtp(data));
+      if (mailSended.status === true) {
+        navigate("/verification");
+      } else {
+        toasterFunction(mailSended.message);
+      }
+    } else {
+      toasterFunction(emailExist.message);
+    }
+  };
   return (
     <>
       <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-4">
         {/* <Heading title="Get Started" /> */}
-         <img src={Logo} alt="" className=' w-[55px] mb-4' />
+        <img src={Logo} alt="" className=" w-[55px] mb-4" />
         <Input
           title="Email or Phone"
           name="email"
@@ -88,7 +109,10 @@ console.log("emailExist",emailExist);
           className="w-full"
         />
         <div className="w-full">
-          <div  className="text-xs font-bold mb-2" onClick={onAuthDataSubmit}>
+          <div
+            className="text-xs font-bold mb-2"
+            onClick={onForgetPasswordClick}
+          >
             Forget Password ?
           </div>
         </div>

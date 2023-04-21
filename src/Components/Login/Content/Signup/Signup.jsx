@@ -4,17 +4,23 @@ import PasswordInput from "../InputBox/PasswordInput";
 import Button2 from "../Button/Button2";
 import Heading from "../Heading/Heading";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
+import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
+import { useDispatch } from "react-redux";
 
 const Signup = () => {
-  const [state, setState] = useState({})
+  const [state, setState] = useState({});
+  const [profileType, setProfileType] = useState("");
   const { showModal, modalType } = state;
+  const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const navigate = useNavigate()
   const formik = useFormik({
+    validateOnMount: true,
     initialValues: {
       email: "",
       password: "",
@@ -39,33 +45,60 @@ const Signup = () => {
         .min(10, "Phone no is incorrect. Please Try again")
         // .max(10, "Phone no is incorrect. Please Try again")
         .required("Required"),
-      termsAndConditions: Yup.bool().oneOf(
-        [true],
-        "You need to accept the terms and conditions"
-      ),
+      // termsAndConditions: Yup.bool().oneOf(
+      //   [true],
+      //   "You need to accept the terms and conditions"
+      // ),
     }),
-    onSubmit: (e) => {
-      e.preventDefault();
+    onSubmit:async (event) => {
+      // event.preventDefault();
       const dataObj = {
-        email: formik.values.email,
+        datetime: Date.now().toString(),
+        profileType: profileType,
+        uemail: formik.values.email,
         password: formik.values.password,
       };
       console.log("dataObj", dataObj);
+      const status =  await dispatch(saveUserSignupData(dataObj));
+      if (status === 200) {
+        navigate("/auth/verification")
+      }
     },
   });
   const handleClick = (event) => {
-    setState({ ...state, showModal: true, modalType: event.target.id})
-  }
-  const handleClose = () => {
-    setState({ ...state, showModal: false, modalType: ''})
-  }
+    console.log(event.target.id);
+    setProfileType(event.target.id);
+
+    // setState({ ...state, showModal: false, modalType: event.target.id})
+  };
+  // const handleClose = () => {
+  //   setProfileType(event.target.id)
+  //   // setState({ ...state, showModal: false, modalType: ''})
+  // }
+  console.log("formik",formik.values.termsAndConditions);
   return (
     <>
       <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-1 p-5">
         <Heading title="Get Started" />
         <div className="flex w-full justify-between mb-2">
-          <span><input type="radio" name="signUp" id="personal" onClick={(e) => handleClick(e)} /> Personal</span>
-          <span><input type="radio" name="signUp" id="organization" onChange={(e) => handleClick(e )}/> Orgainization</span>
+          <span>
+            <input
+              type="radio"
+              name="signUp"
+              id="Personal"
+              onChange={(e) => handleClick(e)}
+            />{" "}
+            Personal
+          </span>
+          <span>
+            <input
+              type="radio"
+              name="signUp"
+              id="Organization"
+              onChange={(e) => handleClick(e)}
+            />{" "}
+            Orgainization
+          </span>
         </div>
         <Input
           title="Email"
@@ -116,37 +149,48 @@ const Signup = () => {
           name="password"
           inputValue={formik.values.password}
           errorMessage={formik.errors.password}
-          touched={formik.touched.password}
           onHandleChange={formik.handleChange}
+          touched={formik.touched.password}
           onBlur={formik.handleBlur}
         />
         <div className="w-full flex flex-col mb-2">
           <div className="flex w-full gap-1 items-center">
-           
-            <input type="checkbox" />
+            <input type="checkbox" 
+            name="termsAndConditions"
+             touched={formik.values.termsAndConditions}
+             onBlur={formik.handleBlur}/>
             <p className="text-[10px] font-semibold">
               I agree to all Terms,Cookies and Privacy
             </p>
             <br />
           </div>
-          {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
+          {formik.touched.termsAndConditions &&
+          formik.errors.termsAndConditions ? (
             <p className="text-[10px] text-[red] self-start w-[80%] ">
               {formik.errors.termsAndConditions}
             </p>
           ) : null}
         </div>
-        <Button2 title="Sign Up" bgColor="#7991BD" />
+        <Button2
+          title="Sign Up"
+          bgColor="#7991BD"
+          disabled={!(formik.isValid && formik.dirty)}
+          onClick={formik.handleSubmit}
+        />
         <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
           Already have and account?
-
-          <span className="mx-2"><Link to="/auth/login" className="text-[#7991BD]">
-            Sign In
-          </Link></span>
+          <span className="mx-2">
+            <Link to="/auth/login" className="text-[#7991BD]">
+              Sign In
+            </Link>
+          </span>
         </p>
-      { showModal &&
-      createPortal(<Modal modalType={modalType} handleClose={handleClose}/>, document.getElementById('root'))
-    }
-    </div>
+        {showModal &&
+          createPortal(
+            <Modal modalType={modalType} handleClose={handleClose} />,
+            document.getElementById("root")
+          )}
+      </div>
     </>
   );
 };
