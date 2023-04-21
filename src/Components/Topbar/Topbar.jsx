@@ -7,7 +7,10 @@ const Topbar = () => {
       <h1 className="font-bold lg:text-2xl text-center md:text-lg">
         Welcome to <span className="text-[#24B9BF]">Uynite</span>
       </h1>
-      <p className="font-bold text-center md:text-sm text-[10px] ">
+
+      {/* font weight changed into bold to semi-bold & padding added */ }
+
+      <p className="font-semibold text-center md:text-sm text-[10px] py-1">
         A one stop place for connecting back to your personal world.
       </p>
     </div>

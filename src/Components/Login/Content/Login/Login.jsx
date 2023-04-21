@@ -66,7 +66,7 @@ const Login = () => {
   });
 
   const onForgetPasswordClick = () => {
-    const email = formik.values.email
+    const email = formik.values.email;
     dispatch(checkingUserExist(email));
     if (emailExist.status === true) {
       const data = {
@@ -85,7 +85,8 @@ const Login = () => {
   };
   return (
     <>
-      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-4">
+      {/* padding increased */}
+      <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-7">
         {/* <Heading title="Get Started" /> */}
         <img src={Logo} alt="" className=" w-[55px] mb-4" />
         <Input
@@ -108,25 +109,32 @@ const Login = () => {
           onBlur={formik.handleBlur}
           className="w-full"
         />
+        {/* font wight changed */}
         <div className="w-full">
           <div
             className="text-xs font-bold mb-2"
             onClick={onForgetPasswordClick}
           >
-            Forget Password ?
+            <div
+              className="text-xs font-semibold mb-2 py-1"
+              onClick={onAuthDataSubmit}
+            >
+              Forget Password ?
+            </div>
           </div>
+          <Button2
+            title="Sign In"
+            className="w-full"
+            onClick={formik.handleSubmit}
+          />
+          {/* color of text changed */}
+          <p className="text-xs font-bold text-gray-500 mt-4">
+            Don't have an account?
+            <Link to="/auth/signup" className="text-[#7991BD] ml-2">
+              Sign Up
+            </Link>
+          </p>
         </div>
-        <Button2
-          title="Sign In"
-          className="w-full"
-          onClick={formik.handleSubmit}
-        />
-        <p className="text-xs font-bold text-[#7B8FA1] mt-4">
-          Don't have an account?
-          <Link to="/auth/signup" className="text-[#7991BD] ml-2">
-            Sign Up
-          </Link>
-        </p>
       </div>
     </>
   );

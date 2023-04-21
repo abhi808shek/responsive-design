@@ -11,13 +11,13 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
-import { getFCMToken } from "../../../../config/firebase_app";
+// import { getFCMToken } from "../../../../config/firebase_app";
 
 
 const Signup = () => {
 
   useEffect(() => {
-    getFCMToken()
+    // getFCMToken()
   }, [])
   
   const [state, setState] = useState({});
@@ -85,7 +85,8 @@ const Signup = () => {
   console.log("formik",formik.values.termsAndConditions);
   return (
     <>
-      <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-1 p-5">
+      {/* padding increased */}
+      <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-1 p-7">
         <Heading title="Get Started" />
         <div className="flex w-full justify-between mb-2">
           <span>
@@ -116,20 +117,21 @@ const Signup = () => {
           onHandleChange={formik.handleChange}
           onBlur={formik.handleBlur}
         />
-
-        <h1 className="font-bold text-[#7991BD] ">Or</h1>
+        {/* font weight changed */}
+        <h1 className="font-semibold text-[#7991BD]">Or</h1>
         <div className="flex w-full justify-center items-center gap-2">
+          {/* textcolor, border color, height, bckground-color changed*/}
           <select
             name=""
             id=""
-            className="border-[1px] rounded-[5px] border-gray-600 text-xs font-semibold py-1.5 w-full"
+            className="border-[1px] rounded-[5px] bg-white text-gray-500 border-gray-300 h-9 outline-none text-xs font-semibold py-1.5 w-full"
           >
             <option value="">USA +1</option>
             <option value="">IN +91</option>
           </select>
           <input
             placeholder="6789236491"
-            className="outline-none border-[1px] border-gray-600 rounded-[5px] text-xs py-1.5 pl-2 font-semibold"
+            className="outline-none border-[1px] border-gray-300 h-9 rounded-[5px] text-xs py-1.5 pl-2 font-semibold"
             name="phone"
             value={formik.values.phone}
             onChange={formik.handleChange}
@@ -142,7 +144,8 @@ const Signup = () => {
           </p>
         ) : null}
 
-        <p className="text-xs font-bold text-[#7B8FA1] flex items-center self-start mt-2 mb-1">
+        {/* color changed, text size changed, font-weight changd*/}
+        <p className="text-[12px] font-semibold text-gray-500 flex items-center self-start mt-2 mb-1">
           Password Help
           <span
             className="ml-1"
@@ -162,11 +165,10 @@ const Signup = () => {
         />
         <div className="w-full flex flex-col mb-2">
           <div className="flex w-full gap-1 items-center">
-            <input type="checkbox" 
-            name="termsAndConditions"
-             touched={formik.values.termsAndConditions}
-             onBlur={formik.handleBlur}/>
-            <p className="text-[10px] font-semibold">
+           
+            <input type="checkbox" />
+            {/* added padding, font-weight remove & font size increased*/}
+            <p className="text-[11px] py-1">
               I agree to all Terms,Cookies and Privacy
             </p>
             <br />
@@ -178,13 +180,11 @@ const Signup = () => {
             </p>
           ) : null}
         </div>
-        <Button2
-          title="Sign Up"
-          bgColor="#7991BD"
-          disabled={!(formik.isValid && formik.dirty)}
-          onClick={formik.handleSubmit}
-        />
-        <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
+        <Button2 title="Sign Up" bgColor="#7991BD" 
+         disabled={!(formik.isValid && formik.dirty)}
+         onClick={formik.handleSubmit}/>
+        {/* font-weight removed & font size increased, color changed*/}
+        <p className="text-[12px] mb-2 text-gray-600 font-semibold mt-3">
           Already have and account?
           <span className="mx-2">
             <Link to="/auth/login" className="text-[#7991BD]">

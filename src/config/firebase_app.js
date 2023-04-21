@@ -20,6 +20,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 if (!firebase.apps.length) {
+  console.log("Hellloooo");
   firebase.initializeApp(firebaseConfig);
 }
 
