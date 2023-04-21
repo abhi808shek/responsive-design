@@ -58,7 +58,7 @@ const Login = () => {
           })
         );
         localStorage.setItem("userData", JSON.stringify(dataObj));
-        navigate("/");
+        navigate("/select");
       } catch (error) {
         console.log(error);
       }

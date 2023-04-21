@@ -9,7 +9,7 @@ const LoginPage = () => {
   const { isLoggedIn } = useSelector((state) => state.userReducer);
 
   if (isLoggedIn) {
-    return <Navigate to="/" />
+    return <Navigate to="/select" />
   }
   return (
     <>

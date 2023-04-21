@@ -72,8 +72,9 @@ const Navbar = () => {
       {/* --------------------------------------------------------------------------------------- */}
       <div className="w-[40%]">
         {/* Root */}
-        <section className="w-full flex h-full items-end">
-          <div className=" h-[90%] flex w-full rounded-t-md items-end px-1 gap-1">
+        <section className="w-full flex h-full items-end bg-[#E4E7EC] rounded-tl-xl rounded-tr-xl relative">
+          <div className="absolute top-0 p-1.5 bg-white w-full"></div>
+          <div className=" h-[80%] flex w-full rounded-t-md items-end px-1 gap-1 ">
             {dataList.map((elem) => (
               <div
                 key={elem.name}
@@ -108,7 +109,7 @@ const Navbar = () => {
               className="flex flex-col items-center cursor-pointer relative"
               onClick={() => onHandleClick(elem)}
             >
-              <img src="./images/groups.png" alt="" className=" h-[40px] " />
+              <img src={elem.icon} alt={elem.name} className=" h-[40px] " />
               <div className="lg:text-[10px] xl:text-[12px] font-bold">
                 {elem.name}
               </div>
