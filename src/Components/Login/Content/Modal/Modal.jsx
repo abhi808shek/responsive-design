@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
+import Dropdown3 from "./Dropdown3";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
@@ -65,7 +66,7 @@ const Modal = ({ modalType, handleClose }) => {
 
             {/* last name field added */}
             <div className="mt-[9px]">
-              <Input title="Full Name*" name="email" className="w-full" />
+              <Input title="First Name*" name="email" className="w-full" />
             </div>
             {/* Lastname field was added */}
             <div className="mt-[2px]">
@@ -75,7 +76,7 @@ const Modal = ({ modalType, handleClose }) => {
               <>
                 {/* size of radio button incresed, accent color of button changed,
                     margin top of rdio button removed and margin added to input component*/}
-                <div className="flex justify-evenly items-center">
+                <div className="flex justify-between my-1 items-center">
 
                 {/* input and label grouped in a div, padding added to label*/}
                  <div className='flex justify-center items-center'>
@@ -144,22 +145,45 @@ const Modal = ({ modalType, handleClose }) => {
               </>
             ) : (
               <>
-                <Input
-                  title="Website*"
-                  name="web"
-                  className="w-full mt-[10px]"
-                />
-                <Input
-                  title="Address*"
-                  name="address"
-                  className="w-full mt-[10px]"
-                />
-                {/* text area default rows increased*/}
-                <textarea
-                  rows='5'
-                  placeholder="Write your intro..."
-                  className="mt-[10px] outline-none p-2 border-[1px] border-gray-400 rounded-[5px] w-full text-xs"
-                ></textarea>
+                {/* as per documentation the address, intro, website
+                    input fields are removed */}
+                <input type='date' className='w-full h-9 border-[1px] my-1 px-2 text-gray-500 outline-none border-gray-300 rounded-[5px]' />                
+
+                <div className="flex justify-between items-center">
+                {/* gender selection field, organization name added added */}
+                 <div className='flex my-2 justify-center items-center'>
+                  <input
+                    type="radio"
+                    name="gender"
+                    className='h-5 w-4 accent-stone-500'
+                    //  onChange={(e) => handleGender(e)}
+                  />{" "}
+                  <label className='pl-2'>Male</label>
+                 </div>
+
+                 <div className='flex justify-center items-center'>
+                  <input
+                    type="radio"
+                    name="gender"
+                    className='h-5 w-4 accent-stone-500'
+                    //  onChange={(e) => handleGender(e)}
+                  />
+                  <label className='pl-2'>Female</label>
+                 </div>
+
+                 <div className='flex justify-center items-center'>
+                  <input
+                    type="radio"
+                    name="gender"
+                    className='h-5 w-4 accent-stone-500'
+                    // onChange={(e) => handleGender(e)}
+                  />
+                  <label className='pl-2'>Other</label>
+                 </div>
+                </div>
+
+                <Input type='search' title='Organization Name*' />
+                <Dropdown name={"Organization Category*"} options={[]} />
               </>
             )}
           </div>
