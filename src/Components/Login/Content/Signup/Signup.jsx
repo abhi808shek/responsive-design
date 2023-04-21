@@ -11,13 +11,13 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
-// import { getFCMToken } from "../../../../config/firebase_app";
+import { getFCMToken } from "../../../../config/firebase_app";
 
 
 const Signup = () => {
 
   useEffect(() => {
-    // getFCMToken()
+    getFCMToken()
   }, [])
   
   const [state, setState] = useState({});
@@ -25,7 +25,10 @@ const Signup = () => {
   const { showModal, modalType } = state;
   const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
-  const navigate = useNavigate()
+  const phoneNumberRules = /[0-9]{10}$/;
+  const navigate = useNavigate();
+
+
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
@@ -35,6 +38,7 @@ const Signup = () => {
       termsAndConditions: false,
     },
     validationSchema: Yup.object({
+      profile: Yup.string().oneOf(["Personal", "Organization"], "Please select profile type.").required("Required"),
       email: Yup.string()
         .email('"Email address incorrect. Please Try again"')
         .required("Required"),
@@ -51,22 +55,26 @@ const Signup = () => {
       phone: Yup.string()
         .min(10, "Phone no is incorrect. Please Try again")
         // .max(10, "Phone no is incorrect. Please Try again")
+        .matches(phoneNumberRules, {
+          excludeEmptyString: true,
+          message: "Please enter a valid phone number"
+        })
         .required("Required"),
       // termsAndConditions: Yup.bool().oneOf(
       //   [true],
       //   "You need to accept the terms and conditions"
       // ),
     }),
-    onSubmit:async (event) => {
+    onSubmit: async (event) => {
       // event.preventDefault();
       const dataObj = {
         datetime: Date.now().toString(),
         profileType: profileType,
-        uemail: formik.values.email,
+        uemail: formik.values.email ? formik.values.email : formik.values.phone,
         password: formik.values.password,
       };
       console.log("dataObj", dataObj);
-      const status =  await dispatch(saveUserSignupData(dataObj));
+      const status = await dispatch(saveUserSignupData(dataObj));
       if (status === 200) {
         navigate("/auth/verification")
       }
@@ -82,7 +90,6 @@ const Signup = () => {
   //   setProfileType(event.target.id)
   //   // setState({ ...state, showModal: false, modalType: ''})
   // }
-  console.log("formik",formik.values.termsAndConditions);
   return (
     <>
       {/* padding increased */}
@@ -105,9 +112,11 @@ const Signup = () => {
               id="Organization"
               onChange={(e) => handleClick(e)}
             />{" "}
-            Orgainization
+            Organization
           </span>
         </div>
+
+
         <Input
           title="Email"
           name="email"
@@ -116,6 +125,7 @@ const Signup = () => {
           touched={formik.touched.email}
           onHandleChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          disabled={formik.values.phone.length > 0}
         />
         {/* font weight changed */}
         <h1 className="font-semibold text-[#7991BD]">Or</h1>
@@ -131,11 +141,12 @@ const Signup = () => {
           </select>
           <input
             placeholder="6789236491"
-            className="outline-none border-[1px] border-gray-300 h-9 rounded-[5px] text-xs py-1.5 pl-2 font-semibold"
+            className="outline-none border-[1px] border-gray-600 rounded-[5px] text-xs py-1.5 pl-2 font-semibold disabled:bg-gray-300"
             name="phone"
             value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            disabled={formik.values.email.length > 0}
           />
         </div>
         {formik.touched.phone && formik.errors.phone ? (
@@ -165,26 +176,29 @@ const Signup = () => {
         />
         <div className="w-full flex flex-col mb-2">
           <div className="flex w-full gap-1 items-center">
-           
-            <input type="checkbox" />
-            {/* added padding, font-weight remove & font size increased*/}
-            <p className="text-[11px] py-1">
+            <input type="checkbox"
+              name="termsAndConditions"
+              touched={formik.values.termsAndConditions}
+              onBlur={formik.handleBlur} />
+            <p className="text-[10px] font-semibold">
               I agree to all Terms,Cookies and Privacy
             </p>
             <br />
           </div>
           {formik.touched.termsAndConditions &&
-          formik.errors.termsAndConditions ? (
+            formik.errors.termsAndConditions ? (
             <p className="text-[10px] text-[red] self-start w-[80%] ">
               {formik.errors.termsAndConditions}
             </p>
           ) : null}
         </div>
-        <Button2 title="Sign Up" bgColor="#7991BD" 
-         disabled={!(formik.isValid && formik.dirty)}
-         onClick={formik.handleSubmit}/>
-        {/* font-weight removed & font size increased, color changed*/}
-        <p className="text-[12px] mb-2 text-gray-600 font-semibold mt-3">
+        <Button2
+          title="Sign Up"
+          bgColor="#7991BD"
+          disabled={!(formik.isValid && formik.dirty)}
+          onClick={() => formik.handleSubmit}
+        />
+        <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
           Already have and account?
           <span className="mx-2">
             <Link to="/auth/login" className="text-[#7991BD]">
