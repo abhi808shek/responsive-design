@@ -50,7 +50,7 @@ console.log("emailExist",emailExist);
         };
         dispatch(settingUserLoginData(true,{email:dataObj.email,password: formik.values.password}))
         localStorage.setItem("userData", JSON.stringify(dataObj));
-        navigate("/");
+        navigate("/select");
       } catch (error) {
         console.log(error);
       }
