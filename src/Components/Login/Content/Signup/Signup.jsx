@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../InputBox/Input";
 import PasswordInput from "../InputBox/PasswordInput";
 import Button2 from "../Button/Button2";
@@ -11,8 +11,15 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
+import { getFCMToken } from "../../../../config/firebase_app";
+
 
 const Signup = () => {
+
+  useEffect(() => {
+    getFCMToken()
+  }, [])
+  
   const [state, setState] = useState({});
   const [profileType, setProfileType] = useState("");
   const { showModal, modalType } = state;
