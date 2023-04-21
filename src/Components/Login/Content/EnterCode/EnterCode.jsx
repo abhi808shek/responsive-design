@@ -4,8 +4,9 @@ import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
 import { useNavigate } from "react-router-dom";
-import { matchingSignupOtp } from "../../../../redux/actionCreators/authActionCreator";
+import { allSingupDetails, matchingSignupOtp } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
+import { v4 as uuid } from 'uuid';
 
 const EnterCode = ({ title }) => {
   const [timer, setTimer] = useState(false);
@@ -20,13 +21,14 @@ const EnterCode = ({ title }) => {
       }, 4000);
     } 
   };
-
-  console.log("signupDataList",signupData);
+console.log("uuid",uuid());
   const onConfirmOtp = ()=>{
-
    const result =  dispatch(matchingSignupOtp(signupData.uemail,otp))
+   
    if (result === true) {
-    
+    signupData.deviceid = uuid()
+    console.log(" signupData.deviceid ", signupData.deviceid );
+    // dispatch(allSingupDetails())
    }
   }
   

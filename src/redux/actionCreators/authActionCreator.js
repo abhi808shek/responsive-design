@@ -28,7 +28,7 @@ export const saveUserSignupData = (data) => async(dispatch) => {
     );
     console.log("result", result);
   dispatch({
-  type: "SET_USER_SIGNUP_DATA",
+  type: "SET_BASIC_SIGNUP_DETAILS",
   payload:data,
 })
 return result.status
@@ -45,6 +45,30 @@ export const matchingSignupOtp = (mailId,otp) => async(dispatch) => {
   try {
     const result = await axios.get(
       `http://3.233.82.34:8080/api/user/otp/${mailId}/${otp}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+        },
+      }
+    );
+    dispatch({
+      type: "MATCHING_SIGNUP_OTP",
+      // payload:data,
+    });
+    return result.data.status
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
+
+
+export const allSingupDetails = (data) => async(dispatch) => {
+  console.log("mailId",mailId);
+  console.log("otp",otp);
+  try {
+    const result = await axios.post(
+      ` http://3.233.82.34:8080/api/user/registration`,
       {
         headers: {
           "Accept-Language": "en",

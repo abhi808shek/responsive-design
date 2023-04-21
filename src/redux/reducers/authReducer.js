@@ -1,5 +1,6 @@
 const initialState = {
   signupData:{},
+  signupDataList:[],
     emailExist:{},
     mailSended:{}
   };
@@ -7,12 +8,18 @@ const initialState = {
   const authReducer = (state = initialState, action) => {
     switch (action.type) {
       // STORING DATA WHILE SIGNUP 
-      case "SET_USER_SIGNUP_DATA":
+      case "SET_BASIC_SIGNUP_DETAILS":
         return {
           ...state,
           signupData:action.payload,
         };
 
+        case "SET_ALL_SIGNUP_DETAILS":
+          return {
+            ...state,
+            signupDataList:[...action.signupDataList,action.payload]
+          };
+  
 
         case "MATCHING_SIGNUP_OTP":
           return {
