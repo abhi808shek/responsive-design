@@ -1,8 +1,8 @@
 import React from "react";
 import { GrLocation } from "react-icons/gr";
 
-const OriginalPostModal = ({setOriginalPost}) => {
-  const onCloseOriginalPost = ()=>{
+const OriginalPostModal = ({ setOriginalPost }) => {
+  const onCloseOriginalPost = () => {
     setOriginalPost(false)
   }
   return (
