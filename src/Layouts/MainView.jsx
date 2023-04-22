@@ -11,7 +11,7 @@ const MainView = ({children}) => {
     
   return (
     <>
-     <div className='w-full h-[80px]'>
+     <div className='w-full h-[65px]'>
       <Navbar />
      </div>
       <Outlet />

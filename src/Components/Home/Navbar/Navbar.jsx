@@ -8,6 +8,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { isTabSelected } from "../../../redux/actionCreators/userActionCreator";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { Navigate, useNavigate } from "react-router-dom";
+import g from "../../../assets/images/notification1.png"
 
 const Navbar = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -44,10 +45,10 @@ const Navbar = () => {
   };
 
   return (
-    <section className="h-[80px] w-full flex bg-white relative top-0 z-10">
+    <section className="h-[65px] w-full flex bg-white relative top-0 z-10">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
-      <div className=" w-[30%] flex h-[80px] flex-row justify-evenly items-center ">
+      <div className=" w-[30%] flex h-[68px] flex-row justify-evenly items-center ">
         {/* Logo Section */}
 
         <div className="w-[15%]">
@@ -103,13 +104,19 @@ const Navbar = () => {
         <div className="w-full flex justify-evenly items-center h-full">
           {/* Peoples */}
 
+          {/* U-Straem and Interests are removed */}
+
           {data.map((elem) => (
             <div
               key={elem.name}
               className="flex flex-col items-center cursor-pointer relative"
               onClick={() => onHandleClick(elem)}
             >
+<<<<<<< HEAD
+              <img src={elem.icon} alt="" className=" h-[32px]" />
+=======
               <img src={elem.icon} alt={elem.name} className=" h-[40px] " />
+>>>>>>> 7d7f87cb2e1bffe98cf0fb2f447b1bb163c9e2e8
               <div className="lg:text-[10px] xl:text-[12px] font-bold">
                 {elem.name}
               </div>
