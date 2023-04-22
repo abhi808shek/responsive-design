@@ -92,7 +92,7 @@ export const allSingupDetails = (data) => async(dispatch) => {
 
 
 
-export const checkingUserExist = (emailId) => async(dispatch) => {
+export const checkingIsEmailExist = (emailId) => async(dispatch) => {
   try {
     const userExist = await axios.get(
       `http://3.233.82.34:8080/api/user/usersbyemail/${emailId}`,
@@ -104,7 +104,7 @@ export const checkingUserExist = (emailId) => async(dispatch) => {
     );
     console.log("userExist", userExist.data);
     dispatch({
-      type: "USER_EXIST_OR_NOT",
+      type: "IS_EMAIL_EXIST",
       payload: userExist.data,
     });
   } catch (error) {

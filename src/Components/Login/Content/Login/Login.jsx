@@ -11,6 +11,7 @@ import { settingUserLoginData } from "../../../../redux/actionCreators/userActio
 import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo.png";
 import {
+  checkingIsEmailExist,
   checkingUserExist,
   sendingMailForOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
@@ -67,7 +68,7 @@ const Login = () => {
 
   const onForgetPasswordClick = () => {
     const email = formik.values.email;
-    dispatch(checkingUserExist(email));
+    dispatch(checkingIsEmailExist(email));
     if (emailExist.status === true) {
       const data = {
         datetime: Date.now().toString(),
@@ -117,7 +118,7 @@ const Login = () => {
           >
             <div
               className="text-xs font-semibold mb-2 py-1"
-              onClick={onAuthDataSubmit}
+              // onClick={onAuthDataSubmit}
             >
               Forget Password ?
             </div>

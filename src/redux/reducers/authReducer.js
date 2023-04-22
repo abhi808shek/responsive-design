@@ -26,7 +26,7 @@ const initialState = {
             ...state,
             // signupDataList: [...state.signupDataList,action.payload],
           };
-      case "USER_EXIST_OR_NOT":
+      case "IS_EMAIL_EXIST":
         return { ...state,emailExist:action.payload}
         case "SENDING_MAIL_FOR_OTP":
           return { ...state,mailSended:action.payload}

@@ -11,14 +11,12 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
-import { getFCMToken } from "../../../../config/firebase_app";
+
 
 
 const Signup = () => {
 
-  useEffect(() => {
-    getFCMToken()
-  }, [])
+
   
   const [state, setState] = useState({});
   const [profileType, setProfileType] = useState("");
@@ -37,34 +35,34 @@ const Signup = () => {
       phone: "",
       termsAndConditions: false,
     },
-    validationSchema: Yup.object({
-      profile: Yup.string().oneOf(["Personal", "Organization"], "Please select profile type.").required("Required"),
-      email: Yup.string()
-        .email('"Email address incorrect. Please Try again"')
-        .required("Required"),
-      password: Yup.string()
-        .min(
-          8,
-          "Password should be minimum of 8 length characters with one numerical value"
-        )
-        .matches(passwordRules, {
-          message:
-            "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
-        })
-        .required("Required"),
-      phone: Yup.string()
-        .min(10, "Phone no is incorrect. Please Try again")
-        // .max(10, "Phone no is incorrect. Please Try again")
-        .matches(phoneNumberRules, {
-          excludeEmptyString: true,
-          message: "Please enter a valid phone number"
-        })
-        .required("Required"),
-      // termsAndConditions: Yup.bool().oneOf(
-      //   [true],
-      //   "You need to accept the terms and conditions"
-      // ),
-    }),
+    // validationSchema: Yup.object({
+    //   // profile: Yup.string().oneOf(["Personal", "Organization"], "Please select profile type.").required("Required"),
+    //   email: Yup.string()
+    //     .email('"Email address incorrect. Please Try again"')
+    //     .required("Required"),
+    //   password: Yup.string()
+    //     .min(
+    //       8,
+    //       "Password should be minimum of 8 length characters with one numerical value"
+    //     )
+    //     .matches(passwordRules, {
+    //       message:
+    //         "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
+    //     })
+    //     .required("Required"),
+    //   // phone: Yup.string()
+    //   //   // .min(10, "Phone no is incorrect. Please Try again")
+    //   //   // .max(10, "Phone no is incorrect. Please Try again")
+    //   //   .matches(phoneNumberRules, {
+    //   //     excludeEmptyString: true,
+    //   //     message: "Please enter a valid phone number"
+    //   //   })
+    //     // .required("Required"),
+    //   // termsAndConditions: Yup.bool().oneOf(
+    //   //   [true],
+    //   //   "You need to accept the terms and conditions"
+    //   // ),
+    // }),
     onSubmit: async (event) => {
       // event.preventDefault();
       const dataObj = {
@@ -90,6 +88,7 @@ const Signup = () => {
   //   setProfileType(event.target.id)
   //   // setState({ ...state, showModal: false, modalType: ''})
   // }
+
   return (
     <>
       {/* padding increased */}
@@ -102,7 +101,7 @@ const Signup = () => {
               name="signUp"
               id="Personal"
               onChange={(e) => handleClick(e)}
-            />{" "}
+            />
             Personal
           </span>
           <span>
@@ -111,7 +110,7 @@ const Signup = () => {
               name="signUp"
               id="Organization"
               onChange={(e) => handleClick(e)}
-            />{" "}
+            />
             Organization
           </span>
         </div>
@@ -195,8 +194,8 @@ const Signup = () => {
         <Button2
           title="Sign Up"
           bgColor="#7991BD"
-          disabled={!(formik.isValid && formik.dirty)}
-          onClick={() => formik.handleSubmit}
+          disabled={!formik.isValid }
+          onClick={formik.handleSubmit}
         />
         <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
           Already have and account?
