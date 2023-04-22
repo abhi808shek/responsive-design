@@ -9,13 +9,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
 import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
 import Portals from "../../../Portals/Portals";
+import KicksBeforeLike from '../../../../assets/images/KicksBeforeLike.png'
+import user from '../../../../assets/images/user.png'
 
 const PostCard = ({ userData, item }) => {
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [userStatus, setUserStatus] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [more, setMore] = useState(false)
 
+  {/* implementing dynamic description, some redesign the postcard component */}
+  const description = "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... "
+
+  const shortDescription = description.substring(300);
+  
   const onShowShareModal = () => {
     console.log("jwww");
     // setShowShareModal(true);
@@ -52,16 +60,19 @@ const PostCard = ({ userData, item }) => {
         {/* Top Section */}
         <section className="w-full flex items-center">
           <div className="flex w-[50px] h-[50px]">
+            {/* due to img broke dynamic src commented */}
             <img
-              src={item.userIcon}
+              // src={item.userIcon}
+              src={user}
               alt=""
               className="w-full h-full rounded-full mt-1"
             />
           </div>
 
           <div className="flex flex-col flex-1 justify-center ml-2">
-            <div className="flex items-start">
-              <span className="text-sm ml-1 font-bold"> Joe D</span>
+            <div className="flex items-center">
+              {/*font weight removed*/}
+              <span className="ml-1 font-bold"> Joe D</span>
               <span className="text-xs ml-2 font-semibold mt-0.5">
                 @Software Developer
               </span>
@@ -74,18 +85,18 @@ const PostCard = ({ userData, item }) => {
                 alt=""
                 className="w-[12px] relative"
               />
-
-              <span className="text-xs font-semibold">1 year ago</span>
+              {/* font size reduced */}
+              <span className="text-[11px] font-semibold">1 year ago</span>
               <GrLocation size={10} />
               {/* <img src="" alt="" /> */}
-              <span className="text-xs font-semibold"> Chicago</span>
+              <span className="text-[11px] font-semibold"> Chicago</span>
             </div>
           </div>
 
           <CiMenuKebab
             size={25}
             color="gray"
-            className="cursor-pointer "
+            className="cursor-pointer font-bold"
             onClick={showMenuListModal}
           />
         </section>
@@ -99,17 +110,24 @@ const PostCard = ({ userData, item }) => {
 
         {/* Content/About And Images Section */}
         <section className="w-full flex flex-col items-center mt-2 px-2">
-          <div className=" w-full h-[24%]">
+          <div className=" w-full ">
             <p className="text-[13px] font-[400] text-gray-500">
-              GOD is so wise that he never created FRIENDS with price tags.
-              Because..... if He did, I can't afford a precious FRIEND like
-              YOU!!! Friendship is sweet when it's new, Sweeter when its true,
-              but sweetest when its u. Throughout life you will meet one person
-              who is like no other. ...
-              <span className="text-[blue] font-bold cursor-pointer">
-                Read More
-              </span>
-            </p>
+            {/* read more, show less must be recode */}
+              { more ? description : description.substring(0, 299) }
+            
+              {
+                description.length > 300 ? (
+                  <span onClick={()=>setMore(true)} className="text-[blue] inline-block font-medium cursor-pointer">
+                    Read More
+                  </span>
+                ) : (
+                <span onClick={()=>setMore(false)} className="text-[blue] inline-block font-medium cursor-pointer">
+                    Show Less
+                  </span> )
+              } 
+
+              
+            </p>           
           </div>
 
           <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
@@ -136,12 +154,12 @@ const PostCard = ({ userData, item }) => {
 
           <div className="flex w-[40%] gap-5 items-center">
             <span
-              className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500"
+              className="lg:text-[12px] xl:text-[14px] font-medium text-gray-500"
               // onClick={{}}
             >
               5 Comments
             </span>
-            <span className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500">
+            <span className="lg:text-[12px] xl:text-[14px] font-medium text-gray-500">
               28 Shares
             </span>
           </div>
@@ -153,14 +171,14 @@ const PostCard = ({ userData, item }) => {
           <hr className="w-full mb-2 text-gray-500" />
           <div className="flex justify-between ">
             <div className="flex flex-col items-center justify-center ">
-              <img src="./images/share.png" alt="" className="w-[50%] " />
+              <img src={KicksBeforeLike} alt="" className="w-[50%] " />
               {/* <RiDislikeFill/> */}
 
               <span className="text-xs font-semibold mt-1">Like</span>
             </div>
 
             {/* Input Box Section */}
-            <div className="flex grow items-center border-[1px] w-[100%] border-gray-500 justify-center gap-2 mx-3 rounded-xl mt-1.5 h-[35px]">
+            <div className="flex grow items-center outline-gray-300 py-1 border-[1px] w-[100%] border-gray-500 justify-center gap-2 mx-3 rounded-xl mt-1.5 h-[38px]">
               <input
                 type="text"
                 className="w-full h-full outline-none rounded-xl pl-3"
@@ -183,7 +201,7 @@ const PostCard = ({ userData, item }) => {
               <img
                 src="./images/share.png"
                 alt=""
-                className="w-[50%] cursor-pointer"
+                className="w-[54%] cursor-pointer"
               />
               <span className="text-xs font-semibold mt-1">Share</span>
             </div>

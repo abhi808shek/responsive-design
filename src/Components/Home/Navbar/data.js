@@ -1,3 +1,8 @@
+import { BsFillChatLeftTextFill } from 'react-icons/bs'
+import notification from "../../../assets/images/notification1.png";
+import friends from "../../../assets/images/groups.png";
+import chat from "../../../assets/images/chat1.png";
+
 export const dataList = [
     {
         name:"Root",
@@ -23,28 +28,29 @@ export const data = [
     {
       
         name:"Friends",
-        // icon:"./images/Roots.png"
+        icon: friends,
         url:null
     },
 
     {
         name:"Chat",
-        // icon:"./images/watch.png"
+        icon: chat,
         url:"/chat-page"
 
     },
+    // {
+    //     name:"U-Stream",
+    //     // icon:"./images/calender.png"
+    //     url:null
+    // },
+    // {
+    //     name:"Interests",
+    //     // icon:"./images/calender.png"
+    //     url:null
+    // },
     {
-        name:"U-Stream",
-        // icon:"./images/calender.png"
-        url:null
-    },
-    {
-        name:"Interests",
-        // icon:"./images/calender.png"
-        url:null
-    }, {
         name:"Notifications",
-        // icon:"./images/calender.png"
+        icon: notification,
         url:null
     }
 ]

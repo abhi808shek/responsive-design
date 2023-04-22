@@ -4,6 +4,7 @@ import { menuModalTabSelect } from "../../../../redux/actionCreators/userActionC
 import ReportModal from "../ReportModal/ReportModal";
 import Portals from "../../../Portals/Portals";
 import OriginalPostModal from "../OriginalPostModal/OriginalPostModal";
+import './menu.css'
 
 const MenuModal = ({ data, userStatus, closeModel }) => {
   const { menuModalTab } = useSelector((state) => state.userReducer);
@@ -31,8 +32,8 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
   };
 
   return (
-    <>
-      <div className="w-[20%] absolute  border-2 border-gray-600 bg-white lg:right-[32.8%] xl:right-[32.2%] mt-8 z-2">
+    <>      
+      <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
         {data
           .filter((elem) => {
             if (userStatus === user.userId) {
@@ -48,13 +49,13 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
           ?.map((elem) => (
             <div
               key={elem.name}
-              className="flex gap-2 border-b-2 border-gray-600 items-center mx-2 py-2 cursor-pointer"
+              className="flex gap-2 border-b-2 border-gray-300 items-center mx-2 py-2 cursor-pointer"
               style={{
                 backgroundColor:
                   menuModalTab === elem.name ? "#7991BD" : "white",
               }}
               onClick={() => onHandleClick(elem.name)}
-            >
+            >            
               <img src={elem.icon} alt="" className="w-[25px] " />
               <span className="text-[12px] text-gray-600 font-semibold">
                 {elem.name}
@@ -62,6 +63,9 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
             </div>
           ))}
       </div>
+      {/*<div className='absolute rightArrow lg:right-[32.8%] xl:right-[35.2%] mt-2 border-[3px] border-gray-200 p-3 w-4'>
+       <div className='bg-white'></div>
+      </div>*/}
       {showReportModal && (
         <Portals>
           <ReportModal />

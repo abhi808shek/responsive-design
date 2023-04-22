@@ -5,21 +5,6 @@ export const userData = [
     icon: "./images/edit.png",
   },
   {
-    samePostedUser: 0,
-    name: "Delete Post",
-    icon: "./images/Delete.png",
-  },
-  {
-    samePostedUser: 0,
-    name: "Mute/Unmute Notifications",
-    icon: "./images/mute.png",
-  },
-  {
-    samePostedUser: 0,
-    name: "Turn off/on Commeting",
-    icon: "./images/Messages.png",
-  },
-  {
     samePostedUser: 1,
     name: "History",
     icon: "./images/history.png",
@@ -29,6 +14,22 @@ export const userData = [
     name: "External Share",
     icon: "./images/externalShare.png",
   },
+  {
+    samePostedUser: 0,
+    name: "Delete Post",
+    icon: "./images/Delete.png",
+  },
+  {
+    samePostedUser: 0,
+    name: "Mute/Unmute Notifications",
+    icon: "./images/mute.png",
+  },  
+  {
+    samePostedUser: 0,
+    name: "Turn off/on Commeting",
+    icon: "./images/Messages.png",
+  }, 
+  
   {
     samePostedUser: 2,
     name: "Report",
