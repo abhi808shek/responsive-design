@@ -1,11 +1,35 @@
 const initialState = {
-    emailExist:{}
+  signupData:{},
+  signupDataList:[],
+  otp:"",
+    emailExist:{},
+    mailSended:{}
   };
   
   const authReducer = (state = initialState, action) => {
     switch (action.type) {
-      case "USER_EXIST_OR_NOT":
+      // STORING DATA WHILE SIGNUP 
+      case "SET_BASIC_SIGNUP_DETAILS":
+        return {
+          ...state,
+          signupData:action.payload,
+        };
+
+        case "SET_ALL_SIGNUP_DETAILS":
+          return {
+            ...state,
+            signupDataList:[...action.signupDataList,action.payload]
+          };
+          case "SETTING_OTP":
+            return {
+              ...state,
+              otp:action.payload,
+            };
+      case "IS_EMAIL_EXIST":
         return { ...state,emailExist:action.payload}
+        
+        case "SENDING_MAIL_FOR_OTP":
+          return { ...state,mailSended:action.payload}
       default:
         return state;
     }

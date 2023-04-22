@@ -6,11 +6,11 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
 }
 
-export default function Dropdown({ name, options=["AAAAA", "BBBBBB", "CCCCCC"] }) {
+export default function Dropdown2({ name, options=["AAAAA", "BBBBBB", "CCCCCC"], handleCountry }) {
     return (
         <Menu as="div" className="relative inline-block w-full mt-[10px]">
             <div>
-                <Menu.Button className="inline-flex w-full gap-x-1.5 rounded-md bg-white px-3 py-2 text-xs font-semibold text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
+                <Menu.Button className="inline-flex w-full gap-x-1.5 rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-400 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50">
                     {name}
                     <MdArrowDropDown className="-mr-1 h-5 w-5 ml-auto text-gray-400" aria-hidden="true" />
                 </Menu.Button>
@@ -31,8 +31,9 @@ export default function Dropdown({ name, options=["AAAAA", "BBBBBB", "CCCCCC"] }
                             options.map((item,index) => {
                                 return (                                
                                     <Menu.Item key={index}>
-                                        {({ active }) => (                                            
-                                            <a  href="#"
+                                        {({ active }) => (
+                                            <a  onClick={()=>handleCountry(item)}
+                                                href="#"
                                                 className={classNames(
                                                     active ? 'bg-gray-100 text-gray-900' : 'text-gray-700',
                                                     'block px-4 py-2 text-sm'

@@ -1,73 +1,121 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../InputBox/Input";
 import PasswordInput from "../InputBox/PasswordInput";
 import Button2 from "../Button/Button2";
 import Heading from "../Heading/Heading";
 import { BsFillQuestionCircleFill } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
+import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
+import { useDispatch } from "react-redux";
+
+
 
 const Signup = () => {
-  const [state, setState] = useState({})
+
+
+  
+  const [state, setState] = useState({});
+  const [profileType, setProfileType] = useState("");
   const { showModal, modalType } = state;
+  const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const phoneNumberRules = /[0-9]{10}$/;
+  const navigate = useNavigate();
+
+
   const formik = useFormik({
+    validateOnMount: true,
     initialValues: {
       email: "",
       password: "",
       phone: "",
       termsAndConditions: false,
     },
-    validationSchema: Yup.object({
-      email: Yup.string()
-        .email('"Email address incorrect. Please Try again"')
-        .required("Required"),
-      password: Yup.string()
-        .min(
-          8,
-          "Password should be minimum of 8 length characters with one numerical value"
-        )
-        .matches(passwordRules, {
-          message:
-            "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
-        })
-        .required("Required"),
-      phone: Yup.string()
-        .min(10, "Phone no is incorrect. Please Try again")
-        // .max(10, "Phone no is incorrect. Please Try again")
-        .required("Required"),
-      termsAndConditions: Yup.bool().oneOf(
-        [true],
-        "You need to accept the terms and conditions"
-      ),
-    }),
-    onSubmit: (e) => {
-      e.preventDefault();
+    // validationSchema: Yup.object({
+    //   // profile: Yup.string().oneOf(["Personal", "Organization"], "Please select profile type.").required("Required"),
+    //   email: Yup.string()
+    //     .email('"Email address incorrect. Please Try again"')
+    //     .required("Required"),
+    //   password: Yup.string()
+    //     .min(
+    //       8,
+    //       "Password should be minimum of 8 length characters with one numerical value"
+    //     )
+    //     .matches(passwordRules, {
+    //       message:
+    //         "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
+    //     })
+    //     .required("Required"),
+    //   // phone: Yup.string()
+    //   //   // .min(10, "Phone no is incorrect. Please Try again")
+    //   //   // .max(10, "Phone no is incorrect. Please Try again")
+    //   //   .matches(phoneNumberRules, {
+    //   //     excludeEmptyString: true,
+    //   //     message: "Please enter a valid phone number"
+    //   //   })
+    //     // .required("Required"),
+    //   // termsAndConditions: Yup.bool().oneOf(
+    //   //   [true],
+    //   //   "You need to accept the terms and conditions"
+    //   // ),
+    // }),
+    onSubmit: async (event) => {
+      // event.preventDefault();
       const dataObj = {
-        email: formik.values.email,
+        datetime: Date.now().toString(),
+        profileType: profileType,
+        uemail: formik.values.email ? formik.values.email : formik.values.phone,
         password: formik.values.password,
       };
       console.log("dataObj", dataObj);
+      const status = await dispatch(saveUserSignupData(dataObj));
+      if (status === 200) {
+        navigate("/auth/verification")
+      }
     },
   });
   const handleClick = (event) => {
-    setState({ ...state, showModal: true, modalType: event.target.id})
-  }
-  const handleClose = () => {
-    setState({ ...state, showModal: false, modalType: ''})
-  }
+    console.log(event.target.id);
+    setProfileType(event.target.id);
+
+    // setState({ ...state, showModal: false, modalType: event.target.id})
+  };
+  // const handleClose = () => {
+  //   setProfileType(event.target.id)
+  //   // setState({ ...state, showModal: false, modalType: ''})
+  // }
+
   return (
     <>
       {/* padding increased */}
       <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-1 p-7">
         <Heading title="Get Started" />
         <div className="flex w-full justify-between mb-2">
-          <span><input type="radio" name="signUp" id="personal" onClick={(e) => handleClick(e)} /> Personal</span>
-          <span><input type="radio" name="signUp" id="organization" onChange={(e) => handleClick(e )}/> Orgainization</span>
+          <span>
+            <input
+              type="radio"
+              name="signUp"
+              id="Personal"
+              onChange={(e) => handleClick(e)}
+            />
+            Personal
+          </span>
+          <span>
+            <input
+              type="radio"
+              name="signUp"
+              id="Organization"
+              onChange={(e) => handleClick(e)}
+            />
+            Organization
+          </span>
         </div>
+
+
         <Input
           title="Email"
           name="email"
@@ -76,6 +124,7 @@ const Signup = () => {
           touched={formik.touched.email}
           onHandleChange={formik.handleChange}
           onBlur={formik.handleBlur}
+          disabled={formik.values.phone.length > 0}
         />
         {/* font weight changed */}
         <h1 className="font-semibold text-[#7991BD]">Or</h1>
@@ -91,11 +140,12 @@ const Signup = () => {
           </select>
           <input
             placeholder="6789236491"
-            className="outline-none border-[1px] border-gray-300 h-9 rounded-[5px] text-xs py-1.5 pl-2 font-semibold"
+            className="outline-none border-[1px] border-gray-600 rounded-[5px] text-xs py-1.5 pl-2 font-semibold disabled:bg-gray-300"
             name="phone"
             value={formik.values.phone}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
+            disabled={formik.values.email.length > 0}
           />
         </div>
         {formik.touched.phone && formik.errors.phone ? (
@@ -119,39 +169,48 @@ const Signup = () => {
           name="password"
           inputValue={formik.values.password}
           errorMessage={formik.errors.password}
-          touched={formik.touched.password}
           onHandleChange={formik.handleChange}
+          touched={formik.touched.password}
           onBlur={formik.handleBlur}
         />
         <div className="w-full flex flex-col mb-2">
           <div className="flex w-full gap-1 items-center">
-           
-            <input type="checkbox" />
-            {/* added padding, font-weight remove & font size increased*/}
-            <p className="text-[11px] py-1">
+            <input type="checkbox"
+              name="termsAndConditions"
+              touched={formik.values.termsAndConditions}
+              onBlur={formik.handleBlur} />
+            <p className="text-[10px] font-semibold">
               I agree to all Terms,Cookies and Privacy
             </p>
             <br />
           </div>
-          {formik.touched.termsAndConditions && formik.errors.termsAndConditions ? (
+          {formik.touched.termsAndConditions &&
+            formik.errors.termsAndConditions ? (
             <p className="text-[10px] text-[red] self-start w-[80%] ">
               {formik.errors.termsAndConditions}
             </p>
           ) : null}
         </div>
-        <Button2 title="Sign Up" bgColor="#7991BD" />
-        {/* font-weight removed & font size increased, color changed*/}
-        <p className="text-[12px] mb-2 text-gray-600 font-semibold mt-3">
+        <Button2
+          title="Sign Up"
+          bgColor="#7991BD"
+          disabled={!formik.isValid }
+          onClick={formik.handleSubmit}
+        />
+        <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
           Already have and account?
-
-          <span className="mx-2"><Link to="/auth/login" className="text-[#7991BD]">
-            Sign In
-          </Link></span>
+          <span className="mx-2">
+            <Link to="/auth/login" className="text-[#7991BD]">
+              Sign In
+            </Link>
+          </span>
         </p>
-      { showModal &&
-      createPortal(<Modal modalType={modalType} handleClose={handleClose}/>, document.getElementById('root'))
-    }
-    </div>
+        {showModal &&
+          createPortal(
+            <Modal modalType={modalType} handleClose={handleClose} />,
+            document.getElementById("root")
+          )}
+      </div>
     </>
   );
 };
