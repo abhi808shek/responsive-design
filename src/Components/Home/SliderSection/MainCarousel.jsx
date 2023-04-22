@@ -27,12 +27,13 @@ export default function MainCarousel() {
           infinite={true}
           className="lg:ml[10px] xl:ml-16 w-[97%]"
         >
-        {[1,2,3,4].map((elem,index)=>(  <div key={index}>
+        {[1,2,3,4].map((elem,index)=>(  
+          <div key={index} className='flex'>
             <img
               src="./images/events.jpg"
               alt=""
               className="lg:h-[40vh] xl:h-[50vh] rounded-lg lg:ml-[20px] xl:ml-0"
-            />
+            />            
           </div>))}
       
         </Carousel>

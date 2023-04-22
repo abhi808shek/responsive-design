@@ -4,6 +4,10 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
 const SliderSection = () => {
+
+  const firstName = 'Sharma';
+  const lastName = 'G';
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -27,28 +31,32 @@ const SliderSection = () => {
       <div className="flex flex-col w-[40%] h-[60%]">
         <div className="flex justify-between w-full py-2">
           <span className="font-bold text-sm">Recent Kicks</span>
-          <span className="text-sm">
+          <span className="text-sm text-[#788eb7] font-medium">
             <Link to="/kicks">View All</Link>
           </span>
         </div>
         {/* Slider */}
           <Carousel
             responsive={responsive}
-            containerClass={`w-full h-[180px] z-[1]`}
+            containerClass={`w-full h-[210px] z-[1]`}
           >
             {[12, 3, 334, 434, 5434, 453].map((elem,index) => (
-              <div key={index} className="w-[80%] mt-4 h-[70%] rounded-3xl">
+              <div key={index} className="w-[91%] mt-12 my-2 h-[70%] rounded-3xl">
                   <img
                     src="./images/diwali.jpg"
                     alt=""
                     className=" rounded-3xl"
                   />
-
-                  <img
+                  {/* title name tag added */}
+                   <img
                     src="./images/pizza.jpg"
                     alt=""
-                    className="w-10 h-10 relative bottom-12 left-2 rounded-full"
-                  />
+                    className="w-9 h-9 relative bottom-12 left-2 rounded-full"
+                   />
+                   <span className='absolute text-white text-[13px] bottom-[64px] left-[50px]'>
+                   {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
+                   Joe Doe
+                   </span>                  
                 </div>
                
        

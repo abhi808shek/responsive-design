@@ -26,16 +26,15 @@ export const dataList = [
 ]
 export const data = [
     {
-      
-        name:"Friends",
+        name: "Friends",
         icon: friends,
-        url:null
+        url: null
     },
 
     {
-        name:"Chat",
+        name: "Chat",
         icon: chat,
-        url:"/chat-page"
+        url: "/chat-page"
 
     },
     {

@@ -112,7 +112,8 @@ const Navbar = () => {
               className="flex flex-col items-center cursor-pointer relative"
               onClick={() => onHandleClick(elem)}
             >
-              <img src={elem.icon} alt={elem.name} className=" h-[40px] " />
+              <img src={elem.icon} alt={elem.name} className=" h-[30px] " />
+
               <div className="lg:text-[10px] xl:text-[12px] font-bold">
                 {elem.name}
               </div>
@@ -127,7 +128,7 @@ const Navbar = () => {
             <img
               src="./images/events.jpg"
               alt=""
-              className="w-[40px] h-[40px] rounded-full"
+              className="w-[36px] h-[36px] rounded-full"
             />
             <BsChevronCompactDown className="" />
           </div>
