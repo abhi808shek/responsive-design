@@ -67,7 +67,7 @@ const Home = ({onShowReportModal,showReportModal}) => {
 
     //
 
-    //   {/* <SharePostModal /> */}
+      // {/* <SharePostModal /> */}
     //   {/* <FriendsModal /> */}
     //   {/* <VerifiedAccount /> */}
     //   {/* <ChatPages /> */}
