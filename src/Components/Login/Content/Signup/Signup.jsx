@@ -71,7 +71,6 @@ const Signup = () => {
         uemail: formik.values.email ? formik.values.email : formik.values.phone,
         password: formik.values.password,
       };
-      console.log("dataObj", dataObj);
       const status = await dispatch(saveUserSignupData(dataObj));
       if (status === 200) {
         navigate("/auth/verification")
@@ -79,7 +78,6 @@ const Signup = () => {
     },
   });
   const handleClick = (event) => {
-    console.log(event.target.id);
     setProfileType(event.target.id);
 
     // setState({ ...state, showModal: false, modalType: event.target.id})

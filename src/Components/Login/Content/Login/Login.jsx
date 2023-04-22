@@ -12,9 +12,8 @@ import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo.png";
 import {
   checkingIsEmailExist,
-  matchingOtp,
   sendingMailForOtp,
-  settingOtp,
+
 } from "../../../../redux/actionCreators/authActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
 
@@ -44,7 +43,6 @@ const Login = () => {
         .required("Required"),
     }),
     onSubmit: (e) => {
-      console.log("formik.values.password", formik.values.password);
       try {
         const dataObj = {
           email: formik.values.email,
@@ -74,17 +72,13 @@ const Login = () => {
       return toasterFunction("Invalid  Email..");
     }
     const mailStatus = await dispatch(checkingIsEmailExist(email));
-    console.log("mailStatus",mailStatus);
     if (!mailStatus.status) {
       return toasterFunction(mailStatus.message);
     }
-    console.log("Before");
       const data = {
         datetime: Date.now().toString(),
         uemail: mailStatus.data.uemail,
       };
-      console.log("data",data);
-      console.log("AFterrr");
       const otpStatus = await dispatch(sendingMailForOtp(data));
       if (!otpStatus.status) {
        return toasterFunction(otpStatus.message);
