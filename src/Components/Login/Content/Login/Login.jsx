@@ -12,8 +12,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo.png";
 import {
   checkingIsEmailExist,
-  checkingUserExist,
+  matchingOtp,
   sendingMailForOtp,
+  settingOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
 
@@ -22,8 +23,6 @@ const Login = () => {
   const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
 
-  const { emailExist, mailSended } = useSelector((state) => state.authReducer);
-  console.log("emailExist", emailExist);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -65,25 +64,37 @@ const Login = () => {
       }
     },
   });
-
-  const onForgetPasswordClick = () => {
+  const { otp } = useSelector((state) => state.authReducer);
+  const onForgetPasswordClick = async () => {
     const email = formik.values.email;
-    dispatch(checkingIsEmailExist(email));
-    if (emailExist.status === true) {
+    if (email.trim() === "") {
+      return toasterFunction("Please Enter Email");
+    }
+    if (formik.errors.email) {
+      return toasterFunction("Invalid  Email..");
+    }
+    const mailStatus = await dispatch(checkingIsEmailExist(email));
+    console.log("mailStatus",mailStatus);
+    if (!mailStatus.status) {
+      return toasterFunction(mailStatus.message);
+    }
+    console.log("Before");
       const data = {
         datetime: Date.now().toString(),
-        uemail: formik.values.email,
+        uemail: mailStatus.data.uemail,
       };
-      dispatch(sendingMailForOtp(data));
-      if (mailSended.status === true) {
-        navigate("/verification");
-      } else {
-        toasterFunction(mailSended.message);
-      }
-    } else {
-      toasterFunction(emailExist.message);
-    }
+      console.log("data",data);
+      console.log("AFterrr");
+      const otpStatus = await dispatch(sendingMailForOtp(data));
+      if (!otpStatus.status) {
+       return toasterFunction(otpStatus.message);
+      } 
+      navigate("/auth/entercode");
+      toasterFunction(otpStatus.message);
+      
+    
   };
+
   return (
     <>
       {/* padding increased */}
@@ -112,13 +123,10 @@ const Login = () => {
         />
         {/* font wight changed */}
         <div className="w-full">
-          <div
-            className="text-xs font-bold mb-2"
-            onClick={onForgetPasswordClick}
-          >
+          <div className="text-xs font-bold mb-2">
             <div
-              className="text-xs font-semibold mb-2 py-1"
-              // onClick={onAuthDataSubmit}
+              className="text-xs font-semibold mb-2 py-1 cursor-pointer"
+              onClick={onForgetPasswordClick}
             >
               Forget Password ?
             </div>

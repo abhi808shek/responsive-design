@@ -1,6 +1,7 @@
 const initialState = {
   signupData:{},
   signupDataList:[],
+  otp:"",
     emailExist:{},
     mailSended:{}
   };
@@ -19,15 +20,14 @@ const initialState = {
             ...state,
             signupDataList:[...action.signupDataList,action.payload]
           };
-  
-
-        case "MATCHING_SIGNUP_OTP":
-          return {
-            ...state,
-            // signupDataList: [...state.signupDataList,action.payload],
-          };
+          case "SETTING_OTP":
+            return {
+              ...state,
+              otp:action.payload,
+            };
       case "IS_EMAIL_EXIST":
         return { ...state,emailExist:action.payload}
+        
         case "SENDING_MAIL_FOR_OTP":
           return { ...state,mailSended:action.payload}
       default:

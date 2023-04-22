@@ -5,11 +5,11 @@ import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
 import { useNavigate } from "react-router-dom";
 import {
-  allSingupDetails,
-  matchingSignupOtp,
+  matchingOtp, settingOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
+import { toasterFunction } from "../../../Utility/utility";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
@@ -18,9 +18,8 @@ import { v4 as uuid } from "uuid";
 const EnterCode = ({ title }) => {
   {/* send code timing implemented dynamically */}
   const [timer, setTimer] = useState(false);
-  const [otp, setOtp] = useState("");
   const dispatch = useDispatch();
-  const { signupData } = useSelector((state) => state.authReducer);
+  const { otp,emailExist } = useSelector((state) => state.authReducer);
   const timerFunction = () => {
     if (timer === false) {
       setTimer(true);
@@ -31,17 +30,14 @@ const EnterCode = ({ title }) => {
   };
   
   const onConfirmOtp = async () => {
-    console.log("otp",otp);
-    const result =await dispatch(matchingSignupOtp(signupData.uemail, otp));
-    if (result === true) {
-      // const token =await requestNotificationPermission()
-      // console.log("token",token);
-
-      // console.log("Tokennnnnnnn", token);
-      signupData.deviceid = uuid();
-      console.log(" signupData.deviceid ", signupData.deviceid);
-      // dispatch(allSingupDetails())
+    console.log("emailExist.data.uemail, otp",emailExist.data.uemail, otp);
+    const result =await dispatch(matchingOtp(emailExist.data.uemail, otp));
+    console.log("resultaaa",result);
+    if (!result.status) {
+        return toasterFunction(result.message)
     }
+    navigate("/auth/forgetpassword")
+    toasterFunction(result.message)
   };
 
   function Timer() {
@@ -65,7 +61,9 @@ const EnterCode = ({ title }) => {
     </div>
   );
   }
-  const onHandleChange = (event)=>setOtp(event.target.value)
+  const onChangeHandler = (event)=>{
+    dispatch(settingOtp(event.target.value))
+  }
   const navigate = useNavigate()
   return (
     <>
@@ -82,7 +80,7 @@ const EnterCode = ({ title }) => {
           name="entercode"
           errorMessage="You've reached maximum attempts. Please try again from login"
           inputValue={otp}
-          onHandleChange={onHandleChange}
+          onHandleChange={onChangeHandler}
         />
        </div>
         <Button2 title="Confirm" onClick={onConfirmOtp}/>

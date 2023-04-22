@@ -72,8 +72,8 @@ const App = () => {
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
+          <Route path="select" element={<Select />} />
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
