@@ -4,6 +4,11 @@ import { selectKicksType } from "../../../redux/actionCreators/userActionCreator
 import events from "./events.jpg"
 import VideoComponent from "./VideosComponent/VideoComponent";
 import ReactPlayer from 'react-player'
+import v1 from '../../../Assets/Videos/v1.mp4';
+import v2 from '../../../Assets/Videos/v2.mp4';
+import v3 from '../../../Assets/Videos/v3.mp4';
+import v4 from '../../../Assets/Videos/v4.mp4';
+import v5 from '../../../Assets/Videos/v5.mp4';
 const Kicks = () => {
   const data = [
     { title: "Following" },
@@ -20,7 +25,7 @@ const Kicks = () => {
   const dispatch = useDispatch();
   const { kicksType } = useSelector((state) => state.userReducer);
   return (
-    <div className={`w-full grid grid-cols-3 h-[100vh] bg-[url(${events})] z-10`}>
+    <div className={`w-full grid grid-cols-3 h-[88vh] bg-[url(${events})] z-10`}>
       <section className="flex items-center justify-center bg-black">
         <div className="w-[80%] flex flex-col items-center">
           <div className="flex flex-col gap-3">
@@ -69,13 +74,35 @@ const Kicks = () => {
       </section>
 
       {/* Reels Section */}
-      <section className="">
-      {/* <VideoComponent dataList={dataList}/> */}
-      <video width="440px" className="h-full" loop={true} autoPlay="autoplay" controls>
-  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/mp4" />
-  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/ogv" />
-  <source src="https://youtu.be/IFRkwA7MZQ4" type="video/webm" />
-</video>
+
+      <section className="overflow-y-scroll">
+        <VideoComponent dataList={dataList} />
+        <VideoComponent dataList={dataList} />
+        {/* <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
+          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
+            <source src={v2} type="video/mp4" />
+          </video>
+        </section>
+        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
+          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
+            <source src={v3} type="video/mp4" />
+          </video>
+        </section>
+        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
+          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
+            <source src={v4} type="video/mp4" />
+          </video>
+        </section>
+        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
+          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
+            <source src={v5} type="video/mp4" />
+          </video>
+        </section>
+        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
+          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
+            <source src={v1} type="video/mp4" />
+          </video>
+        </section> */}
       </section>
 
       {/* Comment Section */}
@@ -110,7 +137,7 @@ const Kicks = () => {
           />
         </div>
       </section>
-    </div>
+    </div >
   );
 };
 
