@@ -112,11 +112,8 @@ const Navbar = () => {
               className="flex flex-col items-center cursor-pointer relative"
               onClick={() => onHandleClick(elem)}
             >
-<<<<<<< HEAD
-              <img src={elem.icon} alt="" className=" h-[32px]" />
-=======
-              <img src={elem.icon} alt={elem.name} className=" h-[40px] " />
->>>>>>> 7d7f87cb2e1bffe98cf0fb2f447b1bb163c9e2e8
+              <img src={elem.icon} alt={elem.name} className=" h-[32px] " />
+
               <div className="lg:text-[10px] xl:text-[12px] font-bold">
                 {elem.name}
               </div>
