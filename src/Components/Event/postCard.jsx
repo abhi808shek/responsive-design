@@ -67,7 +67,7 @@ const PostCard = (props) => {
                     <p className='cursor-pointer'>{post.noOfLikes} Likes</p>
                 </div>
                 <div>
-                    <p className='cursor-pointer' onClick={handleCommentCountClick}>{post.comments.length} comments</p>
+                    <p className='cursor-pointer' onClick={handleCommentCountClick}>{3} comments</p>
                 </div>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-3'></div>
