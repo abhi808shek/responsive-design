@@ -38,10 +38,10 @@ const SliderSection = () => {
         {/* Slider */}
           <Carousel
             responsive={responsive}
-            containerClass={`w-full h-[180px] z-[1]`}
+            containerClass={`w-full h-[210px] z-[1]`}
           >
             {[12, 3, 334, 434, 5434, 453].map((elem,index) => (
-              <div key={index} className="w-[80%] mt-7 h-[70%] rounded-3xl">
+              <div key={index} className="w-[91%] mt-12 my-2 h-[70%] rounded-3xl">
                   <img
                     src="./images/diwali.jpg"
                     alt=""
@@ -53,7 +53,7 @@ const SliderSection = () => {
                     alt=""
                     className="w-9 h-9 relative bottom-12 left-2 rounded-full"
                    />
-                   <span className='absolute text-white text-[12px] bottom-[54px] left-[45px]'>
+                   <span className='absolute text-white text-[13px] bottom-[64px] left-[50px]'>
                    {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
                    Joe Doe
                    </span>                  

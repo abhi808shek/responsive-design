@@ -32,7 +32,7 @@ export default function MainCarousel() {
             <img
               src="./images/events.jpg"
               alt=""
-              className="lg:h-[40vh] xl:h-[50vh] rounded-md lg:ml-[20px] xl:ml-0"
+              className="lg:h-[40vh] xl:h-[50vh] rounded-lg lg:ml-[20px] xl:ml-0"
             />            
           </div>))}
       
