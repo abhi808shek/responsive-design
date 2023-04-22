@@ -1,12 +1,18 @@
 import React from "react";
 import ReactPlayer from "react-player";
 import v2 from '../../../../Assets/Videos/v2.mp4';
+import eye from '../../../../Assets/Images/Eye icon.png'
+import group from '../../../../Assets/Images/Group 716@3x.png';
+import mute from '../../../../Assets/Images/mute.png';
+import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png';
+import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
+import kicksShare from '../../../../Assets/Images/Kicks Share.png';
 
-const VideoComponent = ({ dataList, imgName }) => {
+const VideoComponent = ({ dataList }) => {
 
   return (
-    <div className="mt-5 mb-4 border-2 border-red-600 rounded-[20px] p-3">
-      <div className="flex h-[50px] px-4 items-center py-2 relative">
+    <div className="mt-5 border-2 h-[54rem]">
+      <div className="flex h-[50px] px-4 items-center py-2 relative z-30">
         {/* <ReactPlayer url='https://www.youtube.com/watch?v=vNeN13EQbqk' /> */}
 
 
@@ -24,44 +30,44 @@ const VideoComponent = ({ dataList, imgName }) => {
 
         <div className=" flex flex-1 flex-col justify-center ml-2">
           <div className="flex items-center gap-2">
-            <h1 className="font-semibold text-black ">Elisa K</h1>
-            <p className="text-[10px] text-black font-bold">5 hours ago</p>
+            <h1 className="font-semibold text-white ">Elisa K</h1>
+            <p className="text-[10px] text-white font-bold">5 hours ago</p>
           </div>
 
           <div className="flex gap-2 items-center">
             <img
-              src="./images/groups.png"
+              src={eye}
               alt=""
-              className="w-[10px] h-[10px]"
+              className="w-[25px] h-[25px]"
             />
-            <p className="text-[10px] font-bold text-black">24 Views</p>
+            <p className="text-[10px] font-bold text-white">24 Views</p>
           </div>
         </div>
 
         <div className="flex gap-2 items-center cursor-pointer">
-          <img src="./images/groups.png" alt="" className="w-[30px] h-[30px]" />
+          <img src={group} alt="" className="w-[20px] transform rotate-90" />
         </div>
       </div>
 
       {/* For creating mute, likes, comments and share */}
 
-      <div className="flex flex-col items-end justify-end w-full h-[80vh] px-3">
-        <section className="relative right-20 top-[45vh]">
-        <video className="h-[80%] w-full" loop={true} autoPlay="autoplay" controls>
+      <div className="relative bottom-16">
+
+        <video className="w-full rounded-[20px]" loop={true} autoPlay="autoplay" controls>
           <source src={v2} type="video/mp4" />
         </video>
-        </section>
-        {dataList.map((elem) => (
+
+        {dataList.map((elem, index) => (
           <div
             key={elem.title}
-            className="flex items-end gap-2 font-bold flex-col"
+            className="flex items-end gap-3 font-bold flex-col relative bottom-[25rem] right-6"
           >
             <img
-              src="./images/groups.png"
+              src={index == 0 ? mute : index == 1 ? kicksPageBeforeLike : index == 2 ? kicksComments : kicksShare}
               alt=""
               className="w-[30px] cursor-pointer"
             />
-            <div className="text-[12px] text-black flex items-center">
+            <div className="text-[12px] text-white flex items-center">
               {elem.title}
             </div>
           </div>

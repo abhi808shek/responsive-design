@@ -28,6 +28,9 @@ import FriendRequestPage from "./Components/Home/SearchFriendPage/SearchFriendsP
 
 import MainView from "./Layouts/MainView";
 import ChatPages from "./Components/Home/ChatPages/ChatPages";
+import Event from "./Components/Event/Event";
+import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/CommentBox";
+import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
@@ -66,6 +69,8 @@ const App = () => {
             element={<EnterCode title="Verification starts now" />}
           />
         </Route>
+
+        <Route exact path="event" element={<Event />} />
 
 
         {/* Private Routes */}

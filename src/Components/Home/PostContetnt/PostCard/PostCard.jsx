@@ -137,7 +137,7 @@ const PostCard = ({ userData, item }) => {
           <div className="flex w-[40%] gap-5 items-center">
             <span
               className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500"
-              // onClick={{}}
+            // onClick={{}}
             >
               5 Comments
             </span>
