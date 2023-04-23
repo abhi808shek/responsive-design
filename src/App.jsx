@@ -30,6 +30,9 @@ import MainView from "./Layouts/MainView";
 import ChatPages from "./Components/Home/ChatPages/ChatPages";
 import Select from "./Components/Home/Select/Select";
 import Umeet from "./Components/Home/Umeet/Umeet/Umeet";
+import Event from "./Components/Event/Event";
+import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/CommentBox";
+import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
@@ -69,6 +72,8 @@ const App = () => {
           />
         </Route>
 
+       
+
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
@@ -81,6 +86,7 @@ const App = () => {
             <Route path="friend-request" element={<FriendRequestPage isFriend={true} />} />
             <Route path="chat-page" element={<ChatPages />} />
             <Route path="umeet" element={<Umeet />} />
+            <Route exact path="event" element={<Event />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}

@@ -68,34 +68,16 @@ const Kicks = () => {
 
       {/* Reels Section */}
 
+<<<<<<< HEAD
       <section className="overflow-y-scroll hideScroll">
+=======
+      <section className="overflow-y-scroll flex flex-col gap-8">
         <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
-        {/* <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
-          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
-            <source src={v2} type="video/mp4" />
-          </video>
-        </section>
-        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
-          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
-            <source src={v3} type="video/mp4" />
-          </video>
-        </section>
-        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
-          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
-            <source src={v4} type="video/mp4" />
-          </video>
-        </section>
-        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
-          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
-            <source src={v5} type="video/mp4" />
-          </video>
-        </section>
-        <section className="mt-8 h-[90vh] w-[30rem] relative left-4 rounded-[20px] flex justify-center items-center">
-          <video width="540px" className="h-[98%] rounded-[25px] border-2 border-red-700" loop={true} autoPlay="autoplay" controls>
-            <source src={v1} type="video/mp4" />
-          </video>
-        </section> */}
+        <VideoComponent dataList={dataList} />
+>>>>>>> b087e5860a4feb0e893a52b588611fa425e590c1
+        <VideoComponent dataList={dataList} />
+        <VideoComponent dataList={dataList} />
       </section>
 
       {/* Comment Section */}

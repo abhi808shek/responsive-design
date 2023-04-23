@@ -5,13 +5,13 @@ import ShareWithModal from './../Modal/ShareWithModal/ShareWithModal';
 import userData from '../dataList';
 
 
-const PostContent = ({data,showModalFunc,width,userData}) => {
+const PostContent = ({ data, showModalFunc, width, userData }) => {
   return (
     <div className="w-full h-[100%] flex items-center justify-center flex-col">
 
-{/* <ShareWithModal /> */}
-    {data.map((item,index)=>(  <PostCard key={index} item={item} userData={userData}
-      showModal={showModalFunc } width={width}/>))}
+      {/* <ShareWithModal /> */}
+      {data.map((item, index) => (<PostCard key={index} item={item} userData={userData}
+        showModal={showModalFunc} width={width} />))}
     </div>
   )
 }

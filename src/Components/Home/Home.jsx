@@ -12,7 +12,7 @@ import User from "../User/User";
 import Friends from "./Friends/Friends";
 import ShareWithModal from "./Modal/ShareWithModal/ShareWithModal";
 import CustomGroupModal from "./Modal/CustomGroupModal/CustomGroupModal";
-import { Outlet, Route, Routes } from "react-router-dom";
+import { Link, Outlet, Route, Routes } from "react-router-dom";
 import ChangeRelationshipModal from "./Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 import UnfriendModal from "./Modal/UnfriendModal/UnfriendModal";
 import BlockModal from "./Modal/BlockModal/BlockModal";
@@ -83,7 +83,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
 
       <PostForm />
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
-        <HeroSection />
+       <HeroSection />
         <SliderSection />
         <PostContent data={postData} showModalFunc={onShowReportModal} userData={userData} />
       </section>
