@@ -12,9 +12,14 @@ import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo.png";
 import {
   checkingIsEmailExist,
+  loginUser,
   sendingMailForOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
+import { auth } from "../../../../config/firebase";
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import { toast } from "react-toastify";
+import getErrorMessage from '../../../Utility/firbaseError';
 // import { sendOTP } from "./firebase";
 // import { onSignInSubmit } from "./firebase_login";
 
@@ -66,19 +71,27 @@ const Login = () => {
     }),
     onSubmit: (e) => {
       try {
-        const dataObj = {
-          email: formik.values.email,
-          isLoggedIn: true,
-          userId: 1,
+        const userCredential = {
+          uemail: formik.values.email,
+          password: formik.values.password,
+          isLoggedIn: true
         };
-        dispatch(
-          settingUserLoginData(true, {
-            email: dataObj.email,
-            password: formik.values.password,
-          })
-        );
-        localStorage.setItem("userData", JSON.stringify(dataObj));
-        navigate("/select");
+         dispatch(loginUser(userCredential)).then((res) => {
+          console.log(res);
+          toast.success(res.data.message);
+          navigate("/select");
+          localStorage.setItem("userData", JSON.stringify(userCredential));
+         }).catch(err => {
+          toast.error(err.response.data.message)
+         })
+        // dispatch(
+        //   settingUserLoginData(true, {
+        //     email: dataObj.email,
+        //     password: formik.values.password,
+        //   })
+        // );
+
+        // navigate("/select");
       } catch (error) {
         console.log(error);
       }

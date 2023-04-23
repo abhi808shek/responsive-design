@@ -11,7 +11,7 @@ const ProfileModal = () => {
   const onHandleClick = (option) => {
     if (option === "Logout") {
       localStorage.clear();
-      dispatch(settingUserLoginData(false, {}));
+      // dispatch(settingUserLoginData(false, {}));
       navigate("/auth/login");
     }
   };

@@ -68,6 +68,7 @@ export const allSingupDetails = (data) => async (dispatch) => {
 
 // Checking Email Is Exist Or not In Database
 export const checkingIsEmailExist = (emailId) => async (dispatch) => {
+  console.log(emailId, 'PPPPPPPPPPPPPPPPPPPPP');
   try {
     console.log("emailId",emailId);
     const userExist = await axios.get(
@@ -155,3 +156,28 @@ export const savingNewPassword = (data) => async (dispatch) => {
     return mailSend.message;
   }
 };
+
+export const loginUser = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.post(
+      `http://3.233.82.34:8080/api/user/authenticate`, data,
+           {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "SET_USER_LOGIN_DATA",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err
+  }
+} 

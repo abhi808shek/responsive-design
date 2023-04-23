@@ -13,9 +13,10 @@ const userReducer = (state = initialState, action) => {
 
    
     case "SET_USER_LOGIN_DATA":
+      console.log(action.payload.loginstatus, '-----------------');
       return {
         ...state,
-        isLoggedIn: action.payload.isLoggedIn,
+        isLoggedIn: action.payload.status,
         user: action.payload.user,
       };
     case "SELECT_TAB":
