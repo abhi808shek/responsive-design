@@ -13,3 +13,19 @@ export const toasterFunction = (message)=>{
         theme: "light",
         });
 }
+
+export const getQueryParams = (data) => {
+    const ret = [];
+    for (let d in data) {
+        if (_.isObject(data[d]) || _.isArray(data[d])) {
+            for (let arrD in data[d]) {
+                ret.push(`${encodeURIComponent(d)}[]=${encodeURIComponent(data[d][arrD])}`)
+            }
+        } else if (_.isNull(data[d]) || _.isUndefined(data[d])) {
+            ret.push(encodeURIComponent(d))
+        } else {
+            ret.push(`${encodeURIComponent(d)}=${encodeURIComponent(data[d])}`)
+        }
+    }
+    return ret.join('&');
+}
