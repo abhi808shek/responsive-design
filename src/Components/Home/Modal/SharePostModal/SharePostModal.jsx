@@ -2,7 +2,7 @@ import React from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 
-const SharePostModal = () => {
+const SharePostModal = ({setShowShareModal}) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -22,8 +22,12 @@ const SharePostModal = () => {
       items: 1,
     },
   };
+
+  const onCloseSharePostModal = ()=>{
+    console.log("CLOSE MODAL");
+    setShowShareModal(false)
+  }
   return (
-    <div className="w-full bg-gray-200 flex items-center h-[100vh]">
       <div className="w-[30%] bg-white flex-col flex items-center rounded-xl">
         {/* Top Section */}
         <section className="flex w-full justify-between my-2 px-3">
@@ -78,10 +82,9 @@ const SharePostModal = () => {
         {/* Button Section */}
 
         <section className="w-full flex justify-center my-2">
-          <button className="w-[95%] text-[#6780AF] border-[1px] border-[#6780AF] text-sm font-semibold py-0.5 rounded-md">Cancel</button>
+          <button className="w-[95%] text-[#6780AF] border-[1px] border-[#6780AF] text-sm font-semibold py-0.5 rounded-md" onClick={onCloseSharePostModal}>Cancel</button>
         </section>
       </div>
-    </div>
   );
 };
 

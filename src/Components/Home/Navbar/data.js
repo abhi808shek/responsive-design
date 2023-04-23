@@ -37,16 +37,6 @@ export const data = [
         url: "/chat-page"
 
     },
-    // {
-    //     name:"U-Stream",
-    //     // icon:"./images/calender.png"
-    //     url:null
-    // },
-    // {
-    //     name:"Interests",
-    //     // icon:"./images/calender.png"
-    //     url:null
-    // },
     {
         name:"Notifications",
         icon: notification,

@@ -12,16 +12,34 @@ import { useDispatch, useSelector } from "react-redux";
 import Logo from "./Logo.png";
 import {
   checkingIsEmailExist,
-  matchingOtp,
   sendingMailForOtp,
-  settingOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
+// import { sendOTP } from "./firebase";
+// import { onSignInSubmit } from "./firebase_login";
 
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+
+  const validateEmail = (email) => {
+    return Yup.string().email().isValidSync(email);
+  };
+
+  const validatePhone = (phone) => {
+    return Yup.number()
+      .integer()
+      .positive()
+      .test((phone) => {
+        return phone &&
+          phone.toString().length >= 8 &&
+          phone.toString().length <= 14
+          ? true
+          : false;
+      })
+      .isValidSync(phone);
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -30,8 +48,11 @@ const Login = () => {
     },
     validationSchema: Yup.object({
       email: Yup.string()
-        .email('"Email address incorrect. Please Try again"')
-        .required("Required"),
+        .required("Required")
+        .test("email", "Email / Phone is invalid", (value) => {
+          return validateEmail(value) || validatePhone(parseInt(value ?? "0"));
+        }),
+
       password: Yup.string()
         .min(
           8,
@@ -44,7 +65,6 @@ const Login = () => {
         .required("Required"),
     }),
     onSubmit: (e) => {
-      console.log("formik.values.password", formik.values.password);
       try {
         const dataObj = {
           email: formik.values.email,
@@ -64,41 +84,38 @@ const Login = () => {
       }
     },
   });
-  const { otp } = useSelector((state) => state.authReducer);
+
   const onForgetPasswordClick = async () => {
     const email = formik.values.email;
     if (email.trim() === "") {
       return toasterFunction("Please Enter Email");
     }
-    if (formik.errors.email) {
-      return toasterFunction("Invalid  Email..");
-    }
+    // if (validateEmail(email) || validatePhone(parseInt(email ?? "0"))) {
+    //   return toasterFunction("Invalid  Email..");
+    // }
     const mailStatus = await dispatch(checkingIsEmailExist(email));
-    console.log("mailStatus",mailStatus);
     if (!mailStatus.status) {
       return toasterFunction(mailStatus.message);
     }
-    console.log("Before");
-      const data = {
-        datetime: Date.now().toString(),
-        uemail: mailStatus.data.uemail,
-      };
-      console.log("data",data);
-      console.log("AFterrr");
-      const otpStatus = await dispatch(sendingMailForOtp(data));
-      if (!otpStatus.status) {
-       return toasterFunction(otpStatus.message);
-      } 
-      navigate("/auth/entercode");
-      toasterFunction(otpStatus.message);
-      
-    
+    const data = {
+      datetime: Date.now().toString(),
+      uemail: mailStatus.data.uemail,
+    };
+    console.log("AFterrr");
+    // sendOTP(formik.values.email)
+    const otpStatus = await dispatch(sendingMailForOtp(data));
+    if (!otpStatus.status) {
+      return toasterFunction(otpStatus.message);
+    }
+    navigate("/auth/entercode");
+    toasterFunction(otpStatus.message);
   };
 
   return (
     <>
       {/* padding increased */}
       <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-7">
+        <div id="sign-in-button"></div>
         {/* <Heading title="Get Started" /> */}
         <img src={Logo} alt="" className=" w-[55px] mb-4" />
         <Input

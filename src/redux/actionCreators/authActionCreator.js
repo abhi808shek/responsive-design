@@ -9,13 +9,11 @@ const config = {
 };
 
 export const saveUserSignupData = (data) => async (dispatch) => {
-  console.log("DATA", data);
   const datalist = {
     datetime: data.datetime,
     profileType: data.profileType,
     uemail: data.uemail,
   };
-  console.log("datalist", datalist);
   try {
     const result = await axios.put(
       `http://3.233.82.34:8080/api/user/registerotp`,
@@ -26,14 +24,13 @@ export const saveUserSignupData = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("result", result);
     dispatch({
       type: "SET_BASIC_SIGNUP_DETAILS",
       payload: data,
     });
     return result.status;
   } catch (error) {
-    console.log(error.message);
+    return result.message;
   }
 };
 
@@ -48,32 +45,8 @@ export const settingOtp = (otp) => async (dispatch) => {
   }
 };
 
-export const matchingOtp = (mailId, otp) => async (dispatch) => {
-  console.log("mailId", mailId);
-  console.log("otp", otp);
-  try {
-    const result = await axios.get(
-      `http://3.233.82.34:8080/api/user/otp/${mailId}/${otp}`,
-      {
-        headers: {
-          "Accept-Language": "en",
-        },
-      }
-    );
-    dispatch({
-      type: "MATCHING_OTP",
-    });
-
-    console.log("result.data",result.data);
-    return result.data;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
 
 export const allSingupDetails = (data) => async (dispatch) => {
-  console.log("mailId", mailId);
-  console.log("otp", otp);
   try {
     const result = await axios.post(
       ` http://3.233.82.34:8080/api/user/registration`,
@@ -83,7 +56,6 @@ export const allSingupDetails = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("resultsdfgsd", result);
     dispatch({
       type: "MATCHING_SIGNUP_OTP",
       // payload:data,
@@ -94,6 +66,7 @@ export const allSingupDetails = (data) => async (dispatch) => {
   }
 };
 
+// Checking Email Is Exist Or not In Database
 export const checkingIsEmailExist = (emailId) => async (dispatch) => {
   try {
     console.log("emailId",emailId);
@@ -115,8 +88,8 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
   }
 };
 
-// CALLING PUT API FOR SENDING OTP
 
+// Sending Mail For Otp
 export const sendingMailForOtp = (data) => async (dispatch) => {
   try {
     const mailSend = await axios.put(
@@ -139,6 +112,30 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
 };
 
 
+// Maching Otp for verification
+export const matchingOtp = (mailId, otp) => async (dispatch) => {
+  try {
+    const result = await axios.get(
+      `http://3.233.82.34:8080/api/user/otp/${mailId}/${otp}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+        },
+      }
+    );
+    dispatch({
+      type: "MATCHING_OTP",
+    });
+
+    return result.data;
+  } catch (error) {
+    return result.message;
+  }
+};
+
+
+
+// Setting New Password
 export const savingNewPassword = (data) => async (dispatch) => {
   try {
     const savedPassword = await axios.put(

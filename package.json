@@ -12,8 +12,12 @@
     "@headlessui/react": "^1.7.13",
     "@material-tailwind/react": "^1.4.2",
     "axios": "^1.3.5",
+<<<<<<< HEAD
     "bootstrap": "^5.2.3",
     "firebase": "^9.20.0",
+=======
+    "firebase": "^9.0.0",
+>>>>>>> 69f48cf7f59160094c5a1dcd58e34c7d77fac185
     "formik": "^2.2.9",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.4",

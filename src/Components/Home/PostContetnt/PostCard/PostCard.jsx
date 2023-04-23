@@ -11,22 +11,23 @@ import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
 import Portals from "../../../Portals/Portals";
 import KicksBeforeLike from '../../../../assets/images/KicksBeforeLike.png'
 import user from '../../../../assets/images/user.png'
+import SharePostModal from "../../Modal/SharePostModal/SharePostModal";
 
 const PostCard = ({ userData, item }) => {
+   const [showMore, setShowMore] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [userStatus, setUserStatus] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
-  const [more, setMore] = useState(false)
 
   {/* implementing dynamic description, some redesign the postcard component */}
   const description = "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... "
 
-  const shortDescription = description.substring(300);
+  const shortDescription = description.substring(0,300);
   
   const onShowShareModal = () => {
     console.log("jwww");
-    // setShowShareModal(true);
+    setShowShareModal(true);
   };
   // const {totalComments} = useSelector((state)=>state.userReducer)
   const dispatch = useDispatch();
@@ -51,7 +52,6 @@ const PostCard = ({ userData, item }) => {
     setInputComment("");
     console.log("totalComments", totalComments);
   };
-  // const shortDescription =
   return (
     <>
       <div
@@ -112,20 +112,14 @@ const PostCard = ({ userData, item }) => {
         <section className="w-full flex flex-col items-center mt-2 px-2">
           <div className=" w-full ">
             <p className="text-[13px] font-[400] text-gray-500">
-            {/* read more, show less must be recode */}
-              { more ? description : description.substring(0, 299) }
-            
-              {
-                description.length > 300 ? (
-                  <span onClick={()=>setMore(true)} className="text-[blue] inline-block font-medium cursor-pointer">
-                    Read More
-                  </span>
-                ) : (
-                <span onClick={()=>setMore(false)} className="text-[blue] inline-block font-medium cursor-pointer">
-                    Show Less
-                  </span> )
-              } 
+            {showMore ? description : `${shortDescription}...`}
 
+            <span
+            className="text-xs text-[#2F58CD] font-bold cursor-pointer"
+            onClick={() => setShowMore(!showMore)}
+          >
+            {showMore ? "Show less" : "Read more"}
+          </span>
               
             </p>           
           </div>
@@ -230,7 +224,7 @@ const PostCard = ({ userData, item }) => {
       </div>
       {showShareModal && (
         <Portals>
-          <ShareWithModal setShowShareModal={setShowShareModal} />
+          <SharePostModal setShowShareModal={setShowShareModal} />
         </Portals>
       )}
     </>
