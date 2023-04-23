@@ -48,7 +48,7 @@ const UpdateProfile = () => {
                             </div>
                             <div className='flex '>
                                 <h4 className=' w-[130px] text-[14px] mt-2 '>Date of birth*</h4>
-                                <input type="date" className='mb-6 ml-3 w-full  border-none  p-2 outline-none  w-[70%] ' />
+                                <input type="date" className='mb-6 ml-3 border-none  p-2 outline-none  w-[70%] ' />
                             </div>
                             <div className='flex '>
                                 <h4 className=' w-[130px] text-[14px] mt-2 '>Gender*</h4>

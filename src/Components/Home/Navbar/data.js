@@ -1,4 +1,3 @@
-import { BsFillChatLeftTextFill } from 'react-icons/bs'
 import notification from "../../../assets/images/notification1.png";
 import friends from "../../../assets/images/groups.png";
 import chat from "../../../assets/images/chat1.png";
