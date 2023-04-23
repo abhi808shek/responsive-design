@@ -33,6 +33,7 @@ import Umeet from "./Components/Home/Umeet/Umeet/Umeet";
 import Event from "./Components/Event/Event";
 import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/CommentBox";
 import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
+import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
@@ -51,7 +52,12 @@ const App = () => {
   useEffect(() => {
     isUserLoggedIn();
   }, []);
+if ("serviceWorker" in navigator) {
 
+  navigator.serviceWorker.register('../../firebase-messaging-sw.js').then((res) => {
+    console.log('service worker registration successfull');
+  }).catch((err) => console.log('service worker registration failed', err))
+}
   return (
     <>
       <Routes>
@@ -69,6 +75,16 @@ const App = () => {
             exact
             path="verification"
             element={<EnterCode title="Verification starts now" />}
+          />
+          <Route
+            exact
+            path="verification/signup"
+            element={<SignupOtp title="Verification starts now" />}
+          />
+          <Route
+            exact
+            path="createUser"
+            element={<UpdateProfile  />}
           />
         </Route>
 

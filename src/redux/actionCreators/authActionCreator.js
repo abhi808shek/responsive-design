@@ -180,4 +180,29 @@ export const loginUser = (data) => async (dispatch) => {
     console.log(err, 'errror login');
     throw err
   }
-} 
+}
+
+export const userRegistration = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.post(
+      `http://3.233.82.34:8080/api/user/registration`, data,
+           {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    // dispatch({
+    //   type: "SET_USER_LOGIN_DATA",
+    //   payload: response.data
+    // })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err
+  }
+}
