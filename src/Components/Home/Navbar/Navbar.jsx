@@ -45,10 +45,11 @@ const Navbar = () => {
   };
 
   return (
-    <section className="h-[65px] w-full flex bg-white relative top-0 z-10">
+    {/* navbar scrollable to fixed postion and its relative class removed */},
+    <section className="h-[65px] w-full fixed flex bg-white z-20">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
-      <div className=" w-[30%] flex h-[68px] flex-row justify-evenly items-center ">
+      <div className=" w-[30%] flex h-[65px] flex-row justify-evenly items-center ">
         {/* Logo Section */}
 
         <div className="w-[15%]">
@@ -138,6 +139,7 @@ const Navbar = () => {
         </div>
       </div>
     </section>
+
   );
 };
 

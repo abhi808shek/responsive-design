@@ -28,11 +28,12 @@ const FriendsModal = ({setFriendsModal}) => {
    setFriendsModal(false)
   };
   return (
-    <div className="w-[150px] border-[1px] border-gray-500 flex flex-col items-center absolute left-[70.5%] top-[84px] z-[100]">
+    <div className="w-[180px] border-none flex flex-col items-center absolute left-[70.3%] top-[74px] z-[100]">
+      {/* border removed, width increased,*/}
       {data.map((elem) => (
         <button
           key={elem.title}
-          className=" border-[1px] w-full border-gray-500 flex flex-col items-center text-[13px] font-bold py-1 "
+          className=" border-none w-full rounded-[3px] py-1.5 flex flex-col items-center px-5 my-[1px] text-[13px] font-bold"
           style={{
             backgroundColor: friendsTab === elem.title ? "#7991BD" : "#FFF",
             color: friendsTab === elem.title ? "#FFF" : "#707070",
