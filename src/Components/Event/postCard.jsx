@@ -15,7 +15,7 @@ import { setLikes } from '../../redux/actionCreators/postActionCreator';
 import CommentModal from './CommentModel';
 const PostCard = (props) => {
     const dispatch = useDispatch();
-    const { username, timestamp, caption, imageSrc, id } = props;
+    const { username, timestamp, caption, imageSrc, id,likecount ,item} = props;
     const { posts } = useSelector((state) => state.postReducer);
 
     const post = posts.find(post => post.id === id);
@@ -38,7 +38,7 @@ const PostCard = (props) => {
     };
 
     return (
-        <div className="rounded-[20px] border border-gray-200 p-4 bg-white w-[40%] ">
+        <div className="rounded-[20px] border border-gray-200 p-4 bg-white w-full">
             <div className='flex justify-between'>
                 <div className="flex items-center mb-4">
                     <AccountCircleIcon className='mr-2' style={{ height: "40px", width: "40px" }} />
@@ -64,10 +64,10 @@ const PostCard = (props) => {
             <div className='w-full h-[0.05rem] bg-gray-400 mb-2'></div>
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                    <p className='cursor-pointer'>{post.noOfLikes} Likes</p>
+                    {/* <p className='cursor-pointer'>{item.likecount} Likes</p> */}
                 </div>
                 <div>
-                    <p className='cursor-pointer' onClick={handleCommentCountClick}>{3} comments</p>
+                    {/* <p className='cursor-pointer' onClick={handleCommentCountClick}>{item.commentcount} comments</p> */}
                 </div>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-3'></div>
@@ -86,9 +86,13 @@ const PostCard = (props) => {
             </div>
             <CommentModal isOpen={showModal}
                 onClose={() => setShowModal(false)}
-                comments={post.comments} />
+                // comments={post.comments} 
+                />
         </div>
     );
 }
 
 export default PostCard;
+
+
+

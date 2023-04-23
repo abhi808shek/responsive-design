@@ -8,15 +8,15 @@ const ButtonComponent = ({ name, index }) => {
         dispatch(setSelectedIndex(index));
     };
     return (
-        <div>
+      
             <button
                 onClick={handleClick}
-                className={`w-36 h-[2.2rem] rounded-md font-semibold ${selectedIndex === index ? 'bg-[#05B7FD] text-white' : 'bg-[#E4E4E4] text-gray-600'
+                className={`rounded-md w-[30%] text-sm h-[25px] font-semibold ${selectedIndex === index ? 'bg-[#05B7FD] text-white' : 'bg-[#E4E4E4] text-gray-600'
                     }`}
             >
                 {name}
             </button>
-        </div>
+       
     );
 }
 

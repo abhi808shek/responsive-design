@@ -8,11 +8,11 @@ const CommentModal = ({ isOpen, onClose, comments }) => {
         <Modal isOpen={isOpen} onRequestClose={onClose} className="w-[30%] h-[35rem] relative top-[10vh] p-4 rounded-lg left-[35vw] focus:outline-none border-2 border-gray-400 bg-white">
             <CloseIcon onClick={onClose} className="absolute right-4 cursor-pointer text-red-600" />
 
-            <div className="mt-[35px]">
-                {comments.map((comment) => (
-                    <CommentBox comment={comment} />
+            {/* <div className="mt-[35px]">
+                {comments?.map((comment,index) => (
+                    <CommentBox comment={comment} key={index}/>
                 ))}
-            </div>
+            </div> */}
 
             <div className="absolute bottom-10 w-full flex justify-center">
                 <input type="text" placeholder="Add your comment ..." className="w-[90%] py-2 px-3 rounded-lg border border-gray-400 focus:outline-none focus:border-blue-400" />
