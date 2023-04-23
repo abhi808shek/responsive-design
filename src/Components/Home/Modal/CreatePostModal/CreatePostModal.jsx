@@ -1,12 +1,14 @@
 import React from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
+import SelectDropdown from './SelectDropdown'
+
 const CreatePostModal = ({setShowCreatePostModal}) => {
   const onCloseCreatePostModal = ()=>{
     setShowCreatePostModal(false)
   }
   return (
-    <div className="bg-white lg:w-[77%] lg:h-[99%] xl:h-[92%] w-[100%] py-[10px] px-4 rounded-2xl mx-auto relative">
+    <div className="bg-white top-8 lg:w-[77%] lg:h-[89%] xl:h-[89%] w-[100%] py-[10px] px-4 rounded-2xl mx-auto relative z-20">
       {/* create post */}
       <div className="flex justify-between">
         <div>
@@ -36,7 +38,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
         </section>
         <section className="flex items-center ">
           <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">Share with </span>
-          <div className="">
+          {/*<div className="">
             <select
               name=""
               id=""
@@ -52,7 +54,9 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
               <option value="Party">Party</option>
               <option value="Organization">Organization</option>
             </select>
-          </div>
+          </div>*/}
+
+          <SelectDropdown />
         </section>
        </div>
           <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] bg-gray-300"></div>
