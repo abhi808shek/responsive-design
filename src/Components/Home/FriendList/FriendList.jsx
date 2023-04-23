@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import CommentMenuModal from "../Modal/CommentMenuModal/CommentMenuModal";
+import { BsThreeDotsVertical } from 'react-icons/bs'
 
 const FriendList = ({ icon, desc }) => {
   const data = [
@@ -15,7 +16,7 @@ const FriendList = ({ icon, desc }) => {
   };
 
   return (
-    <div className="flex h-[50px] px-4 items-center py-2 relative">
+    <div className="flex h-[50px] px-4 items-center py- relative">
       {openMenuModal && <CommentMenuModal data={data} leftPosition={50} topPosition={34}/>}
       <div className="">
         <img
@@ -24,8 +25,8 @@ const FriendList = ({ icon, desc }) => {
           className="w-[45px] h-[45px] rounded-full"
         />
       </div>
-      <div className=" flex flex-1 flex-col justify-center ml-2">
-        <h1 className="font-bold">Elisa K</h1>
+      <div className=" flex flex-1 flex-col justify-center ml-4">
+        <span className="font-medium">Elisa K</span>
         {desc && (
           <p className="text-[10px] font-bold text-gray-500">
             Hi Joe.........will plan this week
@@ -35,12 +36,7 @@ const FriendList = ({ icon, desc }) => {
       {icon ? (
         <div className="flex gap-2 items-center cursor-pointer"
         onClick={onMenuClick}>
-          <img
-            src="./images/groups.png"
-            alt=""
-            className="w-[30px] h-[30px]"
-           
-          />
+          <BsThreeDotsVertical className=''/>
         </div>
       ) : null}
     </div>

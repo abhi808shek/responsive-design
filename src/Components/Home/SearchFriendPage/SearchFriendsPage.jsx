@@ -9,10 +9,11 @@ const SearchFriendsPage = ({ isFriend }) => {
           <input
             type="text"
             placeholder="Search ..."
-            className="w-[94%] rounded-md pl-3 py-2 bg-[#E4E7EC] outline-none"
+            className="w-[94%] rounded-md pl-3 py-1.5 bg-[#E4E7EC] outline-none"
           />
+          {/* search icon size reduced */}
           <span className="pr-3">
-            <img src="./images/Search.png" alt="" className="w-[25px]" />
+            <img src="./images/Search.png" alt="" className="w-[19px]" />
           </span>
         </section>
 
@@ -29,7 +30,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                       alt=""
                       className="w-[45px] h-[45px] rounded-full"
                     />
-                    <span className="font-bold text-sm">Time Hector</span>
+                    <span className="font-semibold text-[14px]">Time Hector</span>
                   </div>
                   <div className="flex gap-2">
                     <img src="" alt="" />
@@ -48,7 +49,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                   </div>
                 </div>
               </div>
-              <hr />
+              <hr className='border border-gray-50'/>
             </>
           ))}
         </section>
