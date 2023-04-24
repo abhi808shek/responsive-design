@@ -4,9 +4,10 @@ import bg1 from "../../Assets/Images/bg1.jpg";
 import bg2 from "../../Assets/Images/bg2.jpg";
 import bg3 from "../../Assets/Images/bg3.jpg";
 import ButtonComponent from "./ButtonComponent";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Participate from "./Participate";
 import EventPostCard from "./EventPostCard";
+import { defaultEventScreen } from "../../redux/actionCreators/eventActionCreator";
 
 const Event = () => {
   const btnData = [
@@ -14,6 +15,7 @@ const Event = () => {
     { name: "Trending" },
     { name: "Participate" },
   ];
+  const dispatch = useDispatch()
 //   const { defaultRootData ,allEventsPost} = useSelector((state) => state.eventReducer);
   useEffect(() => {
     dispatch(defaultEventScreen(defaultRootData?.id));

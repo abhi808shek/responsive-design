@@ -39,5 +39,8 @@ export const setDataOnStorage = (value) => {
 
 // Get Data from Local Storage
 export const getUserDataFromLocalStorage = () => {
-  return localStorage.getItem("userCredential");
+  let userData = localStorage.getItem("userCredential");
+  userData = JSON.parse(userData)
+  console.log("USER DATA",userData);
+  return userData
 };

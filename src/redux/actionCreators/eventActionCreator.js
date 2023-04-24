@@ -24,9 +24,11 @@ export const getEventData = () => async (dispatch) => {
 const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpODA4Z3VwdGFAZ21haWwuY29tIiwiZXhwIjo2MTY3NDU2NjQwMCwiaWF0IjoxNjgyMjc2MTczfQ.7idSndpWt9nLeXM9tRrHJrwV1cJmDdEMpVfq_37mZYD9u0mmCmfK6CAtxvr-3wvEyORAhBYIOpg6E71xrA3HVw"
 export const defaultRootScreen = () => async (dispatch) => {
     try {
+  const getStoredData = await getUserDataFromLocalStorage()
+  console.log("getStoredData",getStoredData);
+
       const defaultRootResult = await axios.get(
         `http://3.233.82.34:8080/post/api/post/getspost`,
-        data,
         {
           headers: {
             "Accept-Language": "en",
@@ -49,7 +51,7 @@ export const defaultEventScreen = (profileid) => async (dispatch) => {
     try {
       const defaultEventResult = await axios.get(
         ` http://3.233.82.34:8080/post/api/post/getpostbypostid/${profileid}`,
-        data,
+       
         {
           headers: {
             "Accept-Language": "en",
@@ -94,7 +96,7 @@ export const getAllEventPost =(eventpostid,profileid)  => async (dispatch) => {
   try {
     const allEventResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getsponser/${eventpostid}/${profileid}`,
-      data,
+     
       {
         headers: {
           "Accept-Language": "en",
@@ -117,7 +119,7 @@ export const getAllTrendingPost = (eventpostid,profileid) => async (dispatch) =>
     try {
       const trendingPostResult = await axios.get(
         `http://3.233.82.34:8080/post/api/post/topgetsponser/${eventpostid}/${profileid}`,
-        data,
+       
         {
           headers: {
             "Accept-Language": "en",
