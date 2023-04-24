@@ -35,8 +35,8 @@ const Select = async() => {
   const onHandleClick = (option) => {
       navigate(option?.url);
       if (option?.title === "Root") {
-          debugger
-          dispatch(defaultRootScreen());
+        
+        //   dispatch(defaultRootScreen());
       }
   };
 
