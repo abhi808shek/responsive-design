@@ -1,10 +1,11 @@
-import { useState } from "react";
-import { useDispatch } from "react-redux";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { setPostData } from "../../redux/actionCreators/postActionCreator";
 import moment from "moment";
 import { setSelectedIndex } from "../../redux/actionCreators/selectedIndexActionCreator";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../Assets/Images/Delete.png";
+import { addEventPost } from './../../redux/actionCreators/eventActionCreator';
 
 const Participate = () => {
   const dispatch = useDispatch();
@@ -12,6 +13,8 @@ const Participate = () => {
   const [image, setImage] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [formError, setFormError] = useState("");
+  const {eventDataObj} = useSelector((state)=>state.eventReducer)
+
 
   // Function for timestamp
   const timestamp = (date) => {
@@ -59,34 +62,6 @@ const Participate = () => {
     //     return;
     // }
 
-    const data = {
-      shareto: "share3",
-      type: "type3",
-      template: "template3",
-      image:
-        "https://www.rollingstone.com/wp-content/uploads/2021/06/skyjacker-opener.jpg?resize=1800,1200&w=1200", // post images
-      video: null,
-      text: "test4",
-      suggesttemp:
-        "https://www.rollingstone.com/wp-content/uploads/2021/04/6Kph99rA2c.jpg?w=1024", // terms and condition images
-      utag: null,
-      delete: "delete",
-      close: "close",
-      profileid: "60dade51be4f90044b08b84c",
-      location: null,
-      postdatetime: null,
-      viptype: 100, // if sponsored post means viptype is 100
-      likecount: 0,
-      commentcount: 0,
-      eventtype: "sponsoredEvent", //TYPE = sponsoredEvent OR sponsoreAds
-      lat: "17.710652568485234", //location if Available
-      log: "83.31552881972276", //location if Available
-      startdate: "29 Jun 2021",
-      enddate: "10 July 2021",
-      postonpost: null,
-      timestamp: Date.now(),
-      token:"eyJhbGciOiJSUzI1NiIsImtpZCI6IjE2ZGE4NmU4MWJkNTllMGE4Y2YzNTgwNTJiYjUzYjUzYjE4MzA3NzMiLCJ0eXAiOiJKV1QifQ.eyJpc3MiOiJodHRwczovL3NlY3VyZXRva2VuLmdvb2dsZS5jb20vdXluaXRlLWFndW1lbnRpayIsImF1ZCI6InV5bml0ZS1hZ3VtZW50aWsiLCJhdXRoX3RpbWUiOjE2ODIyMzQxODEsInVzZXJfaWQiOiI1OVQ5R1d2Mm1EaHY1Nlh3V2xwWXRyNVdkOEIzIiwic3ViIjoiNTlUOUdXdjJtRGh2NTZYd1dscFl0cjVXZDhCMyIsImlhdCI6MTY4MjIzNDE4MSwiZXhwIjoxNjgyMjM3NzgxLCJlbWFpbCI6InV5bml0ZTk5QHlvcG1haWwuY29tIiwiZW1haWxfdmVyaWZpZWQiOmZhbHNlLCJmaXJlYmFzZSI6eyJpZGVudGl0aWVzIjp7ImVtYWlsIjpbInV5bml0ZTk5QHlvcG1haWwuY29tIl19LCJzaWduX2luX3Byb3ZpZGVyIjoicGFzc3dvcmQifX0.KPuWOzme-IJa7iLafmQHUD24qwr-dLo317_w6JGOo0HiwG_2pdeB8gaERbpSDkWIjYJ4RrnpSulQBTebcJ2RWUBffwLn4hEciM1RfSzG63xzTNLChY99kuLqaxdSCNiS__AjVe0NnwtpOrmgV-uSDGwE1AaAWR46IWcLHl8HiBhpkyGzTyKLxiiS3exwxfDxQMOaY0OoxPVnB8Bt6f9jt4swEPxUUBaUa27QTBN7kXohu1F6XCkF5Iaoy7nKAQ-WB5zs2oKn7RUHot1RH2vNEXVaw2z1wHqBkt5dJGkH1UWKu300XOMGckI5gvBiX7hhM0h7i2WNkSmVvNzpdky1QQ"
-    };
 
 
     const post = {
@@ -107,8 +82,44 @@ const Participate = () => {
     setFormError("");
   };
 
+  const onHandleSubmit = ()=>{
+    const participantsData = {
+      active: eventDataObj?.active,
+      commentcount: 0,
+      delete: eventDataObj?.delete,
+      id: null,
+      image:
+      "https://www.rollingstone.com/wp-content/uploads/2021/06/skyjacker-opener.jpg?resize=1800,1200&w=1200",
+      likecount: 0,
+      location: "",
+      // postdatetime: dateAndTime.toString(),
+      profile: null,
+      profileid: true,
+      shareto: "Public",
+      suggesttemp: "",
+      template: "No_template",
+      text: caption,
+      type: "sPost",
+      utag: eventDataObj?.utag,
+      video: null,
+      viptype: 1,
+      postprofileid: "",
+      postprofile: null,
+      likepostid: "",
+      eventtype: eventDataObj?.eventtype,
+      lat: "",
+      log: "",
+      startdate: eventDataObj?.startdate,
+      enddate: eventDataObj?.enddate,
+      postonpost: eventDataObj?.id,
+      duration: "0",
+      tital: eventDataObj?.tital,
+    };
+    
+    dispatch(addEventPost(participantsData))
+  }
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md w-[40%]">
+    <div className="p-6 bg-white rounded-lg shadow-md w-[100%]">
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <textarea
@@ -180,7 +191,7 @@ const Participate = () => {
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
           type="submit"
-        >
+       onClick={onHandleSubmit} >
           Submit
         </button>
       </form>

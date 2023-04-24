@@ -10,9 +10,6 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { toasterFunction } from "../../../Utility/utility";
-// import { requestNotificationPermission } from "../../../../config/firebase";
-
-
 
 
 const EnterCode = ({ title }) => {
@@ -30,8 +27,7 @@ const EnterCode = ({ title }) => {
   };
   
   const onConfirmOtp = async () => {
-    console.log("emailExist.data.uemail, otp",emailExist.data.uemail, otp);
-    const result =await dispatch(matchingOtp(emailExist.data.uemail, otp));
+    const result = await dispatch(matchingOtp(emailExist.data.uemail, otp));
     console.log("resultaaa",result);
     if (!result.status) {
         return toasterFunction(result.message)

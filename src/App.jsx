@@ -40,7 +40,7 @@ const App = () => {
   const dispatch = useDispatch();
   const { isLoggedIn } = useSelector((state) => state.userReducer);
   const isUserLoggedIn = () => {
-    let userData = localStorage.getItem("userData");
+    let userData = localStorage.getItem("userCredential");
     userData = JSON.parse(userData);
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));

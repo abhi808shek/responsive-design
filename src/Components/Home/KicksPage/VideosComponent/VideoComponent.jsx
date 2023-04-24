@@ -11,8 +11,14 @@ import kicksShare from '../../../../Assets/Images/Kicks Share.png';
 const VideoComponent = ({ dataList }) => {
 
   return (
-    <div className="mt-5 border-2 h-[54rem]">
-      <div className="flex h-[50px] px-4 items-center py-2 relative z-30">
+    <div className="relative h-full">
+
+      <section className="absolute overflow-hidden top-0 left-0 h-full w-full">
+         <video className="h-auto w-full" loop={true} autoPlay="autoplay" controls>
+           <source src={v2} type="video/mp4" />
+         </video>
+      </section>
+      <div className="flex h-[50px] z-20 px-1 items-center py-2 relative">
         {/* <ReactPlayer url='https://www.youtube.com/watch?v=vNeN13EQbqk' /> */}
 
 
@@ -30,6 +36,8 @@ const VideoComponent = ({ dataList }) => {
 
         <div className=" flex flex-1 flex-col text-white justify-center ml-2">
           <div className="flex items-center gap-2">
+            <h1 className="font-semibold ">Elisa K</h1>
+            <p className="text-[10px] font-medium">5 hours ago</p>
             <h1 className="font-semibold text-white ">Elisa K</h1>
             <p className="text-[10px] text-white font-bold">5 hours ago</p>
           </div>
@@ -38,14 +46,14 @@ const VideoComponent = ({ dataList }) => {
             <img
               src={eye}
               alt=""
-              className="w-[25px] h-[25px]"
+              className="w-[15px] h-[15px]"
             />
-            <p className="text-[10px] font-bold text-white">24 Views</p>
+            <p className="text-[10px]">24 Views</p>
           </div>
         </div>
 
-        <div className="flex gap-2 items-center cursor-pointer">
-          <img src={group} alt="" className="w-[20px] transform rotate-90" />
+        <div className="flex items-center cursor-pointer">
+          <BsThreeDotsVertical className="w-[27px] h-[27px] text-white" />
         </div>
       </div>
 

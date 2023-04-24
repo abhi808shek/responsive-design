@@ -165,7 +165,6 @@ export const loginUser = (data) => async (dispatch) => {
            {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "application/json"
         },
       }
     );
@@ -175,7 +174,7 @@ export const loginUser = (data) => async (dispatch) => {
       type: "SET_USER_LOGIN_DATA",
       payload: response.data
     })
-    return response
+    return response.data
   } catch(err) {
     console.log(err, 'errror login');
     throw err
