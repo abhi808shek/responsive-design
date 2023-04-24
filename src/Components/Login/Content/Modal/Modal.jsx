@@ -1,19 +1,77 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Dropdown from "./Dropdown";
 import Dropdown2 from "./Dropdown2";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
+import { createProfile, getOrgCategory, uploadImage } from "../../../../redux/actionCreators/authActionCreator";
+import { useDispatch, useSelector } from "react-redux";
+import moment from "moment/moment";
+import { toast } from "react-toastify";
+import { useNavigate } from "react-router-dom";
 
 const Modal = ({ modalType, handleClose }) => {
+  const dispatch = useDispatch();
+  const navigate = useNavigate()
+  const reducerData = useSelector((state) => {
+    console.log(state, 'reddddd');
+    return {
+      organizationCategory: state.userReducer.orgCategory,
+      userData: state.authReducer.signupData
+    }
+  });
+  const { organizationCategory, userData } = reducerData;
   const [country, setCountry] = useState(null)
+  const [state, setState ] = useState({})
+  const { imgFile, selectedCategory , fname, lname, orgName, gender, dob} = state;
 
-  const isPersonal = modalType === "personal";
-
+  const isPersonal = modalType === "Personal";
+  useEffect(() => {
+    isPersonal ? "" : dispatch(getOrgCategory())
+  }, []);
   const handleCountry = (val)=>{
     setCountry(val)
   }
-  
+  const handleChange = (value) => {
+    setState({ ...state, selectedCategory: value })
+  }
+  const handleGender = e => {
+    console.log(e.target.id);
+    setState({...state, gender: e.target.id});
+  }
+  const handleDate = e => {
+    console.log(e.target.value);
+    setState({...state, dob: e.target.value})
+  }
+  const handleCreateProfile = async () => {
+    const file = new FormData();
+    file.append("image", file)
+    // const uploadResponse = dispatch(uploadImage())
+    const payload = {
+ "celibrity": false,//default value.
+ "countrycode": "+91",//default selected in signup screen..
+ "dob": moment(dob).format("YYYY-MM-DD"),//from user input
+ "email": userData.uemail, //from signup screen.
+ "fname": orgName,//from user input BUSINESS NAME
+ "gender": gender,
+  "pimage":"", //if profile image is there, add the URL here.
+ "businesscategory": selectedCategory.category,//from user input selection.
+ "personalLastName": lname,//from user input – profile lnamein SLIDE 4
+ "personalname": fname,//from user input – profilefnamein SLIDE 4
+ "profiletype": isPersonal ? "Personal" : "Organization",//profile type, while we passing in signup screen
+ "updatedate": userData.datetime,//Current UTC time in milliseconds
+ "userid": userData.userId// stored User ID from (Slide 3)
+}
+    dispatch(createProfile(payload)).then((res)=> {
+      if(res.data.status){
+        toast.success(res.data.message)
+        navigate('/auth/login')
+      } else toast.error(res.data.message)
+    }).catch(err => {
+      toast.error(err.message)
+    })
+    // console.log(response);
+  }
   return (
     {/* corner radius added to componenet */},
     <div
@@ -36,14 +94,18 @@ const Modal = ({ modalType, handleClose }) => {
               type="file"
               accept="image/*"
               className="hidden"
+              onChange={(e) => setState({ ...state, imgFile: e.target.files[0] })}
             />
             <label
               htmlFor="profilePic"
               className="flex justify-center items-center cursor-pointer w-[15rem] h-[15rem] mx-auto rounded-full block bg-gray-200"
             >
-              <span>
-                <TbPhotoPlus size={45} />
-              </span>
+            { 
+              imgFile ? 
+              <img className={'w-[15rem] h-[15rem] mx-auto rounded-full block'} src={ URL.createObjectURL(imgFile)}/>
+              : 
+              <span><TbPhotoPlus size={45} /></span>
+            }
             </label>
             <div className="pt-6">
               {/* bg-color, padding, font-weight of label changed */}
@@ -65,11 +127,11 @@ const Modal = ({ modalType, handleClose }) => {
 
             {/* last name field added */}
             <div className="mt-[9px]">
-              <Input title="First Name*" name="email" className="w-full" />
+              <Input title="First Name*" name="fname" onHandleChange={(e) => setState({ ...state, fname: e.target.value})} className="w-full" />
             </div>
             {/* Lastname field was added */}
             <div className="mt-[2px]">
-              <Input title="Last Name*" name="email" className="w-full" />
+              <Input title="Last Name*" name="lname" onHandleChange={(e) => setState( {...state, lname: e.target.value})} className="w-full" />
             </div>
             {isPersonal ? (
               <>
@@ -82,8 +144,9 @@ const Modal = ({ modalType, handleClose }) => {
                   <input
                     type="radio"
                     name="gender"
+                    id="Male"
                     className='h-5 w-4 accent-stone-500'
-                    //  onChange={(e) => handleGender(e)}
+                     onClick={(e) => handleGender(e)}
                   />{" "}
                   <label className='pl-2'>Male</label>
                  </div>
@@ -93,7 +156,8 @@ const Modal = ({ modalType, handleClose }) => {
                     type="radio"
                     name="gender"
                     className='h-5 w-4 accent-stone-500'
-                    //  onChange={(e) => handleGender(e)}
+                    id="Female"
+                     onClick={(e) => handleGender(e)}
                   />
                   <label className='pl-2'>Female</label>
                  </div>
@@ -103,7 +167,8 @@ const Modal = ({ modalType, handleClose }) => {
                     type="radio"
                     name="gender"
                     className='h-5 w-4 accent-stone-500'
-                    // onChange={(e) => handleGender(e)}
+                    id="Other"
+                    onClick={(e) => handleGender(e)}
                   />
                   <label className='pl-2'>Other</label>
                  </div>
@@ -146,7 +211,7 @@ const Modal = ({ modalType, handleClose }) => {
               <>
                 {/* as per documentation the address, intro, website
                     input fields are removed */}
-                <input type='date' className='w-full h-9 border-[1px] my-1 px-2 text-gray-500 outline-none border-gray-300 rounded-[5px]' />                
+                <input type='date' onChange={ handleDate } className='w-full h-9 border-[1px] my-1 px-2 text-gray-500 outline-none border-gray-300 rounded-[5px]' />                
 
                 <div className="flex justify-between items-center">
                 {/* gender selection field, organization name added added */}
@@ -155,7 +220,8 @@ const Modal = ({ modalType, handleClose }) => {
                     type="radio"
                     name="gender"
                     className='h-5 w-4 accent-stone-500'
-                    //  onChange={(e) => handleGender(e)}
+                    id="Male"
+                     onChange={(e) => handleGender(e)}
                   />{" "}
                   <label className='pl-2'>Male</label>
                  </div>
@@ -165,7 +231,8 @@ const Modal = ({ modalType, handleClose }) => {
                     type="radio"
                     name="gender"
                     className='h-5 w-4 accent-stone-500'
-                    //  onChange={(e) => handleGender(e)}
+                    id="Female"
+                     onChange={(e) => handleGender(e)}
                   />
                   <label className='pl-2'>Female</label>
                  </div>
@@ -175,20 +242,21 @@ const Modal = ({ modalType, handleClose }) => {
                     type="radio"
                     name="gender"
                     className='h-5 w-4 accent-stone-500'
-                    // onChange={(e) => handleGender(e)}
+                    id="Other"
+                    onChange={(e) => handleGender(e)}
                   />
                   <label className='pl-2'>Other</label>
                  </div>
                 </div>
 
-                <Input type='search' title='Organization Name*' />
-                <Dropdown name={"Organization Category*"} options={[]} />
+                <Input type='search' title='Organization Name*' onHandleChange={(e) => setState({...state, orgName: e.target.value})} />
+                <Dropdown name={"Organization Category*"} options={ organizationCategory } handleChange={handleChange} selectedCategory={selectedCategory}/>
               </>
             )}
           </div>
           
           {/* create button positioned to top level div */}
-          <div className='flex justify-center'>
+          <div className='flex justify-center' onClick={handleCreateProfile}>
             <label
             htmlFor=""
             className="bg-[#6780af] w-52 py-1.5 flex justify-center py-1 rounded-xl block mt-[60px] cursor-pointer text-white font-medium"

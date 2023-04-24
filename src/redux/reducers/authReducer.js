@@ -35,6 +35,9 @@ const initialState = {
 
         case "SENDING_MAIL_FOR_OTP":
           return { ...state,mailSended:action.payload}
+        case "SET_USER_DATA":
+          console.log('set user id', action.payload);
+          return { ...state, signupData: {...state.signupData, userId: action.payload.data.id}}
       default:
         return state;
     }

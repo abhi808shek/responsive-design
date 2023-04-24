@@ -179,4 +179,108 @@ export const loginUser = (data) => async (dispatch) => {
     console.log(err, 'errror login');
     throw err
   }
-} 
+}
+
+export const userRegistration = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.post(
+      `http://3.233.82.34:8080/api/user/registration`, data,
+           {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+      if(response.status){
+        dispatch({
+          type: "SET_USER_DATA",
+          payload: response.data
+        })
+      } else throw response
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err
+  }
+}
+
+
+export const getOrgCategory = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/businesscategory/category`,
+      {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_ORG_CATEGORY",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err
+  }
+}
+
+
+export const createProfile = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.post(
+      `http://3.233.82.34:8080/profile/api/profile/add`, data,
+      {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "CREATE_PROFILE",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+
+export const uploadImage = (data) => async (dispatch) => {
+  // const { email, password } = data;
+  try {
+    const response = await axios.get(
+      `http://35.183.49.35:9098/s3/upload`, data,
+      {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "multipart/formdata"
+        },
+      }
+    );
+    console.log(response);
+
+    // dispatch({
+    //   type: "CREATE_PROFILE",
+    //   payload: response.data
+    // })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err
+  }
+}

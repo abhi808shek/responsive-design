@@ -38,6 +38,8 @@ const VideoComponent = ({ dataList }) => {
           <div className="flex items-center gap-2">
             <h1 className="font-semibold ">Elisa K</h1>
             <p className="text-[10px] font-medium">5 hours ago</p>
+            <h1 className="font-semibold text-white ">Elisa K</h1>
+            <p className="text-[10px] text-white font-bold">5 hours ago</p>
           </div>
 
           <div className="flex gap-2 items-center">

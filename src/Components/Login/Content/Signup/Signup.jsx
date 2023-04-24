@@ -73,7 +73,7 @@ const Signup = () => {
       };
       const status = await dispatch(saveUserSignupData(dataObj));
       if (status === 200) {
-        navigate("/auth/verification")
+        navigate(`/auth/verification/signup?${profileType}`)
       }
     },
   });
@@ -82,10 +82,10 @@ const Signup = () => {
 
     // setState({ ...state, showModal: false, modalType: event.target.id})
   };
-  // const handleClose = () => {
-  //   setProfileType(event.target.id)
-  //   // setState({ ...state, showModal: false, modalType: ''})
-  // }
+  const handleClose = () => {
+    setProfileType(event.target.id)
+    // setState({ ...state, showModal: false, modalType: ''})
+  }
 
   return (
     <>
@@ -203,11 +203,11 @@ const Signup = () => {
             </Link>
           </span>
         </p>
-        {showModal &&
+        {/* {showModal &&
           createPortal(
             <Modal modalType={modalType} handleClose={handleClose} />,
             document.getElementById("root")
-          )}
+          )} */}
       </div>
     </>
   );
