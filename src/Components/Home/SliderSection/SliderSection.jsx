@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import { MdArrowBackIosNew, MdArrowForwardIos } from 'react-icons/md'
 
 const SliderSection = () => {
 
@@ -28,7 +29,7 @@ const SliderSection = () => {
     },
   };
   return (
-      <div className="flex flex-col w-[40%] h-[60%]">
+      <div className="flex flex-col w-[40%] h-[60%] relative">
         <div className="flex justify-between w-full py-2">
           <span className="font-bold text-sm">Recent Kicks</span>
           <span className="text-sm text-[#788eb7] font-medium">
@@ -36,8 +37,9 @@ const SliderSection = () => {
           </span>
         </div>
         {/* Slider */}
-          <Carousel
+          <Carousel            
             responsive={responsive}
+            arrows={true}
             containerClass={`w-full h-[210px] z-[1]`}
           >
             {[12, 3, 334, 434, 5434, 453].map((elem,index) => (
@@ -51,9 +53,9 @@ const SliderSection = () => {
                    <img
                     src="./images/pizza.jpg"
                     alt=""
-                    className="w-9 h-9 relative bottom-12 left-2 rounded-full"
+                    className="w-9 h-9 relative bottom-11 left-2 rounded-full"
                    />
-                   <span className='absolute text-white text-[13px] bottom-[64px] left-[50px]'>
+                   <span className='absolute text-white font-medium text-[13px] bottom-[58px] left-[50px]'>
                    {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
                    Joe Doe
                    </span>                  

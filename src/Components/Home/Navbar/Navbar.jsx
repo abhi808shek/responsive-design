@@ -129,7 +129,7 @@ const Navbar = () => {
             <img
               src="./images/events.jpg"
               alt=""
-              className="w-[36px] h-[36px] rounded-full"
+              className="w-[36px] h-[36px] rounded-full object-cover"
             />
             <BsChevronCompactDown className="" />
           </div>

@@ -10,7 +10,7 @@ import { commentsData } from "../../../../redux/actionCreators/userActionCreator
 import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
 import Portals from "../../../Portals/Portals";
 import KicksBeforeLike from '../../../../assets/images/KicksBeforeLike.png'
-import user from '../../../../assets/images/user.png'
+import user from '../../../../Assets/Images/Person.jpg'
 import SharePostModal from "../../Modal/SharePostModal/SharePostModal";
 
 const PostCard = ({ userData, item }) => {
@@ -55,17 +55,17 @@ const PostCard = ({ userData, item }) => {
   return (
     <>
       <div
-        className={`flex w-[40%] rounded-md justify-between items-center px-2 flex-col mt-2 bg-white`}
+        className={`flex w-[40%] rounded-lg py-2 justify-between items-center px-2 flex-col mt-2 bg-white`}
       >
         {/* Top Section */}
         <section className="w-full flex items-center">
-          <div className="flex w-[50px] h-[50px]">
+          <div className="flex w-[46px] h-[46px]">
             {/* due to img broke dynamic src commented */}
             <img
               // src={item.userIcon}
               src={user}
               alt=""
-              className="w-full h-full rounded-full mt-1"
+              className="w-full h-full rounded-full mt-1 object-cover"
             />
           </div>
 
@@ -134,26 +134,26 @@ const PostCard = ({ userData, item }) => {
         </section>
 
         {/* Like share Comment Button Sections  */}
-        <section className="flex w-full mt-2 mb-1  px-2">
-          <div className="flex w-[60%] gap-2 items-center">
+        <section className="flex justify-between w-full mt-2 mb-1  px-2">
+          <div className="flex justify-center gap-2 items-center">
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
-            <span className="lg:text-[14px] xl:text-[16px] font-semibold">
+            <span className="lg:text-[13px] xl:text-[14px] font-medium">
               100
             </span>
           </div>
 
-          <div className="flex w-[40%] gap-5 items-center">
+          <div className="flex  gap-5 items-center">
             <span
-              className="lg:text-[12px] xl:text-[14px] font-semibold text-gray-500"
+              className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600"
             // onClick={{}}
             >
               5 Comments
             </span>
-            <span className="lg:text-[12px] xl:text-[14px] font-medium text-gray-500">
+            <span className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600">
               28 Shares
             </span>
           </div>
