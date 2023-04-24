@@ -8,7 +8,7 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import AccessTimeIcon from '@mui/icons-material/AccessTime';
 import kicksBeforeLike from '../../Assets/Images/Kicks before like.png';
 import kicksShare from '../../Assets/Images/Kicks Share.png';
-import kicksAfterLike from '../../Assets/Images/Kicks like.png';
+import kicksAfterLike from '../../Assets/Images/Kicks Like.png';
 import SendIcon from '@mui/icons-material/Send';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLikes } from '../../redux/actionCreators/postActionCreator';

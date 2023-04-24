@@ -68,14 +68,9 @@ const Kicks = () => {
 
       {/* Reels Section */}
 
-<<<<<<< HEAD
+
       <section className="overflow-y-scroll hideScroll">
-=======
-      <section className="overflow-y-scroll flex flex-col gap-8">
         <VideoComponent dataList={dataList} />
-        <VideoComponent dataList={dataList} />
-        <VideoComponent dataList={dataList} />
->>>>>>> b087e5860a4feb0e893a52b588611fa425e590c1
         <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
       </section>
