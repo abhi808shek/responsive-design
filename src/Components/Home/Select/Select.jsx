@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Heading from "./Heading";
 import Option from "./Option";
-import { defaultRootScreen } from "../../../redux/actionCreators/eventActionCreator";
 import { useDispatch } from "react-redux";
+import { defaultRootScreen } from "../../../redux/actionCreators/eventActionCreator";
 
-const Select = async() => {
+const Select = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+
+
   const data = [
     {
       title: "Root",
@@ -33,11 +36,13 @@ const Select = async() => {
   ];
 
   const onHandleClick = (option) => {
-      navigate(option?.url);
-      if (option?.title === "Root") {
-        
-        //   dispatch(defaultRootScreen());
-      }
+    navigate(option?.url);
+    if (option?.title === "Root") {
+      console.log("Before");
+      dispatch(defaultRootScreen())
+      console.log("After");
+    }
+    
   };
 
   return (
@@ -46,7 +51,7 @@ const Select = async() => {
         <Heading title="Select" />
 
         <div className="flex flex-col gap-4">
-          {data.map((elem) => (
+          {data?.map((elem) => (
             <Option
               key={elem?.title}
               title={elem?.title}

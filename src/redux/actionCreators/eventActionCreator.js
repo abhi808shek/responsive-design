@@ -1,4 +1,5 @@
 import axios from "axios";
+import { getUserDataFromLocalStorage } from "../../Components/Utility/utility";
 
 export const getEventData = () => async (dispatch) => {
   try {
@@ -21,22 +22,20 @@ export const getEventData = () => async (dispatch) => {
 };
 
 // DEFAULT ROOT SCREEN API CALL 
-const token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhYmhpODA4Z3VwdGFAZ21haWwuY29tIiwiZXhwIjo2MTY3NDU2NjQwMCwiaWF0IjoxNjgyMjc2MTczfQ.7idSndpWt9nLeXM9tRrHJrwV1cJmDdEMpVfq_37mZYD9u0mmCmfK6CAtxvr-3wvEyORAhBYIOpg6E71xrA3HVw"
 export const defaultRootScreen = () => async (dispatch) => {
     try {
   const getStoredData = await getUserDataFromLocalStorage()
   console.log("getStoredData",getStoredData);
-
       const defaultRootResult = await axios.get(
         `http://3.233.82.34:8080/post/api/post/getspost`,
         {
           headers: {
             "Accept-Language": "en",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getStoredData?.token}`,
           },
         }
       );
-      console.log("defaultRootResult", defaultRootResult);
+      console.log("defaultRootResult", defaultRootResult.data.data);
       dispatch({
         type: "DEFAULT_ROOT_SCREEN",
         payload: defaultRootResult?.data,
@@ -49,13 +48,15 @@ export const defaultRootScreen = () => async (dispatch) => {
 // DEFAULT CLICKED ON EVENT SCREEN API CALL 
 export const defaultEventScreen = (profileid) => async (dispatch) => {
     try {
+  const getStoredData = await getUserDataFromLocalStorage()
+
       const defaultEventResult = await axios.get(
         ` http://3.233.82.34:8080/post/api/post/getpostbypostid/${profileid}`,
        
         {
           headers: {
             "Accept-Language": "en",
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${getStoredData?.token}`,
           },
         }
       );
@@ -72,13 +73,15 @@ export const defaultEventScreen = (profileid) => async (dispatch) => {
 // ADD EVENT POST API
 export const addEventPost = (data) => async (dispatch) => {
   try {
+  const getStoredData = await getUserDataFromLocalStorage()
+
     const eventResult = await axios.post(
       "http://3.233.82.34:8080/post/api/post/add ",
       data,
       {
         headers: {
           "Accept-Language": "en",
-         Authorization: `Bearer ${token}`,
+         Authorization: `Bearer ${getStoredData?.token}`,
         },
       }
     );
@@ -94,13 +97,15 @@ export const addEventPost = (data) => async (dispatch) => {
 // GET ALL EVENT  API
 export const getAllEventPost =(eventpostid,profileid)  => async (dispatch) => {
   try {
+  const getStoredData = await getUserDataFromLocalStorage()
+
     const allEventResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getsponser/${eventpostid}/${profileid}`,
      
       {
         headers: {
           "Accept-Language": "en",
-         Authorization: `Bearer ${token}`,
+         Authorization: `Bearer ${getStoredData?.token}`,
         },
       }
     );
@@ -117,13 +122,15 @@ export const getAllEventPost =(eventpostid,profileid)  => async (dispatch) => {
 // GET ALL TRENDING POST 
 export const getAllTrendingPost = (eventpostid,profileid) => async (dispatch) => {
     try {
+  const getStoredData = await getUserDataFromLocalStorage()
+
       const trendingPostResult = await axios.get(
         `http://3.233.82.34:8080/post/api/post/topgetsponser/${eventpostid}/${profileid}`,
        
         {
           headers: {
             "Accept-Language": "en",
-           Authorization: `Bearer ${token}`,
+           Authorization: `Bearer ${getStoredData?.token}`,
           },
         }
       );

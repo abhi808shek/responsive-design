@@ -11,8 +11,8 @@ const NotificationModal = () => {
       </div>
       <hr />
       <div className="overflow-scroll h-[360px] px-2">
-      {[1, 2, 3, 45, 6, 78, 89].map(() => (
-        <><div className="flex mt-2 py-2">
+      {[1, 2, 3, 45, 6, 78, 89].map((elem,index) => (
+        <React.Fragment key={index}><div className="flex mt-2 py-2">
           <img
             src="./images/events.jpg"
             alt=""
@@ -30,7 +30,7 @@ const NotificationModal = () => {
               march 17,2022
             </div>
           </div>
-        </div><hr /></>
+        </div><hr /></React.Fragment>
       ))}
       </div>
       <div className="w-full flex items-center justify-center">
