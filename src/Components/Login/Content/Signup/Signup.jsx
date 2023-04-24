@@ -73,7 +73,7 @@ const Signup = () => {
       };
       const status = await dispatch(saveUserSignupData(dataObj));
       if (status === 200) {
-        navigate("/auth/verification/signup")
+        navigate(`/auth/verification/signup?${profileType}`)
       }
     },
   });
@@ -203,11 +203,11 @@ const Signup = () => {
             </Link>
           </span>
         </p>
-        {showModal &&
+        {/* {showModal &&
           createPortal(
             <Modal modalType={modalType} handleClose={handleClose} />,
             document.getElementById("root")
-          )}
+          )} */}
       </div>
     </>
   );

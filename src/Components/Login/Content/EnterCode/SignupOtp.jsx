@@ -3,7 +3,7 @@ import Button1 from "../Button/Button1";
 import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
   matchingOtp, settingOtp, userRegistration,
 } from "../../../../redux/actionCreators/authActionCreator";
@@ -12,6 +12,8 @@ import { v4 as uuid } from "uuid";
 import { toasterFunction } from "../../../Utility/utility";
 import { getFirebaseToken } from "../../../../config/firebase";
 import { async } from "@firebase/util";
+import { createPortal } from "react-dom";
+import Modal from "../Modal/Modal";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
@@ -20,7 +22,12 @@ import { async } from "@firebase/util";
 const SignupOtp = ({ title }) => {
   {/* send code timing implemented dynamically */}
   const [timer, setTimer] = useState(false);
+  const params = useParams();
+  const location = useLocation();
+  const [state, setState] = useState({})
+  const { showModal } = state
   const dispatch = useDispatch();
+
   const { otp,signupData } = useSelector((state) => state.authReducer);
   const timerFunction = () => {
     if (timer === false) {
@@ -30,6 +37,8 @@ const SignupOtp = ({ title }) => {
       }, 4000);
     }
   };
+  console.log(params, location.search, '__________');
+  const handleClose = () => setState({...state, showModal: false })
   
   const onConfirmOtp = async () => {
     console.log(signupData);
@@ -50,7 +59,10 @@ const SignupOtp = ({ title }) => {
       }
       // console.log(data, '{{{{{{{{{{{}}}}}}}}}}');
       const resp = await dispatch(userRegistration(data))
-      console.log(resp, 'ressssssssssssssssss');
+      // console.log(resp, 'ressssssssssssssssss');
+      if(res){
+        setState({...state, showModal: true})
+      }
     }).catch((err) => {
       console.log(err);
     })
@@ -68,6 +80,7 @@ const SignupOtp = ({ title }) => {
 
     return () => clearInterval(intervalId);
   }, []);
+
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -110,6 +123,11 @@ const SignupOtp = ({ title }) => {
         )}
         <Button1 title="Cancel" path="/" onClick={() => navigate(-1)} />
       </div>
+              {showModal &&
+          createPortal(
+            <Modal modalType={location.search.slice(1)} handleClose={handleClose} />,
+            document.getElementById("root")
+          )}
     </>
   );
 };
