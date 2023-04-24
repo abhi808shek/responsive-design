@@ -15,11 +15,10 @@ import {
   loginUser,
   sendingMailForOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
-import { toasterFunction } from "../../../Utility/utility";
-import { auth } from "../../../../config/firebase";
-import { signInWithEmailAndPassword } from 'firebase/auth'
+import { setDataOnStorage, toasterFunction } from "../../../Utility/utility";
+import { signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
-import getErrorMessage from '../../../Utility/firbaseError';
+import getErrorMessage from "../../../Utility/firbaseError";
 // import { sendOTP } from "./firebase";
 // import { onSignInSubmit } from "./firebase_login";
 
@@ -69,29 +68,23 @@ const Login = () => {
         })
         .required("Required"),
     }),
-    onSubmit: (e) => {
+    onSubmit: async (e) => {
+      const email = formik.values.email;
+      const password = formik.values.password;
       try {
+        const userResponse = await dispatch(loginUser({uemail:email,password:password}));
+          console.log("userResponse",userResponse);
         const userCredential = {
-          uemail: formik.values.email,
-          password: formik.values.password,
-          isLoggedIn: true
+          uemail:email,
+          isLoggedIn:userResponse?.data?.loginstatus,
+          token:userResponse?.data?.loginToken
         };
-         dispatch(loginUser(userCredential)).then((res) => {
-          console.log(res);
-          toast.success(res.data.message);
-          navigate("/select");
-          localStorage.setItem("userData", JSON.stringify(userCredential));
-         }).catch(err => {
-          toast.error(err.response.data.message)
-         })
-        // dispatch(
-        //   settingUserLoginData(true, {
-        //     email: dataObj.email,
-        //     password: formik.values.password,
-        //   })
-        // );
-
-        // navigate("/select");
+        if (!userResponse?.status) {
+          return userResponse?.message
+        }
+        toast.success(userResponse?.message);
+        await setDataOnStorage(userCredential)
+        navigate("/select");
       } catch (error) {
         console.log(error);
       }

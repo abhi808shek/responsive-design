@@ -5,7 +5,8 @@ const initialState = {
   friendsTab: " My Friends (5)",
   kicksType: "Following",
   totalComments: [],
-  menuModalTab: "Nudity or Sexual activity"
+  menuModalTab: "Nudity or Sexual activity",
+  orgCategory: []
 };
 
 const userReducer = (state = initialState, action) => {
@@ -16,7 +17,7 @@ const userReducer = (state = initialState, action) => {
       console.log(action.payload.loginstatus, '-----------------');
       return {
         ...state,
-        isLoggedIn: action.payload.status,
+        isLoggedIn: action.payload.isLoggedIn,
         user: action.payload.user,
       };
     case "SELECT_TAB":
@@ -32,6 +33,9 @@ const userReducer = (state = initialState, action) => {
 
     case "ADD_COMMENTS":
       return { ...state, totalComments: [...state.totalComments, action.payload] };
+
+    case "GET_ORG_CATEGORY":
+      return { ...state, orgCategory: action.payload.data}
     default:
       return state;
   }

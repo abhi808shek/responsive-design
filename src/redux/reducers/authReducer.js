@@ -1,6 +1,7 @@
 const initialState = {
   signupData:{},
   isLoggedIn: false,
+  loginData:{},
   signupDataList:[],
   otp:"",
     emailExist:{},
@@ -29,12 +30,20 @@ const initialState = {
       case "IS_EMAIL_EXIST":
         return { ...state,emailExist:action.payload};
 
+        case "SET_USER_LOGIN_DATA" :
+          console.log(state, '------------SSSSSSSSSSSS');
+          return {...state, loginData: action.payload} 
+
+
       case "LOGIN_SUCCESSFUL" :
-        console.log(state, '------------SSSSSSSSSSSS');
+        // console.log(state, '------------SSSSSSSSSSSS');
         return {...state, isLoggedIn: true}   
 
         case "SENDING_MAIL_FOR_OTP":
           return { ...state,mailSended:action.payload}
+        case "SET_USER_DATA":
+          console.log('set user id', action.payload);
+          return { ...state, signupData: {...state.signupData, userId: action.payload.data.id}}
       default:
         return state;
     }

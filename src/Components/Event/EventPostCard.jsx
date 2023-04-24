@@ -13,7 +13,9 @@ import SendIcon from '@mui/icons-material/Send';
 import { useDispatch, useSelector } from 'react-redux';
 import { setLikes } from '../../redux/actionCreators/postActionCreator';
 import CommentModal from './CommentModel';
-const PostCard = (props) => {
+
+
+const EventPostCard = (props) => {
     const dispatch = useDispatch();
     const { username, timestamp, caption, imageSrc, id,likecount ,item} = props;
     const { posts } = useSelector((state) => state.postReducer);
@@ -92,7 +94,7 @@ const PostCard = (props) => {
     );
 }
 
-export default PostCard;
+export default EventPostCard;
 
 
 

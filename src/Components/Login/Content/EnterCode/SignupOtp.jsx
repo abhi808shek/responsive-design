@@ -3,20 +3,32 @@ import Button1 from "../Button/Button1";
 import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  matchingOtp, settingOtp,
+  matchingOtp, settingOtp, userRegistration,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { toasterFunction } from "../../../Utility/utility";
+import { getFirebaseToken } from "../../../../config/firebase";
+import { async } from "@firebase/util";
+import { createPortal } from "react-dom";
+import Modal from "../Modal/Modal";
+// import { requestNotificationPermission } from "../../../../config/firebase";
 
 
-const EnterCode = ({ title }) => {
+
+
+const SignupOtp = ({ title }) => {
   {/* send code timing implemented dynamically */}
   const [timer, setTimer] = useState(false);
+  const params = useParams();
+  const location = useLocation();
+  const [state, setState] = useState({})
+  const { showModal } = state
   const dispatch = useDispatch();
-  const { otp,emailExist } = useSelector((state) => state.authReducer);
+
+  const { otp,signupData } = useSelector((state) => state.authReducer);
   const timerFunction = () => {
     if (timer === false) {
       setTimer(true);
@@ -25,14 +37,36 @@ const EnterCode = ({ title }) => {
       }, 4000);
     }
   };
+  console.log(params, location.search, '__________');
+  const handleClose = () => setState({...state, showModal: false })
   
   const onConfirmOtp = async () => {
-    const result = await dispatch(matchingOtp(emailExist.data.uemail, otp));
+    console.log(signupData);
+    const result =await dispatch(matchingOtp(signupData.uemail, otp));
     console.log("resultaaa",result);
     if (!result.status) {
         return toasterFunction(result.message)
     }
-    navigate("/auth/forgetpassword")
+    getFirebaseToken().then( async (res) => {
+      // console.log(res);
+      const data ={
+         "datetime": Date.now(),
+         "deviceid": uuid(),
+         "password": signupData.password,
+         "token": res,
+         "uemail": signupData.uemail,
+        //  "umobile": "weware5007@fectode.com"
+      }
+      // console.log(data, '{{{{{{{{{{{}}}}}}}}}}');
+      const resp = await dispatch(userRegistration(data))
+      // console.log(resp, 'ressssssssssssssssss');
+      if(res){
+        setState({...state, showModal: true})
+      }
+    }).catch((err) => {
+      console.log(err);
+    })
+    // navigate("/auth/createUser")
     toasterFunction(result.message)
   };
 
@@ -46,6 +80,7 @@ const EnterCode = ({ title }) => {
 
     return () => clearInterval(intervalId);
   }, []);
+
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -88,8 +123,13 @@ const EnterCode = ({ title }) => {
         )}
         <Button1 title="Cancel" path="/" onClick={() => navigate(-1)} />
       </div>
+              {showModal &&
+          createPortal(
+            <Modal modalType={location.search.slice(1)} handleClose={handleClose} />,
+            document.getElementById("root")
+          )}
     </>
   );
 };
 
-export default EnterCode;
+export default SignupOtp;
