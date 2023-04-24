@@ -37,12 +37,6 @@ const Select = () => {
 
   const onHandleClick = (option) => {
     navigate(option?.url);
-    if (option?.title === "Root") {
-      console.log("Before");
-      dispatch(defaultRootScreen())
-      console.log("After");
-    }
-    
   };
 
   return (
