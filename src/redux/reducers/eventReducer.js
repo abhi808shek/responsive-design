@@ -1,8 +1,8 @@
 const initialState = {
   eventData: {},
   total_participant_count: null,
-  eventDataObj: {},
-  defaultRootData: {},
+  defaultRootData:{},
+  defaultEventData: {},
   allEventsPost: [],
   allTrendingPost:[]
 };
@@ -18,12 +18,12 @@ export const eventReducer = (state = initialState, action) => {
     case "DEFAULT_ROOT_SCREEN":
       return {
         ...state,
-        defaultRootData: action.payload,
+        defaultRootData:action.payload,
       };
     case "DEFAULT_EVENT_SCREEN":
       return {
         ...state,
-        eventDataObj: action.payload,
+        defaultEventData: action.payload,
       };
 
     case "GET_ALL_EVENTS_POST_LIST":

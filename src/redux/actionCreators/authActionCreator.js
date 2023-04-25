@@ -45,7 +45,6 @@ export const settingOtp = (otp) => async (dispatch) => {
   }
 };
 
-
 export const allSingupDetails = (data) => async (dispatch) => {
   try {
     const result = await axios.post(
@@ -68,9 +67,9 @@ export const allSingupDetails = (data) => async (dispatch) => {
 
 // Checking Email Is Exist Or not In Database
 export const checkingIsEmailExist = (emailId) => async (dispatch) => {
-  console.log(emailId, 'PPPPPPPPPPPPPPPPPPPPP');
+  console.log(emailId, "PPPPPPPPPPPPPPPPPPPPP");
   try {
-    console.log("emailId",emailId);
+    console.log("emailId", emailId);
     const userExist = await axios.get(
       `http://3.233.82.34:8080/api/user/usersbyemail/${emailId}`,
       {
@@ -81,14 +80,13 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
     );
     dispatch({
       type: "IS_EMAIL_EXIST",
-      payload:userExist.data
+      payload: userExist.data,
     });
     return userExist.data;
   } catch (error) {
     return userExist.data;
   }
 };
-
 
 // Sending Mail For Otp
 export const sendingMailForOtp = (data) => async (dispatch) => {
@@ -112,7 +110,6 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
   }
 };
 
-
 // Maching Otp for verification
 export const matchingOtp = (mailId, otp) => async (dispatch) => {
   try {
@@ -133,8 +130,6 @@ export const matchingOtp = (mailId, otp) => async (dispatch) => {
     return result.message;
   }
 };
-
-
 
 // Setting New Password
 export const savingNewPassword = (data) => async (dispatch) => {
@@ -161,52 +156,53 @@ export const loginUser = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/api/user/authenticate`, data,
-           {
+      `http://3.233.82.34:8080/api/user/authenticate`,
+      data,
+      {
         headers: {
           "Accept-Language": "en",
         },
       }
     );
-    console.log(response);
+    console.log("responseeeeeeeeeeeeeeeee", response);
 
     dispatch({
       type: "SET_USER_LOGIN_DATA",
-      payload: response.data
-    })
-    return response.data
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err;
   }
-}
+};
 
 export const userRegistration = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/api/user/registration`, data,
-           {
+      `http://3.233.82.34:8080/api/user/registration`,
+      data,
+      {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
     console.log(response);
-      if(response.status){
-        dispatch({
-          type: "SET_USER_DATA",
-          payload: response.data
-        })
-      } else throw response
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err
+    if (response.status) {
+      dispatch({
+        type: "SET_USER_DATA",
+        payload: response.data,
+      });
+    } else throw response;
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err;
   }
-}
-
+};
 
 export const getOrgCategory = (data) => async (dispatch) => {
   try {
@@ -215,7 +211,7 @@ export const getOrgCategory = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -223,24 +219,24 @@ export const getOrgCategory = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_ORG_CATEGORY",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err;
   }
-}
-
+};
 
 export const createProfile = (data) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/profile/api/profile/add`, data,
+      `http://3.233.82.34:8080/profile/api/profile/add`,
+      data,
       {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -248,24 +244,24 @@ export const createProfile = (data) => async (dispatch) => {
 
     dispatch({
       type: "CREATE_PROFILE",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
-
+};
 
 export const uploadImage = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://35.183.49.35:9098/s3/upload`, data,
+      `http://35.183.49.35:9098/s3/upload`,
+      data,
       {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "multipart/formdata"
+          "Content-Type": "multipart/formdata",
         },
       }
     );
@@ -275,12 +271,13 @@ export const uploadImage = (data) => async (dispatch) => {
     //   type: "CREATE_PROFILE",
     //   payload: response.data
     // })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err;
   }
-}
+};
+
 
 
 export const getCountryList = (data) => async (dispatch) => {

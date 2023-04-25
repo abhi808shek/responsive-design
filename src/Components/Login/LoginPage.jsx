@@ -7,9 +7,10 @@ import Footer from "../Footer/Footer";
 import './login.css'
 
 const LoginPage = () => {
-  const { isLoggedIn } = useSelector((state) => state.userReducer);
-
-  if (isLoggedIn) {
+  let userData = localStorage.getItem("userCredential");
+  userData = JSON.parse(userData);
+  console.log("userData",userData);
+  if (userData?.isLoggedIn) {
     return <Navigate to="/select" />
   }
   return (

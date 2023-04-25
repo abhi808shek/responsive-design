@@ -38,26 +38,33 @@ import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 
 const App = () => {
   const dispatch = useDispatch();
-  const { isLoggedIn } = useSelector((state) => state.userReducer);
+  let userData = localStorage.getItem("userCredential");
+  userData = JSON.parse(userData);
+  console.log("userData",userData);
   const isUserLoggedIn = () => {
-    let userData = localStorage.getItem("userCredential");
-    userData = JSON.parse(userData);
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-      dispatch(settingUserLoginData(true, { email: userData.email, userId: userData.userId }));
+      dispatch(
+        settingUserLoginData(userData?.isLoggedIn, {
+          email: userData.uemail,
+        })
+      );
     }
   };
 
   useEffect(() => {
     isUserLoggedIn();
-  }, []);
-if ("serviceWorker" in navigator) {
+  }, [dispatch,userData]);
 
-  navigator.serviceWorker.register('../../firebase-messaging-sw.js').then((res) => {
-    console.log('service worker registration successfull');
-  }).catch((err) => console.log('service worker registration failed', err))
-}
+  if ("serviceWorker" in navigator) {
+    navigator.serviceWorker
+      .register("../../firebase-messaging-sw.js")
+      .then((res) => {
+        console.log("service worker registration successfull");
+      })
+      .catch((err) => console.log("service worker registration failed", err));
+  }
   return (
     <>
       <Routes>
@@ -81,25 +88,21 @@ if ("serviceWorker" in navigator) {
             path="verification/signup"
             element={<SignupOtp title="Verification starts now" />}
           />
-          <Route
-            exact
-            path="createUser"
-            element={<UpdateProfile  />}
-          />
+          <Route exact path="createUser" element={<UpdateProfile />} />
         </Route>
-
-       
-
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-          <Route path="select" element={<Select />} />
+            <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
-            <Route path="friend-request" element={<FriendRequestPage isFriend={true} />} />
+            <Route
+              path="friend-request"
+              element={<FriendRequestPage isFriend={true} />}
+            />
             <Route path="chat-page" element={<ChatPages />} />
             <Route path="umeet" element={<Umeet />} />
             <Route exact path="event" element={<Event />} />

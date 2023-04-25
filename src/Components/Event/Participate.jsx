@@ -5,7 +5,7 @@ import moment from "moment";
 import { setSelectedIndex } from "../../redux/actionCreators/selectedIndexActionCreator";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../Assets/Images/Delete.png";
-import { addEventPost } from './../../redux/actionCreators/eventActionCreator';
+import { addEventPost, imageUploadApi } from "./../../redux/actionCreators/eventActionCreator";
 
 const Participate = () => {
   const dispatch = useDispatch();
@@ -13,27 +13,26 @@ const Participate = () => {
   const [image, setImage] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [formError, setFormError] = useState("");
-  const {eventDataObj} = useSelector((state)=>state.eventReducer)
-
+  const { eventDataObj } = useSelector((state) => state.eventReducer);
 
   // Function for timestamp
-  const timestamp = (date) => {
-    const now = moment();
-    const postDate = moment(date);
-    const diff = now.diff(postDate, "minutes");
+  // const timestamp = (date) => {
+  //   const now = moment();
+  //   const postDate = moment(date);
+  //   const diff = now.diff(postDate, "minutes");
 
-    if (diff < 1) {
-      return "just now";
-    } else if (diff < 60) {
-      return `${diff} minutes ago`;
-    } else if (diff < 1440) {
-      return `${Math.floor(diff / 60)} hours ago`;
-    } else if (diff < 10080) {
-      return `${Math.floor(diff / 1440)} days ago`;
-    } else {
-      return postDate.format("DD/MM/YYYY");
-    }
-  };
+  //   if (diff < 1) {
+  //     return "just now";
+  //   } else if (diff < 60) {
+  //     return `${diff} minutes ago`;
+  //   } else if (diff < 1440) {
+  //     return `${Math.floor(diff / 60)} hours ago`;
+  //   } else if (diff < 10080) {
+  //     return `${Math.floor(diff / 1440)} days ago`;
+  //   } else {
+  //     return postDate.format("DD/MM/YYYY");
+  //   }
+  // };
 
   const handleCaptionChange = (e) => {
     setCaption(e.target.value);
@@ -46,50 +45,22 @@ const Participate = () => {
   const handleTermsChange = (e) => {
     setTermsAccepted(e.target.checked);
   };
+  const { defaultEventData } = useSelector(
+    (state) => state.eventReducer)
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+const imageUrl = defaultEventData?.data?.image.split(" @ ");
+console.log("Image URLLLLLLLLL",imageUrl);
+console.log("PAtrjfjehdjsedw",defaultEventData);
+const onHandleSubmit = async() => {
+    const uploadedImage = await dispatch(imageUploadApi(image))
 
-    // // Check if caption and image are provided
-    // if (!caption || !image) {
-    //     setFormError('Please provide both caption and image.');
-    //     return;
-    // }
-
-    // // Check if terms are accepted
-    // if (!termsAccepted) {
-    //     setFormError('Please accept the terms and conditions.');
-    //     return;
-    // }
-
-
-
-    const post = {
-      username: "amal shakya",
-      // caption: caption,
-      image:
-        "https://images.unsplash.com/photo-1671603221845-8dd3db802b7d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
-      timestamp: Date.now(),
-    };
-    dispatch(setPostData(data));
-
-    dispatch(setSelectedIndex(0));
-
-    // Reset the form state
-    setCaption("");
-    setImage(null);
-    setTermsAccepted(false);
-    setFormError("");
-  };
-
-  const onHandleSubmit = ()=>{
+    console.log("uploadedImage",uploadedImage);
     const participantsData = {
-      active: eventDataObj?.active,
+      active: defaultEventData?.data?.active,
       commentcount: 0,
-      delete: eventDataObj?.delete,
+      delete: defaultEventData?.data?.delete,
       id: null,
-      image:
-      "https://www.rollingstone.com/wp-content/uploads/2021/06/skyjacker-opener.jpg?resize=1800,1200&w=1200",
+      image: image,
       likecount: 0,
       location: "",
       // postdatetime: dateAndTime.toString(),
@@ -100,27 +71,31 @@ const Participate = () => {
       template: "No_template",
       text: caption,
       type: "sPost",
-      utag: eventDataObj?.utag,
+      utag: defaultEventData?.data?.utag,
       video: null,
       viptype: 1,
       postprofileid: "",
       postprofile: null,
       likepostid: "",
-      eventtype: eventDataObj?.eventtype,
+      eventtype: defaultEventData?.data?.eventtype,
       lat: "",
       log: "",
-      startdate: eventDataObj?.startdate,
-      enddate: eventDataObj?.enddate,
-      postonpost: eventDataObj?.id,
+      startdate: defaultEventData?.data?.startdate,
+      enddate: defaultEventData?.data?.enddate,
+      postonpost: defaultEventData?.data?.id,
       duration: "0",
-      tital: eventDataObj?.tital,
+      tital: defaultEventData?.data?.tital,
     };
-    
-    dispatch(addEventPost(participantsData))
-  }
+console.log("participantsData",participantsData);
+    // dispatch(addEventPost(participantsData))
+    setCaption("");
+    setImage(null);
+    setTermsAccepted(false);
+    setFormError("");
+  };
   return (
     <div className="p-6 bg-white rounded-lg shadow-md w-[100%]">
-      <form onSubmit={handleSubmit}>
+      <div>
         <div className="mb-4">
           <textarea
             className="border border-gray-400 rounded px-3 py-2 h-[20vh] w-full focus:outline-none"
@@ -184,17 +159,20 @@ const Participate = () => {
             required
           />
           <label className="inline-block font-medium" htmlFor="terms">
-            I accept the <a href="#">terms and conditions</a>.
+            I accept the <a href="#">terms and conditions</a>
+    
           </label>
+          <img src={imageUrl && imageUrl[2]} alt=""  className="h-full w-full object-contain" />
         </div>
         <div className="mb-4 text-red-500">{formError}</div>
         <button
           className="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded"
           type="submit"
-       onClick={onHandleSubmit} >
+          onClick={onHandleSubmit}
+        >
           Submit
         </button>
-      </form>
+      </div>
     </div>
   );
 };
