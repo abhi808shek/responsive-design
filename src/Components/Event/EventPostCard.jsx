@@ -57,19 +57,19 @@ const EventPostCard = (props) => {
                 </div>
             </div>
             <div className="mb-4">
-                <p className="text-sm text-gray-700">{caption}</p>
+                <p className="text-sm text-gray-700">{item?.text}</p>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-2'></div>
             <div className="mb-4">
-                <img src={imageSrc} alt="Post" className="w-full h-[300px] rounded-lg" />
+                <img src={item?.image} alt="Post" className="w-full h-[300px] rounded-lg" />
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-2'></div>
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                    {/* <p className='cursor-pointer'>{item.likecount} Likes</p> */}
+                    <p className='cursor-pointer'>{item?.likecount} Likes</p>
                 </div>
                 <div>
-                    {/* <p className='cursor-pointer' onClick={handleCommentCountClick}>{item.commentcount} comments</p> */}
+                    <p className='cursor-pointer' onClick={handleCommentCountClick}>{item?.commentcount} comments</p>
                 </div>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-3'></div>

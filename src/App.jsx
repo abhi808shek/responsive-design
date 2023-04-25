@@ -34,6 +34,7 @@ import Event from "./Components/Event/Event";
 import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/CommentBox";
 import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
+import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
@@ -105,7 +106,8 @@ const App = () => {
             />
             <Route path="chat-page" element={<ChatPages />} />
             <Route path="umeet" element={<Umeet />} />
-            <Route exact path="event" element={<Event />} />
+            <Route path="profile-page" element={<ProfilePage />} />
+            <Route path="event" element={<Event />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}

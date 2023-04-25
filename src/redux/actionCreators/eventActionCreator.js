@@ -11,6 +11,7 @@ export const getEventData = () => async (dispatch) => {
         },
       }
     );
+    console.log("Event", eventData.data);
     dispatch({
       type: "RECIVED_EVENT_DATA",
       payload: eventData.data,
@@ -84,6 +85,7 @@ export const addEventPost = (data) => async (dispatch) => {
     dispatch({
       type: "ADD_EVENT_POST_DATA",
     });
+    return eventResult?.data
   } catch (error) {
     console.log(error.message);
   }
@@ -93,6 +95,9 @@ export const addEventPost = (data) => async (dispatch) => {
 export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
+console.log("eventpostid",eventpostid);
+console.log("profileid",profileid);
+
 
     const allEventResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getsponser/${eventpostid}/${profileid}`,
@@ -104,6 +109,7 @@ export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
         },
       }
     );
+    console.log("allEventResult",allEventResult);
     dispatch({
       type: "GET_ALL_EVENTS_POST_LIST",
       payload: allEventResult?.data,
@@ -138,28 +144,4 @@ export const getAllTrendingPost =
     }
   };
 
-//IMAGE UPLOAD API
-export const imageUploadApi = (image) => async (dispatch) => {
-  try {
-    const getStoredData = await getUserDataFromLocalStorage();
 
-    const getUploadedResult = await axios.post(
-      `http://35.183.76.174:9098/s3/upload`,
-      image,
-      {
-        headers: {
-          "Accept-Language": "en",
-          Authorization: `Bearer ${getStoredData?.token}`,
-        },
-      }
-    );
-    console.log("getUploadedResult", getUploadedResult);
-    dispatch({
-      type: "GET_IMAGE_UPLOAD",
-      payload: getImageResult,
-    });
-    return getUploadedResult;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
