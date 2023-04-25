@@ -4,7 +4,8 @@ const initialState = {
   signupDataList:[],
   otp:"",
     emailExist:{},
-    mailSended:{}
+    mailSended:{},
+    countryList:[]
   };
   
   const authReducer = (state = initialState, action) => {
@@ -37,7 +38,18 @@ const initialState = {
           return { ...state,mailSended:action.payload}
         case "SET_USER_DATA":
           console.log('set user id', action.payload);
-          return { ...state, signupData: {...state.signupData, userId: action.payload.data.id}}
+          return { ...state, signupData: {...state.signupData, userId: action.payload.data.id, googleid: action.payload.data.googleid}}
+
+        case "GET_COUNTRY_LIST":
+          return { ...state, countryList: action.payload.data};
+        case "GET_STATE_LIST":
+          return { ...state, stateList: action.payload.data};
+        case "GET_DISTRICT_LIST":
+          return { ...state, districtList: action.payload.data};
+        case "GET_LOKSABHA_LIST":
+          return { ...state, loksabhaList: action.payload.data};
+        case "GET_ASSEMBLY_LIST":
+          return { ...state, assemblyList: action.payload.data}
       default:
         return state;
     }

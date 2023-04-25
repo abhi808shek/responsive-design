@@ -209,7 +209,6 @@ export const userRegistration = (data) => async (dispatch) => {
 
 
 export const getOrgCategory = (data) => async (dispatch) => {
-  // const { email, password } = data;
   try {
     const response = await axios.get(
       `http://3.233.82.34:8080/profile/api/businesscategory/category`,
@@ -235,7 +234,6 @@ export const getOrgCategory = (data) => async (dispatch) => {
 
 
 export const createProfile = (data) => async (dispatch) => {
-  // const { email, password } = data;
   try {
     const response = await axios.post(
       `http://3.233.82.34:8080/profile/api/profile/add`, data,
@@ -261,7 +259,6 @@ export const createProfile = (data) => async (dispatch) => {
 
 
 export const uploadImage = (data) => async (dispatch) => {
-  // const { email, password } = data;
   try {
     const response = await axios.get(
       `http://35.183.49.35:9098/s3/upload`, data,
@@ -282,5 +279,156 @@ export const uploadImage = (data) => async (dispatch) => {
   } catch(err) {
     console.log(err, 'errror login');
     throw err
+  }
+}
+
+
+export const getCountryList = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/api/user/country/countrylist`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_COUNTRY_LIST",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+
+export const getStateList = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/api/user/country/getstate/${data}`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_STATE_LIST",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+export const getDistrict = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/api/user/country/getcity/${data}`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_DISTRICT_LIST",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+
+export const getLoksabha = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/country/getlocasaba/${data}`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_LOKSABHA_LIST",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+
+export const getAssenbly = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/country/getassembly/${data}`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    dispatch({
+      type: "GET_ASSEMBLY_LIST",
+      payload: response.data
+    })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
+  }
+}
+
+
+export const getLocationsList = (data) => async (dispatch) => {
+  console.log(data, '[[[[[[[[[[[[data');
+  // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
+  try {
+    const response = await axios.get(
+    `https://maps.googleapis.com/maps/api/js?key=${data}&libraries=places`,
+      {
+        headers: {
+          "Accept-Language": "us",
+          "Content-Type": "application/json"
+        },
+      }
+    );
+    console.log(response);
+
+    // dispatch({
+    //   type: "GET_ASSEMBLY_LIST",
+    //   payload: response.data
+    // })
+    return response
+  } catch(err) {
+    console.log(err, 'errror login');
+    throw err.response.data
   }
 }

@@ -37,13 +37,14 @@ const SignupOtp = ({ title }) => {
       }, 4000);
     }
   };
-  console.log(params, location.search, '__________');
   const handleClose = () => setState({...state, showModal: false })
   
   const onConfirmOtp = async () => {
     console.log(signupData);
     const result =await dispatch(matchingOtp(signupData.uemail, otp));
-    console.log("resultaaa",result);
+      if(result.status){
+        setState({...state, showModal: true})
+      }
     if (!result.status) {
         return toasterFunction(result.message)
     }
@@ -60,9 +61,7 @@ const SignupOtp = ({ title }) => {
       // console.log(data, '{{{{{{{{{{{}}}}}}}}}}');
       const resp = await dispatch(userRegistration(data))
       // console.log(resp, 'ressssssssssssssssss');
-      if(res){
-        setState({...state, showModal: true})
-      }
+    
     }).catch((err) => {
       console.log(err);
     })

@@ -100,7 +100,7 @@ const Signup = () => {
               id="Personal"
               onChange={(e) => handleClick(e)}
             />
-            Personal
+            <span className="ml-2">Personal</span>
           </span>
           <span>
             <input
@@ -109,7 +109,7 @@ const Signup = () => {
               id="Organization"
               onChange={(e) => handleClick(e)}
             />
-            Organization
+            <span className="ml-2">Organization</span>
           </span>
         </div>
 

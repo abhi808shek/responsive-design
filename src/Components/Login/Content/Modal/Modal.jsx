@@ -4,44 +4,65 @@ import Dropdown2 from "./Dropdown2";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
-import { createProfile, getOrgCategory, uploadImage } from "../../../../redux/actionCreators/authActionCreator";
+import { createProfile, getAssenbly, getCountryList, getDistrict, getLocationsList, getLoksabha, getOrgCategory, getStateList, uploadImage } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
+import { geocodeByAddress } from "react-google-places-autocomplete";
+
 
 const Modal = ({ modalType, handleClose }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate()
   const reducerData = useSelector((state) => {
-    console.log(state, 'reddddd');
     return {
       organizationCategory: state.userReducer.orgCategory,
-      userData: state.authReducer.signupData
+      userData: state.authReducer.signupData,
+      countryList: state.authReducer.countryList,
+      stateList: state.authReducer.stateList,
+      districtList: state.authReducer.districtList,
+      loksabhaList: state.authReducer.loksabhaList,
+      assemblyList: state.authReducer.assemblyList
     }
   });
-  const { organizationCategory, userData } = reducerData;
+  const { organizationCategory, userData, countryList, stateList, districtList,
+     loksabhaList, assemblyList} = reducerData;
   const [country, setCountry] = useState(null)
-  const [state, setState ] = useState({})
-  const { imgFile, selectedCategory , fname, lname, orgName, gender, dob} = state;
+  const [states, setState ] = useState({})
+  const { imgFile, selectedValue , fname, lname, orgName, gender, dob, state, district,
+        loksabha, assembly, category} = states;
 
   const isPersonal = modalType === "Personal";
+  // let autocomplete = new google.maps.places.Autocomplete(document.getElementById('autocomplete'), { })
   useEffect(() => {
-    isPersonal ? "" : dispatch(getOrgCategory())
+
+    isPersonal ? dispatch(getCountryList()) : dispatch(getOrgCategory())
   }, []);
   const handleCountry = (val)=>{
     setCountry(val)
+    dispatch(getStateList(val.code))
   }
-  const handleChange = (value) => {
-    setState({ ...state, selectedCategory: value })
+
+
+  const handleChange = (name, value) => {
+    const obj ={
+      'state': getDistrict(value.statecode),
+      'district': getLoksabha(value.did),
+      'loksabha': getAssenbly(value.lid)
+    }
+   obj[name] && dispatch(obj[name])
+    setState({ ...states, [name]: value })
   }
   const handleGender = e => {
-    console.log(e.target.id);
-    setState({...state, gender: e.target.id});
+    setState({...states, gender: e.target.id});
   }
   const handleDate = e => {
     console.log(e.target.value);
-    setState({...state, dob: e.target.value})
+    setState({...states, dob: e.target.value})
+  }
+  const handleLiveLocationn = () => {
+
   }
   const handleCreateProfile = async () => {
     const file = new FormData();
@@ -55,14 +76,32 @@ const Modal = ({ modalType, handleClose }) => {
  "fname": orgName,//from user input BUSINESS NAME
  "gender": gender,
   "pimage":"", //if profile image is there, add the URL here.
- "businesscategory": selectedCategory.category,//from user input selection.
+ "businesscategory": selectedValue?.category,//from user input selection.
  "personalLastName": lname,//from user input – profile lnamein SLIDE 4
  "personalname": fname,//from user input – profilefnamein SLIDE 4
  "profiletype": isPersonal ? "Personal" : "Organization",//profile type, while we passing in signup screen
  "updatedate": userData.datetime,//Current UTC time in milliseconds
  "userid": userData.userId// stored User ID from (Slide 3)
 }
-    dispatch(createProfile(payload)).then((res)=> {
+const payloads = {
+    "assembly": assembly?.assembly,//default value.
+    "celibrity": false,
+ "countrycode": "+91",//default selected in signup screen..
+ "country": country?.country,
+ "dob": moment(dob).format("YYYY-MM-DD"),//from user input
+ "email": userData.uemail, //from signup screen.
+ "fname": fname,//from user input BUSINESS NAME
+ "gender": gender,
+  "pimage":"", //if profile image is there, add the URL here.
+  "loksabha": loksabha?.loksabha,
+ "lname": lname,//from user input – profile lnamein SLIDE 4
+ "personalname": fname,//from user input – profilefnamein SLIDE 4
+ "profiletype": isPersonal ? "Personal" : "Organization",//profile type, while we passing in signup screen
+ "updatedate": userData.datetime,//Current UTC time in milliseconds
+ "userid": userData.userId// stored User ID from (Slide 3) 
+
+}
+    dispatch(createProfile(isPersonal ? payloads : payload)).then((res)=> {
       if(res.data.status){
         toast.success(res.data.message)
         navigate('/auth/login')
@@ -94,7 +133,7 @@ const Modal = ({ modalType, handleClose }) => {
               type="file"
               accept="image/*"
               className="hidden"
-              onChange={(e) => setState({ ...state, imgFile: e.target.files[0] })}
+              onChange={(e) => setState({ ...states, imgFile: e.target.files[0] })}
             />
             <label
               htmlFor="profilePic"
@@ -126,12 +165,12 @@ const Modal = ({ modalType, handleClose }) => {
             />*/}
 
             {/* last name field added */}
-            <div className="mt-[9px]">
-              <Input title="First Name*" name="fname" onHandleChange={(e) => setState({ ...state, fname: e.target.value})} className="w-full" />
+            <div className="mt-[9px] mb-2.5">
+              <Input title="First Name*" name="fname" onHandleChange={(e) => setState({ ...states, fname: e.target.value})} className="w-full" />
             </div>
             {/* Lastname field was added */}
             <div className="mt-[2px]">
-              <Input title="Last Name*" name="lname" onHandleChange={(e) => setState( {...state, lname: e.target.value})} className="w-full" />
+              <Input title="Last Name*" name="lname" onHandleChange={(e) => setState( {...states, lname: e.target.value})} className="w-full" />
             </div>
             {isPersonal ? (
               <>
@@ -173,8 +212,9 @@ const Modal = ({ modalType, handleClose }) => {
                   <label className='pl-2'>Other</label>
                  </div>
                 </div>
-                <Dropdown name={"Date of birth"} options={[]} />
-                <Dropdown2 name={"Select country"} options={['India', 'US']} handleCountry={handleCountry} />
+                {/* <Dropdown name={"Date of birth"} options={[]} /> */}
+                <input type='date' onChange={ handleDate } className='w-full h-9 border-[1px] my-1 px-2 text-gray-500 outline-none border-gray-300 rounded-[5px]' />                
+                <Dropdown2 name={"Select country"} country={ country } options={countryList} handleCountry={handleCountry} />
 
                 {/* created Dropdown2 component, when selecting country new dropdowns are shown ,
                     for this local state added, a function created for
@@ -182,29 +222,21 @@ const Modal = ({ modalType, handleClose }) => {
 
                 {
                   country ?
-                   country.toLowerCase() === 'india' ? (
                     <>
                      <div className='flex'>
-                      <Dropdown name={"State"} options={[]} />
-                      <Dropdown name={"District"} options={[]} />
+                      <Dropdown name={"State"} options={stateList} selectedValue={state} keyName={'state'} handleChange={(value) => handleChange('state', value)}/>
+                      <Dropdown name={"District"} options={districtList} selectedValue={district} keyName={'distric'} handleChange={(value) => handleChange('district', value)}/>
                      </div>
                      <div className='flex'>
-                      <Dropdown name={"Loksabha"} options={[]} />
-                      <Dropdown name={"Assembly"} options={[]} />
+                      <Dropdown name={"Loksabha"} keyName={'loksabha'} options={ loksabhaList } selectedValue={loksabha} handleChange={(value) => handleChange('loksabha', value)} />
+                      <Dropdown name={"Assembly"} keyName={'assembly'} options={ assemblyList } selectedValue={assembly} handleChange={(value) => handleChange('assembly', value)} />
                      </div>
                      <div className='mt-1.5'>
-                      <Input title="Living Location*" className="w-full" />
+                      {/* <Input id='autocomplete' title="Living Location*" className="w-full" onHandleChange={ handleLiveLocationn}/> */}
+                      <input id="autocomplete" type="text"/>
                      </div>
                     </>
-                    ) : (
-                    <>
-                      <Dropdown name={"State"} options={[]} />
-                      <div className='mt-1.5'>
-                       <Input title="Living Location*" className="w-full" />
-                      </div>
-                    </>
-                    )
-                  : null
+                    : null
                 }
               </>
             ) : (
@@ -250,7 +282,7 @@ const Modal = ({ modalType, handleClose }) => {
                 </div>
 
                 <Input type='search' title='Organization Name*' onHandleChange={(e) => setState({...state, orgName: e.target.value})} />
-                <Dropdown name={"Organization Category*"} options={ organizationCategory } handleChange={handleChange} selectedCategory={selectedCategory}/>
+                <Dropdown name={"Organization Category*"} options={ organizationCategory } handleChange={(value) => handleChange('category', value)} selectedValue={category} keyName={'category'}/>
               </>
             )}
           </div>

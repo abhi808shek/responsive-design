@@ -1,11 +1,12 @@
 import React from "react";
 
-const Input = ({title ,errorMessage,inputValue,onHandleChange,name,touched,onBlur,disabled}) => {
+const Input = ({id, title ,errorMessage,inputValue,onHandleChange,name,touched,onBlur,disabled}) => {
   return (
     <div className="w-full flex flex-col items-center">
       {/* heigth of input changed & color of border changed
           margin added to input */}
       <input
+      id={id}
         type="text"
         name={name}
         placeholder={title}
