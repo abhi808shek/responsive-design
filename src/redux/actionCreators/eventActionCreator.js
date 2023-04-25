@@ -11,7 +11,6 @@ export const getEventData = () => async (dispatch) => {
         },
       }
     );
-    console.log("Event", eventData.data);
     dispatch({
       type: "RECIVED_EVENT_DATA",
       payload: eventData.data,
@@ -25,7 +24,6 @@ export const getEventData = () => async (dispatch) => {
 export const defaultRootScreen = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-    console.log("getStoredData", getStoredData);
     const defaultRootResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getspost`,
       {
@@ -35,7 +33,6 @@ export const defaultRootScreen = () => async (dispatch) => {
         },
       }
     );
-    console.log("defaultRootResult", defaultRootResult.data.data);
     dispatch({
       type: "DEFAULT_ROOT_SCREEN",
       payload: defaultRootResult?.data,
@@ -60,7 +57,6 @@ export const defaultEventScreen = (profileid) => async (dispatch) => {
         },
       }
     );
-    console.log("defaultEventResult", defaultEventResult);
     dispatch({
       type: "DEFAULT_EVENT_SCREEN",
       payload: defaultEventResult?.data,
@@ -85,7 +81,6 @@ export const addEventPost = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("eventResult", eventResult);
     dispatch({
       type: "ADD_EVENT_POST_DATA",
     });
@@ -109,7 +104,6 @@ export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
         },
       }
     );
-    console.log("allEventResult", allEventResult);
     dispatch({
       type: "GET_ALL_EVENTS_POST_LIST",
       payload: allEventResult?.data,
@@ -135,7 +129,6 @@ export const getAllTrendingPost =
           },
         }
       );
-      console.log("trendingPostResult", trendingPostResult);
       dispatch({
         type: "TRENDING_EVENTS_POST_LIST",
         payload: trendingPostResult?.data,
