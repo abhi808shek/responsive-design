@@ -49,8 +49,6 @@ const Participate = () => {
     (state) => state.eventReducer)
 
 const imageUrl = defaultEventData?.data?.image.split(" @ ");
-console.log("Image URLLLLLLLLL",imageUrl);
-console.log("PAtrjfjehdjsedw",defaultEventData);
 const onHandleSubmit = async() => {
     const uploadedImage = await dispatch(imageUploadApi(image))
 
@@ -86,7 +84,6 @@ const onHandleSubmit = async() => {
       duration: "0",
       tital: defaultEventData?.data?.tital,
     };
-console.log("participantsData",participantsData);
     // dispatch(addEventPost(participantsData))
     setCaption("");
     setImage(null);
