@@ -25,7 +25,6 @@ import SearchKicksPage from "./Components/Home/SearchKicksPage/SearchKicksPage";
 import MyFriendsPage from "./Components/Home/MyFriendsPage/MyFriendsPage";
 import FindFriendsPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
 import FriendRequestPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
-
 import MainView from "./Layouts/MainView";
 import ChatPages from "./Components/Home/ChatPages/ChatPages";
 import Select from "./Components/Home/Select/Select";
@@ -93,12 +92,13 @@ const App = () => {
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-            <Route path="select" element={<Select />} />
+          <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
+            <Route path='profile' element={<UserProfilePage />} />
             <Route
               path="friend-request"
               element={<FriendRequestPage isFriend={true} />}
