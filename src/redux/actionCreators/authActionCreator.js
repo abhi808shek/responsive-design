@@ -28,7 +28,7 @@ export const saveUserSignupData = (data) => async (dispatch) => {
       type: "SET_BASIC_SIGNUP_DETAILS",
       payload: data,
     });
-    return result.status;
+    return result;
   } catch (error) {
     return result.message;
   }
@@ -42,6 +42,7 @@ export const settingOtp = (otp) => async (dispatch) => {
     });
   } catch (error) {
     console.log(error.message);
+    throw error.message
   }
 };
 
@@ -103,10 +104,10 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
     dispatch({
       type: "SENDING_MAIL_FOR_OTP",
     });
-
     return mailSend.data;
   } catch (error) {
-    return mailSend.message;
+    console.log(error, "??????????");
+    throw mailSend.message;
   }
 };
 

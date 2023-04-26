@@ -5,11 +5,12 @@ import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
 import { useNavigate } from "react-router-dom";
 import {
-  matchingOtp, settingOtp,
+  matchingOtp, saveUserSignupData, sendingMailForOtp, settingOtp,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { toasterFunction } from "../../../Utility/utility";
+import { toast } from "react-toastify";
 
 
 const EnterCode = ({ title }) => {
@@ -17,7 +18,19 @@ const EnterCode = ({ title }) => {
   const [timer, setTimer] = useState(false);
   const dispatch = useDispatch();
   const { otp,emailExist } = useSelector((state) => state.authReducer);
-  const timerFunction = () => {
+  const timerFunction = async () => {
+        const dataObj = {
+        datetime: Date.now().toString(),
+        uemail: emailExist.data.uemail,
+        // password: formik.values.password,
+      }; 
+    await dispatch(sendingMailForOtp(dataObj)).then((res) => {
+      console.log(res);
+      toast.success(res.message)
+    }).catch(err => {
+      toast.error(err.message)
+    })
+
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
@@ -28,7 +41,6 @@ const EnterCode = ({ title }) => {
   
   const onConfirmOtp = async () => {
     const result = await dispatch(matchingOtp(emailExist.data.uemail, otp));
-    console.log("resultaaa",result);
     if (!result.status) {
         return toasterFunction(result.message)
     }

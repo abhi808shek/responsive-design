@@ -109,7 +109,6 @@ const Login = () => {
       datetime: Date.now().toString(),
       uemail: mailStatus.data.uemail,
     };
-    console.log("AFterrr");
     // sendOTP(formik.values.email)
     const otpStatus = await dispatch(sendingMailForOtp(data));
     if (!otpStatus.status) {
