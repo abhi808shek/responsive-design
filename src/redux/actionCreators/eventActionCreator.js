@@ -144,7 +144,7 @@ export const getAllTrendingPost =
     }
   };
 
-export const uploadImageApi =  (data) => async (dispatch) => {
+export const imageUploadApi =  (image) => async (dispatch) => {
     try{
 const getUploadedResult = await axios.post(
       `http://35.183.76.174:9098/s3/upload`,

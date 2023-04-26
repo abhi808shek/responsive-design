@@ -77,17 +77,15 @@ const Signup = () => {
         uemail: formik.values.email ? formik.values.email : formik.values.phone,
         password: formik.values.password,
       };
-      // const status = await dispatch(saveUserSignupData(dataObj));
+      const status = await dispatch(saveUserSignupData(dataObj));
   
+      if(formik.values.phone){
 
-      signIn("+91"+formik.values.phone)
-
-
-
-
-      // if (status === 200) {
-      //   navigate(`/auth/verification/signup?${profileType}`)
-      // }
+        signIn("+91"+formik.values.phone)
+      }else
+      if (status === 200) {
+        navigate(`/auth/verification/signup?${profileType}`)
+      }
     },
   });
     // function configureRecaptcha(phoneNumber){
