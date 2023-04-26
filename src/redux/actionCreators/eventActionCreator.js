@@ -163,7 +163,7 @@ export const imageUploadApi = (image) => async (dispatch) => {
     console.log("getUploadedResult", getUploadedResult);
     dispatch({
       type: "GET_IMAGE_UPLOAD",
-      payload: getImageResult,
+      payload: getUploadedResult,
     });
     return getUploadedResult;
   } catch (error) {

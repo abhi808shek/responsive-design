@@ -255,7 +255,7 @@ export const createProfile = (data) => async (dispatch) => {
 
 export const uploadImage = (data) => async (dispatch) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `http://35.183.49.35:9098/s3/upload`,
       data,
       {
@@ -348,7 +348,6 @@ export const getDistrict = (data) => async (dispatch) => {
     })
     return response
   } catch(err) {
-    console.log(err, 'errror login');
     throw err.response.data
   }
 }
@@ -405,7 +404,6 @@ export const getAssenbly = (data) => async (dispatch) => {
 
 
 export const getLocationsList = (data) => async (dispatch) => {
-  console.log(data, '[[[[[[[[[[[[data');
   // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
   try {
     const response = await axios.get(
