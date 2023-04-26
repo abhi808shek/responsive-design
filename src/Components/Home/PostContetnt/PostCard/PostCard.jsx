@@ -6,7 +6,7 @@ import CommentBox from "./CommentBox/CommentBox";
 import MenuModal from "../../Modal/MenuModel/MenuModal";
 import ReportModal from "../../Modal/ReportModal/ReportModal";
 import { useDispatch, useSelector } from "react-redux";
-import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
+// import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
 import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
 import Portals from "../../../Portals/Portals";
 import KicksBeforeLike from '../../../../assets/images/KicksBeforeLike.png'

@@ -11,7 +11,7 @@ import SearchComponent from "../SearchComponent/SearchComponent";
 const ProfilePage = () => {
   const [selectedOption, setSelectedOption] = useState("Post");
   return (
-    <div className="w-full flex justify-end bg-[#E4E7EC] h-[1000px] ">
+    <div className="w-full flex justify-evenly bg-[#E4E7EC] h-[1000px] 2xl:h-[1200px]">
       <section className="flex lg:w-[50%] 2xl:h-[1200px] flex-col mt-2 items-end">
         <ProfileImageSection />
 

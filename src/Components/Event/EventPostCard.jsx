@@ -45,7 +45,7 @@ const EventPostCard = (props) => {
                 <div className="flex items-center mb-4">
                     <AccountCircleIcon className='mr-2' style={{ height: "40px", width: "40px" }} />
                     <div className="flex flex-col">
-                        <span className="text-[1.15rem] font-bold text-gray-900">{username}</span>
+                        <span className="text-[1.15rem] font-bold text-gray-900">{item?.profile?.fname}</span>
                         <div className='flex gap-1 mt-1'>
                             <AccessTimeIcon style={{ height: "15px", width: "15px" }} />
                             <span className="text-xs text-gray-500">{timestamp}</span>
@@ -57,19 +57,19 @@ const EventPostCard = (props) => {
                 </div>
             </div>
             <div className="mb-4">
-                <p className="text-sm text-gray-700">{caption}</p>
+                <p className="text-sm text-gray-700">{item?.text}</p>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-2'></div>
             <div className="mb-4">
-                <img src={imageSrc} alt="Post" className="w-full h-[300px] rounded-lg" />
+                <img src={item?.image} alt="Post" className="w-full h-[300px] rounded-lg" />
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-2'></div>
             <div className="flex items-center justify-between mb-4">
                 <div className="flex items-center">
-                    {/* <p className='cursor-pointer'>{item.likecount} Likes</p> */}
+                    <p className='cursor-pointer'>{item?.likecount} Likes</p>
                 </div>
                 <div>
-                    {/* <p className='cursor-pointer' onClick={handleCommentCountClick}>{item.commentcount} comments</p> */}
+                    <p className='cursor-pointer' onClick={handleCommentCountClick}>{item?.commentcount} comments</p>
                 </div>
             </div>
             <div className='w-full h-[0.05rem] bg-gray-400 mb-3'></div>

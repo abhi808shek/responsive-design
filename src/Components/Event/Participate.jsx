@@ -5,12 +5,14 @@ import moment from "moment";
 import { setSelectedIndex } from "../../redux/actionCreators/selectedIndexActionCreator";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../Assets/Images/Delete.png";
-import { addEventPost, imageUploadApi } from "./../../redux/actionCreators/eventActionCreator";
+import { imageUploadApi } from "../../redux/actionCreators/rootsActionCreator";
+import { addEventPost } from "../../redux/actionCreators/eventActionCreator";
+import { toasterFunction } from "../Utility/utility";
 
 const Participate = () => {
   const dispatch = useDispatch();
   const [caption, setCaption] = useState("");
-  const [image, setImage] = useState(null);
+  const [file, setFile] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [formError, setFormError] = useState("");
   const { eventDataObj } = useSelector((state) => state.eventReducer);
@@ -39,33 +41,34 @@ const Participate = () => {
   };
 
   const handleImageChange = (e) => {
-    setImage(e.target.files[0]);
+    setFile(e.target.files[0]);
   };
 
   const handleTermsChange = (e) => {
     setTermsAccepted(e.target.checked);
   };
-  const { defaultEventData } = useSelector(
-    (state) => state.eventReducer)
+  const { defaultEventData } = useSelector((state) => state.eventReducer);
 
-const imageUrl = defaultEventData?.data?.image.split(" @ ");
-console.log("Image URLLLLLLLLL",imageUrl);
-console.log("PAtrjfjehdjsedw",defaultEventData);
-const onHandleSubmit = async() => {
-    const uploadedImage = await dispatch(imageUploadApi(image))
+  const imageUrl = defaultEventData?.data?.image.split(" @ ");
 
-    console.log("uploadedImage",uploadedImage);
+  console.log("defaultEventData?.data",defaultEventData?.data?.profileid);
+  const onHandleSubmit = async () => {
+    const uploadedImage = await dispatch(imageUploadApi(file));
+    if (!uploadedImage?.status) {
+      return toasterFunction("Something went wrong Image not uploaded");
+    }
+
     const participantsData = {
       active: defaultEventData?.data?.active,
       commentcount: 0,
       delete: defaultEventData?.data?.delete,
       id: null,
-      image: image,
+      image: uploadedImage?.path,
       likecount: 0,
       location: "",
       // postdatetime: dateAndTime.toString(),
       profile: null,
-      profileid: true,
+      profileid: defaultEventData?.data?.profileid,
       shareto: "Public",
       suggesttemp: "",
       template: "No_template",
@@ -86,12 +89,15 @@ const onHandleSubmit = async() => {
       duration: "0",
       tital: defaultEventData?.data?.tital,
     };
-console.log("participantsData",participantsData);
-    // dispatch(addEventPost(participantsData))
+    const sucessMessage = await dispatch(addEventPost(participantsData));
+    if (!sucessMessage?.status) {
+      return toasterFunction(sucessMessage?.message);
+    }
     setCaption("");
-    setImage(null);
+    setFile(null);
     setTermsAccepted(false);
     setFormError("");
+    toasterFunction(sucessMessage?.message);
   };
   return (
     <div className="p-6 bg-white rounded-lg shadow-md w-[100%]">
@@ -108,7 +114,7 @@ console.log("participantsData",participantsData);
           />
         </div>
         <hr className="w-full h-[0.1rem] bg-gray-500 mb-4" />
-        {!image && (
+        {!file && (
           <div className="mb-4 flex justify-center items-center">
             <label
               className="font-medium mb-1 w-full h-[50vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg"
@@ -124,7 +130,7 @@ console.log("participantsData",participantsData);
               className="border border-gray-400 rounded hidden absolute"
               type="file"
               id="image"
-              name="image"
+              name="file"
               accept="image/*"
               onChange={handleImageChange}
               required
@@ -132,10 +138,10 @@ console.log("participantsData",participantsData);
           </div>
         )}
 
-        {image && (
+        {file && (
           <div className="w-full h-[50vh] relative flex flex-col items-center justify-center border border-gray-400 rounded-lg">
             <img
-              src={URL.createObjectURL(image)}
+              src={URL.createObjectURL(file)}
               alt="image"
               className="h-full w-full object-contain"
             />
@@ -143,7 +149,7 @@ console.log("participantsData",participantsData);
               src={deleteIcon}
               alt=""
               className="absolute top-8 right-8 h-[40px] w-[40px] cursor-pointer"
-              onClick={() => setImage(null)}
+              onClick={() => setFile(null)}
             />
           </div>
         )}
@@ -160,9 +166,12 @@ console.log("participantsData",participantsData);
           />
           <label className="inline-block font-medium" htmlFor="terms">
             I accept the <a href="#">terms and conditions</a>
-    
           </label>
-          <img src={imageUrl && imageUrl[2]} alt=""  className="h-full w-full object-contain" />
+          <img
+            src={imageUrl && imageUrl[2]}
+            alt=""
+            className="h-full w-full object-contain"
+          />
         </div>
         <div className="mb-4 text-red-500">{formError}</div>
         <button

@@ -25,7 +25,6 @@ export const getEventData = () => async (dispatch) => {
 export const defaultRootScreen = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-    console.log("getStoredData", getStoredData);
     const defaultRootResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getspost`,
       {
@@ -35,7 +34,6 @@ export const defaultRootScreen = () => async (dispatch) => {
         },
       }
     );
-    console.log("defaultRootResult", defaultRootResult.data.data);
     dispatch({
       type: "DEFAULT_ROOT_SCREEN",
       payload: defaultRootResult?.data,
@@ -60,7 +58,6 @@ export const defaultEventScreen = (profileid) => async (dispatch) => {
         },
       }
     );
-    console.log("defaultEventResult", defaultEventResult);
     dispatch({
       type: "DEFAULT_EVENT_SCREEN",
       payload: defaultEventResult?.data,
@@ -85,10 +82,10 @@ export const addEventPost = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("eventResult", eventResult);
     dispatch({
       type: "ADD_EVENT_POST_DATA",
     });
+    return eventResult?.data
   } catch (error) {
     console.log(error.message);
   }
@@ -98,6 +95,9 @@ export const addEventPost = (data) => async (dispatch) => {
 export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
+console.log("eventpostid",eventpostid);
+console.log("profileid",profileid);
+
 
     const allEventResult = await axios.get(
       `http://3.233.82.34:8080/post/api/post/getsponser/${eventpostid}/${profileid}`,
@@ -109,7 +109,7 @@ export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
         },
       }
     );
-    console.log("allEventResult", allEventResult);
+    console.log("allEventResult",allEventResult);
     dispatch({
       type: "GET_ALL_EVENTS_POST_LIST",
       payload: allEventResult?.data,
@@ -135,7 +135,6 @@ export const getAllTrendingPost =
           },
         }
       );
-      console.log("trendingPostResult", trendingPostResult);
       dispatch({
         type: "TRENDING_EVENTS_POST_LIST",
         payload: trendingPostResult?.data,
@@ -145,12 +144,9 @@ export const getAllTrendingPost =
     }
   };
 
-//IMAGE UPLOAD API
-export const imageUploadApi = (image) => async (dispatch) => {
-  try {
-    const getStoredData = await getUserDataFromLocalStorage();
-
-    const getUploadedResult = await axios.post(
+export const uploadImageApi =  (data) => async (dispatch) => {
+    try{
+const getUploadedResult = await axios.post(
       `http://35.183.76.174:9098/s3/upload`,
       image,
       {
@@ -163,10 +159,12 @@ export const imageUploadApi = (image) => async (dispatch) => {
     console.log("getUploadedResult", getUploadedResult);
     dispatch({
       type: "GET_IMAGE_UPLOAD",
-      payload: getUploadedResult,
+      payload: getImageResult,
     });
     return getUploadedResult;
-  } catch (error) {
-    console.log(error.message);
-  }
-};
+    } catch (error) {
+      console.log(error.message);
+      throw error.message
+    }
+}
+

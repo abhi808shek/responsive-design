@@ -25,7 +25,6 @@ import SearchKicksPage from "./Components/Home/SearchKicksPage/SearchKicksPage";
 import MyFriendsPage from "./Components/Home/MyFriendsPage/MyFriendsPage";
 import FindFriendsPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
 import FriendRequestPage from "./Components/Home/SearchFriendPage/SearchFriendsPage";
-
 import MainView from "./Layouts/MainView";
 import ChatPages from "./Components/Home/ChatPages/ChatPages";
 import Select from "./Components/Home/Select/Select";
@@ -34,6 +33,7 @@ import Event from "./Components/Event/Event";
 import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/CommentBox";
 import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
+import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
@@ -93,19 +93,21 @@ const App = () => {
 
         {/* Private Routes */}
         <Route element={<PrivateRoute />}>
-            <Route path="select" element={<Select />} />
+          <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
+            <Route path='profile' element={<UserProfilePage />} />
             <Route
               path="friend-request"
               element={<FriendRequestPage isFriend={true} />}
             />
             <Route path="chat-page" element={<ChatPages />} />
             <Route path="umeet" element={<Umeet />} />
-            <Route exact path="event" element={<Event />} />
+            <Route path="profile-page" element={<ProfilePage />} />
+            <Route path="event" element={<Event />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}
