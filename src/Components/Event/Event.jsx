@@ -23,13 +23,17 @@ const Event = () => {
   useEffect(() => {
     dispatch(defaultEventScreen(defaultRootData?.data?.postdata?.id));
     dispatch(getAllEventPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid));
-    dispatch(getAllTrendingPost(defaultRootData?.data?.postdata?.profileid))
+    dispatch(getAllTrendingPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid))
   }, []);
   const dispatch = useDispatch();
  
   const image = defaultEventData?.data?.image.split(" @ ").splice(1);
+  const {eventTabSelected} = useSelector((state)=>state.userReducer)
   const { selectedIndex } = useSelector((state) => state.selectedIndexReducer);
-console.log("------------------------allEventsPost",allEventsPost);
+
+const onSelectedTab = (option)=>{
+   console.log("option",option);
+}
   return (
     <div className="w-full bg-[#EAE9E7] flex flex-col justify-center items-center">
       <div className="header h-16 w-[40%] mt-2 rounded-md flex justify-center items-center text-lg text-white font-bold bg-[#7991BD]">
@@ -49,21 +53,22 @@ console.log("------------------------allEventsPost",allEventsPost);
       </div>
       <div className="flex justify-center gap-2 mt-5 h-16 items-center w-[40%] rounded-lg bg-white">
         {btnData?.map((elem, index) => (
-          <ButtonComponent key={index} name={elem.name} index={index} />
+          <ButtonComponent key={index} name={elem.name} index={index} onClick={onSelectedTab}/>
         ))}
       </div>
       <div className="w-[40%] flex flex-col items-center justify-center gap-4 mt-2">
-        {selectedIndex === 0 && 
-         dispatch(getAllEventPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid)) &&
+        {eventTabSelected === "Post" && 
+        //  dispatch(getAllEventPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid)) &&
           allEventsPost.map((post) => (
             Object.values(post?.data).map((item,index)=>(  <EventPostCard key={index} item={item} />))
           ))}
 
-        {selectedIndex === 1 &&
-          allTrendingPost?.data?.map((post, index) => (
-            <EventPostCard key={index} item={post} />
+        {eventTabSelected === "Trending" &&
+           allTrendingPost.map((post) => (
+            Object.values(post?.data).map((item,index)=>(  <EventPostCard key={index} item={item} />))
           ))}
-        {selectedIndex === 2 && <Participate />}
+        
+        {eventTabSelected === "Participate" && <Participate />}
       </div>
     </div>
   );

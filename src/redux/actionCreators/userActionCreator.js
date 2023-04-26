@@ -48,9 +48,17 @@ export const menuModalTabSelect = (menuTab)=>(dispatch)=>{
 }
 
 
-export const commentsData = (comments)=>(dispatch)=>{
+// SELECTED TAB SPONSHERED EVENT SECTION
+export const sponseredTabSelected = (selectedTab)=>(dispatch)=>{
     dispatch({
-        type:"ADD_COMMENTS",
-        payload:comments
+        type:"SELECTED_TAB_SPONSERED_EVENT",
+        payload:selectedTab
     })
 }
+
+// export const commentsData = (comments)=>(dispatch)=>{
+//     dispatch({
+//         type:"ADD_COMMENTS",
+//         payload:comments
+//     })
+// }

@@ -6,7 +6,8 @@ const initialState = {
   kicksType: "Following",
   totalComments: [],
   menuModalTab: "Nudity or Sexual activity",
-  orgCategory: []
+  orgCategory: [],
+  eventTabSelected:"Post"
 };
 
 const userReducer = (state = initialState, action) => {
@@ -14,7 +15,6 @@ const userReducer = (state = initialState, action) => {
 
    
     case "SET_USER_LOGIN_DATA":
-      console.log(action.payload.loginstatus, '-----------------');
       return {
         ...state,
         isLoggedIn: action.payload.isLoggedIn,
@@ -36,6 +36,8 @@ const userReducer = (state = initialState, action) => {
 
     case "GET_ORG_CATEGORY":
       return { ...state, orgCategory: action.payload.data}
+      case "SELECTED_TAB_SPONSERED_EVENT":
+        return { ...state, eventTabSelected: action.payload}
     default:
       return state;
   }

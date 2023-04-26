@@ -45,7 +45,7 @@ const EventPostCard = (props) => {
                 <div className="flex items-center mb-4">
                     <AccountCircleIcon className='mr-2' style={{ height: "40px", width: "40px" }} />
                     <div className="flex flex-col">
-                        <span className="text-[1.15rem] font-bold text-gray-900">{username}</span>
+                        <span className="text-[1.15rem] font-bold text-gray-900">{item?.profile?.fname}</span>
                         <div className='flex gap-1 mt-1'>
                             <AccessTimeIcon style={{ height: "15px", width: "15px" }} />
                             <span className="text-xs text-gray-500">{timestamp}</span>

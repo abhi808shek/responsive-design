@@ -51,11 +51,13 @@ const Participate = () => {
 
   const imageUrl = defaultEventData?.data?.image.split(" @ ");
 
+  console.log("defaultEventData?.data",defaultEventData?.data?.profileid);
   const onHandleSubmit = async () => {
     const uploadedImage = await dispatch(imageUploadApi(file));
     if (!uploadedImage?.status) {
       return toasterFunction("Something went wrong Image not uploaded");
     }
+
     const participantsData = {
       active: defaultEventData?.data?.active,
       commentcount: 0,
@@ -66,7 +68,7 @@ const Participate = () => {
       location: "",
       // postdatetime: dateAndTime.toString(),
       profile: null,
-      profileid: true,
+      profileid: defaultEventData?.data?.profileid,
       shareto: "Public",
       suggesttemp: "",
       template: "No_template",
