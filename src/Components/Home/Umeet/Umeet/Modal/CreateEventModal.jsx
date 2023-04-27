@@ -2,9 +2,12 @@ import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
+import AddGuestModal from './AddGuestModal'
 
 const CreateEventModal = ({ selectedSpecificEvent }) => {
   const [enabled, setEnabled] = useState(false)
+  const [addGroup, setAddGroup] = useState(false)
+
   return (
     <div className='border fullPage bg-white border-gray-300'>
      <div className='w-[96%] border bg-white px-3'>
@@ -45,9 +48,9 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
 
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Host Mail Id*'/>
 
-        <div className='flex items-center my-2'>
-         <img src={guest} />
-         <label className='pl-5 text-[#649B8E]'>Add Guests</label>
+        <div className='flex bg-red-100 items-center my-2'>
+         <img onClick={()=>setAddGroup(true)} src={guest} className='cursor-pointer' />
+         <label onClick={()=>setAddGroup(true)} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
         </div>
 
         <div className='border-b'>
@@ -81,6 +84,7 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
         <button className='w-full py-2.5 my-3 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E]'>send</button>
        </div>
      </div>
+    {addGroup && <AddGuestModal />}
     </div>
   )
 }
