@@ -132,7 +132,7 @@ const Umeet = () => {
      </section>
 
      {/* Right All Events page */}
-     <section className='w-4/6 fullCover'>
+     <section className='w-4/6 fullCover relative'>
       {/* events top select */}
       <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
         <div onClick={()=>setCreateEvent(true)} className='flex items-center cursor-pointer'>
