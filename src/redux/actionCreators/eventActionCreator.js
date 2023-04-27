@@ -144,4 +144,27 @@ export const getAllTrendingPost =
     }
   };
 
+export const imageUploadApi =  (image) => async (dispatch) => {
+    try{
+const getUploadedResult = await axios.post(
+      `http://35.183.76.174:9098/s3/upload`,
+      image,
+      {
+        headers: {
+          "Accept-Language": "en",
+          Authorization: `Bearer ${getStoredData?.token}`,
+        },
+      }
+    );
+    console.log("getUploadedResult", getUploadedResult);
+    dispatch({
+      type: "GET_IMAGE_UPLOAD",
+      payload: getImageResult,
+    });
+    return getUploadedResult;
+    } catch (error) {
+      console.log(error.message);
+      throw error.message
+    }
+}
 

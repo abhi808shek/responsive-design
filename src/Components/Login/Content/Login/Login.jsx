@@ -81,6 +81,7 @@ const Login = () => {
           token:userResponse?.data?.loginToken
         };
         if (!userResponse?.status) {
+          toast.error(userResponse.message)
           return userResponse?.message
         }
         toast.success(userResponse?.message);
@@ -108,7 +109,6 @@ const Login = () => {
       datetime: Date.now().toString(),
       uemail: mailStatus.data.uemail,
     };
-    console.log("AFterrr");
     // sendOTP(formik.values.email)
     const otpStatus = await dispatch(sendingMailForOtp(data));
     if (!otpStatus.status) {
@@ -122,7 +122,7 @@ const Login = () => {
     <>
       {/* padding increased */}
       <div className="lg:w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-2 px-7">
-        <div id="sign-in-button"></div>
+        <div id="sign-in"></div>
         {/* <Heading title="Get Started" /> */}
         <img src={Logo} alt="" className=" w-[55px] mb-4" />
         <Input

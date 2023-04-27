@@ -40,7 +40,6 @@ const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
   userData = JSON.parse(userData);
-  console.log("userData",userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));

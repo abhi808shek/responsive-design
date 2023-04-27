@@ -5,15 +5,16 @@ import Heading from "../Heading/Heading";
 import Button2 from "../Button/Button2";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import {
-  matchingOtp, settingOtp, userRegistration,
+  matchingOtp, saveUserSignupData, settingOtp, userRegistration,
 } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import { v4 as uuid } from "uuid";
 import { toasterFunction } from "../../../Utility/utility";
-import { getFirebaseToken } from "../../../../config/firebase";
-import { async } from "@firebase/util";
+import firebaseApp, { getFirebaseToken } from "../../../../config/firebase";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
+
+import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
@@ -29,7 +30,15 @@ const SignupOtp = ({ title }) => {
   const dispatch = useDispatch();
 
   const { otp,signupData } = useSelector((state) => state.authReducer);
-  const timerFunction = () => {
+
+  const timerFunction = async () => {
+         const dataObj = {
+        datetime: Date.now().toString(),
+        profileType: signupData.profileType,
+        uemail: signupData.uemail,
+        // password: formik.values.password,
+      };    
+    await dispatch(saveUserSignupData(dataObj))
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
@@ -40,7 +49,6 @@ const SignupOtp = ({ title }) => {
   const handleClose = () => setState({...state, showModal: false })
   
   const onConfirmOtp = async () => {
-    console.log(signupData);
     const result =await dispatch(matchingOtp(signupData.uemail, otp));
       if(result.status){
         setState({...state, showModal: true})
@@ -113,7 +121,7 @@ const SignupOtp = ({ title }) => {
           onHandleChange={onChangeHandler}
         />
        </div>
-        <Button2 title="Confirm" onClick={onConfirmOtp}/>
+        <Button2 id={'sign-in'} title="Confirm" onClick={onConfirmOtp}/>
         {/* padding added to send code button */}
         {timer ? (          
           <Timer />

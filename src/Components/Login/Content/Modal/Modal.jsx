@@ -10,6 +10,8 @@ import moment from "moment/moment";
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 import { geocodeByAddress } from "react-google-places-autocomplete";
+import Autocomplete from "react-google-autocomplete";
+import { imageUploadApi } from "../../../../redux/actionCreators/eventActionCreator";
 
 
 const Modal = ({ modalType, handleClose }) => {
@@ -43,7 +45,7 @@ const Modal = ({ modalType, handleClose }) => {
     setCountry(val)
     dispatch(getStateList(val.code))
   }
-
+console.log(userData, '________________________AAAAAAAA');
 
   const handleChange = (name, value) => {
     const obj ={
@@ -65,9 +67,7 @@ const Modal = ({ modalType, handleClose }) => {
 
   }
   const handleCreateProfile = async () => {
-    const file = new FormData();
-    file.append("image", file)
-    // const uploadResponse = dispatch(uploadImage())
+
     const payload = {
  "celibrity": false,//default value.
  "countrycode": "+91",//default selected in signup screen..
@@ -76,16 +76,16 @@ const Modal = ({ modalType, handleClose }) => {
  "fname": orgName,//from user input BUSINESS NAME
  "gender": gender,
   "pimage":"", //if profile image is there, add the URL here.
- "businesscategory": selectedValue?.category,//from user input selection.
- "personalLastName": lname,//from user input – profile lnamein SLIDE 4
+  "businesscategory": selectedValue?.category,//from user input selection.
+  "personalLastName": lname,//from user input – profile lnamein SLIDE 4
  "personalname": fname,//from user input – profilefnamein SLIDE 4
  "profiletype": isPersonal ? "Personal" : "Organization",//profile type, while we passing in signup screen
  "updatedate": userData.datetime,//Current UTC time in milliseconds
  "userid": userData.userId// stored User ID from (Slide 3)
 }
 const payloads = {
-    "assembly": assembly?.assembly,//default value.
-    "celibrity": false,
+  "assembly": assembly?.assembly,//default value.
+  "celibrity": false,
  "countrycode": "+91",//default selected in signup screen..
  "country": country?.country,
  "dob": moment(dob).format("YYYY-MM-DD"),//from user input
@@ -101,7 +101,21 @@ const payloads = {
  "userid": userData.userId// stored User ID from (Slide 3) 
 
 }
-    dispatch(createProfile(isPersonal ? payloads : payload)).then((res)=> {
+    const file = new FormData();
+    file.append("file", imgFile);
+    const data = isPersonal ? payloads : payload
+    imgFile ? dispatch(imageUploadApi(file)).then((res) => {
+      data.pimage = res.data.path;
+      dispatch(createProfile(data)).then((res)=> {
+      if(res.data.status){
+        toast.success(res.data.message)
+        navigate('/auth/login')
+      } else toast.error(res.data.message)
+    }).catch(err => {
+      toast.error(err.message)
+    })
+    }) :
+    dispatch(createProfile(data)).then((res)=> {
       if(res.data.status){
         toast.success(res.data.message)
         navigate('/auth/login')
@@ -233,7 +247,8 @@ const payloads = {
                      </div>
                      <div className='mt-1.5'>
                       {/* <Input id='autocomplete' title="Living Location*" className="w-full" onHandleChange={ handleLiveLocationn}/> */}
-                      <input id="autocomplete" type="text"/>
+                      {/* <input id="autocomplete" type="text"/> */}
+
                      </div>
                     </>
                     : null

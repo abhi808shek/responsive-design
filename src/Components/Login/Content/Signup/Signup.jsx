@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Input from "../InputBox/Input";
 import PasswordInput from "../InputBox/PasswordInput";
 import Button2 from "../Button/Button2";
@@ -11,13 +11,19 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
+import firebaseApp, { auth } from "../../../../config/firebase";
+import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
 
+
+import { initializeApp } from "firebase/app";
+ import firebase from 'firebase/compat/app';
+ import "firebase/auth";
+import { document } from "postcss";
 
 
 const Signup = () => {
 
-
-  
+  const captchaEl = useRef()
   const [state, setState] = useState({});
   const [profileType, setProfileType] = useState("");
   const { showModal, modalType } = state;
@@ -72,11 +78,60 @@ const Signup = () => {
         password: formik.values.password,
       };
       const status = await dispatch(saveUserSignupData(dataObj));
+  
+      if(formik.values.phone){
+
+        signIn("+91"+formik.values.phone)
+      }else
       if (status === 200) {
         navigate(`/auth/verification/signup?${profileType}`)
       }
     },
   });
+    // function configureRecaptcha(phoneNumber){
+    //     console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
+    //     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("sign-in-button",
+    //     {
+    //       "size": "invisible",
+    //       "callback": (response) => {
+    //         console.log(response, 'otppppppppppp sentttttt');
+    //         signIn(phoneNumber);
+    //       }
+    //     })
+    //   }
+      
+      function configureRecaptcha(phoneNumber, auth){
+        console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
+        window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button",
+        {
+          "size": "invisible",
+          "callback": (response) => {
+            console.log(response, 'otppppppppppp sentttttt');
+            // signIn(phoneNumber);
+          }
+        },    
+        auth)
+      }
+  
+  function signIn(phoneNumber){
+    console.log("HHHHHHHHHH");
+      const auth = getAuth()
+    try{
+      configureRecaptcha(formik.values.phone, auth);
+    }catch(err){
+      console.log(err, 'captcha error');
+    }
+
+    // const auth = getAuth();
+    const appVerifier = window.recaptchaVerifier;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmation) =>{
+      window.confirmation = confirmation;
+      console.log('connnnnnnnnnnfffffffffffff');
+        }).catch((err) => {
+          captchaEl.current.innerHTML = null
+        })
+  }
+
   const handleClick = (event) => {
     setProfileType(event.target.id);
 
@@ -189,7 +244,9 @@ const Signup = () => {
             </p>
           ) : null}
         </div>
+        <div ref={captchaEl} id="sign-in-button"></div>
         <Button2
+        id='sign'
           title="Sign Up"
           bgColor="#7991BD"
           disabled={!formik.isValid }

@@ -1,5 +1,6 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+import { getAuth } from "firebase/auth";
 import { getMessaging, getToken } from "firebase/messaging";
 
 
@@ -21,11 +22,27 @@ const firebaseConfig = {
 
 };
 
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
+// const firebaseConfig = {
+//   apiKey: "AIzaSyAcJzppx6PHvFiGQlP3HXcC21cgDATqAoE",
+//   authDomain: "uynite-inc.firebaseapp.com",
+//   databaseURL: "https://uynite-inc-default-rtdb.firebaseio.com",
+//   projectId: "uynite-inc",
+//   storageBucket: "uynite-inc.appspot.com",
+//   messagingSenderId: "48084742080",
+//   appId: "1:48084742080:web:499527de558e0e3e08e225",
+//   measurementId: "G-2WD1HF0SLM"
+// };
+
+
 
 // Initialize Firebase
 export const firebaseApp = initializeApp(firebaseConfig);
 export const messaging = getMessaging(firebaseApp)
+export const auth = getAuth(firebaseApp)
 export default firebaseApp;
+
 
 
 export const getFirebaseToken = () => {

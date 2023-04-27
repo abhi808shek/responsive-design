@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { setPostData } from "../../redux/actionCreators/postActionCreator";
 import moment from "moment";
-import { setSelectedIndex } from "../../redux/actionCreators/selectedIndexActionCreator";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../Assets/Images/Delete.png";
 import { imageUploadApi } from "../../redux/actionCreators/rootsActionCreator";
 import { addEventPost } from "../../redux/actionCreators/eventActionCreator";
 import { toasterFunction } from "../Utility/utility";
+import { sponseredTabSelected } from "../../redux/actionCreators/userActionCreator";
 
 const Participate = () => {
   const dispatch = useDispatch();
@@ -51,7 +51,6 @@ const Participate = () => {
 
   const imageUrl = defaultEventData?.data?.image.split(" @ ");
 
-  console.log("defaultEventData?.data",defaultEventData?.data?.profileid);
   const onHandleSubmit = async () => {
     const uploadedImage = await dispatch(imageUploadApi(file));
     if (!uploadedImage?.status) {
@@ -93,6 +92,7 @@ const Participate = () => {
     if (!sucessMessage?.status) {
       return toasterFunction(sucessMessage?.message);
     }
+    dispatch(sponseredTabSelected("Post"))
     setCaption("");
     setFile(null);
     setTermsAccepted(false);

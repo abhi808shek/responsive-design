@@ -28,7 +28,7 @@ export const saveUserSignupData = (data) => async (dispatch) => {
       type: "SET_BASIC_SIGNUP_DETAILS",
       payload: data,
     });
-    return result.status;
+    return result;
   } catch (error) {
     return result.message;
   }
@@ -42,6 +42,7 @@ export const settingOtp = (otp) => async (dispatch) => {
     });
   } catch (error) {
     console.log(error.message);
+    throw error.message
   }
 };
 
@@ -103,10 +104,10 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
     dispatch({
       type: "SENDING_MAIL_FOR_OTP",
     });
-
     return mailSend.data;
   } catch (error) {
-    return mailSend.message;
+    console.log(error, "??????????");
+    throw mailSend.message;
   }
 };
 
@@ -255,7 +256,7 @@ export const createProfile = (data) => async (dispatch) => {
 
 export const uploadImage = (data) => async (dispatch) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `http://35.183.49.35:9098/s3/upload`,
       data,
       {
@@ -348,7 +349,6 @@ export const getDistrict = (data) => async (dispatch) => {
     })
     return response
   } catch(err) {
-    console.log(err, 'errror login');
     throw err.response.data
   }
 }
@@ -405,7 +405,6 @@ export const getAssenbly = (data) => async (dispatch) => {
 
 
 export const getLocationsList = (data) => async (dispatch) => {
-  console.log(data, '[[[[[[[[[[[[data');
   // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
   try {
     const response = await axios.get(
