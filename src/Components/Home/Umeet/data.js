@@ -66,6 +66,29 @@ export const dataList = [
  },
 ]
 
+export const myEventataList = [
+ {
+  img: img,
+  title: 'Moon Light Dinner',
+  time: '15th Jan 2023',
+  host: '',
+  status: ''
+ },
+ {
+    img: img,
+    title: 'Moon Light Dinner',
+    time: '15th Jan 2023',
+    host: '',
+    status: 'Completed'
+ },
+ {
+    img: img,
+    title: 'Moon Light Dinner',
+    time: '15th Jan 2023',
+    host: '',
+    status: 'Completed'
+ },
+]
 export const selectEventList = [
  {
    img: Personal,

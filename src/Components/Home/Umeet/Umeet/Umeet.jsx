@@ -2,22 +2,25 @@ import BlankEvents from './BlankEvents'
 import { HiPlus } from 'react-icons/hi'
 import { BsCalendarEvent } from 'react-icons/bs'
 import { useState } from 'react'
-import { dataList, selectEventList, selectPersonalEventType, selectPublicEventType, selectPoliticalEventType } from '../data'
+import { dataList, myEventataList, selectEventList, selectPersonalEventType, selectPublicEventType, selectPoliticalEventType } from '../data'
 import SingleEvent from './SingleEvent'
 import '../Umeet.css'
 import { RxChevronLeft } from 'react-icons/rx'
 import CreateEventModal from './Modal/CreateEventModal'
 import EventDetails from './EventDetails'
+import EventDeleteModal from './Modal/EventDeleteModal'
 
 const Umeet = () => {
   const [selected, SetSelected] = useState(false)
   const [noCreateEvent, setNoCreateEvent] = useState(true)
   const [noMyEvent, setNoMyEvent] = useState(false)
   const [createEvent, setCreateEvent] = useState(false)
+  const [editMyEvent, setEditMyEvent] = useState(false)
   const [eventDetails, setEventDetails] = useState(false)
   const [selectSpecificEvent, setSelectSpecificEvent] = useState(false)
   const [selectedSpecificEvent, setSelectedSpecificEvent] = useState('')
-  const [yourEvent, setYourEvent] = useState(true)
+  const [myEvent, setMyEvent] = useState(false)
+  const [showDeleteMyEvent, setShowDeleteMyEvent] = useState(false)
   const [selectEventType, setSelectEventType] = useState([])
 
   function EventStatus({ data }){
@@ -26,11 +29,15 @@ const Umeet = () => {
     }else if(noMyEvent){
       return <BlankEvents event='Your Events' />
     }else if(createEvent){
-        return <CreateEventModal selectedSpecificEvent={selectedSpecificEvent}/>
+        return <CreateEventModal selectedSpecificEvent={selectedSpecificEvent} editMyEvent={editMyEvent}/>
     }else if(eventDetails){
-        return <EventDetails />
+        return <EventDetails handleEditMyEvent={()=>{setEditMyEvent(true); setCreateEvent(true); setEventDetails(false) }} handleDeleteEvent={()=>{setShowDeleteMyEvent(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }} myEvent={myEvent} />
     }
   }
+
+  // const handleEditMyEvent = ()=>{
+    
+  // }
 
   const handleMyEvent = ()=>{
     setNoCreateEvent(false)
@@ -119,9 +126,9 @@ const Umeet = () => {
      <section className='border overflow-y-scroll hideScroll border-gray-400 bg-white rounded mr-2 w-full h-full'>
       {/* */}
       <div>
-        <div className='flex justify-center my-2'>
-         <button className='py-1 rounded-lg text-white bg-[#649b8e] mx-2 px-5'>Invited Events</button>
-         <button className='py-1 rounded-lg bg-[#649b8e] mx-2 px-5'>My Events</button>
+        <div className='flex justify-center font-medium my-2 mt-3'>
+         <button onClick={()=>setMyEvent(false)} className={`${myEvent ? 'bg-[#E4E4E4]' : 'bg-[#649b8e] text-white'} py-1.5 rounded-md mx-2 px-5 animation duration-150`}>Invited Events</button>
+         <button onClick={()=>setMyEvent(true)} className={`${myEvent ? 'bg-[#649b8e] text-white' : 'bg-[#E4E4E4]'} py-1.5 rounded-md mx-2 px-5 animation duration-150`}>My Events</button>
         </div>
         <div className='flex justify-end text-sm items-center my-2 mr-5'>
          <span className='text-gray-600'>view by:</span>
@@ -133,7 +140,7 @@ const Umeet = () => {
       </div>
 
       <div className=''>
-       <SingleEvent dataList={dataList} handleEventDetails={handleEventDetails}/>
+       <SingleEvent dataList={dataList} myEvent={myEvent} myEventataList={myEventataList} handleEventDetails={handleEventDetails} handleDeleteEvent={()=>setShowDeleteMyEvent(true)}/>
       </div>
      </section>
     )
@@ -171,7 +178,7 @@ const Umeet = () => {
 
       <EventStatus />
      </section>
-
+     {showDeleteMyEvent && <EventDeleteModal onClose={()=>setShowDeleteMyEvent(false)} />}
     </div>
   )
 }
