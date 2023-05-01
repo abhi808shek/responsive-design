@@ -33,6 +33,13 @@ const Select = () => {
       style: "bg-[#659B8E]",
       url: "/umeet",
     },
+    {
+      title: "Reals",
+      description: "Schedule events & meet",
+      icon: "./images/calender.png",
+      style: "bg-[#659B8E]",
+      url: "/reals",
+    },
   ];
 
   const onHandleClick = (option) => {
