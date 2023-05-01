@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { CiMenuKebab } from "react-icons/ci";
 import { GrLocation } from "react-icons/gr";
 import { HiUserGroup } from "react-icons/hi";
@@ -9,24 +9,36 @@ import { useDispatch, useSelector } from "react-redux";
 // import { commentsData } from "../../../../redux/actionCreators/userActionCreator";
 import ShareWithModal from "../../Modal/ShareWithModal/ShareWithModal";
 import Portals from "../../../Portals/Portals";
-import KicksBeforeLike from '../../../../assets/images/KicksBeforeLike.png'
-import user from '../../../../Assets/Images/Person.jpg'
+import KicksBeforeLike from "../../../../assets/images/KicksBeforeLike.png";
+import KicksAfterLike from "../../../../assets/images/KicksLike.png";
+
+import user from "../../../../Assets/Images/Person.jpg";
 import SharePostModal from "../../Modal/SharePostModal/SharePostModal";
 import { useNavigate } from "react-router-dom";
+import {
+  addCommentOnPost,
+  decreaseLikeByLikeId,
+  getAllPostWithLimit,
+  getLikesById,
+} from "../../../../redux/actionCreators/rootsActionCreator";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate()
-   const [showMore, setShowMore] = useState(false);
+  const [showMore, setShowMore] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [userStatus, setUserStatus] = useState(0);
   const [showShareModal, setShowShareModal] = useState(false);
+  const [like, setLike] = useState(false);
+  const { likedDetails } = useSelector((state) => state.rootsReducer);
+  {
+    /* implementing dynamic description, some redesign the postcard component */
+  }
+  const description = item?.text
+    ? item?.text
+    : "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... ";
 
-  {/* implementing dynamic description, some redesign the postcard component */}
-  const description = "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... "
-
-  const shortDescription = description.substring(0,300);
-  
+  const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
     console.log("jwww");
     setShowShareModal(true);
@@ -38,21 +50,55 @@ const PostCard = ({ userData, item }) => {
     setUserStatus(item.userId);
   };
 
+  console.log("item?.isliked",item?.isliked);
+  useEffect(() => {
+    setLike(item?.isliked);
+  }, [likedDetails]);
   const onHandleChange = (event) => {
     setInputComment(event.target.value);
   };
+  const { defaultRootData } = useSelector((state) => state.eventReducer);
+  const onLikeIncrease = async () => {
+    if (like) {
+    const dislikeResponse = await  dispatch(
+        decreaseLikeByLikeId(
+          defaultRootData?.data?.postdata?.profileid,
+          item?.likeid
+        )
+      );
+      console.log("dislikeResponse",dislikeResponse);
+     if (dislikeResponse?.status) {
+      dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+      setLike(false);
+     }
+    } else {
+      const postDeatils = {
+        datetime: Date.now().toString(),
+        postid: item?.id,
+        profileid: item?.profileid,
+        type: "p",
+      };
 
-  const onSubmit = () => {
+      const response = await dispatch(getLikesById(postDeatils));
+      if (response?.status) {
+        dispatch(
+          getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
+        );
+        setLike(true);
+      }
+    }
+  };
+
+  const onCommetIncrease = () => {
     const commentData = {
-      id: 1,
-      comment: inputComment,
-      like: 0,
-      share: 0,
-      reply: [],
+      datetime: Date.now(),
+      postid: item?.id,
+      profileid: item?.profileid,
+      text: inputComment,
     };
-    dispatch(commentsData(commentData));
+    dispatch(addCommentOnPost(commentData));
     setInputComment("");
-    console.log("totalComments", totalComments);
+    dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
   };
   return (
     <>
@@ -66,7 +112,7 @@ const PostCard = ({ userData, item }) => {
             {/* due to img broke dynamic src commented */}
             <img
               // src={item.userIcon}
-              src={user}
+              src={item?.profile?.pimage ? item?.profile?.pimage : user}
               alt=""
               className="w-full h-full rounded-full mt-1 object-cover"
             />
@@ -75,14 +121,23 @@ const PostCard = ({ userData, item }) => {
           <div className="flex flex-col flex-1 justify-center ml-2">
             <div className="flex items-center">
               {/*font weight removed*/}
-              <span className="ml-1 font-bold"> Joe D</span>
+              <span className="ml-1 font-bold">
+                {`${item?.profile?.fname} ${item?.profile?.lname}`}
+              </span>
               <span className="text-xs ml-2 font-semibold mt-0.5">
-                @Software Developer
+                {item?.profile?.job}
               </span>
             </div>
 
             <div className="flex items-center gap-1">
               {/* <HiUserGroup size={16} /> */}
+              <span className="text-[11px] font-semibold">
+                {item?.updatpostdatetime === null ||
+                item?.updatpostdatetime === ""
+                  ? item?.postdatetime
+                  : item?.updatpostdatetime}
+              </span>
+
               <img
                 src="./images/groups.png"
                 alt=""
@@ -92,7 +147,9 @@ const PostCard = ({ userData, item }) => {
               <span className="text-[11px] font-semibold">1 year ago</span>
               <GrLocation size={10} />
               {/* <img src="" alt="" /> */}
-              <span className="text-[11px] font-semibold"> Chicago</span>
+              <span className="text-[11px] font-semibold"> 
+              { item?.profile?.location }
+              </span>
             </div>
           </div>
         </div>
@@ -116,21 +173,20 @@ const PostCard = ({ userData, item }) => {
         <section className="w-full flex flex-col items-center mt-2 px-2">
           <div className=" w-full ">
             <p className="text-[13px] font-[400] text-gray-500">
-            {showMore ? description : `${shortDescription}...`}
+              {showMore ? description : `${shortDescription}...`}
 
-            <span
-            className="text-xs text-[#2F58CD] font-bold cursor-pointer"
-            onClick={() => setShowMore(!showMore)}
-          >
-            {showMore ? "Show less" : "Read more"}
-          </span>
-              
-            </p>           
+              <span
+                className="text-xs text-[#2F58CD] font-bold cursor-pointer"
+                onClick={() => setShowMore(!showMore)}
+              >
+                {showMore ? "Show less" : "Read more"}
+              </span>
+            </p>
           </div>
 
           <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
             <img
-              src="./images/events.jpg"
+              src={item?.image}
               alt=""
               className="w-full h-[275px] rounded-xl"
             />
@@ -146,16 +202,16 @@ const PostCard = ({ userData, item }) => {
             <HiUserGroup size={16} />
             <HiUserGroup size={16} />
             <span className="lg:text-[13px] xl:text-[14px] font-medium">
-              100
+              {item?.likecount}
             </span>
           </div>
 
           <div className="flex  gap-5 items-center">
             <span
               className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600"
-            // onClick={{}}
+              // onClick={{}}
             >
-              5 Comments
+              {item?.commentcount ? item?.commentcount : 0} Comments
             </span>
             <span className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600">
               28 Shares
@@ -168,8 +224,23 @@ const PostCard = ({ userData, item }) => {
         <section className="w-full flex flex-col">
           <hr className="w-full mb-2 text-gray-500" />
           <div className="flex justify-between ">
-            <div className="flex flex-col items-center justify-center ">
-              <img src={KicksBeforeLike} alt="" className="w-[50%] " />
+            <div className="flex flex-col items-center justify-center cursor-pointer">
+              {like ? (
+                <img
+                  src={KicksAfterLike}
+                  alt=""
+                  className="w-[50%] "
+                  onClick={onLikeIncrease}
+                />
+              ) : (
+                <img
+                  src={KicksBeforeLike}
+                  alt=""
+                  className="w-[50%] "
+                  onClick={onLikeIncrease}
+                />
+              )}
+
               {/* <RiDislikeFill/> */}
 
               <span className="text-xs font-semibold mt-1">Like</span>
@@ -188,7 +259,7 @@ const PostCard = ({ userData, item }) => {
                 src="./images/sendIcon.png"
                 alt=""
                 className="w-[40px] pr-2 cursor-pointer"
-                onClick={onSubmit}
+                onClick={onCommetIncrease}
               />
             </div>
 

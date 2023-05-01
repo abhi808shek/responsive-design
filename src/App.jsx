@@ -40,6 +40,7 @@ import axios from "axios";
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
+  userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));

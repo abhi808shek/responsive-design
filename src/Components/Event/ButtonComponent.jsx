@@ -1,12 +1,9 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { setSelectedIndex } from '../../redux/actionCreators/selectedIndexActionCreator';
 
 const ButtonComponent = ({ name, index ,onClick}) => {
     const dispatch = useDispatch();
     const {eventTabSelected} = useSelector((state)=>state.userReducer)
-    const handleClick = () => {
-        dispatch(setSelectedIndex(index));
-    };
+
     return (
       
             <button

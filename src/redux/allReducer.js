@@ -1,20 +1,18 @@
 import { combineReducers } from "redux"
 import userReducer from "./reducers/userReducer";
 import authReducer from './reducers/authReducer';
-import selectedIndexReducer from "./reducers/selectedIndexReducer";
 import postReducer from "./reducers/postReducer";
-import profileReducer from "./reducers/profileReducer";
 import { eventReducer } from './reducers/eventReducer';
+import rootsReducer from './reducers/rootsReducer';
 
 
-const rootReducer = combineReducers({
+const allReducer = combineReducers({
   userReducer,
   authReducer,
-  selectedIndexReducer,
   eventReducer,
   postReducer,
-  profileReducer,
+  rootsReducer
 })
 
 
-export default rootReducer;
+export default allReducer;
