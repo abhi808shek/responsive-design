@@ -35,12 +35,11 @@ import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMe
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 import axios from "axios";
-// import User from "./Components/Home/User/User"
 
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
-  userData = JSON.parse(userData);
+  // userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));

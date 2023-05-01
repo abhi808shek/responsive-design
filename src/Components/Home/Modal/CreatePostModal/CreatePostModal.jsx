@@ -99,7 +99,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
         </div>
 
         <div >
-          <MainCarousel />
+          {/* <MainCarousel /> */}
         </div>
       </div>
     </div>
