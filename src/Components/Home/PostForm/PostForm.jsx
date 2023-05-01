@@ -25,7 +25,7 @@ const PostForm = ({ width, bgColor }) => {
       </div>
       {showCreatePostModal && (
         <Portals>
-          <CreatePostModal setShowCreatePostModal={setShowCreatePostModal} />
+          <CreatePostModal title={'Create'} setShowCreatePostModal={setShowCreatePostModal} />
         </Portals>
       )}
     </>
