@@ -58,11 +58,19 @@ const Event = () => {
           {image?.map((img) => (
             <img
               key={img}
-              src={img}
+              src={img ? imag : "./images/events.jpg"}
               alt=""
               className="w-[100%] h-[70vh] object-cover rounded-[20px]"
             />
           ))}
+            {/* {image?.map((img) => (
+            <img
+              key={img}
+              src="./images/events.jpg"
+              alt=""
+              className="w-[100%] h-[70vh] object-cover rounded-[20px]"
+            />
+          ))} */}
         </Carousel>
       </div>
       <div className="flex justify-center gap-2 mt-5 h-16 items-center w-[40%] rounded-lg bg-white">
@@ -78,19 +86,23 @@ const Event = () => {
       <div className="w-[40%] flex flex-col items-center justify-center gap-4 mt-2">
         {eventTabSelected === "Post" &&
           //  dispatch(getAllEventPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid)) &&
-          allEventsPost?.map((post) =>
-            Object.values(post?.data)?.map((item, index) => (
-              <EventPostCard key={index} item={item} />
-            ))
-          )}
+          // allEventsPost?.map((post) =>
+          //   Object.values(post?.data)?.map((item, index) => (
+          //     <EventPostCard key={index} item={item} />
+          //   ))
+          allEventsPost?.map((item,index) => (
+            <EventPostCard key={index} item={item} />
+          ))}
 
         {eventTabSelected === "Trending" &&
           allTrendingPost !== null &&
-          allTrendingPost?.map((post) =>
-            Object.values(post?.data)?.map((item, index) => (
-              <EventPostCard key={index} item={item} />
-            ))
-          )}
+          // allTrendingPost?.map((post) =>
+          //   Object.values(post?.data)?.map((item, index) => (
+          //     <EventPostCard key={index} item={item} />
+          //   ))
+          allTrendingPost?.map((item,index) => (
+            <EventPostCard key={index} item={item} />
+          ))}
 
         {eventTabSelected === "Participate" && <Participate />}
       </div>
