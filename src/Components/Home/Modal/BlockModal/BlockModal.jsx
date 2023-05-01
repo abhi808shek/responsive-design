@@ -2,7 +2,7 @@ import React from "react";
 import dataList from "./data";
 
 
-const BlockModal = () => {
+const BlockModal = ({closeModalOption}) => {
   return (
     <div className="w-[20%] bg-white flex flex-col rounded-lg">
       <h1 className="text-center my-4 font-bold text-sm">
@@ -20,7 +20,7 @@ const BlockModal = () => {
         <button className="bg-[#7991BD] text-white border-[1px] border-gray-500 w-[50%] rounded-bl-lg text-sm font-semibold py-1">
           Block
         </button>
-        <button className="text-[#7991BD] border-[1px] border-gray-500  w-[50%] rounded-br-lg text-sm font-semibold py-1">
+        <button className="text-[#7991BD] border-[1px] border-gray-500  w-[50%] rounded-br-lg text-sm font-semibold py-1" onClick={closeModalOption}>
           Cancel
         </button>
       </div>
