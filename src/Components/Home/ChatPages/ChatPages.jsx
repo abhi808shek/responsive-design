@@ -3,6 +3,11 @@ import PostForm from "../PostForm/PostForm";
 import FriendList from "../FriendList/FriendList";
 import CustomGroupModal from "../Modal/CustomGroupModal/CustomGroupModal";
 import Portals from "../../Portals/Portals";
+import SearchComponent from "../SearchComponent/SearchComponent";
+import { ImPhone } from 'react-icons/im'
+import { TbVideoPlus } from "react-icons/tb";
+import ChatMessage from "../../chat/ChatMessage";
+import TypeMessage from "../../chat/TypeMessage";
 
 const ChatPages = () => {
   const [createGroupModal, setCreateGroupModal] = useState(false)
@@ -11,7 +16,7 @@ const ChatPages = () => {
   }
   return (
     <>
-      <div className=" w-full grid grid-cols-12 gap-2 mt-1">
+      <div className="flex-1 w-full grid grid-cols-12 gap-2 mt-1" style={{ maxHeight: "calc(100vh - 200px)"}}>
 
         {/* Recent Chats */}
         <section className=" col-span-3 bg-white">
@@ -22,15 +27,16 @@ const ChatPages = () => {
             </span>
           </div>
           <div className="bg-white col-span-6">
-            <PostForm width={96} />
+            {/* <PostForm width={96} /> */}
+            <SearchComponent classes={'mx-4'} bgColor={'#e4e7ec'} placeholder={'Search...'}/>
           </div>
-          <div className="h-[450px] overflow-y-scroll pt-3 flex flex-col gap-4">
-            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map((elem, index) => (<FriendList key={index} icon={true} desc={true} />))}
+          <div className="h-[600px] overflow-y-scroll pt-3 flex flex-col gap-4">
+            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map((elem, index) => (<FriendList key={index} icon={true} desc={true} menuButton/>))}
           </div>
         </section>
 
         {/* Chats Section */}
-        <section className="bg-blue-400 col-span-6">
+        <section className="px-3 col-span-6 flex flex-col justify-between">
           {/* Top Section */}
           <div className="flex h-[55px] px-2 items-center bg-[#F6F6F6]">
             <div className="">
@@ -41,14 +47,17 @@ const ChatPages = () => {
               <p className="text-[10px] font-bold">Active 3 hours ago</p>
             </div>
             <div className="flex gap-2 items-center">
-              <img src="./images/groups.png" alt="" className="w-[30px] h-[30px]" />
-              <img src="./images/groups.png" alt="" className="w-[30px] h-[30px]" />
+              <ImPhone size={25} color="#6780af" className="cursor-pointer"/>
+              <TbVideoPlus size={30} className="ml-2 cursor-pointer" color="#6780af"/>
+              {/* <img src="./images/groups.png" alt="" className="w-[30px] h-[30px]" /> */}
+              {/* <img src="./images/groups.png" alt="" className="w-[30px] h-[30px]" /> */}
             </div>
           </div>
 
           {/* Chat Section */}
-          <div>
-
+          <div className="">
+              <ChatMessage/>
+              <TypeMessage/>
           </div>
 
           {/* Media Share Section */}
@@ -61,12 +70,15 @@ const ChatPages = () => {
             <span className="flex-1 font-bold text-lg ">Friends List</span>
           </div>
 
-          <div className="bg-blue-800 col-span-6">
-            <PostForm width={96} />
+          <div className="col-span-6">
+            {/* <PostForm width={96} /> */}
+            <SearchComponent classes={'mx-4'} bgColor={'#e4e7ec'} placeholder={'Search...'}/>
           </div>
 
-          <div className="h-[450px] overflow-y-scroll pt-2 flex flex-col gap-4">
-            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map(() => (<FriendList icon={null} desc={null} />))}
+          <div className="h-[600px] overflow-y-scroll pt-2 flex flex-col gap-4">
+            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map(() => 
+                (<FriendList icon={null} desc={null}  />))
+            }
           </div>
         </div>
       </div>

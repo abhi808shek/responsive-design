@@ -10,12 +10,12 @@ const MainView = ({children}) => {
     }, [])
     
   return (
-    <>
+    <div className='flex flex-col h-screen'>
      <div className='w-full h-[65px]'>
       <Navbar />
      </div>
       <Outlet />
-    </>
+    </div>
   )
 }
 

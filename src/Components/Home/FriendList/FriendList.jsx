@@ -1,23 +1,22 @@
 import React, { useState } from "react";
 import CommentMenuModal from "../Modal/CommentMenuModal/CommentMenuModal";
 import { BsThreeDotsVertical } from 'react-icons/bs'
+import Popover from "../../popover/Popover";
+import PopOver from "../../popover/Popover";
 
-const FriendList = ({ icon, desc }) => {
+const FriendList = ({ icon, desc, handleMenuClick }) => {
   const data = [
     { name: "Un-Friend" },
     { name: "Change Relationship" },
     { name: "Block" },
   ];
-  const [openMenuModal, setOpenMenuModal] = useState(false);
-  const onMenuClick = () => {
-  console.log("openMenuModal11",openMenuModal);
+  // const [openMenuModal, setOpenMenuModal] = useState(false);
 
-    setOpenMenuModal(!openMenuModal);
-  };
 
   return (
     <div className="flex h-[50px] px-4 items-center py- relative">
-      {openMenuModal && <CommentMenuModal data={data} leftPosition={50} topPosition={34}/>}
+      {/* {openMenuModal && <CommentMenuModal data={data} leftPosition={50} topPosition={34}/>} */}
+
       <div className="">
         <img
           src="./images/events.jpg"
@@ -34,10 +33,15 @@ const FriendList = ({ icon, desc }) => {
         )}
       </div>
       {icon ? (
-        <div className="flex gap-2 items-center cursor-pointer"
-        onClick={onMenuClick}>
+        <PopOver
+        options={[{name: "Show chat"}]}
+        button={
+        <div className="flex gap-2 items-center cursor-pointer">
           <BsThreeDotsVertical className=''/>
         </div>
+        }
+        ></PopOver>
+
       ) : null}
     </div>
   );
