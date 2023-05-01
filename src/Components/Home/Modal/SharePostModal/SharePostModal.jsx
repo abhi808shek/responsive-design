@@ -35,7 +35,7 @@ const SharePostModal = ({ setShowShareModal,showShareModal,onClickOnNext }) => {
     <>
       {showShareModal.shareWith && (
         <Portals>
-          <ShareWithModal/>
+          <ShareWithModal showShareModal={showShareModal} setShowShareModal={setShowShareModal}/>
         </Portals>
       )}
 

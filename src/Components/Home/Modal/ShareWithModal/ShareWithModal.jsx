@@ -1,6 +1,6 @@
 import React from "react";
 import dataList from "./data";
-const ShareWithModal = ({setShareWithModal}) => {
+const ShareWithModal = ({setShowShareModal,}) => {
   const onHideShareModal = ()=>{
     setShareWithModal(false)
   }
