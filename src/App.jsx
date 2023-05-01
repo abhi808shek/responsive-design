@@ -101,6 +101,8 @@ const App = () => {
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
+            
+            <Route path="veiwallkicks" element={<SearchKicksPage/>} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
             <Route path='profile' element={<UserProfilePage />} />

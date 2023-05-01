@@ -28,7 +28,10 @@ const PostCard = ({ userData, item }) => {
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [userStatus, setUserStatus] = useState(0);
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState({
+    shareModal:false,
+    shareWith:false
+  });
   const [like, setLike] = useState(false);
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   {
@@ -41,7 +44,8 @@ const PostCard = ({ userData, item }) => {
   const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
     console.log("jwww");
-    setShowShareModal(true);
+    setShowShareModal({...showShareModal,shareModal:true})
+    // setShowShareModal(showShareModal);
   };
   // const {totalComments} = useSelector((state)=>state.userReducer)
   const dispatch = useDispatch();
@@ -50,7 +54,12 @@ const PostCard = ({ userData, item }) => {
     setUserStatus(item.userId);
   };
 
-  console.log("item?.isliked",item);
+  const onClickOnNext = () => {
+    setShowShareModal({...showShareModal,shareModal:false,shareWith:true})
+
+  };
+console.log("showShareModal.shareWith",showShareModal.shareWith);
+
   useEffect(() => {
     setLike(item?.isliked);
   }, [likedDetails]);
@@ -66,7 +75,6 @@ const PostCard = ({ userData, item }) => {
           item?.likeid
         )
       );
-      console.log("dislikeResponse",dislikeResponse);
      if (dislikeResponse?.status) {
       dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
       setLike(false);
@@ -299,9 +307,9 @@ const PostCard = ({ userData, item }) => {
           </div>
         </section>
       </div>
-      {showShareModal && (
+      {showShareModal.shareModal && (
         <Portals>
-          <SharePostModal setShowShareModal={setShowShareModal} />
+          <SharePostModal setShowShareModal={setShowShareModal} showShareModal={showShareModal} onClickOnNext={onClickOnNext}/>
         </Portals>
       )}
     </>

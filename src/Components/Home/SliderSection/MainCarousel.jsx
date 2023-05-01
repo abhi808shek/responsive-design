@@ -20,14 +20,6 @@ export default function MainCarousel() {
       slidesToSlide: 1,
     },
   };
-
-  const handleImageChange = (event)=>{
-    setFile(event.target.files)
-    console.log("Object.keys(file)",Object.keys(file))
-  }
-  console.log("Filess",file?.fileList);
-// console.log("Object.keys(file)",Object.keys(file))
-// console.log("Object.keys(file filessss)",Object.keys(file.fileList))
   return (
     <>
       <div className="float-right ">
@@ -67,28 +59,13 @@ export default function MainCarousel() {
                   id="image"
                   name="file"
                   accept="image/*"
-                  onChange={handleImageChange}
+                  // onChange={handleImageChange}
                   required
-                  multiple
                 />
               </div>
             )}
           </div>
-          {[1,2,3]?.map((elem, index) => (
-            <div className="w-full h-[50vh] relative flex flex-col items-center justify-center border border-gray-400 rounded-lg">
-              <img
-                src={URL.createObjectURL(elem)}
-                alt="image"
-                className="h-full w-full object-contain"
-              />
-              {/* <img
-                src={deleteIcon}
-                alt=""
-                className="absolute top-8 right-8 h-[40px] w-[40px] cursor-pointer"
-                onClick={() => setFile(null)}
-              /> */}
-            </div>
-          ))}
+          
         </Carousel>
         {/* <div className="flex justify-around my-3 items-center text-center xl:ml-20">
           <div className="ratio">A</div>

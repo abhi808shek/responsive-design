@@ -1,8 +1,8 @@
 import React from "react";
 import dataList from "./data";
-const ShareWithModal = ({setShowShareModal}) => {
+const ShareWithModal = ({setShareWithModal}) => {
   const onHideShareModal = ()=>{
-    setShowShareModal(false)
+    setShareWithModal(false)
   }
   return (
     <div className="lg:w-[25%] xl:h-[55%] bg-white rounded-xl ">
@@ -12,7 +12,7 @@ const ShareWithModal = ({setShowShareModal}) => {
         {dataList.map((elem) => (
           <><div className="flex gap-2">
                 <input type="radio" name="" id="" />
-                <span className="text-xs font-bold">{elem.name}</span>
+                <span className="text-xs font-bold">{elem?.name}</span>
             </div><hr /></>
         ))}
       </section>
