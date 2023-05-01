@@ -48,7 +48,7 @@ const PostCard = ({ userData, item }) => {
     setUserStatus(item.userId);
   };
 
-  console.log("item?.isliked",item?.isliked);
+  console.log("item?.isliked",item);
   useEffect(() => {
     setLike(item?.isliked);
   }, [likedDetails]);
@@ -159,6 +159,8 @@ const PostCard = ({ userData, item }) => {
         </section>
         {showMenuList && (
           <MenuModal
+          postId={item?.id}
+          profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
             closeModel={setShowMenuList}

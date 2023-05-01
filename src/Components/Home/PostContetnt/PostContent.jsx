@@ -8,7 +8,7 @@ const PostContent = ({ data, showModalFunc, width, userData }) => {
   return (
     <div className="w-full h-[100%] flex items-center justify-center flex-col">
       {/* <ShareWithModal /> */}
-      {data?.map((item, index) => (
+      {data.map((item, index) => (
         item?.content?.map((elem) => (
           <PostCard
             key={elem?.id}

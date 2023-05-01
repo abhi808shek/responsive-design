@@ -4,9 +4,14 @@ import { menuModalTabSelect } from "../../../../redux/actionCreators/userActionC
 import ReportModal from "../ReportModal/ReportModal";
 import Portals from "../../../Portals/Portals";
 import OriginalPostModal from "../OriginalPostModal/OriginalPostModal";
-import './menu.css'
+import "./menu.css";
+import {
+  deletePostByPostId,
+  getAllPostWithLimit,
+} from "../../../../redux/actionCreators/rootsActionCreator";
+import { toasterFunction } from "../../../Utility/utility";
 
-const MenuModal = ({ data, userStatus, closeModel }) => {
+const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
   const { menuModalTab } = useSelector((state) => state.userReducer);
   const [showReportModal, setShowReportModal] = useState(false);
   const [originalPost, setOriginalPost] = useState(false);
@@ -14,25 +19,27 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
   const { user } = useSelector((state) => state.userReducer);
   const dispatch = useDispatch();
 
-  console.log("hELLO enTER");
-
-  const onHandleClick = (option) => {
-    console.log("option 11JName", option);
+  const onHandleClick = async (option) => {
     if (option === "Report") {
-      console.log("showReportModal111",showReportModal);
-      setShowReportModal(true)
-      console.log("showReportModa222",showReportModal);
-    }
-    // console.log("showReportModal33333",showReportModal);
-     else if (option === "History") {
+      console.log("showReportModal111", showReportModal);
+      setShowReportModal(true);
+      console.log("showReportModa222", showReportModal);
+    } else if (option === "History") {
       setOriginalPost(true);
+    } else if (option === "Delete Post") {
+      const isDeleted = dispatch(deletePostByPostId(profileId, postId));
+      console.log("Deleted", isDeleted);
+      if (!isDeleted?.status) {
+        return toasterFunction("Something went wrong");
+      }
+      dispatch(getAllPostWithLimit(profileId));
     }
+    console.log("option33", option);
     closeModel(false);
     dispatch(menuModalTabSelect(option));
   };
-
   return (
-    <>      
+    <>
       <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
         {data
           .filter((elem) => {
@@ -55,7 +62,7 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
                   menuModalTab === elem.name ? "#7991BD" : "white",
               }}
               onClick={() => onHandleClick(elem.name)}
-            >            
+            >
               <img src={elem.icon} alt="" className="w-[25px] " />
               <span className="text-[12px] text-gray-600 font-semibold">
                 {elem.name}
@@ -74,7 +81,7 @@ const MenuModal = ({ data, userStatus, closeModel }) => {
 
       {originalPost && (
         <Portals>
-          <OriginalPostModal setOriginalPost={setOriginalPost}/>
+          <OriginalPostModal setOriginalPost={setOriginalPost} />
         </Portals>
       )}
     </>

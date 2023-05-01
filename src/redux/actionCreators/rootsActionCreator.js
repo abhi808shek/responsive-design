@@ -325,3 +325,63 @@ export const addImageByProfileId = () => async (dispatch) => {
     console.log(error.message);
   }
 };
+
+
+// -----------------------------DELETE API-----------------------------
+
+//DELETE POST BY PROFILE AND POST ID
+
+export const deletePostByPostId = (profileId,postId) => async (dispatch) => {
+    try {
+      const getStoredData = await getUserDataFromLocalStorage();
+  
+      const deletePostResult = await axios.delete(
+        `http://3.233.82.34:8080/post/api/post/deletePost/${profileId}/${postId}`,
+       
+        {
+          headers: {
+            "Accept-Language": "en",
+            Authorization: `Bearer ${getStoredData?.token}`,
+          },
+        }
+      );
+      console.log("deletePostResult", deletePostResult);
+      dispatch({
+        type: "DELETE_POST_BY_POST_ID",
+        // payload: deletePostResult?.data,
+      });
+      return deletePostResult;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };
+
+
+
+// -----------------------UNION LIST API---------------------------
+// 
+
+export const getUnionListByProfileId = (profileId) => async (dispatch) => {
+    try {
+      const getStoredData = await getUserDataFromLocalStorage();
+  
+      const getUnionListResult = await axios.get(
+        `http://3.233.82.34:8080/friend/api/group/getGroups/${profileId}`,
+       
+        {
+          headers: {
+            "Accept-Language": "en",
+            Authorization: `Bearer ${getStoredData?.token}`,
+          },
+        }
+      );
+      console.log("getUnionListResult", getUnionListResult);
+      dispatch({
+        type: "GET_UNION_LIST_BY_PROFILE_ID",
+        payload: getUnionListResult?.data,
+      });
+      return getUnionListResult?.data;
+    } catch (error) {
+      console.log(error.message);
+    }
+  };

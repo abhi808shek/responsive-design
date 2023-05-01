@@ -8,7 +8,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
     setShowCreatePostModal(false)
   }
   return (
-    <div className="bg-white top-8 lg:w-[77%] lg:h-[89%] xl:h-[89%] w-[100%] py-[10px] px-4 rounded-2xl mx-auto relative z-20">
+    <div className="bg-white top-8 lg:w-[77%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-4 rounded-2xl mx-auto relative z-20">
       {/* create post */}
       <div className="flex justify-between">
         <div>
@@ -59,7 +59,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
           <SelectDropdown />
         </section>
        </div>
-          <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] bg-gray-300"></div>
+          <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
           <div className="leftSide">
             {/* comment */}
             <div className="comment">
@@ -76,7 +76,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
               />
             </div>
             {/* accordion */}
-            <div className="my-2">
+            {/* <div className="my-2">
               <span className="text-gray-500 font-bold inline align-center">
                 Turn off commenting
               </span>
@@ -89,16 +89,16 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
                 You can change this later by going to the options at the top of
                 your post.
               </p>
-            </div>
+            </div> */}
 
-            <hr className="w-[90%] h-0.5 bg-gray-300 border-0 rounded md:my-3 dark:bg-black-900" />
+            {/* <hr className="w-[90%] h-0.5 bg-gray-300 border-0 rounded md:my-3 dark:bg-black-900" />
             <div>
               <AccordionToggle />
-            </div>
+            </div> */}
           </div>
         </div>
 
-        <div>
+        <div >
           <MainCarousel />
         </div>
       </div>

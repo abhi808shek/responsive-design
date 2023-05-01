@@ -145,12 +145,12 @@ const Participate = () => {
               alt="image"
               className="h-full w-full object-contain"
             />
-            <img
+            {/* <img
               src={deleteIcon}
               alt=""
               className="absolute top-8 right-8 h-[40px] w-[40px] cursor-pointer"
               onClick={() => setFile(null)}
-            />
+            /> */}
           </div>
         )}
 

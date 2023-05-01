@@ -43,7 +43,7 @@ const SliderSection = () => {
         arrows={true}
         containerClass={`w-full h-[210px] z-[1]`}
       >
-        {kicksList?.map((item) =>
+        {[1,2,3,4,4]?.map((item) =>
           item?.content?.map((data) =>(
             <div className="w-[91%] mt-12 my-2 h-[70%] rounded-3xl">
             <video
