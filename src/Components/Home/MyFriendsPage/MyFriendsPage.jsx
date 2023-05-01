@@ -6,7 +6,7 @@ import SelectDropdown from './SelectDropdown'
 
 const MyFriendsPage = () => {
   return (
-    <div className="w-[100%] h-[538px] flex justify-center items-center z-10 mt-1">
+    <div className="w-[100%] h-[536px] flex justify-center items-center z-10 mt-1">
       <div className="w-[40%] h-[538px] bg-white text-black">
         <section className="flex gap-2 px-2 items-center">
           <span className="md:text-sm md:w-[17%]">View By: </span>
@@ -40,11 +40,11 @@ const MyFriendsPage = () => {
 
         <section className="">
           <div className="h-[478px] px-1 mt-2 overflow-y-scroll flex flex-col gap-2">
-            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map(() => (
-              <>
+            {[1, 2, 3, 4, 55, 56, 67, 7, 4, 43, 43, 33, 2, 2, 2, 2].map((elem,index) => (
+              <React.Fragment key={index}>
                 <FriendList icon={true} desc={true} />
                 <hr />
-              </>
+              </React.Fragment>
             ))}
           </div>
         </section>

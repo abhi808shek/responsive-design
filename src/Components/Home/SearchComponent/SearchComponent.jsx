@@ -1,12 +1,19 @@
 import React from 'react'
+import { CgSmileMouthOpen } from 'react-icons/cg';
 
-const SearchComponent = ({bgColor,width,placeholder}) => {
+const SearchComponent = ({bgColor,width,placeholder, classes, icon}) => {
+  console.log(icon);
     return (
         <div className={`w-full h-[58px] flex items-center justify-center rounded-xl`}>
-          <div className={`flex rounded-md justify-between items-center `} style={{backgroundColor:bgColor,width:`${width}%`}}>
-            <input type="text" placeholder={placeholder} className={`w-full rounded-md pl-3 py-2 outline-none bg-[${bgColor}]`}/>
+          <div className={`${classes} w-full flex rounded-md justify-between items-center `} style={{backgroundColor:bgColor,width:`${width}%`}}>
+            <input type="text" placeholder={placeholder} className={` w-full rounded-md pl-3 py-2 outline-none bg-[${bgColor}]`}/>
             <span className="mr-2">
-              <img src="./images/Search.png" alt=""  className='w-[22px]'/>
+            {
+              icon ? 
+                <CgSmileMouthOpen className='cursor-pointer' size={28}/>
+              :
+              <img src="./images/Search.png" alt=""  className='cursor-pointer w-[22px]'/>
+            }
             </span>
           </div>
         </div>

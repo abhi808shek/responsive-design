@@ -21,6 +21,12 @@ export const dataList = [
         title: "Create Events",
         icon: "./images/calender.png",
         url: "/umeet"
+    },
+    {
+        name: "Reals",
+        title: "Create Map",
+        icon: "./images/reals.jpeg",
+        url: "/reals"
     }
 ]
 export const data = [

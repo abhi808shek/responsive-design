@@ -6,9 +6,9 @@ import { IoIosPeople } from 'react-icons/io'
 import FollowersModal from "../../Modal/FollowersModal/FollowersModal";
 
 const ProfileImageSection = ({ following, followers, friends, uploadImage, coverImg, profileImg}) => {
-  const friendsCount =  friends.data?.length || 0;
-  const followingCount = following.data?.length || 0;
-  const followersCount = followers.data?.length || 0;
+  const friendsCount =  friends?.data?.length || 0;
+  const followingCount = following?.data?.length || 0;
+  const followersCount = followers?.data?.length || 0;
 
   const [state, setState] = useState({})
   const { showModal, modalName } = state

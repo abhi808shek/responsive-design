@@ -21,14 +21,24 @@ import {
   getAllPostWithLimit,
   getLikesById,
 } from "../../../../redux/actionCreators/rootsActionCreator";
+import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
+import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 
 const PostCard = ({ userData, item }) => {
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
   const [userStatus, setUserStatus] = useState(0);
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState({
+    shareModal: false,
+    shareWith: false,
+  });
+  const [postMenuModal, setPostMenuModal] = useState({
+    editPost:false,
+    originalPost: false,
+    externalShare: false,
+  });
   const [like, setLike] = useState(false);
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   {
@@ -41,7 +51,8 @@ const PostCard = ({ userData, item }) => {
   const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
     console.log("jwww");
-    setShowShareModal(true);
+    setShowShareModal({ ...showShareModal, shareModal: true });
+    // setShowShareModal(showShareModal);
   };
   // const {totalComments} = useSelector((state)=>state.userReducer)
   const dispatch = useDispatch();
@@ -50,7 +61,14 @@ const PostCard = ({ userData, item }) => {
     setUserStatus(item.userId);
   };
 
-  console.log("item?.isliked",item);
+  const onClickOnNext = () => {
+    setShowShareModal({
+      ...showShareModal,
+      shareModal: false,
+      shareWith: true,
+    });
+  };
+
   useEffect(() => {
     setLike(item?.isliked);
   }, [likedDetails]);
@@ -60,17 +78,18 @@ const PostCard = ({ userData, item }) => {
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const onLikeIncrease = async () => {
     if (like) {
-    const dislikeResponse = await  dispatch(
+      const dislikeResponse = await dispatch(
         decreaseLikeByLikeId(
           defaultRootData?.data?.postdata?.profileid,
           item?.likeid
         )
       );
-      console.log("dislikeResponse",dislikeResponse);
-     if (dislikeResponse?.status) {
-      dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
-      setLike(false);
-     }
+      if (dislikeResponse?.status) {
+        dispatch(
+          getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
+        );
+        setLike(false);
+      }
     } else {
       const postDeatils = {
         datetime: Date.now().toString(),
@@ -100,6 +119,26 @@ const PostCard = ({ userData, item }) => {
     setInputComment("");
     dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
   };
+
+  const handleClickMenu = (modalName) => {
+    if (modalName === "Edit Post") {
+      setPostMenuModal({ ...postMenuModal, editPost: true });
+    } else if (modalName === "History") {
+      setPostMenuModal({ ...postMenuModal, originalPost: true });
+    } else if (modalName === "External Share") {
+      setPostMenuModal({ ...postMenuModal, showReportModal: true });
+    }
+  };
+
+  const handleCloseModal = () => {
+    setPostMenuModal({
+      ...postMenuModal,
+      originalPost: false,
+      editPost: false,
+      externalShare: false,
+    });
+  };
+
   return (
     <>
       <div
@@ -107,52 +146,55 @@ const PostCard = ({ userData, item }) => {
       >
         {/* Top Section */}
         <section className="w-full flex items-centern justify-between">
-        <div className="flex cursor-pointer" onClick={() => navigate('/profile/${6}')}>
-          <div className="flex w-[46px] h-[46px]">
-            {/* due to img broke dynamic src commented */}
-            <img
-              // src={item.userIcon}
-              src={item?.profile?.pimage ? item?.profile?.pimage : user}
-              alt=""
-              className="w-full h-full rounded-full mt-1 object-cover"
-            />
-          </div>
-
-          <div className="flex flex-col flex-1 justify-center ml-2">
-            <div className="flex items-center">
-              {/*font weight removed*/}
-              <span className="ml-1 font-bold">
-                {`${item?.profile?.fname} ${item?.profile?.lname}`}
-              </span>
-              <span className="text-xs ml-2 font-semibold mt-0.5">
-                {item?.profile?.job}
-              </span>
-            </div>
-
-            <div className="flex items-center gap-1">
-              {/* <HiUserGroup size={16} /> */}
-              <span className="text-[11px] font-semibold">
-                {item?.updatpostdatetime === null ||
-                item?.updatpostdatetime === ""
-                  ? item?.postdatetime
-                  : item?.updatpostdatetime}
-              </span>
-
+          <div
+            className="flex cursor-pointer"
+            onClick={() => navigate("/profile/${6}")}
+          >
+            <div className="flex w-[46px] h-[46px]">
+              {/* due to img broke dynamic src commented */}
               <img
-                src="./images/groups.png"
+                // src={item.userIcon}
+                src={item?.profile?.pimage ? item?.profile?.pimage : user}
                 alt=""
-                className="w-[12px] relative"
+                className="w-full h-full rounded-full mt-1 object-cover"
               />
-              {/* font size reduced */}
-              <span className="text-[11px] font-semibold">1 year ago</span>
-              <GrLocation size={10} />
-              {/* <img src="" alt="" /> */}
-              <span className="text-[11px] font-semibold"> 
-              { item?.profile?.location }
-              </span>
+            </div>
+
+            <div className="flex flex-col flex-1 justify-center ml-2">
+              <div className="flex items-center">
+                {/*font weight removed*/}
+                <span className="ml-1 font-bold">
+                  {`${item?.profile?.fname} ${item?.profile?.lname}`}
+                </span>
+                <span className="text-xs ml-2 font-semibold mt-0.5">
+                  {item?.profile?.job}
+                </span>
+              </div>
+
+              <div className="flex items-center gap-1">
+                {/* <HiUserGroup size={16} /> */}
+                <span className="text-[11px] font-semibold">
+                  {item?.updatpostdatetime === null ||
+                  item?.updatpostdatetime === ""
+                    ? item?.postdatetime
+                    : item?.updatpostdatetime}
+                </span>
+
+                <img
+                  src="./images/groups.png"
+                  alt=""
+                  className="w-[12px] relative"
+                />
+                {/* font size reduced */}
+                <span className="text-[11px] font-semibold">1 year ago</span>
+                <GrLocation size={10} />
+                {/* <img src="" alt="" /> */}
+                <span className="text-[11px] font-semibold">
+                  {item?.profile?.location}
+                </span>
+              </div>
             </div>
           </div>
-        </div>
 
           <CiMenuKebab
             size={25}
@@ -163,11 +205,11 @@ const PostCard = ({ userData, item }) => {
         </section>
         {showMenuList && (
           <MenuModal
-          postId={item?.id}
-          profileId={defaultRootData?.data?.postdata?.profileid}
+            postId={item?.id}
+            profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
-            closeModel={setShowMenuList}
+            closeModel={handleClickMenu}
           />
         )}
 
@@ -299,11 +341,40 @@ const PostCard = ({ userData, item }) => {
           </div>
         </section>
       </div>
-      {showShareModal && (
+      {showShareModal.shareModal && (
         <Portals>
-          <SharePostModal setShowShareModal={setShowShareModal} />
+          <SharePostModal
+            setShowShareModal={setShowShareModal}
+            showShareModal={showShareModal}
+            onClickOnNext={onClickOnNext}
+          />
         </Portals>
       )}
+      {showShareModal.shareWith && (
+        <Portals>
+          <ShareWithModal
+            setShowShareModal={setShowShareModal}
+            showShareModal={showShareModal}
+          />
+        </Portals>
+      )}
+      {postMenuModal.editPost && (
+        <Portals>
+          <UpdatePostModal title="Edit" handleCloseModal={handleCloseModal} />
+        </Portals>
+      )}
+
+      {postMenuModal.originalPost && (
+        <Portals>
+          <OriginalPostModal handleCloseModal={handleCloseModal} />
+        </Portals>
+      )}
+
+      {/* {postMenuModal.externalShare && (
+        <Portals>
+          < closeModel={handleCloseModal} />
+        </Portals>
+      )} */}
     </>
   );
 };

@@ -27,9 +27,9 @@ const ProfilePage = ({ isOther }) => {
   }, [])
   const reducerData = useSelector((state) => {
     return {
-      following: state.profileReducer.following,
-      followers: state.profileReducer.followers,
-      friends: state.profileReducer.friends,
+      following: state?.profileReducer?.following,
+      followers: state?.profileReducer?.followers,
+      friends: state?.profileReducer?.friends,
     }
   });
   const { following, followers, friends} = reducerData;
@@ -38,10 +38,10 @@ const ProfilePage = ({ isOther }) => {
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
     dispatch(checkingIsEmailExist())
-    dispatch(getProfileById(user.id));
-    dispatch(getFollowing(user.id));
-    dispatch(getFollower(user.id));
-    dispatch(getFriendsList(user.id));
+    dispatch(getProfileById(user?.id));
+    dispatch(getFollowing(user?.id));
+    dispatch(getFollower(user?.id));
+    dispatch(getFriendsList(user?.id));
   }, []);
 
   const handleUploadImage = async (name, value) => {
@@ -54,7 +54,7 @@ const ProfilePage = ({ isOther }) => {
     
   }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] h-[1000px] 2xl:h-[1200px]">
+    <div className="w-full flex justify-evenly bg-[#E4E7EC] h-[1000px] 2xl:h-[1200px] mt-[64px]">
       <section className="flex lg:w-[50%] 2xl:h-[1200px] flex-col mt-2 items-end">
         <ProfileImageSection 
         uploadImage={handleUploadImage}

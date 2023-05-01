@@ -1,8 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
+import Portals from "../../../Portals/Portals";
+import ShareWithModal from "../ShareWithModal/ShareWithModal";
 
-const SharePostModal = ({setShowShareModal}) => {
+const SharePostModal = ({ setShowShareModal,showShareModal, onClickOnNext }) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -23,26 +25,31 @@ const SharePostModal = ({setShowShareModal}) => {
     },
   };
 
-  const onCloseSharePostModal = ()=>{
-    console.log("CLOSE MODAL");
-    setShowShareModal(false)
-  }
+  const onCloseSharePostModal = () => {
+    setShowShareModal({ ...showShareModal, shareModal: false });
+  };
+
   return (
-      <div className="w-[30%] bg-white flex-col flex items-center rounded-xl">
+    <>
+
+      <div className="w-[30%] bg-white flex-col flex items-center rounded-xl mt-[65px]">
         {/* Top Section */}
         <section className="flex w-full justify-between my-2 px-3">
           <span className="text-md font-bold">Custom Group</span>
-          <button className="text-md font-semibold rounded-lg flex items-center text-white bg-[#6780AF] px-[30px] py-0.5">
-            Save
+          <button
+            className="text-md font-semibold rounded-lg flex items-center text-white bg-[#6780AF] px-[30px] py-0.5"
+            onClick={onClickOnNext}
+          >
+            Next
           </button>
         </section>
         <div className="w-[95%] h-0.5 bg-gray-500"></div>
 
         {/* Message Section */}
-        <section className="flex w-full justify-between px-2 py-2">
+        <section className="flex w-full justify-between px-2 lg:py-1 xl:py-2 lg:h-[90px] xl:h-[120px]">
           <textarea
             type="text"
-            className="w-[98%] h-[100px] outline-none pl-2 text-black text-xs rounded-lg pt-2 bg-gray-300"
+            className="w-[98%] lg:h-[80px] xl:h-[100px] outline-none pl-2 text-black text-xs rounded-lg  lg:pt-1 xl:pt-2 bg-gray-300"
             placeholder="Write something..."
           />
         </section>
@@ -67,8 +74,11 @@ const SharePostModal = ({setShowShareModal}) => {
             showDots={true}
             arrows={false}
           >
-            {[4, 3, 2, 1.3,4,5,6,7,7,7].map((elem,index) => (
-              <div key={index} className="rounded-lg h-[90%] border-2 border-gray-500 relative flex items-center justify-center">
+            {[4, 3, 2, 1.3, 4].map((elem, index) => (
+              <div
+                key={index}
+                className="rounded-lg h-[90%] border-2 border-gray-500 relative flex items-center justify-center"
+              >
                 <img
                   src="./images/events.jpg"
                   alt=""
@@ -82,9 +92,15 @@ const SharePostModal = ({setShowShareModal}) => {
         {/* Button Section */}
 
         <section className="w-full flex justify-center my-2">
-          <button className="w-[95%] text-[#6780AF] border-[1px] border-[#6780AF] text-sm font-semibold py-0.5 rounded-md" onClick={onCloseSharePostModal}>Cancel</button>
+          <button
+            className="w-[95%] text-[#6780AF] border-[1px] border-[#6780AF] text-sm font-semibold py-0.5 rounded-md"
+            onClick={onCloseSharePostModal}
+          >
+            Cancel
+          </button>
         </section>
       </div>
+    </>
   );
 };
 

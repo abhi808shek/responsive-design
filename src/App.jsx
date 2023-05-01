@@ -35,12 +35,13 @@ import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMe
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 import axios from "axios";
-// import User from "./Components/Home/User/User"
 
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
-  //userData = JSON.parse(userData);
+  userData = JSON.parse(userData);
+  console.log(userData);
+  userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
@@ -101,6 +102,8 @@ const App = () => {
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
+            
+            <Route path="veiwallkicks" element={<SearchKicksPage/>} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
             <Route path='profile' element={<UserProfilePage />} />

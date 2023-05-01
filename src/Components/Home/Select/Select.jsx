@@ -33,6 +33,13 @@ const Select = () => {
       style: "bg-[#659B8E]",
       url: "/umeet",
     },
+    {
+      title: "Reals",
+      description: "Create Maps",
+      icon: "./images/reals.jpeg",
+      style: "bg-[pink]",
+      url: "/reals",
+    },
   ];
 
   const onHandleClick = (option) => {

@@ -4,7 +4,7 @@ import { createPortal } from "react-dom";
 import dataList from "./data";
 import Portals from "../../../Portals/Portals";
 
-const ReportModal = () => {
+const ReportModal = ({ closeModal }) => {
   // else if (option === "Nudity or Sexual activity") {
   //   // showModal(true)
   // } else if (option === "Suicide related") {
@@ -64,7 +64,7 @@ const ReportModal = () => {
         ))}
         <button
           className="w-[50%] h-8 text-white font-semibold rounded-lg mb-3 mt-2 bg-[#6780AF]"
-          onClick={showThankuModal}
+          onClick={closeModal}
         >
           Report
         </button>

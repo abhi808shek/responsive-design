@@ -40,19 +40,25 @@ const Home = ({ onShowReportModal, showReportModal }) => {
   }, [defaultRootData]);
   return (
     // -----------------USER PAGE----------------
-    <div className="w-full h-[100%] bg-[#E4E7EC] flex flex-col items-center">
+    <div className="w-full mt-16 bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
       <PostForm />
+      <HeroSection />
+          <SliderSection />
+             <PostContent
+          data={postList}
+          showModalFunc={onShowReportModal}
+          userData={userData}
+        />
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
-        <HeroSection />
-        <SliderSection />
         <PostContent
           data={postList}
           showModalFunc={onShowReportModal}
           userData={userData}
         />
       </section>
+    
     </div>
 
     // --------------------------------END USER PAGE ---------------

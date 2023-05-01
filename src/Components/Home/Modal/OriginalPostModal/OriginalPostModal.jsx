@@ -1,13 +1,12 @@
 import React from "react";
 import { GrLocation } from "react-icons/gr";
 
-const OriginalPostModal = ({ setOriginalPost }) => {
-  const onCloseOriginalPost = () => {
-    setOriginalPost(false)
-  }
+const OriginalPostModal = ({ handleCloseModal }) => {
+  
+
   return (
     // Original Post Section
-    <div className="flex w-[80%] bg-white justify-around pt-2">
+    <div className="flex w-[80%] bg-white justify-around pt-2 mt-[60px] rounded-xl">
       <div className="w-[45%] border-3 border-gray-500 ">
         <h1 className="text-md font-bold bg-white ">Original Post</h1>
         <div className="bg-[#E4E7EC] mt-3 pt-3 pb-3 rounded-xl">
@@ -66,11 +65,11 @@ const OriginalPostModal = ({ setOriginalPost }) => {
       <div className="w-[45%] h-[500px] overflow-y-scroll">
         <div className="flex justify-between  ">
           <span className="text-md font-bold">Edit History</span>
-          <button className="text-md font-bold text-blue-400" onClick={onCloseOriginalPost}>Close</button>
+          <button className="text-md font-bold text-blue-400" onClick={handleCloseModal}>Close</button>
         </div>
 
-        {[1, 2, 34, 56, 323, 2323, 434].map(() => (
-          <div className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]">
+        {[1, 2, 34, 56, 323, 2323, 434].map((lem,index) => (
+          <div className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]" key={index}>
             <section className="w-full flex items-center ml-3 justify-around">
               <div className="flex w-[50px] h-[50px]">
                 <img
