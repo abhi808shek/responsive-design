@@ -14,6 +14,7 @@ import KicksAfterLike from "../../../../assets/images/KicksLike.png";
 
 import user from "../../../../Assets/Images/Person.jpg";
 import SharePostModal from "../../Modal/SharePostModal/SharePostModal";
+import { useNavigate } from "react-router-dom";
 import {
   addCommentOnPost,
   decreaseLikeByLikeId,
@@ -22,6 +23,7 @@ import {
 } from "../../../../redux/actionCreators/rootsActionCreator";
 
 const PostCard = ({ userData, item }) => {
+  const navigate = useNavigate()
   const [showMore, setShowMore] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
   const [inputComment, setInputComment] = useState("");
@@ -104,7 +106,8 @@ const PostCard = ({ userData, item }) => {
         className={`flex w-[40%] rounded-lg py-2 justify-between items-center px-2 flex-col mt-2 bg-white`}
       >
         {/* Top Section */}
-        <section className="w-full flex items-center">
+        <section className="w-full flex items-centern justify-between">
+        <div className="flex cursor-pointer" onClick={() => navigate('/profile/${6}')}>
           <div className="flex w-[46px] h-[46px]">
             {/* due to img broke dynamic src commented */}
             <img
@@ -144,11 +147,12 @@ const PostCard = ({ userData, item }) => {
               <span className="text-[11px] font-semibold">1 year ago</span>
               <GrLocation size={10} />
               {/* <img src="" alt="" /> */}
-              <span className="text-[11px] font-semibold">
-                {item?.profile?.location}
+              <span className="text-[11px] font-semibold"> 
+              { item?.profile?.location }
               </span>
             </div>
           </div>
+        </div>
 
           <CiMenuKebab
             size={25}
