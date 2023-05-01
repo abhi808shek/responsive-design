@@ -35,9 +35,9 @@ const Select = () => {
     },
     {
       title: "Reals",
-      description: "Schedule events & meet",
-      icon: "./images/calender.png",
-      style: "bg-[#659B8E]",
+      description: "Create Maps",
+      icon: "./images/reals.jpeg",
+      style: "bg-[pink]",
       url: "/reals",
     },
   ];
