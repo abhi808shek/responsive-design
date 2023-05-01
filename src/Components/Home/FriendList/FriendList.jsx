@@ -34,7 +34,7 @@ const FriendList = ({ icon, desc, handleMenuClick }) => {
       </div>
       {icon ? (
         <PopOver
-        options={[{name: "Show chat"}]}
+        options={[{name:"Un-Friend"},{name:"Change Relationship"},{name:"Block"}]}
         button={
         <div className="flex gap-2 items-center cursor-pointer">
           <BsThreeDotsVertical className=''/>
