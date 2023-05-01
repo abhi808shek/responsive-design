@@ -4,6 +4,7 @@ import { BsPeopleFill } from 'react-icons/bs'
 import { FaWalking } from 'react-icons/fa'
 import { IoIosPeople } from 'react-icons/io'
 import FollowersModal from "../../Modal/FollowersModal/FollowersModal";
+import user from '../../../../Assets/Images/Person.jpg'
 
 const ProfileImageSection = ({ following, followers, friends, uploadImage, coverImg, profileImg}) => {
   const friendsCount =  friends?.data?.length || 0;
@@ -18,7 +19,7 @@ const ProfileImageSection = ({ following, followers, friends, uploadImage, cover
       <input id="cover-pic" type="file" accept="image/*" className="hidden" onChange={(e) =>uploadImage('coverImg', e.target.files)}/>
       <label htmlFor="cover-pic" className="w-[95%] h-[55%] rounded-xl flex justify-center mt-3">
         <img
-          src={coverImg}
+          src={coverImg }
           alt=""
           className="w-full h-full rounded-xl object-cover"
         />
@@ -30,9 +31,9 @@ const ProfileImageSection = ({ following, followers, friends, uploadImage, cover
         <input type="file" id="profile-pic" accept="image/*"  onChange={(e) => uploadImage('profileImg', e.target.files)} className="hidden"/>
           <label htmlFor="profile-pic" className="w-[110px] h-[110px] 2xl:w-[200px] 2xl:h-[200px] relative top-[-40px]">
             <img
-              src={profileImg}
+              src={profileImg  || user}
               alt=""
-              className="w-full h-full border-2 border-white rounded-full ml-1 object-cover"
+              className="w-full h-full border-2 border-[#6780af] rounded-full ml-1 object-cover"
             />
           </label>
 
@@ -65,9 +66,9 @@ const ProfileImageSection = ({ following, followers, friends, uploadImage, cover
             </span>
           </section>
         </div>
-        <div className="flex gap-2 items-center justify-center mt-1 w-[65%]">
+        <div className="flex gap-2 items-center  mt-1">
           <span className="font-bold text-2xl flex items-center justify-center  2xl:h-[70px] 2xl:text-[50px]">Joe D</span>
-          <span className="text-sm font-medium text-gray-700  2xl:text-[30px] flex items-center justify-center  2xl:h-[70px]">@Software Engineer</span>
+          <span className="text-sm font-medium text-gray-700  2xl:text-[20px] flex items-center justify-center">@Software Engineer</span>
         </div>
       </section>
       {

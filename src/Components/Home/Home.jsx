@@ -44,6 +44,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
       {/* NAVBAR */}
 
       <PostForm />
+        <HeroSection />
           <SliderSection />
              <PostContent
           data={postList}
@@ -51,7 +52,6 @@ const Home = ({ onShowReportModal, showReportModal }) => {
           userData={userData}
         />
       <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
-        <HeroSection />
         <PostContent
           data={postList}
           showModalFunc={onShowReportModal}
