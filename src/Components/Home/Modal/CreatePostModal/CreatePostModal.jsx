@@ -3,7 +3,7 @@ import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
 import SelectDropdown from './SelectDropdown'
 
-const CreatePostModal = ({setShowCreatePostModal}) => {
+const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
   const onCloseCreatePostModal = ()=>{
     setShowCreatePostModal(false)
   }
@@ -12,13 +12,13 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
       {/* create post */}
       <div className="flex justify-between">
         <div>
-          <h3 className="font-bold">Create Post</h3>
+          <h3 className="font-bold">{title} Post</h3>
         </div>
         <div className="">
           <button className="bg-[#6780AF] text-white font-bold px-5 rounded-full ">
             Post
           </button>
-          <button className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full" onClick={onCloseCreatePostModal}>
+          <button className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full" onClick={handleCloseModal}>
             Discard
           </button>
         </div>
