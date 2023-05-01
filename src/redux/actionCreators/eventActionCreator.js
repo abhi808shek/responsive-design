@@ -145,21 +145,25 @@ export const getAllTrendingPost =
   };
 
 export const imageUploadApi =  (image) => async (dispatch) => {
+console.log(image, '[[[[[');
     try{
 const getUploadedResult = await axios.post(
       `http://35.183.76.174:9098/s3/upload`,
-      image,
+      {
+        file: image
+      },
       {
         headers: {
           "Accept-Language": "en",
-          Authorization: `Bearer ${getStoredData?.token}`,
+          "Content-Type": "multipart/formdata"
+          // Authorization: `Bearer ${getStoredData?.token}`,
         },
       }
     );
     console.log("getUploadedResult", getUploadedResult);
     dispatch({
       type: "GET_IMAGE_UPLOAD",
-      payload: getImageResult,
+      payload: getUploadedResult,
     });
     return getUploadedResult;
     } catch (error) {

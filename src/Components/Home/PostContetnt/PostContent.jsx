@@ -1,7 +1,7 @@
 import React from 'react'
 import PostCard from './PostCard/PostCard';
 import ReportModal from '../Modal/ReportModal/ReportModal';
-import ShareWithModal from './../Modal/ShareWithModal/ShareWithModal';
+import ShareWithModal from '../Modal/ShareWithModal/ShareWithModal';
 import userData from '../dataList';
 
 

@@ -1,4 +1,5 @@
 import axios from "axios";
+import { setDataOnStorage } from "../../Components/Utility/utility";
 
 // CHECKING USER pr Email EXIST OR NOT
 
@@ -79,13 +80,15 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
         },
       }
     );
+    // setDataOnStorage('userid', userExist.data)
     dispatch({
       type: "IS_EMAIL_EXIST",
       payload: userExist.data,
     });
     return userExist.data;
   } catch (error) {
-    return userExist.data;
+    // return userExist.data;
+    throw error.message;
   }
 };
 
@@ -168,7 +171,7 @@ export const loginUser = (data) => async (dispatch) => {
     console.log("responseeeeeeeeeeeeeeeee", response);
 
     dispatch({
-      type: "SET_USER_LOGIN_DATA",
+      type: "SET_USER_DATA",
       payload: response.data,
     });
     return response.data;

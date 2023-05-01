@@ -33,8 +33,8 @@ export const getQueryParams = (data) => {
 };
 
 // Get Data from Local Storage
-export const setDataOnStorage = (value) => {
-  return localStorage.setItem("userCredential", JSON.stringify(value));
+export const setDataOnStorage = (value, name = "userCredential") => {
+  return localStorage.setItem(name, JSON.stringify(value));
 };
 
 // Get Data from Local Storage

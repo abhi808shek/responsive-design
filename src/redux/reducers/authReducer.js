@@ -32,7 +32,6 @@ const initialState = {
         return { ...state,emailExist:action.payload};
 
         case "SET_USER_LOGIN_DATA" :
-          console.log(state, '------------SSSSSSSSSSSS');
           return {...state, loginData: action.payload} 
 
 

@@ -1,8 +1,9 @@
 import React from 'react'
 
-const FollowersModal = ({title}) => {
+const FollowersModal = ({title, modalName}) => {
   return (
-    <div className='w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col'>
+    <div className='w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+        <div>{modalName}</div>
          <h1 className="text-center my-3 font-bold">{title}</h1>
              <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
          <section className=" w-[95%] flex rounded-md flex-col justify-between items-center mt-2 h-[350px] overflow-scroll">

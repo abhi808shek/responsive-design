@@ -73,12 +73,14 @@ const Login = () => {
       const email = formik.values.email;
       const password = formik.values.password;
       try {
+        dispatch(checkingIsEmailExist(email))
         const userResponse = await dispatch(loginUser({uemail:email,password:password}));
           console.log("userResponse",userResponse);
         const userCredential = {
           uemail:email,
           isLoggedIn:userResponse?.data?.loginstatus,
-          token:userResponse?.data?.loginToken
+          token:userResponse?.data?.loginToken,
+          id: userResponse.data.id
         };
         if (!userResponse?.status) {
           toast.error(userResponse.message)

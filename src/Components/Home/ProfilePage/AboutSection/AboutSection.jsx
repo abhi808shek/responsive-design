@@ -5,16 +5,22 @@ import { BsPhone, BsCalendarEvent } from 'react-icons/bs'
 import { CgProfile } from 'react-icons/cg'
 import { GoLocation } from 'react-icons/go'
 import { TbBrandRedhat } from 'react-icons/tb'
+import { useNavigate } from "react-router-dom";
 
-const AboutSection = () => {
+const AboutSection = ({ isOther }) => {
+  const navigate = useNavigate()
   return (
     <div className="lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center ">
       {/*Head Section */}
       <section className="flex w-full justify-between my-2 px-4">
         <strong className="text-lg font-medium">About</strong>
-        <button className="text-md font-bold rounded-lg flex items-center text-white bg-[#6780AF] px-[10px] text-[12px]">
+        {
+          !isOther &&
+        <button onClick={() => navigate('/edit-profile')}
+        className="text-md font-bold rounded-lg flex items-center text-white bg-[#6780AF] px-[10px] text-[12px]">
           Edit Profile
         </button>
+        }
       </section>
       <div className="w-[93%] h-0.5 bg-gray-500"></div>
 

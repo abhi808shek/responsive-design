@@ -34,17 +34,20 @@ import CommentBox from "./Components/Home/PostContetnt/PostCard/CommentBox/Comme
 import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMenuModal";
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
+import axios from "axios";
 // import User from "./Components/Home/User/User"
 
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
-  userData = JSON.parse(userData);
-  console.log("userData",userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
+      const user = JSON.parse(userData)
+      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+      axios.defaults.headers.common['Content-Type'] = "application-json"
+      axios.defaults.headers.common['Accept-Language'] = "en"
       dispatch(
         settingUserLoginData(userData?.isLoggedIn, {
           email: userData.uemail,
@@ -100,6 +103,7 @@ const App = () => {
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
             <Route path='profile' element={<UserProfilePage />} />
+            <Route path='profile/:id' element={<UserProfilePage isOther />} />
             <Route
               path="friend-request"
               element={<FriendRequestPage isFriend={true} />}
@@ -108,6 +112,8 @@ const App = () => {
             <Route path="umeet" element={<Umeet />} />
             <Route path="profile-page" element={<ProfilePage />} />
             <Route path="event" element={<Event />} />
+            <Route path="edit-profile" element={<UpdateProfile />} />
+
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}
