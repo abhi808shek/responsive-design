@@ -307,9 +307,15 @@ console.log("showShareModal.shareWith",showShareModal.shareWith);
           </div>
         </section>
       </div>
-      {showShareModal.shareModal && (
+      {(showShareModal.shareModal) && (
         <Portals>
-          <SharePostModal setShowShareModal={setShowShareModal} showShareModal={showShareModal} onClickOnNext={onClickOnNext}/>
+          <SharePostModal shareWith={showShareModal.shareWith} onClickOnNext={onClickOnNext}/>
+        </Portals>
+      )}
+      {
+              showShareModal.shareWith && (
+        <Portals>
+          <ShareWithModal/>
         </Portals>
       )}
     </>

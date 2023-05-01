@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import Portals from "../../../Portals/Portals";
 import ShareWithModal from "../ShareWithModal/ShareWithModal";
 
-const SharePostModal = ({ setShowShareModal,showShareModal,onClickOnNext }) => {
+const SharePostModal = ({ setShowShareModal,showShareModal,shareWith, onClickOnNext }) => {
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -27,17 +27,12 @@ const SharePostModal = ({ setShowShareModal,showShareModal,onClickOnNext }) => {
 
   const onCloseSharePostModal = () => {
     console.log("CLOSE MODAL");
-    setShowShareModal({...showShareModal,shareModal:false})
+    // setShowShareModal({...showShareModal,shareModal:false})
   };
-
+console.log(shareWith, '[[[[[[[[[[[[[[');
 
   return (
     <>
-      {showShareModal.shareWith && (
-        <Portals>
-          <ShareWithModal/>
-        </Portals>
-      )}
 
       <div className="w-[30%] bg-white flex-col flex items-center rounded-xl mt-[65px]">
         {/* Top Section */}
