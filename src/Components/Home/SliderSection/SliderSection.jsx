@@ -30,7 +30,7 @@ const SliderSection = () => {
     },
   };
   return (
-    <div className="flex flex-col w-[40%] h-[60%] relative">
+    <div className="flex flex-col w-[40%] relative">
       <div className="flex justify-between w-full pt-2">
         <span className="font-bold text-sm">Recent Kicks</span>
         <span className="text-sm text-[#788eb7] font-medium">

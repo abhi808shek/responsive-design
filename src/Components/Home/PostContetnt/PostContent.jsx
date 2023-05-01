@@ -18,7 +18,7 @@ const PostContent = ({ data, showModalFunc, width, userData }) => {
     //     ))
     //   ))}
     // </div>
-    <div className="w-full h-[100%] flex items-center justify-center flex-col">
+    <div className="w-full flex items-center justify-center flex-col">
     {[1,2,3,4].map((elem, index) => (
    
         <PostCard

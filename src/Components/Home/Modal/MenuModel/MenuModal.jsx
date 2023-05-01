@@ -35,9 +35,10 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
       dispatch(getAllPostWithLimit(profileId));
     }
     console.log("option33", option);
-    closeModel(false);
+    closeModel(option);
     dispatch(menuModalTabSelect(option));
   };
+  console.log(originalPost, '------))))))))');
   return (
     <>
       <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
@@ -73,17 +74,6 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
       {/*<div className='absolute rightArrow lg:right-[32.8%] xl:right-[35.2%] mt-2 border-[3px] border-gray-200 p-3 w-4'>
        <div className='bg-white'></div>
       </div>*/}
-      {showReportModal && (
-        <Portals>
-          <ReportModal />
-        </Portals>
-      )}
-
-      {originalPost && (
-        <Portals>
-          <OriginalPostModal setOriginalPost={setOriginalPost} />
-        </Portals>
-      )}
     </>
   );
 };

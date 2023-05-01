@@ -21,6 +21,7 @@ import {
   getAllPostWithLimit,
   getLikesById,
 } from "../../../../redux/actionCreators/rootsActionCreator";
+import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate()
@@ -32,6 +33,9 @@ const PostCard = ({ userData, item }) => {
     shareModal:false,
     shareWith:false
   });
+  const [postMenuModal, setPostMenuModal ] = useState({
+
+  })
   const [like, setLike] = useState(false);
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   {
@@ -108,6 +112,17 @@ console.log("showShareModal.shareWith",showShareModal.shareWith);
     setInputComment("");
     dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
   };
+
+  const handleClickMenu = (modalName) => {
+    console.log(modalName, '>>>>>>>>>>>>');
+    if(modalName === 'Edit Post'){
+      setPostMenuModal({...postMenuModal, originalPost: true })
+    }else if(modalName === 'History'){
+      setPostMenuModal({...postMenuModal, showReportModal: true })
+    }
+  }
+
+
   return (
     <>
       <div
@@ -175,7 +190,7 @@ console.log("showShareModal.shareWith",showShareModal.shareWith);
           profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
-            closeModel={setShowMenuList}
+            closeModel={handleClickMenu}
           />
         )}
 
@@ -316,6 +331,17 @@ console.log("showShareModal.shareWith",showShareModal.shareWith);
               showShareModal.shareWith && (
         <Portals>
           <ShareWithModal/>
+        </Portals>
+      )}
+      {postMenuModal.showReportModal && (
+        <Portals>
+          <ReportModal closeModel={() => ""} />
+        </Portals>
+      )}
+
+      {postMenuModal.originalPost && (
+        <Portals>
+          <OriginalPostModal closeModel={() => {}} />
         </Portals>
       )}
     </>
