@@ -31,44 +31,70 @@ const SliderSection = () => {
   };
   return (
     <div className="flex flex-col w-[40%] h-[60%] relative">
-      <div className="flex justify-between w-full py-2">
+      <div className="flex justify-between w-full pt-2">
         <span className="font-bold text-sm">Recent Kicks</span>
         <span className="text-sm text-[#788eb7] font-medium">
-          <Link to="/kicks">View All</Link>
+          <Link to="/veiwallkicks">View All</Link>
         </span>
       </div>
       {/* Slider */}
-      <Carousel
+      {/* <Carousel
         responsive={responsive}
         arrows={true}
-        containerClass={`w-full h-[210px] z-[1]`}
+       containerClass={`w-full h-[210px] z-[1]`}
       >
-        {[1,2,3,4,4]?.map((item) =>
+        {kicksList?.map((item) =>
           item?.content?.map((data) =>(
-            <div className="w-[91%] mt-12 my-2 h-[70%] rounded-3xl">
+            <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
             <video
               src={data?.video}
               alt=""
-              className=" rounded-3xl bg-red-300"
+               className=" rounded-3xl h-full"
             />
-            {/* title name tag added */}
+            title name tag added
              <img
               src={data?.image}
               alt=""
-              className="w-9 h-9 relative bottom-11 left-2 rounded-full"
+               className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
              />
-             <span className='absolute text-white font-medium text-[13px] bottom-[58px] left-[50px]'>
-             {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
+               <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
+             {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName}
             {data?.profile?.fname}
              </span>
           </div>
           ))
         )}
+      </Carousel> */}
+
+      <Carousel
+        responsive={responsive}
+        arrows={true}
+        containerClass={`w-full h-[200px] z-[1]`}
+      >
+          {[1, 2, 3, 4, 4]?.map((data) => (
+            <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
+              <Link to="/kicks">
+              <img
+                src="./images/events.jpg"
+                alt=""
+                className=" rounded-3xl h-full"
+              />
+              {/* title name tag added */}
+              <img
+                src="./images/events.jpg"
+                alt=""
+                className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
+              />
+              <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
+                {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
+                Joe Doe
+              </span>
+        </Link>
+            </div>
+          ))}
       </Carousel>
     </div>
   );
 };
 
 export default SliderSection;
-
-

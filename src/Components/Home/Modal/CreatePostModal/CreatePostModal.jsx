@@ -27,7 +27,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
       <hr className="w-100 h-1 bg-gray-200 border-0 rounded md:my-3 dark:bg-gray-900" />
       <div className="grid grid-cols-2 gap-2">
           <div>
-       <div className="w-[50%]">
+       <div className="lg:w-[75%] xl:w-[70%]">
        <section className="flex items-center my-2 gap-2">
           <img
             src="./images/events.jpg"
@@ -99,7 +99,7 @@ const CreatePostModal = ({setShowCreatePostModal}) => {
         </div>
 
         <div >
-          {/* <MainCarousel /> */}
+          <MainCarousel />
         </div>
       </div>
     </div>
