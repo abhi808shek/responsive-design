@@ -2,11 +2,39 @@ import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState } from 'react'
 import { Switch } from '@headlessui/react'
+import AddGuestModal from './AddGuestModal'
+import ChooseTemplate from './ChooseTemplate'
 
 const CreateEventModal = ({ selectedSpecificEvent }) => {
   const [enabled, setEnabled] = useState(false)
+  const [showAddGroup, setShowAddGroup] = useState(false)
+  const [showTemplate, setShowTemplate] = useState(false)
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const image = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(image));
+    }
+  };
+
+  function handleModalClose() {
+    setShowAddGroup(false);
+    setShowTemplate(false)
+  }
+
+  const handleShowAddGroup = ()=>{
+    setShowAddGroup(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const handleShowTemplate = ()=>{
+    setShowTemplate(true)
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
   return (
-    <div className='border fullPage bg-white border-gray-300'>
+    <div className='fullPage bg-white border-gray-300'>
      <div className='w-[96%] border bg-white px-3'>
        <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
        <div className='border-2 mx-3'></div>
@@ -14,10 +42,15 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
         <p className='pt-4 pb-2 text-[#649B8E]'>{ selectedSpecificEvent }</p>
         <hr />
         <div className='my-3'>
-         <label for="myfile"><img src={upload} className=''/></label>
-         <input type="file" id="myfile" accept="image/*" className='hidden' />        
+         <label htmlFor="myfile">
+          {selectedImage ? (
+           <img src={selectedImage} alt="Selected" className='w-full h-[350px] object-cover' />
+          ) : <img src={upload} className='w-full h-[350px] object-cover'/>
+        }           
+         </label>
+         <input type="file" id="myfile" accept="image/*" onChange={handleImageChange} className='hidden' />        
         </div>
-        <p className='flex justify-center py-2 text-[#649B8E]'>Select Template</p>
+        <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Event Title*'/>
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
@@ -46,8 +79,8 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Host Mail Id*'/>
 
         <div className='flex items-center my-2'>
-         <img src={guest} />
-         <label className='pl-5 text-[#649B8E]'>Add Guests</label>
+         <img onClick={handleShowAddGroup} src={guest} className='cursor-pointer' />
+         <label onClick={handleShowAddGroup} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
         </div>
 
         <div className='border-b'>
@@ -81,6 +114,8 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
         <button className='w-full py-2.5 my-3 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E]'>send</button>
        </div>
      </div>
+     {showAddGroup && <AddGuestModal onClose={handleModalClose} />}
+     {showTemplate && <ChooseTemplate onClose={handleModalClose} handleImageChange={handleImageChange} />}
     </div>
   )
 }

@@ -2,9 +2,9 @@ import UmeetNotAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-
 import UmeetAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import Umeetmaybe from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
 
-function EventStatus({ data }){
+function EventStatus({ data, handleEventDetails }){
     if(data.status.toLowerCase() == 'attending'){
-       	return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer'/>
+       	return <img src={UmeetAttending} onClick={handleEventDetails} className='h-10 w-10 cursor-pointer'/>
     }else if(data.status.toLowerCase() == 'not attending'){
        	return <img src={UmeetNotAttending} className='h-10 w-10 cursor-pointer'/>
     }else if(data.status.toLowerCase() == 'pending'){
@@ -14,7 +14,7 @@ function EventStatus({ data }){
     }
 }
 
-const SingleEvent = ({ dataList }) => {
+const SingleEvent = ({ dataList, handleEventDetails }) => {
   return (
    <>
     {
@@ -37,7 +37,7 @@ const SingleEvent = ({ dataList }) => {
        </div>
       {/* End status section */}
       <div className='w-1/4 flex items-center justify-center'>
-		 <EventStatus data={data} />
+		 <EventStatus data={data} handleEventDetails={handleEventDetails} />
       </div>
     </div>
    	 ))

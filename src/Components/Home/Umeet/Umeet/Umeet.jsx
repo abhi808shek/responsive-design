@@ -6,28 +6,51 @@ import { dataList, selectEventList, selectPersonalEventType, selectPublicEventTy
 import SingleEvent from './SingleEvent'
 import '../Umeet.css'
 import { RxChevronLeft } from 'react-icons/rx'
-import CreateEventForm from './CreateEventForm'
 import CreateEventModal from './Modal/CreateEventModal'
+import EventDetails from './EventDetails'
 
 const Umeet = () => {
   const [selected, SetSelected] = useState(false)
-  const [noEvent, setNoEvent] = useState(true)
+  const [noCreateEvent, setNoCreateEvent] = useState(true)
+  const [noMyEvent, setNoMyEvent] = useState(false)
   const [createEvent, setCreateEvent] = useState(false)
+  const [eventDetails, setEventDetails] = useState(false)
   const [selectSpecificEvent, setSelectSpecificEvent] = useState(false)
   const [selectedSpecificEvent, setSelectedSpecificEvent] = useState('')
   const [yourEvent, setYourEvent] = useState(true)
   const [selectEventType, setSelectEventType] = useState([])
 
   function EventStatus({ data }){
-    if(noEvent){
-        return <BlankEvents />
+    if(noCreateEvent){
+      return <BlankEvents event='Create Events' />
+    }else if(noMyEvent){
+      return <BlankEvents event='Your Events' />
     }else if(createEvent){
         return <CreateEventModal selectedSpecificEvent={selectedSpecificEvent}/>
-    }else if(yourEvent){
-        return <button className='px-2 py-0.5 text-[12px] rounded border-gray-500 text-gray-700 border'>completed</button>
+    }else if(eventDetails){
+        return <EventDetails />
     }
   }
 
+  const handleMyEvent = ()=>{
+    setNoCreateEvent(false)
+    setCreateEvent(false)
+    setNoMyEvent(true)
+  }
+
+  const handleCreateEvent = ()=>{
+    setNoCreateEvent(true)
+    setNoMyEvent(false)
+    setCreateEvent(true)
+  }
+
+  const handleEventDetails = ()=>{
+    setNoCreateEvent(false)
+    setCreateEvent(false)
+    setNoMyEvent(false)
+    setEventDetails(true)
+  }
+  
   const handleSelectEventType = ( data )=>{
     setSelectSpecificEvent(true)
     if(data.title.toLowerCase() == 'personal'){
@@ -40,7 +63,7 @@ const Umeet = () => {
   }
 
   const handleCreateEventForm = (data)=>{
-    setNoEvent(false)
+    setNoCreateEvent(false)
     setCreateEvent(true)
     setSelectedSpecificEvent(data.event)
   }
@@ -110,16 +133,16 @@ const Umeet = () => {
       </div>
 
       <div className=''>
-       <SingleEvent dataList={dataList}/>
+       <SingleEvent dataList={dataList} handleEventDetails={handleEventDetails}/>
       </div>
      </section>
     )
   }
 
   return (
-    <div className='flex bg-[#e4e7ec] fullCover'>
+    <div className='flex bg-[#e4e7ec]'>
       {/* Left All Events page */}
-     <section className='border rounded mr-2 w-2/6 mt-[46px]'>
+     <section className='border  relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
       {
         createEvent ? (
         <>
@@ -132,15 +155,15 @@ const Umeet = () => {
      </section>
 
      {/* Right All Events page */}
-     <section className='w-4/6 fullCover'>
+     <section className='w-4/6 relative'>
       {/* events top select */}
       <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
-        <div onClick={()=>setCreateEvent(true)} className='flex items-center cursor-pointer'>
+        <div onClick={handleCreateEvent} className={`flex items-center cursor-pointer ${createEvent ? 'text-[#649B8E]' : ''}`}>
          <HiPlus className='h-7 w-7 rounded-full bg-gray-200'/>
          <span className='pl-1'>Create Event</span>
         </div>
 
-        <div className='flex items-center pl-12 cursor-pointer'>
+        <div onClick={handleMyEvent} className={`flex items-center pl-12 cursor-pointer ${createEvent ? '' : 'text-[#649B8E]'}`}>
          <BsCalendarEvent className='h-7 w-7 rounded-full'/>
          <span className='pl-1'>Your Events</span>
         </div>
