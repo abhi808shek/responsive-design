@@ -44,7 +44,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
       {/* NAVBAR */}
 
       <PostForm />
-        <HeroSection />
+      <HeroSection />
           <SliderSection />
              <PostContent
           data={postList}

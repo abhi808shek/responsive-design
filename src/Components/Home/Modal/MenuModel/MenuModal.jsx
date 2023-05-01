@@ -38,7 +38,6 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
     closeModel(option);
     dispatch(menuModalTabSelect(option));
   };
-  console.log(originalPost, '------))))))))');
   return (
     <>
       <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">

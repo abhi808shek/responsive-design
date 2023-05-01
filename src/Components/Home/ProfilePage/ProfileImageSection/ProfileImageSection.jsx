@@ -21,7 +21,7 @@ const ProfileImageSection = ({ following, followers, friends, uploadImage, cover
         <img
           src={coverImg }
           alt=""
-          className="w-full h-full rounded-xl object-cover"
+          className="w-full h-full rounded-xl border border-gray-400 object-cover"
         />
       </label>
 

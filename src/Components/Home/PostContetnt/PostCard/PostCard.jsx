@@ -22,6 +22,7 @@ import {
   getLikesById,
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
+import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -33,9 +34,11 @@ const PostCard = ({ userData, item }) => {
     shareModal: false,
     shareWith: false,
   });
-  const [postMenuModal, setPostMenuModal ] = useState({
-
-  })
+  const [postMenuModal, setPostMenuModal] = useState({
+    editPost:false,
+    originalPost: false,
+    externalShare: false,
+  });
   const [like, setLike] = useState(false);
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   {
@@ -118,14 +121,23 @@ const PostCard = ({ userData, item }) => {
   };
 
   const handleClickMenu = (modalName) => {
-    console.log(modalName, '>>>>>>>>>>>>');
-    if(modalName === 'Edit Post'){
-      setPostMenuModal({...postMenuModal, originalPost: true })
-    }else if(modalName === 'History'){
-      setPostMenuModal({...postMenuModal, showReportModal: true })
+    if (modalName === "Edit Post") {
+      setPostMenuModal({ ...postMenuModal, editPost: true });
+    } else if (modalName === "History") {
+      setPostMenuModal({ ...postMenuModal, originalPost: true });
+    } else if (modalName === "External Share") {
+      setPostMenuModal({ ...postMenuModal, showReportModal: true });
     }
-  }
+  };
 
+  const handleCloseModal = () => {
+    setPostMenuModal({
+      ...postMenuModal,
+      originalPost: false,
+      editPost: false,
+      externalShare: false,
+    });
+  };
 
   return (
     <>
@@ -152,7 +164,7 @@ const PostCard = ({ userData, item }) => {
               <div className="flex items-center">
                 {/*font weight removed*/}
                 <span className="ml-1 font-bold">
-                  {`${item?.profile?.fname} ${item?.profile?.lname}`}
+                  {`${item?.profile?.fname || "User"} ${item?.profile?.lname || ""}`}
                 </span>
                 <span className="text-xs ml-2 font-semibold mt-0.5">
                   {item?.profile?.job}
@@ -220,7 +232,7 @@ const PostCard = ({ userData, item }) => {
             <img
               src={item?.image}
               alt=""
-              className="w-full h-[275px] rounded-xl"
+              className="w-full h-[275px] rounded-xl border border-gray-500"
             />
           </div>
         </section>
@@ -340,20 +352,29 @@ const PostCard = ({ userData, item }) => {
       )}
       {showShareModal.shareWith && (
         <Portals>
-          <ShareWithModal setShowShareModal={setShowShareModal}   showShareModal={showShareModal}/>
+          <ShareWithModal
+            setShowShareModal={setShowShareModal}
+            showShareModal={showShareModal}
+          />
         </Portals>
       )}
-      {postMenuModal.showReportModal && (
+      {postMenuModal.editPost && (
         <Portals>
-          <ReportModal closeModel={() => ""} />
+          <UpdatePostModal title="Edit" handleCloseModal={handleCloseModal} />
         </Portals>
       )}
 
       {postMenuModal.originalPost && (
         <Portals>
-          <OriginalPostModal closeModel={() => {}} />
+          <OriginalPostModal handleCloseModal={handleCloseModal} />
         </Portals>
       )}
+
+      {/* {postMenuModal.externalShare && (
+        <Portals>
+          < closeModel={handleCloseModal} />
+        </Portals>
+      )} */}
     </>
   );
 };
