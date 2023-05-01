@@ -2,25 +2,25 @@ import React from 'react'
 
 const UpdateProfile = () => {
     return (
-        <div className='bg-[#E4E7EC] w-[100%] h-[100%] p-6'>
-            <div className="updateTitle text-center rounded-xl flex-wrap  w-[100%] h-[112px] bg-[#FFFFFF] text-[#000] text-2xl ">
+        <div className='bg-[#E4E7EC] w-[100%]  p-6'>
+            <div className="updateTitle text-center rounded-xl flex-wrap mt-16 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
                 <h3 className='p-2 font-bold'>Let's update your profile</h3>
                 <h4 className=' text-[#666567]'>This will help us others get to know better!</h4>
             </div>
-            <div className='grid grid-cols-2 gap-4  mt-4 rounded-2xl md:grid-cols-2 '>
-                <div className='bg-[#fff] h-[625px] rounded-2xl '>
-                    <h3 className='p-2 font-bold text-center text-[30px]'>Cover Picture:</h3>
-                    <img src="https://th.bing.com/th/id/OIP.akz0hTxRH7ofWzOzjjH3zQHaDn?pid=ImgDet&rs=1" alt="" className='w-[90%] mb-4   h-[427.82px] text center m-auto rounded-2xl' />
+            <div className='grid grid-cols-2 gap-4 justify-center rounded-2xl md:grid-cols-2 '>
+                <div className='bg-[#fff] rounded-2xl '>
+                    <h3 className='p-2 font-bold text-center text-[20px]'>Cover Picture:</h3>
+                    <img src="https://th.bing.com/th/id/OIP.akz0hTxRH7ofWzOzjjH3zQHaDn?pid=ImgDet&rs=1" alt="" className='mb-4   h-[200px] text center m-auto rounded-2xl' />
                     <i class="bi bi-exclamation-circle m-12   text-[#707070] "></i>
-                    <div className='flex justify-end mt-8'>
+                    <div className='flex justify-center mb-6'>
                         <button className='bg-[#7991BD] p-2 w-[210.7px] text-[#fff] rounded-2xl '>Change Picture</button>
                         <button className='text-[#7991BD] w-[100.7px] '>remove</button>
                     </div>
                 </div>
-                <div className='bg-[#fff] h-[625px] rounded-2xl '>
-                    <h3 className='p-2 font-bold text-center text-[30px]'>Profile Picture :</h3>
-                    <img src="https://th.bing.com/th/id/OIP.bKxmwxuEqQ8SLdnFOXn3KAHaHa?pid=ImgDet&rs=1" alt="" className='w-[440px]   h-[440px] text center m-auto rounded-2xl' />
-                    <div className='flex 	content-center  justify-center mt-14'>
+                <div className='bg-[#fff] rounded-2xl '>
+                    <h3 className='p-2 font-bold text-center text-[20px]'>Profile Picture :</h3>
+                    <img src="https://th.bing.com/th/id/OIP.bKxmwxuEqQ8SLdnFOXn3KAHaHa?pid=ImgDet&rs=1" alt="" className='h-[200px] object-cover text center m-auto rounded-2xl' />
+                    <div className='flex content-center  justify-center mt-8'>
                         <button className='bg-[#7991BD] p-2 w-[210.7px] text-[#fff] rounded-2xl ml-[120px]  items-center content-center'>Change Picture</button>
                         <button className='text-[#7991BD] w-[100.7px]   '>remove</button>
                     </div>
@@ -28,7 +28,7 @@ const UpdateProfile = () => {
             </div>
 
             <div className='mt-10 flex justify-center  flex-row'>
-                <div className=' border-[2px] border-gray-500 w-[408.8px] m-2'>
+                <div className=' w-[408.8px] m-2 p-6'>
                     <form action="">
                         <lable className='mb-6 text-[20px]'>Personal Info :</lable>
                         <div className=''>
