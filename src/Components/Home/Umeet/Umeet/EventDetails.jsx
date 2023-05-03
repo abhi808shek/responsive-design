@@ -5,7 +5,7 @@ import DetailsOfEvent from './DetailsOfEvent'
 import EventGuests from './EventGuests'
 import EventChat from './EventChat'
 
-const EventDetails = () => {
+const EventDetails = ({ myEvent, handleDeleteEvent, handleEditMyEvent }) => {
   const [showRvspModal, setShowRvspModal] = useState(false)
   const [details, setDetails] = useState(true)
   const [guests, setGuests] = useState(false)
@@ -29,13 +29,13 @@ const EventDetails = () => {
   }
 
   function RenderStatus(){
-    if(details) return <DetailsOfEvent />
+    if(details) return <DetailsOfEvent myEvent={myEvent} handleDeleteEvent={handleDeleteEvent} handleEditMyEvent={handleEditMyEvent} />
     else if(guests) return <EventGuests />
     else if(chat) return <EventChat />
   }
 
   return (
-  <section className='w-full mr-1 flex items-center mb-12'>
+  <section className={`w-full mr-1 flex items-center ${chat ? 'mb-0' : 'mb-12'}`}>
     <div className='w-[60%] flex flex-col items-center'>
      <div className='p-3 w-full bg-white rounded-xl'>
       <h3 className='py-2 text-xl font-medium flex justify-center'>Hill pro</h3>
