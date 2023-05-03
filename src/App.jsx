@@ -35,6 +35,10 @@ import CommentMenuModal from "./Components/Home/Modal/CommentMenuModal/CommentMe
 import SignupOtp from "./Components/Login/Content/EnterCode/SignupOtp";
 import ProfilePage from "./Components/Home/ProfilePage/ProfilePage";
 import axios from "axios";
+import Setting from "./Components/Settings/Setting";
+import VerificationRequest from "./Components/Settings/VerificationRequest/VerificationRequest";
+import ConfirmationRequest from "./Components/Settings/VerificationRequest/ConfirmationRequest";
+import BlockListPage from "./Components/Settings/BlockListPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -116,6 +120,13 @@ const App = () => {
             <Route path="profile-page" element={<ProfilePage />} />
             <Route path="event" element={<Event />} />
             <Route path="edit-profile" element={<UpdateProfile />} />
+            <Route path="settings" element={<Setting />} />
+            <Route path="verification-request" element={<VerificationRequest />} />
+            <Route path="confirmation-request" element={<ConfirmationRequest />} />
+            <Route path="blocklist-page" element={<BlockListPage />} />
+
+
+
 
 
             {/* <Route path="user" element={<User />} /> */}

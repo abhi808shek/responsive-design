@@ -16,6 +16,10 @@ const ProfileModal = () => {
       // dispatch(settingUserLoginData(false, {}));
       navigate("/auth/login");
     }
+    if (option === "Settings") {
+      // dispatch(settingUserLoginData(false, {}));
+      navigate("/settings");
+    }
   };
 
   return (

@@ -6,7 +6,7 @@ const SearchComponent = ({bgColor,width,placeholder, classes, icon}) => {
     return (
         <div className={`w-full h-[58px] flex items-center justify-center rounded-xl`}>
           <div className={`${classes} w-full flex rounded-md justify-between items-center `} style={{backgroundColor:bgColor,width:`${width}%`}}>
-            <input type="text" placeholder={placeholder} className={` w-full rounded-md pl-3 py-2 outline-none bg-[${bgColor}]`}/>
+            <input type="text" placeholder={placeholder} className={` w-full rounded-md pl-3 py-2 outline-none bg-[${bgColor}]`} style={{backgroundColor:bgColor}}/>
             <span className="mr-2">
             {
               icon ? 

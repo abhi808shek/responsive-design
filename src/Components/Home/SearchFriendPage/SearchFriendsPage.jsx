@@ -1,12 +1,27 @@
 import React, { useState } from "react";
 import ChooseFreindsModal from "../Modal/ChooseFreindsModal/ChooseFreindsModal";
 import Portals from "../../Portals/Portals";
+import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 
 const SearchFriendsPage = ({ isFriend }) => {
   const [sendRequest, setSendRequest] = useState(false);
+  const [acceptRequest, setAcceptRequest] = useState(false);
+  
   const onSendRequest = () => {
     setSendRequest(true);
   };
+
+  const onHandleCloseModal = () => {
+    setSendRequest(false);
+  };
+
+  const onAcceptRequest = ()=>{
+    setAcceptRequest(true)
+  }
+
+  const onCLoseModal = ()=>{
+    setAcceptRequest(false)
+  }
   return (
     <>
       <div className="w-[100%] bg-[#E4E7EC] flex items-center justify-center py-2 mt-1">
@@ -43,17 +58,26 @@ const SearchFriendsPage = ({ isFriend }) => {
                     </div>
                     <div className="flex gap-2">
                       <img src="" alt="" />
-                      <img
-                        src="./images/acceptFriendRequest.png"
-                        alt=""
-                        className="w-[30px] h-[30px]"
-                        onClick={onSendRequest}
-                      />
-                      {isFriend && (
+                      {isFriend ? (
+                        <img
+                          src="./images/acceptFriendRequest.png"
+                          alt=""
+                          className="w-[30px] h-[30px] cursor-pointer"
+                          onClick={onAcceptRequest}
+                        />
+                      ) : (
                         <img
                           src="./images/SendFriendRequest.png"
                           alt=""
-                          className="w-[30px] h-[30px]"
+                          className="w-[30px] h-[30px] cursor-pointer"
+                          onClick={onSendRequest}
+                        />
+                      )}
+                      {isFriend && (
+                        <img
+                          src="./images/cancelRequest.png"
+                          alt=""
+                          className="w-[30px] h-[30px] cursor-pointer"
                         />
                       )}
                     </div>
@@ -68,7 +92,21 @@ const SearchFriendsPage = ({ isFriend }) => {
 
       {sendRequest && (
         <Portals>
-          <ChooseFreindsModal />
+          <ChangeRelationshipModal
+            button="Send Request"
+            title="Wanna Send Friend Request"
+            closeModalOption={onHandleCloseModal}
+          />
+        </Portals>
+      )}
+
+      {isFriend && acceptRequest  && (
+        <Portals>
+          <ChangeRelationshipModal
+            button="Accept Request"
+            title="Confirm Friend Request"
+            closeModalOption={onCLoseModal}
+          />
         </Portals>
       )}
     </>
