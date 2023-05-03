@@ -55,7 +55,7 @@ const ProfilePage = ({ isOther }) => {
   }
   return (
     <div className="w-full flex justify-evenly bg-[#E4E7EC] h-[1000px] 2xl:h-[1200px] mt-[64px]">
-      <section className="flex lg:w-[50%] 2xl:h-[1200px] flex-col mt-2 items-end">
+      <section className="flex lg:w-[50%] flex-col mt-2 items-end">
         <ProfileImageSection 
         uploadImage={handleUploadImage}
         friends={friends} following={ following } followers={followers}
@@ -87,7 +87,7 @@ const ProfilePage = ({ isOther }) => {
 
 
 
-        <section className="w-full mt-3 h-[65%] rounded-xl flex justify-center">
+        <section className="w-full mt-3 rounded-xl flex justify-center">
           <GridBoxes selectedOption={selectedOption}/>
         </section>
       </section>

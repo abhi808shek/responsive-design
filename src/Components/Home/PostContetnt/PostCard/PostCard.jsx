@@ -164,7 +164,7 @@ const PostCard = ({ userData, item }) => {
               <div className="flex items-center">
                 {/*font weight removed*/}
                 <span className="ml-1 font-bold">
-                  {`${item?.profile?.fname} ${item?.profile?.lname}`}
+                  {`${item?.profile?.fname || "User"} ${item?.profile?.lname || ""}`}
                 </span>
                 <span className="text-xs ml-2 font-semibold mt-0.5">
                   {item?.profile?.job}
@@ -232,7 +232,7 @@ const PostCard = ({ userData, item }) => {
             <img
               src={item?.image}
               alt=""
-              className="w-full h-[275px] rounded-xl"
+              className="w-full h-[275px] rounded-xl border border-gray-500"
             />
           </div>
         </section>
