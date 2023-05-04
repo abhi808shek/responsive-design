@@ -1,41 +1,88 @@
-import React from "react";
+import React, {useMemo, useState} from "react";
 import Input from "../../input/input";
 import Dropdown from "../../Login/Content/Modal/Dropdown";
 import { AiOutlinePlusCircle } from "react-icons/ai";
 import Accordion from "../../Accordion/Accordion";
 import Dropdown2 from "../../Login/Content/Modal/Dropdown2";
 import { useSelector } from "react-redux";
+import AutocompletePlace from "../../googlemap/AutocompletePlace";
 
-const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) => {
-    const { stateName, district, school, assembly, loksabha} = state
-    const reducerData = useSelector((state) => {
-      return {
-        countryList: state.authReducer.countryList,
-        stateList: state.authReducer.stateList,
-        districtList: state.authReducer.districtList,
-        loksabhaList: state.authReducer.loksabhaList,
-        assemblyList: state.authReducer.assemblyList,
-      };
-    })
-    const {
-      countryList,
-      stateList,
-      districtList,
-      loksabhaList,
-      assemblyList,
-    } = reducerData;
+const PersonalAccount = ({
+  states = {},
+  education = {},
+  handleEducation,
+  country,
+  handleCountry,
+  handleChange,
+}) => {
+  const { state, district, assembly, loksabha } = states;
+  const {
+    pgadress,
+    pgbranch,
+    pgdegree,
+    pgpassyear,
+    schooladdress,
+    schoolname,
+    schoolpass,
+    collegenameug,
+    ugaddress,
+    ugbranch,
+    ugdegree,
+    ugpassyear,
+    graduationDegree,
+    collegenamepg,
+    graduationBranch,
+    graduationYear,
+    PGbranch,
+    PGdegree,
+    PGyear,
+    schoolYear,
+  } = education;
+  const reducerData = useSelector((state) => {
+    return {
+      countryList: state.authReducer.countryList,
+      stateList: state.authReducer.stateList,
+      districtList: state.authReducer.districtList,
+      loksabhaList: state.authReducer.loksabhaList,
+      assemblyList: state.authReducer.assemblyList,
+      ugdegreeList: state.profileReducer.ugdegreeList,
+      pgdegreeList: state.profileReducer.pgdegreeList,
+    };
+  });
+  const {
+    countryList,
+    stateList,
+    districtList,
+    loksabhaList,
+    assemblyList,
+    ugdegreeList,
+    pgdegreeList,
+  } = reducerData;
 
   const year = [
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
-    { year: "2000" },
+    { year: "2025" },
+    { year: "2024" },
+    { year: "2023" },
+    { year: "2022" },
+    { year: "2021" },
+    { year: "2020" },
+    { year: "2019" },
+    { year: "2018" },
+    { year: "2016" },
+    { year: "2015" },
+    { year: "2014" },
+    { year: "2013" },
+    { year: "2012" },
+    { year: "2011" },
+    { year: "2010" },
+    { year: "2009" },
+    { year: "2008" },
+    { year: "2007" },
   ];
+console.log(states, "Staeeeeeee");
+  const getGraduation = ()  => {
+
+  }
   return (
     <>
       <Dropdown2
@@ -50,9 +97,9 @@ const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) =>
         label={"State"}
         name={"State"}
         options={stateList}
-        selectedValue={stateName}
+        selectedValue={state}
         keyName={"state"}
-        handleChange={(value) => handleChange("stateName", value)}
+        handleChange={(value) => handleChange("state", value)}
       />
       <Dropdown
         style={"w-[77%] my-2"}
@@ -88,13 +135,14 @@ const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) =>
       </div>
       <p>Let's start with school</p>
       <div className="flex my-2 gap-3">
+        {/* <AutocompletePlace /> */}
         <Input
           attributes={{
             name: "school",
             placeholder: "School Name",
             type: "text",
-            onChange: (e) => handleChange(e.target.name, e.target.value),
-            value: school,
+            onChange: (e) => handleEducation(e.target.name, e.target.value),
+            value: `${schoolname || ""} ${schooladdress || "" }`,
           }}
         />
         <Dropdown
@@ -102,11 +150,14 @@ const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) =>
           style={"w-full"}
           options={year}
           keyName={"year"}
+          handleChange={(value) => handleEducation("schoolpass", value.year)}
+          selectedValue={schoolpass}
         />
       </div>
       <div className="flex gap-3">
         <div className="w-1/2">
           <Accordion
+          handleClick={getGraduation}
             title={
               <p className="flex gap-3 items-center justify-between">
                 <span>Graduation</span>
@@ -116,18 +167,42 @@ const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) =>
           >
             <Input
               attributes={{
-                name: "college",
+                name: "collegenameug",
                 type: "text",
-                onChange: (e) => handleChange(e.target.name, e.target.value),
-                value: school,
+                onChange: (e) => handleEducation(e.target.name, e.target.value),
+                value: collegenameug,
                 placeholder: "College Name",
               }}
             />
-            <div className="flex gap-2">
-              <Dropdown style={"my-2 w-full"} name={"Select Degree"} />
-              <Dropdown style={"my-2 w-full"} name={"Select Branch"} />
+            <div className="">
+              <Dropdown
+              up={true}
+                style={"my-2 w-full"}
+                options={ugdegreeList}
+                keyName={'degree'}
+                name={"Select Degree"}
+                handleChange={(value) => handleEducation("ugdegree", value.degree)}
+                selectedValue={ugdegree}
+              />
+              <Dropdown
+              up={true}
+                style={" w-full"}
+                options={ugdegreeList}
+                keyName='branch'
+                name={"Select Branch"}
+                handleChange={(value) => handleEducation("ugbranch", value.branch)}
+                selectedValue={ugbranch}
+              />
             </div>
-            <Dropdown style={"w-full"} name={"Select Year"} />
+            <Dropdown
+            up={true}
+              style={"my-2 w-full"}
+              options={year}
+              keyName='year'
+              name={"Select Year"}
+              handleChange={(value) => handleEducation("ugpassyear", value.year)}
+              selectedValue={ugpassyear}
+            />
           </Accordion>
         </div>
         <div className="w-1/2">
@@ -141,18 +216,42 @@ const PersonalAccount = ({state = {}, country, handleCountry, handleChange }) =>
           >
             <Input
               attributes={{
-                name: "college",
+                name: "collegenamepg",
                 type: "text",
-                onChange: (e) => handleChange(e.target.name, e.target.value),
-                value: school,
+                onChange: (e) => handleEducation(e.target.name, e.target.value),
+                value: collegenamepg,
                 placeholder: "College Name",
               }}
             />
-            <div className="flex gap-2">
-              <Dropdown style={"my-2 w-full"} name={"Select Degree"} />
-              <Dropdown style={"my-2 w-full"} name={"Select Branch"} />
+            <div className="">
+              <Dropdown
+                up={true}
+                style={"my-2 w-full"}
+                name={"Select Degree"}
+                keyName={'degree'}
+                options={pgdegreeList}
+                handleChange={(value) => handleEducation("pgdegree", value.degree)}
+                selectedValue={pgdegree}
+              />
+              <Dropdown
+              up={true}
+                style={" w-full"}
+                options={pgdegreeList}
+                keyName='branch'
+                name={"Select Branch"}
+                handleChange={(value) => handleEducation("pgbranch", value.branch)}
+                selectedValue={pgbranch}
+              />
             </div>
-            <Dropdown up={true} style={"w-full"} name={"Select Year"} />
+            <Dropdown
+              up={true}
+              style={"my-2 w-full"}
+              name={"Select Year"}
+              options={year}
+              keyName='year'
+              handleChange={(value) => handleEducation("pgpassyear", value.year)}
+              selectedValue={pgpassyear}
+            />
           </Accordion>
         </div>
       </div>

@@ -7,14 +7,17 @@ import FollowersModal from "../../Modal/FollowersModal/FollowersModal";
 import user from '../../../../Assets/Images/Person.jpg'
 import Portals from "../../../Portals/Portals";
 import { useDispatch } from "react-redux";
-import { getFollower, getFollowing, getFriendsList } from "../../../../redux/actionCreators/profileAction";
+import { getFollower, getFollowing } from "../../../../redux/actionCreators/profileAction";
 import { data } from "autoprefixer";
+import { getFriendsList } from "../../../../redux/actionCreators/friendsAction";
 
-const ProfileImageSection = ({ data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
-  const { id} = data
+const ProfileImageSection = ({ isOther, data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
+  const { id } = data || {}
   const friendsCount =  friends?.data?.length || 0;
   const followingCount = following?.data?.length || 0;
   const followersCount = followers?.data?.length || 0;
+
+  const userName = data?.fname + data?.lname;
 
   const [state, setState] = useState({})
   const { showModal, modalName } = state;
@@ -36,7 +39,7 @@ const ProfileImageSection = ({ data={}, following, followers, friends, uploadIma
     <div className="lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center my-3">
       {/*Cover Image Section */}
       <input id="cover-pic" type="file" accept="image/*" className="hidden" onChange={(e) =>uploadImage('coverImg', e.target.files)}/>
-      <label htmlFor="cover-pic" className="w-[95%] h-[200px] rounded-xl flex justify-center mt-3">
+      <label htmlFor={`${isOther ? "" : "cover-pic" }`} className="w-[95%] h-[200px] rounded-xl flex justify-center mt-3">
         <img
           src={coverImg || data?.pcoverimage }
           alt=""
@@ -48,9 +51,9 @@ const ProfileImageSection = ({ data={}, following, followers, friends, uploadIma
       <section className="w-[95%] my-2 rounded-xl flex flex-col">
         <div className="flex h-[140px] justify-between items-center">
         <input type="file" id="profile-pic" accept="image/*"  onChange={(e) => uploadImage('profileImg', e.target.files)} className="hidden"/>
-          <label htmlFor="profile-pic" className="w-[200px] h-[200px] 2xl:w-[200px] relative top-[-40px]">
+          <label htmlFor={`${isOther ? "" : "profile-pic"}`} className="w-[200px] h-[200px] 2xl:w-[200px] relative top-[-40px]">
             <img
-              src={profileImg  || data.pimage}
+              src={profileImg  || data?.pimage}
               alt=""
               className="w-full bg-white h-full border-2 border-[#6780af] rounded-full ml-1 object-cover"
             />
@@ -86,7 +89,7 @@ const ProfileImageSection = ({ data={}, following, followers, friends, uploadIma
           </section>
         </div>
         <div className="flex gap-2 items-center mb-3 mt-1">
-          <span className="font-bold text-2xl flex items-center justify-center">{data.fname+" "+data.lname}</span>
+          <span className="font-bold text-2xl flex items-center justify-center">{`${userName ? `${data?.fname} ${data?.lname}` : "User"}`}</span>
           <span className="text-sm font-medium text-gray-700  2xl:text-[20px] flex items-center justify-center">@Software Engineer</span>
         </div>
       </section>

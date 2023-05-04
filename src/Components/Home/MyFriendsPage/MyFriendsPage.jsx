@@ -6,8 +6,10 @@ import SelectDropdown from './SelectDropdown'
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { isEmpty } from "../../Utility/utility";
-import { getFriendsList } from "../../../redux/actionCreators/profileAction";
+// import { getFriendsList } from "../../../redux/actionCreators/profileAction";
 import EmptyComponent from "../../empty component/EmptyComponent";
+import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
+import Locations from "../../googlemap/Locations";
 
 const MyFriendsPage = () => {
   const dispatch = useDispatch()
@@ -58,6 +60,7 @@ const MyFriendsPage = () => {
           </div>
         }
         </section>
+        {/* <Locations/> */}
       </div>
     </div>
   );

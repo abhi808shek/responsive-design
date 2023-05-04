@@ -9,19 +9,24 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollower, getFollowing, getFriendsList, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
-import { getUserDataFromLocalStorage } from "../../Utility/utility";
+import { getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { getUserDataFromLocalStorage, toasterFunction } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
 import { userData } from "../dataList";
 import { imageUploadApi } from "../../../redux/actionCreators/eventActionCreator";
+import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
+import { useParams } from "react-router";
+import { toast } from "react-toastify";
 
 const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
   const dispatch = useDispatch();
+  const params = useParams()
   const user = useMemo(() => {
-   return getUserDataFromLocalStorage();
-  }, [])
+    return  isOther ? { id: params?.id} : getUserDataFromLocalStorage();
+  }, [isOther, params.id])
+
   const reducerData = useSelector((state) => {
     return {
       following: state?.profileReducer?.following,
@@ -31,12 +36,18 @@ const ProfilePage = ({ isOther }) => {
     }
   });
   const { following, followers, friends, profileDetail} = reducerData;
-console.log(profileDetail, "<<<<<<<<<<<<<<<");
+
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
     dispatch(checkingIsEmailExist())
-    dispatch(getProfileById(user?.id));
+    dispatch(getProfileById(user?.id)).then((res) => {
+      console.log('profile resppppppp', res);
+      if(!res.status){
+        toasterFunction(res.message)
+        // toast.error(res.message)
+      }
+    });
     dispatch(getFollowing(user?.id));
     dispatch(getFollower(user?.id));
     dispatch(getFriendsList(user?.id));
@@ -58,15 +69,15 @@ console.log(profileDetail, "<<<<<<<<<<<<<<<");
     }
   }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-[64px]">
+    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-2">
       <section className="flex lg:w-[50%] flex-col mt-2 items-end">
         <ProfileImageSection 
-        uploadImage={handleUploadImage} data={profileDetail}
+        uploadImage={handleUploadImage} data={profileDetail || {}}
         friends={friends} following={ following } followers={followers}
-        coverImg={coverImg} profileImg={profileImg} />
+        coverImg={coverImg} profileImg={profileImg} isOther={isOther} />
 
         {/* About Section */}
-        <AboutSection isOther={isOther} data={profileDetail} />
+        <AboutSection isOther={isOther} data={profileDetail || {}} />
       </section>
       <section className="flex w-[50%] pr-[8px] flex-col">
         {/* Category Section */}

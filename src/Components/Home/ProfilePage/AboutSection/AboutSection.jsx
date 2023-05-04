@@ -109,7 +109,7 @@ const AboutSection = ({ isOther, data = {} }) => {
             </strong>
           </p>
         </div>
-        {!isPersonal ? (
+        {isPersonal ? (
           <>
             {/* Scholling Section */}
             <div className="flex items-center gap-2">

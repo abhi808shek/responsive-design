@@ -1,3 +1,4 @@
+import axios from "axios";
 
 export const requestAction= (data, Action) => async (dispatch) => {
     try{
@@ -12,6 +13,35 @@ export const requestAction= (data, Action) => async (dispatch) => {
     }
 }
 
+export const getUserByMail= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(``);
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+    }catch(error){
+        throw error
+    }
+}
+
+export const getUsers = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/profile/search/${data}`
+    );
+    console.log(response.data, "{{{{{{ Usersssssssssssss");
+    dispatch({
+      type: "GET_USERS",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 export const addFriend= (data) => async (dispatch) => {
     try{
         const response = await axios.post(`http://3.233.82.34:8080/friend/api/friend/add`, data);
@@ -24,3 +54,47 @@ export const addFriend= (data) => async (dispatch) => {
         throw error
     }
 }
+
+export const updateRelation = (data) => async (dispatch) => {
+    const { user1, user2} = data
+    try{
+        const response = await axios.put(`http://3.233.82.34:8080/friend/api/friend/update/${user1}/${user2}`);
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+        return response.data
+    }catch(error){
+        throw error
+    }
+}
+
+export const deleteRequest= (data) => async (dispatch) => {
+    try{
+        const response = await axios.put(`http://3.233.82.34:8080/friend/api/delete/${data}`);
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+        return response.data
+    }catch(error){
+        throw error
+    }
+}
+
+export const getFriendsList = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`
+    );
+    dispatch({
+      type: "FRIEND_LIST",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};

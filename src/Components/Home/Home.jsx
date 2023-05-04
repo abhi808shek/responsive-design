@@ -40,7 +40,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
   }, [defaultRootData]);
   return (
     // -----------------USER PAGE----------------
-    <div className="w-full mt-16 bg-[#E4E7EC] flex flex-col items-center">
+    <div className="w-full bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
       <PostForm />

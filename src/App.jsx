@@ -39,6 +39,7 @@ import Setting from "./Components/Settings/Setting";
 import VerificationRequest from "./Components/Settings/VerificationRequest/VerificationRequest";
 import ConfirmationRequest from "./Components/Settings/VerificationRequest/ConfirmationRequest";
 import BlockListPage from "./Components/Settings/BlockListPage";
+import Locations from "./Components/googlemap/Locations";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -105,12 +106,12 @@ const App = () => {
           <Route path="/" element={<MainView />}>
             <Route path="root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
-            
-            <Route path="veiwallkicks" element={<SearchKicksPage/>} />
+
+            <Route path="veiwallkicks" element={<SearchKicksPage />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
             <Route path="find-friend" element={<FindFriendsPage />} />
-            <Route path='profile' element={<UserProfilePage />} />
-            <Route path='profile/:id' element={<UserProfilePage isOther />} />
+            <Route exact path="profile" element={<UserProfilePage />} />
+            <Route path="profile/:id" element={<UserProfilePage isOther />} />
             <Route
               path="friend-request"
               element={<FriendRequestPage isFriend={true} />}
@@ -121,13 +122,17 @@ const App = () => {
             <Route path="event" element={<Event />} />
             <Route path="edit-profile" element={<UpdateProfile />} />
             <Route path="settings" element={<Setting />} />
-            <Route path="verification-request" element={<VerificationRequest />} />
-            <Route path="confirmation-request" element={<ConfirmationRequest />} />
+            <Route
+              path="verification-request"
+              element={<VerificationRequest />}
+            />
+            <Route
+              path="confirmation-request"
+              element={<ConfirmationRequest />}
+            />
             <Route path="blocklist-page" element={<BlockListPage />} />
-
-
-
-
+            <Route path="blocklist-page" element={<BlockListPage />} />
+            <Route path="blocklist-page" element={<BlockListPage />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}
