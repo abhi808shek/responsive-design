@@ -82,7 +82,7 @@ function PopOver({ button, options }) {
       )}
       {modalType.changeRelationship && (
         <Portals>
-          <ChangeRelationshipModal closeModalOption={closeModalOption}/>
+          <ChangeRelationshipModal title="Change Relationship" button="Update" closeModalOption={closeModalOption}/>
         </Portals>
       )}
       {modalType.block && (

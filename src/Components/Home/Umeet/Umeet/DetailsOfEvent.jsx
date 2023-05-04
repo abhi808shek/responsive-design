@@ -1,5 +1,5 @@
 
-export default function DetailsOfEvent(){
+export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditMyEvent }){
     return (
      <div className='p-4 bg-white rounded-xl w-full'>
       <div className='mb-1'>
@@ -42,9 +42,17 @@ export default function DetailsOfEvent(){
         <span className='w-2/3'>:<span className='ml-3 font-bold'>Go like a fire</span></span>
        </div>
       </div>
-
-      <div className='flex justify-end py-2 pb-12'>
-       <button className='py-1 my-2 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Share Invitation</button>
+      
+      <div className='flex flex-col justify-end items-end py-2 pb-12'>
+       {
+        myEvent && (
+        <>
+         <button onClick={handleEditMyEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Edit Details</button>
+         <button onClick={handleDeleteEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Delete Event</button>
+        </>
+        )
+      }
+       <button className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Share Invitation</button>
       </div>
 
      </div>

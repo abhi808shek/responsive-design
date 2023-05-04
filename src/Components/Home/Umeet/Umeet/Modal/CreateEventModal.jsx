@@ -5,7 +5,7 @@ import { Switch } from '@headlessui/react'
 import AddGuestModal from './AddGuestModal'
 import ChooseTemplate from './ChooseTemplate'
 
-const CreateEventModal = ({ selectedSpecificEvent }) => {
+const CreateEventModal = ({ selectedSpecificEvent, editMyEvent }) => {
   const [enabled, setEnabled] = useState(false)
   const [showAddGroup, setShowAddGroup] = useState(false)
   const [showTemplate, setShowTemplate] = useState(false)
@@ -35,7 +35,7 @@ const CreateEventModal = ({ selectedSpecificEvent }) => {
 
   return (
     <div className='fullPage bg-white border-gray-300'>
-     <div className='w-[96%] border bg-white px-3'>
+     <div className={`${editMyEvent ? 'w-[60%]' : 'w-[96%]' } border bg-white px-3`}>
        <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
        <div className='border-2 mx-3'></div>
        <div className='px-7'>
