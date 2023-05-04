@@ -1,16 +1,12 @@
 import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState } from 'react'
-import { Switch } from '@headlessui/react'
-import AddGuestModal from './AddGuestModal'
-import ChooseTemplate from './ChooseTemplate'
+import ToggleButton from './ToggleButton';
 
-const CreateEventModal = ({ selectedSpecificEvent, editMyEvent }) => {
-  const [enabled, setEnabled] = useState(false)
-  const [showAddGroup, setShowAddGroup] = useState(false)
-  const [showTemplate, setShowTemplate] = useState(false)
+const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup }) => {
+  const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
-
+  
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
@@ -18,29 +14,27 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent }) => {
     }
   };
 
-  function handleModalClose() {
-    setShowAddGroup(false);
-    setShowTemplate(false)
-  }
-
-  const handleShowAddGroup = ()=>{
-    setShowAddGroup(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  const handleShowTemplate = ()=>{
-    setShowTemplate(true)
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
   return (
     <div className='fullPage bg-white border-gray-300'>
      <div className={`${editMyEvent ? 'w-[60%]' : 'w-[96%]' } border bg-white px-3`}>
-       <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
+       {
+        editMyEvent ? <div className='px-3 my-2.5 text-[17px] font-semibold'>Edit Event</div>       
+         : <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
+       }
        <div className='border-2 mx-3'></div>
        <div className='px-7'>
-        <p className='pt-4 pb-2 text-[#649B8E]'>{ selectedSpecificEvent }</p>
-        <hr />
+       {editMyEvent ? (
+          <select className='h-10 my-1 outline-none w-full border-b bg-white text-gray-600'>
+           <option>Guest List & Display to all</option>
+           <option>USA</option>
+          </select>
+        ) : (
+        <>
+         <p className='pt-4 pb-2 text-[#649B8E]'>{ selectedSpecificEvent }</p>
+         <hr />
+        </>
+        )
+     }
         <div className='my-3'>
          <label htmlFor="myfile">
           {selectedImage ? (
@@ -93,29 +87,30 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent }) => {
         <div className='flex my-7 justify-between'>
           <span className='text-gray-700'>Food Availability</span>
           <div className="py-">
-          <Switch
-            checked={enabled}
-            onChange={setEnabled}
-            className={`${enabled ? 'bg-blue-400' : 'bg-gray-100'}
-              relative inline-flex h-[29px] w-[54px] shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-none focus-visible:ring-2  focus-visible:ring-white focus-visible:ring-opacity-75`}
-          >
-            <span className="sr-only">Use setting</span>
-            <span
-              aria-hidden="true"
-              className={`${enabled ? 'translate-x-6' : 'translate-x-1'}
-                pointer-events-none inline-block h-[26px] w-[26px] transform rounded-full bg-white shadow-lg ring-0 transition duration-200 ease-in-out`}
-            />
-          </Switch>
-         </div>
+           <ToggleButton />
+          </div>
         </div>
+
+        {editMyEvent && 
+         <div className='flex my-7 justify-between'>
+          <span className='text-gray-700'>Live Streaming</span>
+          <div className="py-">
+           <ToggleButton />
+          </div>
+         </div>
+        }
         <label className=''>About Event</label>
         <textarea rows='3' className='w-full outline-none my-2 rounded-xl relative border p-2'/>
+        <div className='flex flex-col my-1'>
+         <button onClick={handleCreatedEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
 
-        <button className='w-full py-2.5 my-3 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E]'>send</button>
+         {editMyEvent && 
+          <button onClick={handleCreatedEvent} className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>
+         }
+        </div>
+
        </div>
-     </div>
-     {showAddGroup && <AddGuestModal onClose={handleModalClose} />}
-     {showTemplate && <ChooseTemplate onClose={handleModalClose} handleImageChange={handleImageChange} />}
+     </div>        
     </div>
   )
 }

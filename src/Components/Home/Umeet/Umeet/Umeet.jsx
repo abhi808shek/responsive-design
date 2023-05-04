@@ -9,8 +9,13 @@ import { RxChevronLeft } from 'react-icons/rx'
 import CreateEventModal from './Modal/CreateEventModal'
 import EventDetails from './EventDetails'
 import EventDeleteModal from './Modal/EventDeleteModal'
+import EventShareModal from './Modal/EventShareModal'
+import CreatedEvent from './CreatedEvent'
+import RvspModal from './Modal/RvspModal'
+import ChooseTemplate from './Modal/ChooseTemplate'
+import AddGuestModal from './Modal/AddGuestModal'
 
-const Umeet = () => {
+export default function Umeet(){
   const [selected, SetSelected] = useState(false)
   const [noCreateEvent, setNoCreateEvent] = useState(true)
   const [noMyEvent, setNoMyEvent] = useState(false)
@@ -21,7 +26,14 @@ const Umeet = () => {
   const [selectedSpecificEvent, setSelectedSpecificEvent] = useState('')
   const [myEvent, setMyEvent] = useState(false)
   const [showDeleteMyEvent, setShowDeleteMyEvent] = useState(false)
+  const [showShareMyEvent, setShowShareMyEvent] = useState(false)
+  const [eventCreated, setEventCreated] = useState(false)
+  const [eventSuccess, setEventSuccess] = useState(false)
   const [selectEventType, setSelectEventType] = useState([])
+
+  const [showRvspModal, setShowRvspModal] = useState(false)
+  const [showTemplate, setShowTemplate] = useState(false)
+  const [showAddGroup, setShowAddGroup] = useState(false)
 
   function EventStatus({ data }){
     if(noCreateEvent){
@@ -29,15 +41,32 @@ const Umeet = () => {
     }else if(noMyEvent){
       return <BlankEvents event='Your Events' />
     }else if(createEvent){
-        return <CreateEventModal selectedSpecificEvent={selectedSpecificEvent} editMyEvent={editMyEvent}/>
+      return <CreateEventModal 
+                selectedSpecificEvent={selectedSpecificEvent}
+                editMyEvent={editMyEvent}
+                handleCreatedEvent={handleCreatedEvent}
+                handleShowTemplate={()=>{setShowTemplate(true); window.scrollTo({ top: 0, behavior: 'smooth' });}}
+                handleShowAddGroup={()=>{setShowAddGroup(true);  window.scrollTo({ top: 0, behavior: 'smooth' })} }
+              />
+    }else if(eventCreated){
+      return <CreatedEvent />
     }else if(eventDetails){
-        return <EventDetails handleEditMyEvent={()=>{setEditMyEvent(true); setCreateEvent(true); setEventDetails(false) }} handleDeleteEvent={()=>{setShowDeleteMyEvent(true); window.scrollTo({ top: 0, behavior: 'smooth' }) }} myEvent={myEvent} />
+      return <EventDetails handleEditEvent={handleEditEvent} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleShareEvent={()=>setShowShareMyEvent(true)} myEvent={myEvent} handleRvspModal={()=>setShowRvspModal(true)}/>
     }
   }
 
-  // const handleEditMyEvent = ()=>{
-    
-  // }
+  const handleEditEvent = ()=>{
+    setEventDetails(false)
+    setEditMyEvent(true); 
+    setCreateEvent(true);
+  }
+
+  const handleCreatedEvent = ()=>{
+    setNoCreateEvent(false)
+    setEventCreated(true)
+    setNoMyEvent(false)    
+    setCreateEvent(false)
+  }
 
   const handleMyEvent = ()=>{
     setNoCreateEvent(false)
@@ -48,6 +77,7 @@ const Umeet = () => {
   const handleCreateEvent = ()=>{
     setNoCreateEvent(true)
     setNoMyEvent(false)
+    setEditMyEvent(false)
     setCreateEvent(true)
   }
 
@@ -55,8 +85,16 @@ const Umeet = () => {
     setNoCreateEvent(false)
     setCreateEvent(false)
     setNoMyEvent(false)
+    setEventCreated(false)
     setEventDetails(true)
   }
+
+  const handleImageChange = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      const image = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(image));
+    }
+  };
   
   const handleSelectEventType = ( data )=>{
     setSelectSpecificEvent(true)
@@ -121,7 +159,7 @@ const Umeet = () => {
     )
   }
 
-  function AllEvents(){
+  function AllEvents({ handleEditEvent }){
     return (
      <section className='border overflow-y-scroll hideScroll border-gray-400 bg-white rounded mr-2 w-full h-full'>
       {/* */}
@@ -140,16 +178,16 @@ const Umeet = () => {
       </div>
 
       <div className=''>
-       <SingleEvent dataList={dataList} myEvent={myEvent} myEventataList={myEventataList} handleEventDetails={handleEventDetails} handleDeleteEvent={()=>setShowDeleteMyEvent(true)}/>
+       <SingleEvent dataList={dataList} myEvent={myEvent} myEventataList={myEventataList} handleEventDetails={handleEventDetails} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleEditEvent={handleEditEvent}/>
       </div>
      </section>
     )
   }
 
   return (
-    <div className='flex bg-[#e4e7ec]'>
+    <div className={`flex bg-[#e4e7ec] relative fullCover overflow-y-scroll hideScroll`}>
       {/* Left All Events page */}
-     <section className='border  relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
+     <section className='border relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
       {
         createEvent ? (
         <>
@@ -157,12 +195,12 @@ const Umeet = () => {
             selectSpecificEvent ? <SelectSpecificEventType /> : <SelectEvent />        
           } 
         </>
-        ) : <AllEvents />
+        ) : <AllEvents handleEditEvent={handleEditEvent} />
       }
      </section>
 
      {/* Right All Events page */}
-     <section className='w-4/6 relative'>
+     <section className='w-4/6 relative bg-[#e4e7ec]'>
       {/* events top select */}
       <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
         <div onClick={handleCreateEvent} className={`flex items-center cursor-pointer ${createEvent ? 'text-[#649B8E]' : ''}`}>
@@ -179,8 +217,10 @@ const Umeet = () => {
       <EventStatus />
      </section>
      {showDeleteMyEvent && <EventDeleteModal onClose={()=>setShowDeleteMyEvent(false)} />}
+     {showShareMyEvent && <EventShareModal onClose={()=>setShowShareMyEvent(false)} />}
+     {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
+     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} handleImageChange={handleImageChange} />}
+     {showAddGroup && <AddGuestModal onClose={()=>setShowAddGroup(false)} />}
     </div>
   )
 }
-
-export default Umeet

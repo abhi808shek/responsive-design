@@ -6,6 +6,7 @@ import selectedimg from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Att
 import person from '../../../../../Assets/Images/Person.jpg'
 import '../../Umeet.css'
 import AddByContactModal from './AddByContactModal'
+import group from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 
 const dataList = [
   {
@@ -55,9 +56,9 @@ const AddPeopleModal = ({ onClose }) => {
   }
 
   return (
-    <div className='absolute top-0 w-full h-full flex justify-center items-center bg-gray-100' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+    <div className='absolute fixe top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
 
-     <div className={`w-[60%] flex flex-col justify-between min-h-[96%] bg-white rounded-xl p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
+     <div className={`w-[40%] min-h-[87%] flex flex-col justify-between bg-white rounded-xl p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
       <div className=''>
        <div className='flex justify-start items-center border-b pb-2 text-gray-600'>
          <button className='px-5 py-1 rounded-md text-white border bg-[#649B8E]'>Choose Classmate</button>
@@ -96,10 +97,13 @@ const AddPeopleModal = ({ onClose }) => {
        </div>            
       </div>
 
-      <div>
-       <button className='w-full py-1 rounded-xl text-white border border-[#649B8E] bg-[#649B8E]'>Save</button>
-       <button onClick={onClose} className='w-full py-1 my-2 rounded-xl border border-[#649B8E] text-[#649B8E]'>Cancel</button> 
-      </div>
+      <section className='flex w-full'>       
+        <img src={group} className='h-9 w-9 mr-3' />
+        <div className='w-5/6'>
+         <button className='w-full py-1 rounded-xl text-white border border-[#649B8E] bg-[#649B8E]'>Save</button>       
+         <button onClick={onClose} className='w-full py-1 my-2 rounded-xl border border-[#649B8E] text-[#649B8E]'>Cancel</button> 
+        </div>
+      </section>
      </div>  
      {showAddByContactModal && <AddByContactModal onClose={()=>setShowAddByContactModal(false)} />}
     </div>

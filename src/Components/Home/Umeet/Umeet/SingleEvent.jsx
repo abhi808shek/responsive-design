@@ -19,7 +19,7 @@ function EventStatus({ data }){
     }else return null
 }
 
-const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, handleDeleteEvent }) => {
+const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }) => {
   const [showDetail, setShowDetail] = useState(false)
 
   return (
@@ -28,7 +28,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, ha
     myEvent ? ( <>
      { myEventataList &&
      myEventataList.map((data,i)=>(
-      <div key={i} onClick={handleEventDetails} className='relative flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+      <div key={i} onClick={handleEventDetails} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
        {/* Img section */}
        <div className='w-1/4 flex items-center justify-center'>
         <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />
@@ -50,7 +50,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, ha
         {
         showDetail ? (
          <section className='absolute z-20 right-[4%] top-[45%] border bg-white border-gray-300'>
-          <div className='flex p-2 cursor-pointer border-b border-gray-300'>
+          <div onClick={handleEditEvent} className='flex hover:bg-gray-300 p-2 cursor-pointer border-b border-gray-300'>
            <img src={editImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Edit Event</span>
           </div>
@@ -58,7 +58,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, ha
            <img src={deleteImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Delete Event</span>
           </div>
-          <div className='flex cursor-pointer p-2'>
+          <div onClick={handleShareEvent} className='flex cursor-pointer p-2'>
            <img src={shareImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Share Event</span>
           </div>
@@ -76,7 +76,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, ha
      <>
       { dataList &&
      dataList.map((data,i)=>(
-      <div key={i} onClick={handleEventDetails} className='flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+      <div key={i} onClick={handleEventDetails} className='flex cursor-pointer p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
        {/* Img section */}
        <div className='w-1/4 flex items-center justify-center'>
         <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />

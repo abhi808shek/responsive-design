@@ -26,8 +26,8 @@ const AddGuestModal = ({ onClose }) => {
   }
 
   return (
-    <div className='absolute top-0 w-full h-full flex justify-center items-center bg-gray-100' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-     <div className='w-[40%]  bg-white rounded-xl p-3'>
+    <div className='absolut fixed top-0 left-0 h-full w-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+     <div className='w-[29%] bg-white rounded-xl p-3'>
       <div className='flex justify-between py-1 text-gray-600'>
         <span className='text-[18px] text-gray-700'>Select a Group</span>
         <AiOutlineCloseCircle onClick={onClose} className='w-8 cursor-pointer hover:text-red-500 h-7'/>
