@@ -15,7 +15,7 @@ const CatergorySection = ({selectedOption,setSelectedOption}) => {
           key={elem.title}
           className={`bg-${
             selectedOption === elem?.title ? "[#7991BD]" : "[#E4E4E4]"
-          } w-[22%] rounded-lg text-white text-xs font-bold py-1`}
+          } w-[22%] rounded-lg text-[#161616] text-xs font-bold py-1`}
           onClick={() => setSelectedOption(elem?.title)}
         >
           {elem.title}

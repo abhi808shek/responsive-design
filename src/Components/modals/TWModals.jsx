@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Dialog } from '@headlessui/react'
 
-function TWModal() {
-  let [isOpen, setIsOpen] = useState(true)
+function TWModal({isOpen}) {
+  // let [isOpen, setIsOpen] = useState(true)
 
   return (
     <Dialog open={isOpen} onClose={() => setIsOpen(false)}>

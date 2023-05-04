@@ -2,51 +2,57 @@ import axios from "axios"
 import { getUserDataFromLocalStorage } from "../../Components/Utility/utility";
 
 export const getProfileById= (data) => async (dispatch) => {
+    const token = JSON.parse(localStorage.getItem('userCredential')).token
     try{
-        const response = await axios.get(`http://3.233.82.34:8080/profile/api/profile/${data}`,
+        const response = await axios.get(`http://3.233.82.34:8080/profile/api/profile/profilebyuser/${data}`,
            {
-      })        ;
-        console.log(response, 'profileeeeeeeee detailsssssss');
+            headers:{
+                "Accept-Language": "en",
+                "Content-Type": "application/json",
+                "Authorization":`Bearer ${token}`
+            }
+      })
+      console.log(response.data, "<<<<<<<<<<????????");
         dispatch({
             type: 'GET_PROFILE_DETAILS',
             payload: response.data
         })
+        return response.data
     }catch(error){
-
         throw error
     }
 }
 
-export const addProfile= (data) => async (dispatch) => {
-    try{
-        const response = await axios.get(`http://3.233.82.34:8080/api/profile/profilebyuser/${data}`,
-           {
-        headers: {
-          "Accept-Language": "us",
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${getUserDataFromLocalStorage().token}`
-        },
-      })        ;
-        console.log(response);
-        dispatch({
-            type: 'GET_PROFILE_DETAILS',
-            payload: response.data
-        })
-    }catch(error){
+// export const addProfile= (data) => async (dispatch) => {
+//     try{
+//         const response = await axios.get(`http://3.233.82.34:8080/api/profile/profilebyuser/${data}`,
+//            {
+//         headers: {
+//           "Accept-Language": "us",
+//           "Content-Type": "application/json",
+//           'Authorization': `Bearer ${getUserDataFromLocalStorage().token}`
+//         },
+//       })        ;
+//         console.log(response);
+//         dispatch({
+//             type: 'GET_PROFILE_DETAILS',
+//             payload: response.data
+//         })
+//     }catch(error){
 
-        throw error
-    }
-}
+//         throw error
+//     }
+// }
 
 
 export const getFriendsList= (data) => async (dispatch) => {
     try{
-        const response = await axios.get(`http://3.233.82.34:8080/friend/api/friend/${data}/Accepted`);
-        console.log(response);
+        const response = await axios.get(`http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`);
         dispatch({
             type: 'FRIEND_LIST',
             payload: response.data
         })
+        return response.data
     }catch(error){
         throw error
     }
@@ -73,8 +79,7 @@ export const getFollower = (data) => async (dispatch) => {
           "Content-Type": "application/json",
           // 'Authorization': `Bearer ${getUserDataFromLocalStorage().token}`
         },
-      })        ;
-        console.log(response);
+      })
         dispatch({
             type: 'GET_FOLLOWER',
             payload: response.data
@@ -188,15 +193,15 @@ export const startFollowing = (data) => async (dispatch) => {
 }
 
 
-export const updateProfileImage= (imgUrl) => async (dispatch) => {
-  const data = { pimage: imgUrl}
+export const updateProfile= (data) => async (dispatch) => {
     try{
-        const response = await axios.get(` http://3.233.82.34:8080/profile/api/profile/update`, data);
-        console.log(response);
+        const response = await axios.post(`http://3.233.82.34:8080/profile/api/profile/update`, data);
+        console.log(response, ">>PPPPPPPPP");
         dispatch({
             type: '',
             payload: response.data
         })
+        return response.data
     }catch(error){
         throw error
     }

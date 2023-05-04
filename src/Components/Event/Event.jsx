@@ -49,7 +49,7 @@ const Event = () => {
     dispatch(sponseredTabSelected(option));
   };
   return (
-    <div className="w-full bg-[#EAE9E7] flex flex-col justify-center items-center">
+    <div className="w-full bg-[#EAE9E7] flex flex-col flex-1 items-center">
       <div className="header h-16 w-[40%] mt-2 rounded-md flex justify-center items-center text-lg text-white font-bold bg-[#7991BD]">
         <h1>{defaultEventData?.data?.tital}</h1>
       </div>
