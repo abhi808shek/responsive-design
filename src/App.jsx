@@ -40,13 +40,13 @@ const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
   console.log(userData);
-  // // userData = JSON.parse(userData);
+  userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-      const user = JSON.parse(userData)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+    const token = localStorage.getItem('token')
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.defaults.headers.common['Content-Type'] = "application-json"
       axios.defaults.headers.common['Accept-Language'] = "en"
       dispatch(
@@ -116,6 +116,9 @@ const App = () => {
             <Route path="profile-page" element={<ProfilePage />} />
             <Route path="event" element={<Event />} />
             <Route path="edit-profile" element={<UpdateProfile />} />
+            
+            <Route path="/reals" element={<div></div>} />
+            {/* <Route path="/private" element={''} /> */}
 
 
             {/* <Route path="user" element={<User />} /> */}

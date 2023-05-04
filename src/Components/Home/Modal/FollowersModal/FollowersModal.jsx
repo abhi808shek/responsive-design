@@ -1,13 +1,16 @@
 import React from "react";
+import { useEffect } from "react";
 
-const FollowersModal = ({title, modalName}) => {
+const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
   return (
-    <div className='w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
+    <div onClick={(e) => e.stopPropagation()} className=' w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
         <div className="my-2">{modalName}</div>
          <h1 className="text-center font-bold">{title}</h1>
              <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
          <section className=" w-[95%] flex rounded-md flex-col justify-between items-center mt-2 h-[350px] overflow-scroll">
-          {[1, 3, 3, 4, 3, 2, 2,3,4,5,2].map(() => (
+         {
+          data?.length ?
+          [1, 3, 3, 4, 3, 2, 2,3,4,5,2].map(() => (
                 <>
               <div className="flex w-full pb-1 flex-col">
                  <div className="flex items-center py-1">
@@ -23,7 +26,10 @@ const FollowersModal = ({title, modalName}) => {
                   </div>
                  </div>
               </div><hr /></>
-          ))}
+          ))
+          :
+          <div className="m-auto">{emptyMessage}</div>
+         }
         </section>
     </div>
   );

@@ -4,12 +4,18 @@ import Heading from "./Heading";
 import Option from "./Option";
 import { useDispatch } from "react-redux";
 import { defaultRootScreen } from "../../../redux/actionCreators/eventActionCreator";
+import { getProfileById } from "../../../redux/actionCreators/profileAction";
 
 const Select = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-
+  useEffect(() => {
+    const user = localStorage.getItem('userCredential')
+    const data = JSON.parse(user)
+    
+    const profile = dispatch(getProfileById(data?.id))
+  }, [])
 
   const data = [
     {

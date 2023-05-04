@@ -1,7 +1,8 @@
 const initialState = {
     followers: [],
     following: [],
-    friends: []
+    friends: [],
+    profileDetail: {}
 };
 
 
@@ -13,6 +14,9 @@ const profileReducer = (state = initialState, action) => {
             return { ...state, followers: action.payload}
         case "FRIEND_LIST":
             return { ...state, friends: action.payload}
+        case "GET_PROFILE_DETAILS":
+            localStorage.setItem('profileid', action.payload?.data?.id)
+            return { ...state, profileDetail: action.payload}
         default: 
         return state
     }

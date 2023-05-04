@@ -1,93 +1,340 @@
-import React from 'react'
+import React, { useEffect } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import Dropdown from "../../Login/Content/Modal/Dropdown";
+import {
+  getAssenbly,
+  getCountryList,
+  getDistrict,
+  getLoksabha,
+  getOrgCategory,
+  getStateList,
+} from "../../../redux/actionCreators/authActionCreator";
+import AutocompletePlace from "../../googlemap/AutocompletePlace";
+import Dropdown2 from "../../Login/Content/Modal/Dropdown2";
+import { updateProfile } from "../../../redux/actionCreators/profileAction";
+import moment from "moment";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { imageUploadApi } from "../../../redux/actionCreators/eventActionCreator";
+import Input from "../../input/input";
+import PersonalAccount from "./PersonalAccount";
+import OrganizationAccount from "./OrganizationAccount";
 
 const UpdateProfile = () => {
-    return (
-        <div className='bg-[#E4E7EC] w-[100%]  p-6'>
-            <div className="updateTitle text-center rounded-xl flex-wrap mt-16 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
-                <h3 className='p-2 font-bold'>Let's update your profile</h3>
-                <h4 className=' text-[#666567]'>This will help us others get to know better!</h4>
-            </div>
-            <div className='grid grid-cols-2 gap-4 justify-center rounded-2xl md:grid-cols-2 '>
-                <div className='bg-[#fff] rounded-2xl '>
-                    <h3 className='p-2 font-bold text-center text-[20px]'>Cover Picture:</h3>
-                    <img src="https://th.bing.com/th/id/OIP.akz0hTxRH7ofWzOzjjH3zQHaDn?pid=ImgDet&rs=1" alt="" className='mb-4   h-[200px] text center m-auto rounded-2xl' />
-                    <i class="bi bi-exclamation-circle m-12   text-[#707070] "></i>
-                    <div className='flex justify-center mb-6'>
-                        <button className='bg-[#7991BD] p-2 w-[210.7px] text-[#fff] rounded-2xl '>Change Picture</button>
-                        <button className='text-[#7991BD] w-[100.7px] '>remove</button>
-                    </div>
-                </div>
-                <div className='bg-[#fff] rounded-2xl '>
-                    <h3 className='p-2 font-bold text-center text-[20px]'>Profile Picture :</h3>
-                    <img src="https://th.bing.com/th/id/OIP.bKxmwxuEqQ8SLdnFOXn3KAHaHa?pid=ImgDet&rs=1" alt="" className='h-[200px] object-cover text center m-auto rounded-2xl' />
-                    <div className='flex content-center  justify-center mt-8'>
-                        <button className='bg-[#7991BD] p-2 w-[210.7px] text-[#fff] rounded-2xl ml-[120px]  items-center content-center'>Change Picture</button>
-                        <button className='text-[#7991BD] w-[100.7px]   '>remove</button>
-                    </div>
-                </div>
-            </div>
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
-            <div className='mt-10 flex justify-center  flex-row'>
-                <div className=' w-[408.8px] m-2 p-6'>
-                    <form action="">
-                        <lable className='mb-6 text-[20px]'>Personal Info :</lable>
-                        <div className=''>
-                            <input type="text" placeholder="Anurag Mourya" className=' placeholder-black mb-6 mt-6 w-full border-none  p-2 outline-none  ' />
-                            <input type="text" placeholder="Influenced by" className='mb-6  placeholder-black w-full border-none  p-2 outline-none  ' />
-                            <input type="text" placeholder="Software Engineer" className='mb-6  placeholder-black w-full border-none  p-2 outline-none  ' />
-                            <input type="text" placeholder="Uynite INC" className='mb-6  placeholder-black w-full border-none  p-2 outline-none  ' />
-                            <input type="email" placeholder='example@uynite.com' className='mb-6  placeholder-black w-full border-none  p-2 outline-none  ' />
-                            <div className=' flex w-full justify-end'>
-                                <select name="MobilNumber" id="PhoneNo" className='h-[39px] w-[130px]'>
-                                    <option value="IND" className=''>IND 91+</option>
-                                    <option value=""></option>
-                                    <option value=""></option>
-                                    <option value=""></option>
-                                </select>
-                                <input type="tel" placeholder='7878787878' className='mb-6  placeholder-black ml-3 w-full border-none  p-2 outline-none  w-[70%] ' />
-                            </div>
-                            <div className='flex '>
-                                <h4 className=' w-[130px] text-[14px] mt-2 '>Date of birth*</h4>
-                                <input type="date" className='mb-6 ml-3 border-none  p-2 outline-none  w-[70%] ' />
-                            </div>
-                            <div className='flex '>
-                                <h4 className=' w-[130px] text-[14px] mt-2 '>Gender*</h4>
-                                <select name="gender" id="gender" className='  mb-6 ml-3  border-none  p-2 outline-none  w-[98%] '>
-                                    <option value="Male">Male</option>
-                                    <option value="Female">Female</option>
-                                </select>
-                            </div>
-                            <select name="country" id="country" className=' h-[39px] mb-6  border-none   outline-none  w-[100%] '>
-                                <option value="India">India</option>
-                            </select>
-                            <div className='flex mb-6'>
-                                <select name="state" id="state" className=' h-[39px]  border-none   outline-none  w-full mr-1 '>
-                                    <option value="Nellore">Nellore</option>
-                                </select>
-                                <select name="state" id="state" className='h-[39px]  border-none  outline-none  w-full ml-1  '>
-                                    <option value="Andhra Pradesh">Andhra Pradesh</option>
-                                </select>
-                            </div>
-                            <div className='flex mb-6'>
-                                <select name="" id="" className=' h-[39px] border-none   outline-none  w-full mr-1 '>
-                                    <option value="Lok Sabha">Lok Sabha</option>
-                                </select>
-                                <select name="" id="" className=' h-[39px] border-none  outline-none  w-full ml-1  '>
-                                    <option value="Assembly">Assembly</option>
-                                </select>
-                            </div>
-                            <input type="text" placeholder="Veerepalli" className='mb-6 w-full placeholder-black  p-2 outline-none  border-solid border-1 border-[#000]' />
-                            <div className='flext w-full text-center'>
-                                <button className=' pr-3 bg-[#7991BD] p-1 px-2 rounded-xl text-white'>Save & Continue</button>
-                                <button className='w-[35%] ml-3 border-solid border border-[#7991BD] p-1 inline-block rounded-xl text-[#7991BD]'>Cancel</button>
-                            </div>
+  const reducerData = useSelector((state) => {
+    return {
+      profileDetail: state?.profileReducer?.profileDetail?.data,
+    };
+  });
+  const { profileDetail } = reducerData;
+  const [state, setState] = useState(profileDetail || {});
+  const [country, setCountry] = useState(profileDetail);
+  const {
+    pcoverimage,
+    pimage,
+    fname,
+    lname,
+    email,
+    dob,
+    gender,
+    stateName = { state: profileDetail?.state },
+    district,
+    loksabha,
+    assembly,
+    profiletype,
+    userid,
+    id,
+    profilePic,
+    coverPic,
+    code,
+  } = state;
 
-                        </div>
-                    </form>
-                </div>
-            </div>
+  const isPersonal = profiletype === "Personal";
+
+  useEffect(() => {
+    isPersonal ? dispatch(getCountryList()) : dispatch(getOrgCategory());
+  }, [profiletype]);
+  const handleUpload = (name, value) => {
+    // const file = new FormData();
+    // file.append('file', value)
+    // dispatch(imageUploadApi(file)).then((res) => {
+    //     console.log(res, 'UPPPPPPPPPPPPPPPLLLLL');
+    // })
+    if (name === "profile") {
+      const profileImg = URL.createObjectURL(value);
+      setState({ ...state, pimage: profileImg, profilePic: value });
+    } else if ("cover") {
+      const profileImg = URL.createObjectURL(value);
+      setState({ ...state, pcoverimage: profileImg, coverPic: value });
+    }
+  };
+
+  const handleCountry = (val) => {
+    setCountry(val);
+    dispatch(getStateList(val.code));
+  };
+  const handleChange = (name, value) => {
+    const obj = {
+      stateName: getDistrict(value.statecode),
+      district: getLoksabha(value.did),
+      loksabha: getAssenbly(value.lid),
+    };
+    obj[name] && dispatch(obj[name]);
+    setState({ ...state, [name]: value });
+  };
+
+  const handleSubmit = async () => {
+    const payloads = {
+      id: id,
+      assembly: assembly, //default value.
+      celibrity: false,
+      countrycode: "+91", //default selected in signup screen..
+      country: country?.country,
+      dob: moment(dob).format("YYYY-MM-DD"), //from user input
+      email: email, //from signup screen.
+      fname: fname, //from user input BUSINESS NAME
+      gender: gender,
+      pimage: "", //if profile image is there, add the URL here.
+      loksabha: loksabha,
+      state: stateName?.state || stateName,
+      lname: lname, //from user input – profile lnamein SLIDE 4
+      personalname: fname, //from user input – profilefnamein SLIDE 4
+      profiletype: isPersonal ? "Personal" : "Organization", //profile type, while we passing in signup screen
+      updatedate: Date.now(), //Current UTC time in milliseconds
+      userid: userid, // stored User ID from (Slide 3)
+    };
+    if (profilePic) {
+      const file = new FormData();
+      file.append("file", profilePic);
+      let response = await dispatch(imageUploadApi(file));
+      payloads.pimage = response.data.path;
+    }
+    if (coverPic) {
+      const file = new FormData();
+      file.append("file", coverPic);
+      let response = await dispatch(imageUploadApi(file));
+      payloads.pcoverimage = response.data.path;
+    }
+    dispatch(updateProfile(payloads))
+      .then((res) => {
+        if (res.status) {
+          navigate("/profile");
+          toast.success(res.message);
+        } else {
+          toast.error(res.message);
+        }
+      })
+      .catch((err) => {});
+  };
+  console.log(isPersonal, "Personal");
+  // console.log(profileDetail, stateName, moment(dob).format('YYYY-MM-DD'), 'PPPPPPPPPPPPPPP');
+  return (
+    <div className="bg-[#E4E7EC] w-[100%]  p-6">
+      <div className="updateTitle text-center rounded-xl flex-wrap mt-16 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
+        <h3 className="p-2 font-bold">Let's update your profile</h3>
+        <h4 className=" text-[#666567]">
+          This will help us others get to know better!
+        </h4>
+      </div>
+      <div className="grid grid-cols-2 gap-4 justify-center rounded-2xl md:grid-cols-2 ">
+        <div className="bg-[#fff] rounded-2xl ">
+          <h3 className="p-2 font-bold text-center text-[20px]">
+            Cover Picture:
+          </h3>
+          <img
+            src={pcoverimage}
+            alt=""
+            className="mb-4 object-cover border border-gray-500 w-[400px]  h-[200px] text center m-auto rounded-2xl"
+          />
+          <i class="bi bi-exclamation-circle m-12   text-[#707070] "></i>
+          <div className="flex justify-center mb-6">
+            <input
+              id="coverPic"
+              className="hidden"
+              type="file"
+              onChange={(e) => handleUpload("cover", e.target.files[0])}
+            />
+            <label
+              htmlFor="coverPic"
+              className="bg-[#7991BD] p-2 w-[210.7px] text-[#fff] text-center rounded-2xl "
+            >
+              Change Picture
+            </label>
+            <button
+              onClick={() => setState({ ...state, pcoverimage: "" })}
+              className="text-[#7991BD] w-[100.7px] "
+            >
+              remove
+            </button>
+          </div>
         </div>
-    )
-}
+        <div className="bg-[#fff] rounded-2xl ">
+          <h3 className="p-2 font-bold text-center text-[20px]">
+            Profile Picture :
+          </h3>
+          <img
+            src={pimage}
+            alt=""
+            className="h-[200px] w-[250px] border border-gray-500 object-cover text center m-auto rounded-2xl"
+          />
+          <div className="flex content-center  justify-center mt-8">
+            <input
+              className="hidden"
+              type="file"
+              id="profilePic"
+              onChange={(e) => handleUpload("profile", e.target.files[0])}
+            />
+            <label
+              role="button"
+              htmlFor="profilePic"
+              className="bg-[#7991BD] p-2 w-[210.7px] text-[#fff] rounded-2xl ml-[120px] text-center  items-center content-center"
+            >
+              Change Picture
+            </label>
+            <button
+              onClick={() => setState({ ...state, pimage: "" })}
+              className="text-[#7991BD] w-[100.7px]"
+            >
+              remove
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div className="flex justify-center  flex-row">
+        <div className="m-2 p-6">
+          <div action="">
+            <div className="mb-6 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
+              Personal Info :
+            </div>
+
+            <div>
+              <div className="flex gap-2">
+                <Input
+                  classes={"my-2"}
+                  label={"First Name"}
+                  attributes={{
+                    name: "fname",
+                    onChange: (e) =>
+                      handleChange(e.target.name, e.target.value),
+                    type: "text",
+                    placeholder: "First Name",
+                    value: fname,
+                  }}
+                />
+                <Input
+                  classes={"my-2"}
+                  label={"Last Name"}
+                  attributes={{
+                    name: "lname",
+                    onChange: (e) =>
+                      handleChange(e.target.name, e.target.value),
+                    type: "text",
+                    placeholder: "Last Name",
+                    value: lname,
+                  }}
+                />
+              </div>
+              <Input
+                classes={"flex my-2"}
+                label={"Email"}
+                attributes={{
+                  name: "email",
+                  onChange: (e) => handleChange(e.target.name, e.target.value),
+                  type: "text",
+                  placeholder: "Email",
+                  value: email,
+                }}
+              />
+              <div className="my-2 flex w-full justify-between">
+                <Dropdown
+                    style={'w-1/2'}
+                  label={"Phone"}
+                  options={[{ code: "+91" }, { code: "+1" }]}
+                  keyName={"code"}
+                  selectedValue={code}
+                  handleChange={(value) => handleChange("code", value)}
+                />
+                <Input
+                  classes={""}
+                  //   label={"First Name"}
+                  attributes={{
+                    name: "mobile",
+                    onChange: (e) =>
+                      handleChange(e.target.name, e.target.value),
+                    type: "text",
+                    placeholder: "Phone Number",
+                  }}
+                />
+                {/* <input
+                  type="tel"
+                  placeholder="7878787878"
+                  className="mb-6   ml-3 w-full border-none  p-2 outline-none  w-[70%] "
+                /> */}
+              </div>
+              <div className="flex gap-2 my-2 ">
+                <div className="w-1/2">
+                    <Input
+                    classes={"flex"}
+                    label={"Date of birth*"}
+                    attributes={{
+                        name: "dob",
+                        onChange: (e) =>
+                        handleChange(e.target.name, e.target.value),
+                        type: "date",
+                        placeholder: "",
+                        value: { dob },
+                    }}
+                    />
+                </div>
+                <div className="flex items-center w-1/2">
+                  <label className="block me-6 text-gray-900">
+                    Gender
+                  </label>
+                  <Dropdown
+                    style={"w-full"}
+                    name={"Gender"}
+                    options={[{ name: "Male" }, { name: "Female" }]}
+                    selectedValue={gender}
+                    keyName={"name"}
+                    handleChange={(value) => handleChange("gender", value)}
+                  />
+                </div>
+              </div>
+            {
+            isPersonal?
+              <PersonalAccount state={state}
+                 country={country} handleCountry={handleCountry} 
+                 handleChange={handleChange}/>
+              : 
+              <OrganizationAccount/>
+              }
+              {/* form button */}
+              <div className="flext w-full text-center">
+                <button
+                  onClick={handleSubmit}
+                  className="w-[180px] pr-3 bg-[#7991BD] p-1 px-2 rounded-lg text-white mt-4"
+                >
+                  Save & Continue
+                </button>
+                <button
+                  onClick={() => navigate("/profile")}
+                  className="w-[180px] ml-3 border-solid border border-[#7991BD] p-1 inline-block rounded-lg text-[#7991BD]"
+                >
+                  Cancel
+                </button>
+              </div>
+              {/* <AutocompletePlace/> */}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 export default UpdateProfile;

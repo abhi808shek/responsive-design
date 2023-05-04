@@ -20,6 +20,8 @@ import { setDataOnStorage, toasterFunction } from "../../../Utility/utility";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { toast } from "react-toastify";
 import getErrorMessage from "../../../Utility/firbaseError";
+import { getProfileById } from "../../../../redux/actionCreators/profileAction";
+import axios from "axios";
 // import { sendOTP } from "./firebase";
 // import { onSignInSubmit } from "./firebase_login";
 
@@ -73,14 +75,16 @@ const Login = () => {
       const email = formik.values.email;
       const password = formik.values.password;
       try {
-        dispatch(checkingIsEmailExist(email))
         const userResponse = await dispatch(loginUser({uemail:email,password:password}));
-          console.log("userResponse",userResponse);
+        axios.defaults.headers.common['Authorization'] = `Bearer ${userResponse?.data?.loginToken}`;
+        // const profile = await dispatch(getProfileById(userResponse?.data?.id))
+        dispatch(checkingIsEmailExist(email))
         const userCredential = {
           uemail:email,
           isLoggedIn:userResponse?.data?.loginstatus,
           token:userResponse?.data?.loginToken,
-          id: userResponse.data.id
+          id: userResponse.data.id,
+          // profileid: profile?.id
         };
         if (!userResponse?.status) {
           toast.error(userResponse.message)

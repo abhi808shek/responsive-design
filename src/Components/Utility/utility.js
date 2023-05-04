@@ -34,6 +34,7 @@ export const getQueryParams = (data) => {
 
 // Get Data from Local Storage
 export const setDataOnStorage = (value, name = "userCredential") => {
+  value.token && localStorage.setItem('token', value.token)
   return localStorage.setItem(name, JSON.stringify(value));
 };
 
@@ -43,3 +44,11 @@ export const getUserDataFromLocalStorage = () => {
   userData = JSON.parse(userData)
   return userData
 };
+
+export const isEmpty = (data) => {
+  if(Array.isArray(data)){
+     return data.length === 0
+  } else if(typeof data === 'object' && data !== null){
+    return Object.getOwnPropertyNames(data).length === 0
+  } else return true;
+}

@@ -43,7 +43,7 @@ const initialState = {
           return { ...state,mailSended:action.payload}
         case "SET_USER_DATA":
           console.log('set user id', action.payload);
-          return { ...state, signupData: {...state.signupData, userId: action.payload.data.id, googleid: action.payload.data.googleid}}
+          return { ...state, signupData: {...state.signupData, userId: action.payload?.data?.id, googleid: action.payload.data?.googleid}}
 
         case "GET_COUNTRY_LIST":
           return { ...state, countryList: action.payload.data};
