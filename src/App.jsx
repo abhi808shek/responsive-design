@@ -43,9 +43,7 @@ import BlockListPage from "./Components/Settings/BlockListPage";
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
-  userData = JSON.parse(userData);
-  console.log(userData);
-  userData = JSON.parse(userData);
+
   userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
