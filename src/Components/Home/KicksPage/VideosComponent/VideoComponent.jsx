@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import ReactPlayer from "react-player";
 import v2 from '../../../../Assets/Videos/v2.mp4';
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -8,15 +8,16 @@ import mute from '../../../../Assets/Images/Mute.png';
 import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png';
 import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
 import kicksShare from '../../../../Assets/Images/Kicks Share.png';
-
+import OwnUserVideoModal from '../OwnUserVideoModal'
 
 const VideoComponent = ({ dataList }) => {
+  const [showOwnVideoModal, setShowOwnVideoModal] = useState(false)
 
   return (
     <div className="relative h-full">
 
       <section className="absolute fixed overflow-hidden top-0 right-0 bottom-0 left-0 h-full w-full z-0">
-         <video className="absolute top-0 left-0 h-auto w-full" loop={true} autoPlay="autoplay" controls>
+         <video className="absolute top-0 bottom-0 bg-red-300 h-auto w-full" loop={true} autoPlay="autoplay" controls>
            <source src={v2} type="video/mp4" />
          </video>
       </section>
@@ -49,7 +50,7 @@ const VideoComponent = ({ dataList }) => {
           </div>
         </div>
         <div className="flex items-center cursor-pointer z-30">
-          <BsThreeDotsVertical className="w-[27px] h-[27px] text-white" />          
+          <BsThreeDotsVertical onClick={()=>setShowOwnVideoModal(true)} className="w-[27px] h-[27px] text-white" />          
         </div>
       </div>
 
@@ -76,7 +77,7 @@ const VideoComponent = ({ dataList }) => {
         } 
        </div>
       </div>
-
+      {showOwnVideoModal && <OwnUserVideoModal onClose={()=>setShowOwnVideoModal(false)} />}
     </div>
   )
 }

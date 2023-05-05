@@ -107,7 +107,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
-            <Route path="/" element={<Home />} />
+            <Route path="/root" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
 
             <Route path="veiwallkicks" element={<SearchKicksPage />} />
@@ -133,8 +133,6 @@ const App = () => {
               path="confirmation-request"
               element={<ConfirmationRequest />}
             />
-            <Route path="blocklist-page" element={<BlockListPage />} />
-            <Route path="blocklist-page" element={<BlockListPage />} />
             <Route path="blocklist-page" element={<BlockListPage />} />
 
             <Route path="unions" element={<Unions />} />

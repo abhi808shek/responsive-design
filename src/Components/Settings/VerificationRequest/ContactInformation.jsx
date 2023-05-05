@@ -4,7 +4,7 @@ import DropdownOptions from "./DropdownOptions";
 const ContactInformation = ({ dataList }) => {
   return (
     <div
-      className="w-full flex flex-col"
+      className="w-full flex flex-col items-center"
       style={
         {
           // display: showDropDownList.contactInformation ? "block" : "none",
@@ -20,7 +20,7 @@ const ContactInformation = ({ dataList }) => {
       {dataList.map((elem) => (
       <DropdownOptions key={elem?.name} elem={elem}/>
       ))}
-      <button className="bg-blue-400 w-[80px] h-[35px] rounded-2xl text-white text-sm font-bold ml-[200px] my-3">
+      <button className="bg-blue-400 w-[80px] h-[35px] rounded-2xl text-white text-sm font-bold  my-3">
         Save
       </button>
     </div>

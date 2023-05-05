@@ -1,12 +1,32 @@
 import { useState } from 'react'
 import wishes from '../../../../Assets/Images/Umeet/wishesTemplate.webp'
-import RvspModal from './Modal/RvspModal'
 import DetailsOfEvent from './DetailsOfEvent'
 import EventGuests from './EventGuests'
 import EventChat from './EventChat'
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
-const EventDetails = ({ myEvent, handleDeleteEvent, handleEditMyEvent }) => {
-  const [showRvspModal, setShowRvspModal] = useState(false)
+const responsive = {
+  superLargeDesktop: {
+    // the naming can be any, depends on you.
+    breakpoint: { max: 4000, min: 3000 },
+    items: 3
+  },
+  desktop: {
+    breakpoint: { max: 3000, min: 1024 },
+    items: 2
+  },
+  tablet: {
+    breakpoint: { max: 1024, min: 464 },
+    items: 1
+  },
+  mobile: {
+    breakpoint: { max: 464, min: 0 },
+    items: 1
+  }
+};
+
+const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent, handleRvspModal }) => {  
   const [details, setDetails] = useState(true)
   const [guests, setGuests] = useState(false)
   const [chat, setChat] = useState(false)
@@ -29,13 +49,13 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditMyEvent }) => {
   }
 
   function RenderStatus(){
-    if(details) return <DetailsOfEvent myEvent={myEvent} handleDeleteEvent={handleDeleteEvent} handleEditMyEvent={handleEditMyEvent} />
+    if(details) return <DetailsOfEvent myEvent={myEvent} handleDeleteEvent={handleDeleteEvent} handleEditEvent={handleEditEvent} handleShareEvent={handleShareEvent} />
     else if(guests) return <EventGuests />
     else if(chat) return <EventChat />
   }
 
   return (
-  <section className={`w-full mr-1 flex items-center ${chat ? 'mb-0' : 'mb-12'}`}>
+  <section className={`w-full mr-1 flex items-center ${chat ? 'mb-3' : 'mb-12'}`}>
     <div className='w-[60%] flex flex-col items-center'>
      <div className='p-3 w-full bg-white rounded-xl'>
       <h3 className='py-2 text-xl font-medium flex justify-center'>Hill pro</h3>
@@ -43,7 +63,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditMyEvent }) => {
        <img src={wishes} className='w-full h-[300px] object-cover rounded-xl' />
       </div>
       <div className='flex justify-center my-4'>
-       <button onClick={()=>setShowRvspModal(true)} className='bg-[#649B8E] rounded-xl text-white font-semibold py-1.5 px-10'>send RVSP</button>
+       <button onClick={handleRvspModal} className='bg-[#649B8E] rounded-xl text-white font-semibold py-1.5 px-10'>send RVSP</button>
       </div>
      </div>
 
@@ -55,8 +75,20 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditMyEvent }) => {
 
      <RenderStatus />
 
+     <div className='w-full my-8 p-3 py-7 bg-white rounded-xl'>
+      <div className='flex justify-between font-semibold px-2 pb-4'>
+       <span>Suggested Ads</span>
+       <span className='text-[#649B8E] cursor-pointer'>View All</span>
+      </div>
+      <Carousel responsive={responsive} containerClass={`w-full pl-2 z-[1]`}>
+       {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
+        <img src={wishes} className='w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer' />
+       ))}
+      </Carousel>
+     </div>
+
     </div>
-    {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
+    
   </section>
   )
 }

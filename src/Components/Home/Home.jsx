@@ -13,6 +13,7 @@ import {
   getKicksVideosWithLimit,
   getUnionListByProfileId,
 } from "../../redux/actionCreators/rootsActionCreator";
+import NoPostPage from "./NoPostPage/NoPostPage";
 
 const Home = ({ onShowReportModal, showReportModal }) => {
   const dispatch = useDispatch();
@@ -44,21 +45,21 @@ const Home = ({ onShowReportModal, showReportModal }) => {
       {/* NAVBAR */}
 
       <PostForm />
-      <HeroSection />
+    <HeroSection />
           <SliderSection />
-             <PostContent
+             {/* <PostContent
           data={postList}
           showModalFunc={onShowReportModal}
           userData={userData}
-        />
-      <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
+        /> */}
+      {/* <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
         <PostContent
           data={postList}
           showModalFunc={onShowReportModal}
           userData={userData}
         />
-      </section>
-    
+      </section> */}
+    <NoPostPage />
     </div>
 
     // --------------------------------END USER PAGE ---------------
