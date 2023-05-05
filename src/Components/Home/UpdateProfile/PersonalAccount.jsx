@@ -79,13 +79,14 @@ const PersonalAccount = ({
     { year: "2008" },
     { year: "2007" },
   ];
-console.log(states, "Staeeeeeee");
+console.log(states,education, "Staeeeeeee");
   const getGraduation = ()  => {
 
   }
   return (
     <>
       <Dropdown2
+      style={'w-full'}
         label={"Country: "}
         name={"Select country"}
         country={country}

@@ -15,12 +15,15 @@ export const requestAction= (data, Action) => async (dispatch) => {
 
 export const getUserByMail= (data) => async (dispatch) => {
     try{
-        const response = await axios.get(``);
-        console.log(response);
+        const response = await axios.get(
+          `http://3.233.82.34:8080/login/api/user/usersbyemail/${data}`
+        );
+        console.log({data: [response.data.data]}, "BYYYYYYYY maiiiiiilllllllllllll");
         dispatch({
-            type: '',
-            payload: response.data
-        })
+          type: "GET_USERS",
+          payload: { data: [response.data.data] },
+        });
+        return { data: [response.data.data]}
     }catch(error){
         throw error
     }
@@ -31,7 +34,6 @@ export const getUsers = (data) => async (dispatch) => {
     const response = await axios.get(
       `http://3.233.82.34:8080/profile/api/profile/search/${data}`
     );
-    console.log(response.data, "{{{{{{ Usersssssssssssss");
     dispatch({
       type: "GET_USERS",
       payload: response.data,
@@ -87,7 +89,10 @@ export const deleteRequest= (data) => async (dispatch) => {
 export const getFriendsList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`
+      `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`, {}, 
+      {
+        
+      }
     );
     dispatch({
       type: "FRIEND_LIST",
@@ -98,3 +103,19 @@ export const getFriendsList = (data) => async (dispatch) => {
     throw error;
   }
 };
+
+export const getRequestList= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(
+          `http://3.233.82.34:8080/friend/api/friend/getfriendrequest/${data}/Send`
+        );
+        console.log(response);
+        dispatch({
+            type: 'GET_REQUEST_LIST',
+            payload: response.data
+        })
+        return response.data
+    }catch(error){
+        throw error
+    }
+}

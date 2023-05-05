@@ -1,21 +1,29 @@
 import React from "react";
 import dataList from "./data";
+import { useMemo } from "react";
 
 const ChangeRelationshipModal = ({
   closeModalOption,
   title,
   button,
   handleSendRequest,
+  handleRelation,
+  relationOption
 }) => {
+
+  const isPersonal = true;
+
+console.log(relationOption, "+++++++++++++++++++++");
   return (
     <div className="w-[18%] bg-white flex flex-col rounded-lg">
       <h1 className="text-center my-2 font-bold text-sm">{title}</h1>
 
-      {dataList.map((elem, index) => (
+      {relationOption.map((elem, index) => (
         <React.Fragment key={index}>
           <hr />
-          <div className="flex gap-2 py-4 px-4">
-            <input type="checkbox" className="" />
+          <div className="flex gap-2 py-4 px-4" >
+            <input name={elem.name} 
+            onChange={handleRelation} type="checkbox" className="" checked={elem.checked} disabled={elem.disable} />
             <span className="text-xs font-semibold">{elem.name}</span>
           </div>
           <hr />

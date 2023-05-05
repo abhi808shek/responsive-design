@@ -3,29 +3,57 @@ import ChooseFreindsModal from "../Modal/ChooseFreindsModal/ChooseFreindsModal";
 import Portals from "../../Portals/Portals";
 import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 import { useNavigate } from "react-router";
-import { debounce, isEmpty } from "../../Utility/utility";
+import { debounce, isEmpty, toasterFunction } from "../../Utility/utility";
 import { useDispatch, useSelector } from "react-redux";
-import { getUsers } from "../../../redux/actionCreators/friendsAction";
+import { addFriend, getRequestList, getUserByMail, getUsers } from "../../../redux/actionCreators/friendsAction";
 import EmptyComponent from "../../empty component/EmptyComponent";
 import Loader from "../../common/Loader";
+import moment from "moment/moment";
+import { useMemo } from "react";
+import { toast } from "react-toastify";
 
 const SearchFriendsPage = ({ isFriend }) => {
+  const isPersonal = true;
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const reducerData = useSelector((state) => {
     return {
       userList: state.friendReducer.usersList,
+      profile: state.profileReducer.profile,
+      requestList: state.friendReducer.requestList
     };
   });
-  const { userList } = reducerData;
+  const { userList, profile, requestList } = reducerData;
+
+    const options = useMemo(() => {
+    const forPersonalAcc = [
+      { name: "Friends", key: "friend", checked: true, disable: true },
+      { name: "Relative", key: "relative", checked: false},
+      { name: "Classmate", key: "classmate", checked: false},
+      { name: "Officemate", key: "officemate", checked: false },
+    ];
+    const forOrgAcc = [
+      {name: 'Friend', key: "friend", checked: true, disable: true},
+    ]
+    return {
+      relationOption: isPersonal ? forPersonalAcc : forOrgAcc
+    }
+  }, [])
+
+  const { relationOption } = options
 
   const [sendRequest, setSendRequest] = useState(false);
   const [state, setState] = useState({usersList: userList });
-  const { acceptRequest, onAcceptRequest, requestModal, searchQuery, usersList,
-  loading } = state;
+  const [searchQuery, setSearchQuery] = useState()
+  const { acceptRequest, onAcceptRequest, requestModal, usersList, activeProfile,
+  loading, relationType, relationOptions = relationOption} = state;
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    if(isFriend){
+      dispatch(getRequestList(profile?.id));
+    }
+  }, []);
   const onSendRequest = () => {
     setSendRequest(true);
   };
@@ -45,21 +73,65 @@ const SearchFriendsPage = ({ isFriend }) => {
   function showProfileDetail(id) {
     navigate(`/profile/${id}`);
   }
-  const handleSendRequest = () => {};
+  const handleSendRequest = () => {
+    const { id, fname, lname} = profile || {};
+    let payload = {
+      id: profile?.id,
+      fname: fname,
+      lname: lname,
+      friendprofileid: activeProfile?.id,
+      friendtype: "friend",
+      profileid: id,
+      requesttype: "send",
+      isFriend: 'true',    
+      reqdatetime: moment(new Date()).format('YYYY-MM-DD'),
+    };
+    dispatch(addFriend(payload)).then((res) => {
+      if(res.status){
+        toast.success(res?.message)
+      }else{
+        toast.error(res?.message)
+      }
+    });
+  };
 
   function searchUser(value) {
-    dispatch(getUsers(value)).then((res) => {
-      setState({...state, usersList: res.data, loading: false, searchQuery: value})
-    });
+    // var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    // const isEmail = value.match(validRegex);
+   const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
+    if(isEmail){
+      dispatch(getUserByMail(value)).then((res)=> {
+        setState({...state, loading: false, usersList: res.data})
+      });
+    } else {
+      dispatch(getUsers(value)).then((res) => {
+        setState({...state, usersList: res.data, loading: false})
+      });
+    }
   }
   const processChange = debounce((e) => searchUser(e));
   const handleSearch = (e) => {
     const value = e.target.value;
     const name = e.target.name
-    setState({ ...state, [name]: value, loading: true });
-    processChange(value);
+    setState({ ...state, loading: true });
+    setSearchQuery(value)
+    searchUser(value)
+    // processChange(value);
   };
-  console.log(state,userList,searchQuery, "LISTTTTTT");
+
+  const sendFriendRequest = (id) => {
+    console.log(id);
+  }
+
+  const handleRelation = (e) => {
+    const name = e.target.name;
+    const value = e.target.checked;
+    console.log(name, value);
+    const selected = relationOptions.map((item) => {
+     return item?.name === name ? {...item, checked: value} : item
+    })
+    setState({...state, relationOptions: selected})
+  }
 
   return (
     <>
@@ -86,14 +158,13 @@ const SearchFriendsPage = ({ isFriend }) => {
             {
               loading && <Loader/>
             }
-            {isEmpty(usersList) && searchQuery ?
-            <div>User not found for this search</div>
-            : !searchQuery ?
-             (
-              <EmptyComponent message={'Search friend'} />
-            ) : (
-              usersList.map((item) => {
-                const { fname = "", lname = "", id} = item
+            {
+               (
+              (isFriend ? requestList : usersList)?.map((item) => {
+                console.log(item, "___________ITTTTTTT")
+                const { fname = "", lname = "", id, profiletype } = item || {};
+                {/* console.log(usersList, item, '{{{') */}
+                const isPersonal = profiletype === 'Personal';
                 return (
                   <>
                     <div className="cursor-pointer flex w-full pb-1 flex-col" key={id}>
@@ -112,6 +183,8 @@ const SearchFriendsPage = ({ isFriend }) => {
                             {`${fname} ${lname}`}
                           </span>
                         </div>
+                        {
+                          isPersonal &&
                         <div className="flex gap-2">
                           <img src="" alt="" />
                           {isFriend ? (
@@ -127,7 +200,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                               alt=""
                               className="w-[30px] h-[30px] cursor-pointer"
                               onClick={() =>
-                                setState({ ...state, requestModal: true })
+                                setState({ ...state, requestModal: true, activeProfile: item })
                               }
                             />
                           )}
@@ -139,6 +212,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                             />
                           )}
                         </div>
+                        }
                       </div>
                     </div>
                     <hr className="border border-gray-50" />
@@ -155,7 +229,9 @@ const SearchFriendsPage = ({ isFriend }) => {
           <ChangeRelationshipModal
             button="Send Request"
             title="Wanna Send Friend Request"
+            relationOption={relationOptions}
             handleSendRequest={handleSendRequest}
+            handleRelation={handleRelation}
             closeModalOption={onHandleCloseModal}
           />
         </Portals>

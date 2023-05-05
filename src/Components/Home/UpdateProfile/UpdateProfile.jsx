@@ -104,7 +104,7 @@ const UpdateProfile = () => {
       assembly: assembly?.assembly, //default value.
       celibrity: false,
       countrycode: "+91", //default selected in signup screen..
-      country: country?.country,
+      country: country?.country || "",
       dob: moment(dob).format("YYYY-MM-DD"), //from user input
       email: email, //from signup screen.
       fname: fname, //from user input BUSINESS NAME
@@ -130,7 +130,7 @@ const UpdateProfile = () => {
       let response = await dispatch(imageUploadApi(file));
       payloads.pcoverimage = response.data.path;
     }
-    // isPersonal ? addEducation() : addProfession()
+    isPersonal ? addEducation() : addProfession()
     
     dispatch(updateProfile(payloads))
       .then((res) => {
@@ -160,7 +160,6 @@ const UpdateProfile = () => {
   });
   }
   const handleEducation = (name, value) => setEducation({...education, [name]: value})
-  console.log(dob, "++++++++++++++");
   // console.log(profileDetail, stateName, moment(dob).format('YYYY-MM-DD'), 'PPPPPPPPPPPPPPP');
   return (
     <div className="bg-[#E4E7EC] w-[100%]  p-6">
@@ -238,7 +237,7 @@ const UpdateProfile = () => {
       <div className="flex justify-center  flex-row">
         <div className="m-2 p-6">
           <div action="">
-            <div className="mb-6 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
+            <div className="mb-3 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
               Personal Info :
             </div>
 
@@ -280,9 +279,9 @@ const UpdateProfile = () => {
                   value: email,
                 }}
               />
-              <div className="my-2 gap-2 flex w-full justify-between">
+              <div className="my-3 gap-2 flex w-full justify-between">
                 <Dropdown
-                    style={'w-1/2 '}
+                    style={'w-1/2'}
                   label={"Phone"}
                   options={[{ code: "+91" }, { code: "+1" }]}
                   keyName={"code"}
@@ -306,10 +305,10 @@ const UpdateProfile = () => {
                   className="mb-6   ml-3 w-full border-none  p-2 outline-none  w-[70%] "
                 /> */}
               </div>
-              <div className="flex gap-2 my-2 ">
-                <div className="w-1/2">
+              <div className=" gap-2 my-2 ">
+                <div className="">
                     <Input
-                    labelclass={'w-[200px]'}
+                    labelclass={'min-w-[165px]'}
                     classes={"flex"}
                     label={"Date of birth*"}
                     attributes={{
@@ -322,11 +321,12 @@ const UpdateProfile = () => {
                     }}
                     />
                 </div>
-                <div className="flex items-center w-1/2">
-                  <label className="block me-6 text-gray-900">
+                <div className="flex items-center mt-3">
+                  {/* <label className="block me-6 text-gray-900">
                     Gender
-                  </label>
+                  </label> */}
                   <Dropdown
+                    label={'Gender'}
                     style={"w-full"}
                     name={"Gender"}
                     options={[{ name: "Male" }, { name: "Female" }]}

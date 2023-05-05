@@ -183,7 +183,6 @@ export const startFollowing = (data) => async (dispatch) => {
 export const updateProfile= (data) => async (dispatch) => {
     try{
         const response = await axios.post(`http://3.233.82.34:8080/profile/api/profile/update`, data);
-        console.log(response, ">>PPPPPPPPP");
         dispatch({
             type: '',
             payload: response.data

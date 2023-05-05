@@ -3,7 +3,8 @@ const initialState = {
     following: [],
     friends: [],
     profileDetail: {},
-    educationDetails: {}
+    educationDetails: {},
+    profile: JSON.parse(localStorage.getItem('profile'))
 };
 
 
@@ -17,6 +18,7 @@ const profileReducer = (state = initialState, action) => {
         return { ...state, friends: action.payload };
       case "GET_PROFILE_DETAILS":
         localStorage.setItem("profileid", action.payload?.data?.id);
+        localStorage.setItem("profile", JSON.stringify(action.payload?.data));
         return { ...state, profileDetail: action.payload };
       case "GET_SCHOOL_DETAIL":
         return { ...state, educationDetails: action.payload };

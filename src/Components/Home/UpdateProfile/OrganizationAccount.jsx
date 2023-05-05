@@ -3,31 +3,46 @@ import Input from '../../input/input'
 import Dropdown from '../../Login/Content/Modal/Dropdown'
 import { useSelector } from 'react-redux'
 
-const OrganizationAccount = ({ handleOrganization, orgDetail}) => {
+const OrganizationAccount = ({ handleChange, orgDetail}) => {
   const reducerData = useSelector((state) => {
     return {
       orgCategory: state.userReducer.orgCategory
     }
   })
   const {orgCategory} = reducerData;
-  console.log(orgCategory, "++++++++++OOOO");
+  const { org, website, address, intro, orgName, orgType} = orgDetail
+  console.log(orgDetail, "++++++++");
+
   return (
     <div>
       <div className="mb-6 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
         Professional Detail:
       </div>
-      <Input classes={"flex"} label={"Organization Name"} />
+      <Input
+        classes={"flex"}
+        label={"Organization Name"}
+        attributes={{
+          name: "orgName",
+          onChange: (e) => handleChange(e.target.name, e.target.value),
+          placeholder: "Organization Name",
+          value: orgName,
+        }}
+      />
       <Dropdown
-      options={orgCategory}
-      keyName={'category'}
+        options={orgCategory}
+        keyName={"category"}
         label={"Organization Type"}
         name={"Organization Type"}
         style={"w-[74%] my-2"}
-        handleChange={(value) => handleOrganization('org', value.category)}
+        selectedValue={orgType}
+        handleChange={(value) => handleChange("orgType", value.category)}
       />
       <Input
         attributes={{
-          placeholder: "Website",
+          name: "website",
+          onChange: (e) => handleChange(e.target.name, e.target.value),
+          placeholder: "website",
+          value: website,
         }}
         classes={"flex"}
         label={"Website"}
@@ -35,7 +50,10 @@ const OrganizationAccount = ({ handleOrganization, orgDetail}) => {
       <Input
         classes={"flex my-2"}
         attributes={{
-          placeholder: "Address",
+          name: "address",
+          onChange: (e) => handleChange(e.target.name, e.target.value),
+          placeholder: "Organization Name",
+          value: address,
         }}
         label={"Address"}
       />
@@ -45,6 +63,9 @@ const OrganizationAccount = ({ handleOrganization, orgDetail}) => {
         attributes={{
           type: "textarea",
           placeholder: "Write your intro...",
+          onChange: (e) => handleChange(e.target.name, e.target.value),
+          name: "intro",
+          value: intro,
         }}
       />
     </div>
