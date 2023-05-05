@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectKicksType } from "../../../redux/actionCreators/userActionCreator";
 import events from "./events.jpg"
@@ -17,8 +17,12 @@ import Messages from '../../../assets/images/Messages.png'
 import like from '../../../assets/images/KicksBeforeLike.png'
 import share from '../../../assets/images/share.png'
 import './kicks.css'
+import { Link } from 'react-router-dom'
+import KicksComment from './KicksComment'
 
 const Kicks = () => {
+  const [comments, setComments] = useState(true)
+
   const data = [
     { title: "Following" },
     { title: "Latest" },
@@ -35,8 +39,8 @@ const Kicks = () => {
   const { kicksType } = useSelector((state) => state.userReducer);
 
   return (
-    <div className={`w-full grid grid-cols-3 h-[90vh] bg-[url(${events})] z-10`}>
-      <section className="flex items-center justify-center bg-black">
+    <div className={`w-full flex h-[90vh] bg-[url(${events})] z-10`}>
+      <section className="flex w-[25%] items-center justify-center bg-black">
         <div className="w-[80%] flex flex-col items-center">
           <div className="flex flex-col gap-3">
             {data.map((elem) => (
@@ -53,10 +57,10 @@ const Kicks = () => {
                 {elem.title}
               </p>
             ))}
-            <div className="flex justify-evenly gap-2">
-              <HiSearch className='w-8 p-0.5 h-8 bg-[#6e6f6f] text-white rounded-full'/>
-              <HiPlus className='w-8 h-8 p-0.5 bg-[#6e6f6f] rounded-full text-white'/>
-            </div>
+            <Link to='/veiwallkicks' className="flex justify-evenly gap-2 mt-1">
+              <HiSearch className='w-8 p-0.5 h-8 cursor-pointer bg-[#6e6f6f] text-white rounded-full'/>
+              <HiPlus className='w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white'/>
+            </Link>
           </div>
         </div>
 
@@ -69,14 +73,14 @@ const Kicks = () => {
       {/* Reels Section */}
 
 
-      <section className="overflow-y-scroll hideScroll">
+      <section className="overflow-y-scroll w-[30%] h-[90vh] hideScroll">
         <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
       </section>
 
       {/* Comment Section */}
-      <section className="flex items-center bg-black">
+      <section className="flex w-[45%] items-center bg-black">
         <div className="w-[80%] flex flex-col text-[12px] text-white gap-2 pl-4">
           <h1 className="font-bold">#nature_lover #nature_lover</h1>
           <p>
@@ -84,7 +88,7 @@ const Kicks = () => {
             external world in its entirety” or “humankind's original condition.”
           </p>
           <div className="flex gap-4">
-            <div className="w-[20%] font-bold py-0.5 bg-white text-gray-500 flex items-center justify-center rounded-lg">
+            <div className="w-[20%] font-bold bg-white text-gray-500 flex items-center justify-center rounded-lg">
               @music
             </div>
             <BsMusicNoteList className="w-7 h-7 text-white cursor-pointer"/>
@@ -92,6 +96,7 @@ const Kicks = () => {
               maayadari maayadari andamaa
             </p>
           </div>
+          {comments && <KicksComment />}
         </div>
 
         {/*Right Arrow Button */}
