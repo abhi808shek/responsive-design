@@ -9,15 +9,12 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollower, getFollowing, getFriendsList, getProfileById } from "../../../redux/actionCreators/profileAction";
-import { memo } from "react";
+import { getFollower, getFollowing, getFriendsList, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
 import { getUserDataFromLocalStorage } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
 import { userData } from "../dataList";
 import { imageUploadApi } from "../../../redux/actionCreators/eventActionCreator";
-import { createPortal } from "react-dom";
-import { lazy } from "react";
 
 const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
@@ -30,10 +27,11 @@ const ProfilePage = ({ isOther }) => {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
       friends: state?.profileReducer?.friends,
+      profileDetail: state?.profileReducer?.profileDetail?.data
     }
   });
-  const { following, followers, friends} = reducerData;
-
+  const { following, followers, friends, profileDetail} = reducerData;
+console.log(profileDetail, "<<<<<<<<<<<<<<<");
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
@@ -50,19 +48,25 @@ const ProfilePage = ({ isOther }) => {
     const coverImg = new FormData();
     coverImg.append('file', value[0])
     const uploadResponse =await dispatch(imageUploadApi(coverImg))
-    console.log(uploadResponse, '--------');
     
+    if(name === "coverImg"){
+      let payloads = {...profileDetail, pcoverimage: uploadResponse.path}
+      dispatch(updateProfile(payloads))
+    }else if(name === "profileImg"){
+      let payloads = {...profileDetail, pimage: uploadResponse.path};
+      dispatch(updateProfile(payloads));
+    }
   }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] h-[1000px] 2xl:h-[1200px] mt-[64px]">
+    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-[64px]">
       <section className="flex lg:w-[50%] flex-col mt-2 items-end">
         <ProfileImageSection 
-        uploadImage={handleUploadImage}
+        uploadImage={handleUploadImage} data={profileDetail}
         friends={friends} following={ following } followers={followers}
         coverImg={coverImg} profileImg={profileImg} />
 
         {/* About Section */}
-        <AboutSection isOther={isOther} />
+        <AboutSection isOther={isOther} data={profileDetail} />
       </section>
       <section className="flex w-[50%] pr-[8px] flex-col">
         {/* Category Section */}

@@ -39,19 +39,21 @@ import Setting from "./Components/Settings/Setting";
 import VerificationRequest from "./Components/Settings/VerificationRequest/VerificationRequest";
 import ConfirmationRequest from "./Components/Settings/VerificationRequest/ConfirmationRequest";
 import BlockListPage from "./Components/Settings/BlockListPage";
+import Unions from './Components/Home/Unions/Unions';
+import UnionsSearchList from "./Components/Home/Unions/UnionsSearchList";
+import SingleUnionPage from "./Components/Home/Unions/SingleUnionPage";
+import CreateUnion from "./Components/Home/Unions/CreateUnion";
 
 const App = () => {
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
-  // userData = JSON.parse(userData);
-  // console.log(userData);
   userData = JSON.parse(userData);
   const isUserLoggedIn = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-      const user = JSON.parse(userData)
-      axios.defaults.headers.common['Authorization'] = `Bearer ${user.token}`;
+    const token = localStorage.getItem('token')
+      axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.defaults.headers.common['Content-Type'] = "application-json"
       axios.defaults.headers.common['Accept-Language'] = "en"
       dispatch(
@@ -104,7 +106,7 @@ const App = () => {
         <Route element={<PrivateRoute />}>
           <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
-            <Route path="root" element={<Home />} />
+            <Route path="/" element={<Home />} />
             <Route path="kicks" element={<Kicks />} />
             
             <Route path="veiwallkicks" element={<SearchKicksPage/>} />
@@ -126,7 +128,10 @@ const App = () => {
             <Route path="confirmation-request" element={<ConfirmationRequest />} />
             <Route path="blocklist-page" element={<BlockListPage />} />
 
-
+            <Route path="unions" element={<Unions />} />
+            <Route path="unions-searchlist" element={<UnionsSearchList />} />
+            <Route path="single-unions-page" element={<SingleUnionPage />} />
+            <Route path="create-union" element={<CreateUnion />} />
 
 
 

@@ -4,7 +4,7 @@ import Dropdown2 from "./Dropdown2";
 import Input from "../InputBox/Input";
 import { AiOutlineCloseCircle } from "react-icons/ai";
 import { TbPhotoPlus } from "react-icons/tb";
-import { createProfile, getAssenbly, getCountryList, getDistrict, getLocationsList, getLoksabha, getOrgCategory, getStateList, uploadImage } from "../../../../redux/actionCreators/authActionCreator";
+import { createProfile, getAssenbly, getCountryList, getDistrict, getLocationsList, getLoksabha, getOrgCategory, getStateList, loginUser, uploadImage } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment/moment";
 import { toast } from "react-toastify";
@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 import { geocodeByAddress } from "react-google-places-autocomplete";
 import Autocomplete from "react-google-autocomplete";
 import { imageUploadApi } from "../../../../redux/actionCreators/eventActionCreator";
+import AutocompletePlace from "../../../googlemap/AutocompletePlace";
 
 
 const Modal = ({ modalType, handleClose }) => {
@@ -104,21 +105,41 @@ const payloads = {
     const file = new FormData();
     file.append("file", imgFile);
     const data = isPersonal ? payloads : payload
-    imgFile ? dispatch(imageUploadApi(file)).then((res) => {
-      data.pimage = res.data.path;
-      dispatch(createProfile(data)).then((res)=> {
+    // imgFile ? dispatch(imageUploadApi(file)).then((res) => {
+    //   data.pimage = res.data.path;
+    //   dispatch(createProfile(data)).then((res)=> {
+    //   if(res.data.status){
+    //     toast.success(res.data.message)
+    //     navigate('/auth/login')
+    //   } else toast.error(res.data.message)
+    // }).catch(err => {
+    //   toast.error(err.message)
+    // })
+    // }) :
+    dispatch(createProfile(data)).then(async (res)=> {
       if(res.data.status){
         toast.success(res.data.message)
-        navigate('/auth/login')
-      } else toast.error(res.data.message)
-    }).catch(err => {
-      toast.error(err.message)
-    })
-    }) :
-    dispatch(createProfile(data)).then((res)=> {
-      if(res.data.status){
-        toast.success(res.data.message)
-        navigate('/auth/login')
+        // navigate('/auth/login')
+         try {
+        // dispatch(checkingIsEmailExist(email))
+        const userResponse = await dispatch(loginUser({uemail:userData.uemail,password:userData.password}));
+          console.log("userResponse",userResponse);
+        const userCredential = {
+          uemail: userResponse?.data.email,
+          isLoggedIn:userResponse?.data?.loginstatus,
+          token:userResponse?.data?.loginToken,
+          id: userResponse.data.id
+        };
+        if (!userResponse?.status) {
+          toast.error(userResponse.message)
+          return userResponse?.message
+        }
+        toast.success(userResponse?.message);
+        await setDataOnStorage(userCredential)
+        navigate("/select");
+      } catch (error) {
+        console.log(error);
+      }
       } else toast.error(res.data.message)
     }).catch(err => {
       toast.error(err.message)
@@ -247,6 +268,7 @@ const payloads = {
                      </div>
                      <div className='mt-1.5'>
                       {/* <Input id='autocomplete' title="Living Location*" className="w-full" onHandleChange={ handleLiveLocationn}/> */}
+                      <AutocompletePlace/>
                       {/* <input id="autocomplete" type="text"/> */}
 
                      </div>
