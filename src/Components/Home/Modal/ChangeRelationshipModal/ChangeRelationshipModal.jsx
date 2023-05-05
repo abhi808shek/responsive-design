@@ -3,7 +3,7 @@ import dataList from "./data";
 
 const ChangeRelationshipModal = ({closeModalOption,title,button}) => {
   return (
-    <div className="w-[18%] bg-white flex flex-col rounded-lg">
+    <div className="w-[25%] bg-white flex flex-col rounded-lg">
       <h1 className="text-center my-2 font-bold text-sm">{title}</h1>
 
       {dataList.map((elem,index) => (

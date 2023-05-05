@@ -57,9 +57,23 @@ export const sponseredTabSelected = (selectedTab)=>(dispatch)=>{
     })
 }
 
-// export const commentsData = (comments)=>(dispatch)=>{
-//     dispatch({
-//         type:"ADD_COMMENTS",
-//         payload:comments
-//     })
-// }
+export const unionTabSelection = (selectedTab)=>(dispatch)=>{
+    dispatch({
+        type:"UNION_TAB_SELECTION",
+        payload:selectedTab
+    })
+}
+
+export const unionsFriendsTab = (selectedTab)=>(dispatch)=>{
+    dispatch({
+        type:"UNION_FRIENDS_TAB_SELECTION",
+        payload:selectedTab
+    })
+}
+
+export const unionsMembersTab = (selectedTab)=>(dispatch)=>{
+    dispatch({
+        type:"UNION_MEMBERS_TAB_SELECTION",
+        payload:selectedTab
+    })
+}

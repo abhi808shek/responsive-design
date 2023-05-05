@@ -1,8 +1,12 @@
 import React, { useState } from "react";
 import CommentMenuModal from "../Modal/CommentMenuModal/CommentMenuModal";
-import { BsThreeDotsVertical } from 'react-icons/bs'
+import { BsThreeDotsVertical } from "react-icons/bs";
 import Popover from "../../popover/Popover";
 import PopOver from "../../popover/Popover";
+import UnfriendModal from "../Modal/UnfriendModal/UnfriendModal";
+import Portals from "../../Portals/Portals";
+import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
+import BlockModal from "../Modal/BlockModal/BlockModal";
 
 const FriendList = ({ icon, desc, handleMenuClick }) => {
   const data = [
@@ -10,10 +14,42 @@ const FriendList = ({ icon, desc, handleMenuClick }) => {
     { name: "Change Relationship" },
     { name: "Block" },
   ];
-  // const [openMenuModal, setOpenMenuModal] = useState(false);
+  const [modalType, setModalType] = useState({
+    unFriend: false,
+    changeRelationship: false,
+    block: false,
+  });
+  const openModalOption = (optionName) => {
+    if (optionName === "Un-Friend") {
+      setModalType({
+        ...modalType,
+        unFriend: true,
+      });
+    } else if (optionName === "Change Relationship") {
+      setModalType({
+        ...modalType,
+        changeRelationship: true,
+      });
+    } else {
+      setModalType({
+        ...modalType,
+        block: true,
+      });
+    }
+  };
 
+  const closeModalOption = () => {
+   
+      setModalType({
+        ...modalType,
+        unFriend: false,
+        changeRelationship: false,
+        block: false,
+      });
+  }
 
   return (
+    <>
     <div className="flex h-[50px] px-4 items-center py- relative">
       {/* {openMenuModal && <CommentMenuModal data={data} leftPosition={50} topPosition={34}/>} */}
 
@@ -34,16 +70,38 @@ const FriendList = ({ icon, desc, handleMenuClick }) => {
       </div>
       {icon ? (
         <PopOver
-        options={[{name:"Un-Friend"},{name:"Change Relationship"},{name:"Block"}]}
-        button={
-        <div className="flex gap-2 items-center cursor-pointer">
-          <BsThreeDotsVertical className=''/>
-        </div>
-        }
+          options={data}
+          button={
+            <div className="flex gap-2 items-center cursor-pointer">
+              <BsThreeDotsVertical className="" />
+            </div>
+          }
+          openModalOption={openModalOption}
         ></PopOver>
-
       ) : null}
     </div>
+
+
+    
+    {modalType.unFriend && (
+        <Portals>
+          <UnfriendModal closeModalOption={closeModalOption} />
+        </Portals>
+      )}
+      {modalType.changeRelationship && (
+        <Portals>
+          <ChangeRelationshipModal
+            title="Change Relationship"
+            button="Update"
+            closeModalOption={closeModalOption}
+          />
+        </Portals>
+      )}
+      {modalType.block && (
+        <Portals>
+          <BlockModal closeModalOption={closeModalOption} />
+        </Portals>
+      )}</>
   );
 };
 

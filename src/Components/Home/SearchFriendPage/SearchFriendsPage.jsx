@@ -27,7 +27,7 @@ const SearchFriendsPage = ({ isFriend }) => {
   }
   return (
     <>
-      <div className="w-[100%] flex-1 mt-16 bg-[#E4E7EC] flex justify-center py-2 mt-1">
+      <div className="w-[100%] flex-1 bg-[#E4E7EC] flex justify-center py-2 mt-1">
         <div className="flex w-[40%] bg-white rounded-md flex-col items-center">
           {/* Search Section */}
           <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
