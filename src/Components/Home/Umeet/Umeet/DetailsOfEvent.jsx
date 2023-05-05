@@ -1,5 +1,6 @@
+import navigation from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet navigation.png'
 
-export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditMyEvent }){
+export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }){
     return (
      <div className='p-4 bg-white rounded-xl w-full'>
       <div className='mb-1'>
@@ -31,11 +32,14 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditM
        </div>
        <div className='flex mb-3'>
         <div className='w-1/3'>Location</div>
-        <div className='w-2/3 flex'>:<div className='ml-3 font-bold'>168, Addrss Living, South Africa - 626987</div></div>
+        <div className='w-2/3 flex'>:<div className='ml-3 font-bold'>168, Addrss Living, South Africa - 626987</div><img src={navigation} className='w-8 h-8' /></div>        
        </div>
-       <div className='flex mb-3'>
+       <div className='flex mb-3'>        
         <span className='w-1/3'>Date & Time</span>
-        <span className='w-2/3'>:<span className='ml-3 font-bold'>06:00 pm - 12.00 pm, 28th Apr 2023</span></span>
+        <div className='flex flex-col w-2/3'>
+         <span className=''>:<span className='ml-3 font-bold'>06:00 pm - 12.00 pm, 28th Apr 2023</span></span>
+         <span className='text-[#649B8E] ml-3 font-semibold'>Add to calender</span>
+        </div>        
        </div>
        <div className='flex pb-4 border-b-2 border-gray-300'>
         <span className='w-1/3'>About</span>
@@ -47,12 +51,12 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditM
        {
         myEvent && (
         <>
-         <button onClick={handleEditMyEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Edit Details</button>
+         <button onClick={handleEditEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Edit Details</button>
          <button onClick={handleDeleteEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Delete Event</button>
         </>
         )
       }
-       <button className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Share Invitation</button>
+       <button onClick={handleShareEvent} className='py-1 w-40 my-1.5 px-4 rounded text-[#649B8E] border border-[#649B8E]'>Share Invitation</button>
       </div>
 
      </div>

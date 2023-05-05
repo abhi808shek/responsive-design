@@ -15,8 +15,8 @@ const RvspModal = ({ onClose }) => {
   }
 
   return (
-  <section className='absolute top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-    <div className='w-[44%] h-[44%] flex flex-col justify-between p-5 bg-white ml-[9%] mt-[4%] rounded-2xl'>
+  <section className='absolute top-0 left-0 h-full w-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+    <div className='w-[26%] h-[88%] flex flex-col justify-between p-5 bg-white ml-[9%] mt-[4%] rounded-2xl'>
    <section>
 	 <p className='pb-2 border-b border-gray-300 text-gray-600'>RSVP</p>
 	 <div className='py-3 border-b border-gray-300'>

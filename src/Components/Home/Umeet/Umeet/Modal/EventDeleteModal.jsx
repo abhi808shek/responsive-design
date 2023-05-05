@@ -8,7 +8,7 @@ const EventDeleteModal = ({ onClose }) => {
   const [count, setCount] = useState(1);
 
   return (
-  <section className='absolute justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+  <section className='absolut fixed justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
    <div className='w-[30%] h-[50%] flex flex-col justify-between p-4 bg-white ml-[9%] mt-[4%] rounded-2xl'>
     <div className='flex justify-between border-b py-1 pb-2 text-gray-600'>
         <span className='text-[18px] text-gray-700'>Select a Group</span>
