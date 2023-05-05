@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Dropdownmenu from "./DropdownMenu/Dropdownmenu";
 import PasswordInput from "../Login/Content/InputBox/PasswordInput";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import ContactInformation from "./VerificationRequest/ContactInformation";
 import SettingOptions from "./VerificationRequest/SettingOptions";
 import Portals from "./../Portals/Portals";
@@ -10,6 +10,8 @@ import OldPassword from "./OldPassword";
 import CreatenewPassword from "./CreatenewPassword";
 
 const Setting = () => {
+
+  const navigate = useNavigate()
   const [oldPassword, setOldPassword] = useState(false);
 
   const OldPasswordChange = ()=>{
@@ -116,12 +118,12 @@ const Setting = () => {
             </div>
           </div>
 
-          <div className="px-2">
+          <div className="px-2" onClick={()=>navigate("/blocklist-page")}>
             <div
               className="flex cursor-pointer w-full my-2"
-              // onClick={onChangePassword}
+             
             >
-              <h1 to="/verification-request" className="text-sm flex-1">
+              <h1  className="text-sm flex-1" >
                 Blocked users
               </h1>
               <img
