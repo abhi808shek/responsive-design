@@ -11,7 +11,7 @@ const MainView = ({children}) => {
     
   return (
     <div className='flex flex-col h-screen '>
-     <div className='w-full h-[65px]'>
+     <div className='w-full h-[65px] min-h-[64px]'>
       <Navbar />
      </div>
       <Outlet />

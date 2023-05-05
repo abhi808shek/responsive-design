@@ -15,6 +15,7 @@ import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
 
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
+import Portals from "../../../Portals/Portals";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
@@ -131,10 +132,10 @@ const SignupOtp = ({ title }) => {
         <Button1 title="Cancel" path="/" onClick={() => navigate(-1)} />
       </div>
               {showModal &&
-          createPortal(
-            <Modal modalType={location.search.slice(1)} handleClose={handleClose} />,
-            document.getElementById("root")
-          )}
+              <Portals>
+                 <Modal modalType={location.search.slice(1)} handleClose={handleClose} />
+              </Portals>
+          }
     </>
   );
 };

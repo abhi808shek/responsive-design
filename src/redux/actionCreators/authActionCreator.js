@@ -168,8 +168,6 @@ export const loginUser = (data) => async (dispatch) => {
         },
       }
     );
-    console.log("responseeeeeeeeeeeeeeeee", response);
-
     dispatch({
       type: "SET_USER_DATA",
       payload: response.data,

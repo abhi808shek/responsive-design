@@ -75,23 +75,31 @@ const Login = () => {
       const email = formik.values.email;
       const password = formik.values.password;
       try {
-        const userResponse = await dispatch(loginUser({uemail:email,password:password}));
-        axios.defaults.headers.common['Authorization'] = `Bearer ${userResponse?.data?.loginToken}`;
+        const userResponse = await dispatch(
+          loginUser({ uemail: email, password: password })
+        );
+        axios.defaults.headers.common[
+          "Authorization"
+        ] = `Bearer ${userResponse?.data?.loginToken}`;
+        axios.defaults.headers.common["Content-Type"] = "application-json";
+        axios.defaults.headers.common["Accept-Language"] = "en";
         // const profile = await dispatch(getProfileById(userResponse?.data?.id))
-        dispatch(checkingIsEmailExist(email))
-        const userCredential = {
-          uemail:email,
-          isLoggedIn:userResponse?.data?.loginstatus,
-          token:userResponse?.data?.loginToken,
-          id: userResponse.data.id,
-          // profileid: profile?.id
-        };
+        dispatch(checkingIsEmailExist(email));
         if (!userResponse?.status) {
-          toast.error(userResponse.message)
-          return userResponse?.message
+          toast.error(userResponse.message);
+          return userResponse?.message;
         }
         toast.success(userResponse?.message);
-        await setDataOnStorage(userCredential)
+
+        const userCredential = {
+          uemail: email,
+          isLoggedIn: userResponse?.data?.loginstatus,
+          token: userResponse?.data?.loginToken,
+          id: userResponse?.data?.id,
+          // profileid: profile?.id
+        };
+
+        await setDataOnStorage(userCredential);
         navigate("/select");
       } catch (error) {
         console.log(error);

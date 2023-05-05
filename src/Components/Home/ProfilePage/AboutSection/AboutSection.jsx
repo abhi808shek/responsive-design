@@ -9,7 +9,8 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 const AboutSection = ({ isOther, data = {} }) => {
-  const {countrycode, mobile, country, state, loksabha, city, assembly, hometown, profiletype } =
+  const {countrycode, mobile, country, state, loksabha, city, assembly, hometown, 
+    profiletype, orgname } =
     data;
   const isPersonal = profiletype === "Personal";
   const navigate = useNavigate();
@@ -109,7 +110,7 @@ const AboutSection = ({ isOther, data = {} }) => {
             </strong>
           </p>
         </div>
-        {!isPersonal ? (
+        {isPersonal ? (
           <>
             {/* Scholling Section */}
             <div className="flex items-center gap-2">
@@ -150,7 +151,7 @@ const AboutSection = ({ isOther, data = {} }) => {
                   <div className="w-7">
                     <CgOrganisation alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">Organization Name : Destiny</strong>
+                  <strong className="text-sm">Organization Name : {orgname}</strong>
                 </div>
                 {/* ORGANIZATION CATEGORY */}
                 <div className="flex items-center gap-2">
