@@ -8,8 +8,8 @@ import SearchPage from "../SearchPage/SearchPage";
 const Unions = () => {
   return (
     <>
-      {/* <UnionHomePage /> */}
-      <UnionReceiversPage />
+      <UnionHomePage />
+      {/* <UnionReceiversPage /> */}
       {/* <SearchPage /> */}
     </>
   );
