@@ -17,7 +17,7 @@ function PopOver({
           <a href="/engagement">Engagement</a>
           <a href="/security">Security</a>
           <a href="/integrations">Integrations</a> */}
-            {options?.map((item) => {
+            {[]?.map((item) => {
               return (
                 <Link
                   to=""
