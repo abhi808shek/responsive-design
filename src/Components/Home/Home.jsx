@@ -47,11 +47,11 @@ const Home = ({ onShowReportModal, showReportModal }) => {
       <PostForm />
     <HeroSection />
           <SliderSection />
-             {/* <PostContent
+             <PostContent
           data={postList}
           showModalFunc={onShowReportModal}
           userData={userData}
-        /> */}
+        />
       {/* <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
         <PostContent
           data={postList}
@@ -59,7 +59,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
           userData={userData}
         />
       </section> */}
-    <NoPostPage />
+    {/* <NoPostPage /> */}
     </div>
 
     // --------------------------------END USER PAGE ---------------

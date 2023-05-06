@@ -23,6 +23,7 @@ import {
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
+import LikeModal from "../../Modal/LikeModal/LikeModal";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -35,7 +36,7 @@ const PostCard = ({ userData, item }) => {
     shareWith: false,
   });
   const [postMenuModal, setPostMenuModal] = useState({
-    editPost:false,
+    editPost: false,
     originalPost: false,
     externalShare: false,
   });
@@ -129,6 +130,10 @@ const PostCard = ({ userData, item }) => {
       setPostMenuModal({ ...postMenuModal, showReportModal: true });
     }
   };
+  const [likeModal, setLikeModal] = useState(false);
+  const openLikeModal = () => {
+    setLikeModal(true);
+  };
 
   const handleCloseModal = () => {
     setPostMenuModal({
@@ -164,7 +169,9 @@ const PostCard = ({ userData, item }) => {
               <div className="flex items-center">
                 {/*font weight removed*/}
                 <span className="ml-1 font-bold">
-                  {`${item?.profile?.fname || "User"} ${item?.profile?.lname || ""}`}
+                  {`${item?.profile?.fname || "User"} ${
+                    item?.profile?.lname || ""
+                  }`}
                 </span>
                 <span className="text-xs ml-2 font-semibold mt-0.5">
                   {item?.profile?.job}
@@ -239,12 +246,12 @@ const PostCard = ({ userData, item }) => {
 
         {/* Like share Comment Button Sections  */}
         <section className="flex justify-between w-full mt-2 mb-1  px-2">
-          <div className="flex justify-center gap-2 items-center">
+          <div
+            className="flex justify-center gap-2 items-center cursor-pointer"
+            onClick={openLikeModal}
+          >
             <HiUserGroup size={16} />
-            <HiUserGroup size={16} />
-            <HiUserGroup size={16} />
-            <HiUserGroup size={16} />
-            <HiUserGroup size={16} />
+
             <span className="lg:text-[13px] xl:text-[14px] font-medium">
               {item?.likecount}
             </span>
@@ -370,11 +377,11 @@ const PostCard = ({ userData, item }) => {
         </Portals>
       )}
 
-      {/* {postMenuModal.externalShare && (
+      {likeModal && (
         <Portals>
-          < closeModel={handleCloseModal} />
+          <LikeModal />
         </Portals>
-      )} */}
+      )}
     </>
   );
 };

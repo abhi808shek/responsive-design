@@ -1,6 +1,10 @@
 import React from "react";
 import { AiTwotoneSound } from "react-icons/ai";
-import { MdDirectionsWalk, MdOutlineMarkEmailUnread, MdWorkOutline } from "react-icons/md";
+import {
+  MdDirectionsWalk,
+  MdOutlineMarkEmailUnread,
+  MdWorkOutline,
+} from "react-icons/md";
 import { BsPhone, BsCalendarEvent } from "react-icons/bs";
 import { CgOrganisation, CgProfile } from "react-icons/cg";
 import { GoLocation } from "react-icons/go";
@@ -9,9 +13,18 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 
 const AboutSection = ({ isOther, data = {} }) => {
-  const {countrycode, mobile, country, state, loksabha, city, assembly, hometown, 
-    profiletype, orgname } =
-    data;
+  const {
+    countrycode,
+    mobile,
+    country,
+    state,
+    loksabha,
+    city,
+    assembly,
+    hometown,
+    profiletype,
+    orgname,
+  } = data;
   const isPersonal = profiletype === "Personal";
   const navigate = useNavigate();
   return (
@@ -32,47 +45,7 @@ const AboutSection = ({ isOther, data = {} }) => {
 
       {/* Details Section */}
       <section className="flex flex-col w-[90%] my-4 gap-2">
-        {/* <div className="flex items-center gap-2 my-2">
-          <div className='w-7'>
-           <AiTwotoneSound alt="" className="w-6 h-6 text-[#6c6c6c]" />
-          </div>
-          <p className="text-sm">
-            Influenced by <strong>Kathy S</strong>
-          </p>
-        </div> */}
-
-        {/* Work Section */}
-        {/* <div className="flex items-center gap-2 ">
-         <div className='w-7'>
-          <MdDirectionsWalk alt="" className="w-6 h-6 text-[#6c6c6c]" />
-         </div>
-           <p className="text-sm">
-            Works at <strong>Unite INC</strong> as <strong>Software Developer</strong>
-          </p>
-        </div> */}
-
-        {/* Email Section */}
-        <div className="flex items-center gap-2">
-          <div className="w-7">
-            <MdOutlineMarkEmailUnread
-              alt=""
-              className="w-6 h-6 text-[#6c6c6c]"
-            />
-          </div>
-          <p className="text-sm">
-            <strong>{data?.email}</strong>
-          </p>
-        </div>
-
-        {/* Phone Number Section */}
-        <div className="flex items-center gap-2">
-          <div className="w-7">
-            <BsPhone alt="" className="w-6 h-6 text-[#6c6c6c]" />
-          </div>
-          <p className="text-sm">
-            <strong>{`${countrycode} ${mobile}`}</strong>
-          </p>
-        </div>
+        <strong className="text-lg font-[800]">Personal Info :</strong>
 
         {/* DOB Section */}
         <div className="flex items-center gap-2">
@@ -80,6 +53,7 @@ const AboutSection = ({ isOther, data = {} }) => {
             <BsCalendarEvent alt="" className="w-5 h-6 text-[#6c6c6c]" />
           </div>
           <p className="text-sm">
+            <strong className="text-md font-medium">Date of Birth : </strong>
             <strong>{moment(data?.dob).format("DD-MMM-YYYY")}</strong>
           </p>
         </div>
@@ -90,28 +64,119 @@ const AboutSection = ({ isOther, data = {} }) => {
             <CgProfile alt="" className="w-6 h-6 text-[#6c6c6c]" />
           </div>
           <p className="text-sm">
+            <strong className="text-md font-medium">Gender : </strong>
             <strong>{data.gender}</strong>
           </p>
         </div>
 
+        {/* Phone Number Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <BsPhone alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Phone : </strong>
+            <strong>{`${countrycode} ${mobile}`}</strong>
+          </p>
+        </div>
+
+        {/* Email Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <MdOutlineMarkEmailUnread
+              alt=""
+              className="w-6 h-6 text-[#6c6c6c]"
+            />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Email : </strong>
+            <strong>{data?.email}</strong>
+          </p>
+        </div>
+
         {/* Location Section */}
+        <strong className="text-lg font-[800]">Location :</strong>
+
+        {/* Living Location */}
         <div className="flex items-center gap-2">
           <div className="w-7">
             <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
           </div>
           <p className="text-sm">
-            <strong>
-              {`${hometown ? `${hometown}, ` : ""} 
-           ${city ? `${city}, ` : ""} 
-           ${state ? `${state}, ` : ""}
-           ${loksabha ? `${loksabha}, ` : ""}
-           ${assembly ? `${assembly}, ` : ""}
-           ${country}`}
-            </strong>
+            <strong className="text-md font-medium">Living Location : </strong>
+            <strong> {`${hometown ? `${hometown} ` : ""}`} </strong>
+          </p>
+        </div>
+
+        {/*Assembly Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Assembly : </strong>
+            <strong> {`${assembly ? `${assembly} ` : ""}`} </strong>
+          </p>
+        </div>
+
+        {/*LokSabha Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Loksabha : </strong>
+            <strong> {`${loksabha ? `${loksabha} ` : ""}`} </strong>
+          </p>
+        </div>
+
+        {/*State Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">State : </strong>
+            <strong> {`${state ? `${state} ` : ""}`} </strong>
+          </p>
+        </div>
+        {/*District Section */}
+        <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">District : </strong>
+            <strong> {`${city ? `${city} ` : ""}`} </strong>
+          </p>
+        </div>
+
+           {/*Country Section */}
+           <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Country : </strong>
+            <strong> {`${country ? `${country} ` : ""}`} </strong>
+          </p>
+        </div>
+
+
+         {/*Profession Section */}
+        <strong className="text-lg font-[800]">Profession :</strong>
+         <div className="flex items-center gap-2">
+          <div className="w-7">
+            <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
+          </div>
+          <p className="text-sm">
+            <strong className="text-md font-medium">Company : </strong>
+            {/* <strong> {`${profession ? `${profession} ` : ""}`} </strong> */}
           </p>
         </div>
         {isPersonal ? (
           <>
+            <strong className="text-lg font-[800]">Education :</strong>
             {/* Scholling Section */}
             <div className="flex items-center gap-2">
               <div className="w-7">
@@ -151,7 +216,9 @@ const AboutSection = ({ isOther, data = {} }) => {
                   <div className="w-7">
                     <CgOrganisation alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">Organization Name : {orgname}</strong>
+                  <strong className="text-sm">
+                    Organization Name : {orgname}
+                  </strong>
                 </div>
                 {/* ORGANIZATION CATEGORY */}
                 <div className="flex items-center gap-2">
