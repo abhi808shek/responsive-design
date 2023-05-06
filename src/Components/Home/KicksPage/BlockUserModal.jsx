@@ -12,10 +12,10 @@ const BlockUserModal = ({ onClose }) => {
     </div>
 
     <div className='font-medium'>
-     <p className='my-2'> > If you are friends, will be Un-friended</p>
-     <p className='my-2'> > If you are friends, whe/she can't send you requests</p>
-     <p className='my-2'> > You can't send invitations in U-Meet</p>
-     <p className='my-2'> > Your profile & posts will not be shown to him/her</p>
+     <p className='my-2'> If you are friends, will be Un-friended</p>
+     <p className='my-2'> If you are friends, whe/she can't send you requests</p>
+     <p className='my-2'> You can't send invitations in U-Meet</p>
+     <p className='my-2'> Your profile & posts will not be shown to him/her</p>
     </div>
 
     <div className='flex my-3'>

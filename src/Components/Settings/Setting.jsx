@@ -80,10 +80,10 @@ const Setting = () => {
   ];
   return (
     <>
-      <div className="w-[40%] bg-white border-2 mx-auto rounded-xl flex-col flex mt-[70px] ">
+      <div className="w-[40%] bg-white border-2 mx-auto rounded-b-xl flex-col flex pb-4">
         {/* Privacy Section */}
         <section className="flex flex-col">
-          <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 rounded-t-xl">
+          <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 ">
             Privacy
           </h1>
           {data?.map((elem) => (
