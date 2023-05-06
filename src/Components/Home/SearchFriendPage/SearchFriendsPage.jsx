@@ -133,6 +133,14 @@ const SearchFriendsPage = ({ isFriend }) => {
     setState({...state, relationOptions: selected})
   }
 
+  const onCLoseModal = () => {
+    setState({...state, acceptRequest: false, activeProfile: {}})
+
+  }
+  const handleCancelRequest = () => {
+    // console.log('rejecccccctttttttt');
+  }
+console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
   return (
     <>
       <div className="w-[100%] mt-2 flex-1 bg-[#E4E7EC] flex justify-center py-2 ">
@@ -164,10 +172,13 @@ const SearchFriendsPage = ({ isFriend }) => {
                 console.log(item, "___________ITTTTTTT")
                 const { fname = "", lname = "", id, profiletype } = item || {};
                 {/* console.log(usersList, item, '{{{') */}
-                const isPersonal = profiletype === 'Personal';
+                const isOrganization = profiletype === 'Organization';
                 return (
                   <>
-                    <div className="cursor-pointer flex w-full pb-1 flex-col" key={id}>
+                    <div
+                      className="cursor-pointer flex w-full pb-1 flex-col"
+                      key={id}
+                    >
                       <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
                       <div className="flex items-center py-1 pr-[8px]">
                         <div
@@ -183,36 +194,47 @@ const SearchFriendsPage = ({ isFriend }) => {
                             {`${fname} ${lname}`}
                           </span>
                         </div>
-                        {
-                          isPersonal &&
-                        <div className="flex gap-2">
-                          <img src="" alt="" />
-                          {isFriend ? (
-                            <img
-                              src="./images/acceptFriendRequest.png"
-                              alt=""
-                              className="w-[30px] h-[30px] cursor-pointer"
-                              onClick={onAcceptRequest}
-                            />
-                          ) : (
-                            <img
-                              src="./images/SendFriendRequest.png"
-                              alt=""
-                              className="w-[30px] h-[30px] cursor-pointer"
-                              onClick={() =>
-                                setState({ ...state, requestModal: true, activeProfile: item })
-                              }
-                            />
-                          )}
-                          {isFriend && (
-                            <img
-                              src="./images/cancelRequest.png"
-                              alt=""
-                              className="w-[30px] h-[30px] cursor-pointer"
-                            />
-                          )}
-                        </div>
-                        }
+                        {!isOrganization && (
+                          <div className="flex gap-2">
+                            <img src="" alt="" />
+                            {isFriend ? (
+                              <img
+                                src="./images/acceptFriendRequest.png"
+                                alt=""
+                                className="w-[30px] h-[30px] cursor-pointer"
+                                onClick={() =>
+                                  setState({
+                                    ...state,
+                                    acceptRequest: true,
+                                    activeProfile: item,
+                                  })
+                                }
+                                // onClick={onAcceptRequest}
+                              />
+                            ) : (
+                              <img
+                                src="./images/SendFriendRequest.png"
+                                alt=""
+                                className="w-[30px] h-[30px] cursor-pointer"
+                                onClick={() =>
+                                  setState({
+                                    ...state,
+                                    requestModal: true,
+                                    activeProfile: item,
+                                  })
+                                }
+                              />
+                            )}
+                            {isFriend && (
+                              <img
+                                src="./images/cancelRequest.png"
+                                alt=""
+                                className="w-[30px] h-[30px] cursor-pointer"
+                                onClick={handleCancelRequest}
+                              />
+                            )}
+                          </div>
+                        )}
                       </div>
                     </div>
                     <hr className="border border-gray-50" />
@@ -240,6 +262,7 @@ const SearchFriendsPage = ({ isFriend }) => {
       {isFriend && acceptRequest && (
         <Portals>
           <ChangeRelationshipModal
+          relationOption={relationOptions}
             button="Accept Request"
             title="Confirm Friend Request"
             closeModalOption={onCLoseModal}
