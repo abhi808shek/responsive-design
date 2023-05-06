@@ -20,6 +20,8 @@ const ProfileModal = () => {
     } else if (option === "Settings") {
       // dispatch(settingUserLoginData(false, {}));
       navigate("/settings");
+    } else if (option === "Contact Us") {
+      navigate("/contact-us");
     }
   };
 

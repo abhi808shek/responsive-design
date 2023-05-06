@@ -26,8 +26,8 @@ const PostForm = ({ width, bgColor }) => {
       </div>
       {showCreatePostModal && (
         <Portals>
-          {/* <LikeModal /> */}
-          <CreatePostModal title={'Create'} setShowCreatePostModal={setShowCreatePostModal} handleCloseModal={() => setShowCreatePostModal(false)} />
+          <LikeModal />
+          {/* <CreatePostModal title={'Create'} setShowCreatePostModal={setShowCreatePostModal} handleCloseModal={() => setShowCreatePostModal(false)} /> */}
         </Portals>
       )}
     </>

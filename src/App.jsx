@@ -44,6 +44,7 @@ import Unions from './Components/Home/Unions/Unions';
 import UnionsSearchList from "./Components/Home/Unions/UnionsSearchList";
 import SingleUnionPage from "./Components/Home/Unions/SingleUnionPage";
 import CreateUnion from "./Components/Home/Unions/CreateUnion";
+import ContactUs from "./Components/Home/ContactUs/ContactUs";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -139,6 +140,7 @@ const App = () => {
             <Route path="unions-searchlist" element={<UnionsSearchList />} />
             <Route path="single-unions-page" element={<SingleUnionPage />} />
             <Route path="create-union" element={<CreateUnion />} />
+            <Route path="contact-us" element={<ContactUs />} />
 
 
 
