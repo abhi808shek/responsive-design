@@ -9,10 +9,38 @@ import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png
 import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
 import kicksShare from '../../../../Assets/Images/Kicks Share.png';
 import OwnUserVideoModal from '../OwnUserVideoModal'
+import DeleteVideoModal from '../DeleteVideoModal'
+import EditMyVideoModal from '../EditMyVideoModal'
+import OtherUserVideoModal from '../OtherUserVideoModal'
+import VideoCommentsModal from '../VideoCommentsModal'
 
 const VideoComponent = ({ dataList }) => {
+  const [isMyVideo, setIsMyVideo] = useState(false)
   const [showOwnVideoModal, setShowOwnVideoModal] = useState(false)
+  const [showOthersVideoModal, setShowOthersVideoModal] = useState(false)
+  const [deleteVideo, setDeletetVideo] = useState(false)
+  const [editVideo, setEditVideo] = useState(false)  
+  const [commentVideo, setCommentVideo] = useState(false)
 
+  const handleDelete = ()=>{
+    setShowOwnVideoModal(false)
+    setDeletetVideo(true)
+  }
+
+  const handleEdit = ()=>{
+    setShowOwnVideoModal(false)
+    setEditVideo(true)
+  }
+
+  const handleIsMyVideo = ()=>{
+    if(isMyVideo){
+      setShowOthersVideoModal(false)
+      setShowOwnVideoModal(true)
+    }else{
+      setShowOthersVideoModal(true)
+      setShowOwnVideoModal(false)
+    }
+  }
   return (
     <div className="relative h-full">
 
@@ -26,15 +54,15 @@ const VideoComponent = ({ dataList }) => {
       {/* For profile picture */}
         
       {/* For Username and time when he created the video and views */}
-      <div className='flex px-1 pt-1 z-30'>
-        <div className="z-30">
+      <div className='flex px-1 pt-1'>
+        <div className="z-10">
           <img
             src="./images/events.jpg"
             alt=""
             className="w-[45px] h-[45px] rounded-full object-cover"
           />
         </div>
-        <div className=" flex flex-1 z-30 flex-col text-white justify-center ml-2">
+        <div className=" flex flex-1 z-10 flex-col text-white justify-center ml-2">
           <div className="flex items-center gap-2">
             <h1 className="font-semibold ">Elisa K</h1>
             <p className="text-[10px] font-medium">5 hours ago</p>
@@ -50,7 +78,7 @@ const VideoComponent = ({ dataList }) => {
           </div>
         </div>
         <div className="flex items-center cursor-pointer z-30">
-          <BsThreeDotsVertical onClick={()=>setShowOwnVideoModal(true)} className="w-[27px] h-[27px] text-white" />          
+          <BsThreeDotsVertical onClick={handleIsMyVideo} className="w-[27px] h-[27px] text-white" />          
         </div>
       </div>
 
@@ -62,6 +90,7 @@ const VideoComponent = ({ dataList }) => {
         {dataList.map((elem, index) => (
           <div
             key={elem.title}
+            onClick={elem.title == 'comments' ? ()=>setCommentVideo(true) : null}
             className="flex items-end gap-3 font-bold flex-col"
           >
             <img
@@ -77,7 +106,11 @@ const VideoComponent = ({ dataList }) => {
         } 
        </div>
       </div>
-      {showOwnVideoModal && <OwnUserVideoModal onClose={()=>setShowOwnVideoModal(false)} />}
+      {showOwnVideoModal && <OwnUserVideoModal handleEdit={handleEdit} handleDelete={handleDelete} onClose={()=>setShowOwnVideoModal(false)} />}
+      {showOthersVideoModal && <OtherUserVideoModal onClose={()=>setShowOthersVideoModal(false)} />}
+      {editVideo && <EditMyVideoModal onClose={()=>setEditVideo(false)} />}
+      {deleteVideo && <DeleteVideoModal onClose={()=>setDeletetVideo(false)} />}
+      {commentVideo && <VideoCommentsModal onClose={()=>setCommentVideo(false)} />}
     </div>
   )
 }

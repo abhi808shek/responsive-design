@@ -19,9 +19,12 @@ import share from '../../../assets/images/share.png'
 import './kicks.css'
 import { Link } from 'react-router-dom'
 import KicksComment from './KicksComment'
+import SelectedVideoModal from '../SearchKicksPage/SelectedVideoModal'
 
 const Kicks = () => {
   const [comments, setComments] = useState(true)
+  const [selectedVideo, setSelectedVideo] = useState(null);
+  const [selectVideo, setSelectVideo] = useState(false)  
 
   const data = [
     { title: "Following" },
@@ -32,9 +35,21 @@ const Kicks = () => {
   const dataList = [
     { title: "mute", img: mute  },
     { title: "25 likes", img: like },
-    { title: "3 comments", img: Messages },
+    { title: "comments", img: Messages },
     { title: "share", img: share },
   ];
+
+  function handleFileSelection(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setSelectedVideo(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
   const dispatch = useDispatch();
   const { kicksType } = useSelector((state) => state.userReducer);
 
@@ -57,10 +72,15 @@ const Kicks = () => {
                 {elem.title}
               </p>
             ))}
-            <Link to='/veiwallkicks' className="flex justify-evenly gap-2 mt-1">
+            <section className="flex justify-evenly gap-2 mt-1">
+             <Link to='/veiwallkicks'>
               <HiSearch className='w-8 p-0.5 h-8 cursor-pointer bg-[#6e6f6f] text-white rounded-full'/>
-              <HiPlus className='w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white'/>
-            </Link>
+             </Link>
+             <div>
+              <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' />
+              <span><label onClick={()=>setSelectVideo(true)} htmlFor='chooseVideo'><HiPlus className='w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white'/></label></span>
+             </div>
+            </section>
           </div>
         </div>
 
@@ -104,6 +124,7 @@ const Kicks = () => {
           <FaArrowAltCircleRight className="w-9 h-9 text-white cursor-pointer" />
         </div>
       </section>
+      {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={()=>setSelectVideo(false)} />}        
     </div >
   );
 };

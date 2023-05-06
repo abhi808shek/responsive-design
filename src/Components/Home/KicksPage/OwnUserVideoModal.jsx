@@ -2,7 +2,7 @@ import { useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import { GrNotification } from 'react-icons/gr'
 
-const OwnUserVideoModal = ({ onClose }) => {
+const OwnUserVideoModal = ({ onClose, handleEdit, handleDelete }) => {
   const [count, setCount] = useState(1);
 
   return (
@@ -14,11 +14,11 @@ const OwnUserVideoModal = ({ onClose }) => {
     </div> 
 
     <section className='my-2'>
-     <div className='flex py-3 cursor-pointer border-b hover:bg-blue-50'>
+     <div onClick={handleEdit} className='flex py-3 cursor-pointer border-b hover:bg-blue-50'>
       <AiOutlineEdit className='w-7 h-7' />
       <span className='ml-3'>Edit</span>
      </div>
-     <div className='flex py-3 cursor-pointer border-b hover:bg-blue-50'>
+     <div onClick={handleDelete} className='flex py-3 cursor-pointer border-b hover:bg-blue-50'>
       <AiOutlineDelete className='w-7 h-7' />
       <span className='ml-3'>Delete</span>
      </div>
