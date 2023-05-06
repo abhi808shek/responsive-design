@@ -22,6 +22,8 @@ const ProfileModal = () => {
       navigate("/settings");
     } else if (option === "Contact Us") {
       navigate("/contact-us");
+    } else if (option === "Sponsored event results") {
+      navigate("/events-result");
     }
   };
 

@@ -45,6 +45,7 @@ import UnionsSearchList from "./Components/Home/Unions/UnionsSearchList";
 import SingleUnionPage from "./Components/Home/Unions/SingleUnionPage";
 import CreateUnion from "./Components/Home/Unions/CreateUnion";
 import ContactUs from "./Components/Home/ContactUs/ContactUs";
+import EventResultsPage from "./Components/Event/EventResultsPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -124,6 +125,8 @@ const App = () => {
             <Route path="umeet" element={<Umeet />} />
             <Route path="profile-page" element={<ProfilePage />} />
             <Route path="event" element={<Event />} />
+            <Route path="events-result" element={<EventResultsPage />} />
+
             <Route path="edit-profile" element={<UpdateProfile />} />
             <Route path="settings" element={<Setting />} />
             <Route

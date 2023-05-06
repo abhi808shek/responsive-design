@@ -18,9 +18,7 @@ export default function SelectDropdown() {
              <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Relative</span>
              <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Classmates</span>
              <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Officemates</span>
-             <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Party</span>
-             <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Organization</span>
-             {/* <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Create New Group</span> */}
+             <span className='py-1.5 px-4 hover:bg-[#8ea1c4] hover:text-white cursor-pointer'>Create New Group</span>
             </div>
           ) : null
         }
