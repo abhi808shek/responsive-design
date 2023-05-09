@@ -140,6 +140,9 @@ const SearchFriendsPage = ({ isFriend }) => {
   const handleCancelRequest = () => {
     // console.log('rejecccccctttttttt');
   }
+  const handleAcceptRequest = () => {
+    
+  }
 console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
   return (
     <>
@@ -163,85 +166,82 @@ console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
 
           {/* Unknown Friends List Section */}
           <section className=" w-[95%] flex rounded-md flex-col mt-2 overflow-y-scroll">
-            {
-              loading && <Loader/>
-            }
-            {
-               (
-              (isFriend ? requestList : usersList)?.map((item) => {
-                console.log(item, "___________ITTTTTTT")
-                const { fname = "", lname = "", id, profiletype } = item || {};
-                {/* console.log(usersList, item, '{{{') */}
-                const isOrganization = profiletype === 'Organization';
-                return (
-                  <>
-                    <div
-                      className="cursor-pointer flex w-full pb-1 flex-col"
-                      key={id}
-                    >
-                      <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
-                      <div className="flex items-center py-1 pr-[8px]">
-                        <div
-                          className="flex items-center gap-2 flex-1"
-                          onClick={() => showProfileDetail(id)}
-                        >
-                          <img
-                            src="./images/events.jpg"
-                            alt=""
-                            className="w-[45px] h-[45px] rounded-full"
-                          />
-                          <span className="font-semibold text-[14px]">
-                            {`${fname} ${lname}`}
-                          </span>
-                        </div>
-                        {!isOrganization && (
-                          <div className="flex gap-2">
-                            <img src="" alt="" />
-                            {isFriend ? (
-                              <img
-                                src="./images/acceptFriendRequest.png"
-                                alt=""
-                                className="w-[30px] h-[30px] cursor-pointer"
-                                onClick={() =>
-                                  setState({
-                                    ...state,
-                                    acceptRequest: true,
-                                    activeProfile: item,
-                                  })
-                                }
-                                // onClick={onAcceptRequest}
-                              />
-                            ) : (
-                              <img
-                                src="./images/SendFriendRequest.png"
-                                alt=""
-                                className="w-[30px] h-[30px] cursor-pointer"
-                                onClick={() =>
-                                  setState({
-                                    ...state,
-                                    requestModal: true,
-                                    activeProfile: item,
-                                  })
-                                }
-                              />
-                            )}
-                            {isFriend && (
-                              <img
-                                src="./images/cancelRequest.png"
-                                alt=""
-                                className="w-[30px] h-[30px] cursor-pointer"
-                                onClick={handleCancelRequest}
-                              />
-                            )}
-                          </div>
-                        )}
+            {loading && <Loader />}
+            {(isFriend ? requestList : usersList)?.map((item) => {
+              console.log(item, "___________ITTTTTTT");
+              const { fname = "", lname = "", id, profiletype } = item || {};
+              {
+                /* console.log(usersList, item, '{{{') */
+              }
+              const isOrganization = profiletype === "Organization";
+              return (
+                <>
+                  <div
+                    className="cursor-pointer flex w-full pb-1 flex-col"
+                    key={id}
+                  >
+                    <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
+                    <div className="flex items-center py-1 pr-[8px]">
+                      <div
+                        className="flex items-center gap-2 flex-1"
+                        onClick={() => showProfileDetail(id)}
+                      >
+                        <img
+                          src="./images/events.jpg"
+                          alt=""
+                          className="w-[45px] h-[45px] rounded-full"
+                        />
+                        <span className="font-semibold text-[14px]">
+                          {`${fname} ${lname}`}
+                        </span>
                       </div>
+                      {!isOrganization && (
+                        <div className="flex gap-2">
+                          <img src="" alt="" />
+                          {isFriend ? (
+                            <img
+                              src="./images/acceptFriendRequest.png"
+                              alt=""
+                              className="w-[30px] h-[30px] cursor-pointer"
+                              onClick={() =>
+                                setState({
+                                  ...state,
+                                  acceptRequest: true,
+                                  activeProfile: item,
+                                })
+                              }
+                              // onClick={onAcceptRequest}
+                            />
+                          ) : (
+                            <img
+                              src="./images/SendFriendRequest.png"
+                              alt=""
+                              className="w-[30px] h-[30px] cursor-pointer"
+                              onClick={() =>
+                                setState({
+                                  ...state,
+                                  requestModal: true,
+                                  activeProfile: item,
+                                })
+                              }
+                            />
+                          )}
+                          {isFriend && (
+                            <img
+                              src="./images/cancelRequest.png"
+                              alt=""
+                              className="w-[30px] h-[30px] cursor-pointer"
+                              onClick={handleCancelRequest}
+                            />
+                          )}
+                        </div>
+                      )}
                     </div>
-                    <hr className="border border-gray-50" />
-                  </>
-                );
-              })
-            )}
+                  </div>
+                  <hr className="border border-gray-50" />
+                </>
+              );
+            })}
           </section>
         </div>
       </div>
@@ -262,7 +262,9 @@ console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
       {isFriend && acceptRequest && (
         <Portals>
           <ChangeRelationshipModal
-          relationOption={relationOptions}
+            relationOption={relationOptions}
+            handleRelation={handleRelation}
+            handleSendRequest={handleAcceptRequest}
             button="Accept Request"
             title="Confirm Friend Request"
             closeModalOption={onCLoseModal}
