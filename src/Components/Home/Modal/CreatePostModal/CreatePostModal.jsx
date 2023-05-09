@@ -2,7 +2,7 @@ import React from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
 import SelectDropdown from './SelectDropdown'
-
+import {SlLocationPin} from "react-icons/sl"
 const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
   const onCloseCreatePostModal = ()=>{
     setShowCreatePostModal(false)
@@ -18,7 +18,10 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
           <button className="bg-[#6780AF] text-white font-bold px-5 rounded-full ">
             Post
           </button>
-          <button className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full" onClick={handleCloseModal}>
+          <button
+            className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full"
+            onClick={handleCloseModal}
+          >
             Discard
           </button>
         </div>
@@ -26,19 +29,21 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
 
       <hr className="w-100 h-1 bg-gray-200 border-0 rounded md:my-3 dark:bg-gray-900" />
       <div className="grid grid-cols-2 gap-2">
-          <div>
-       <div className="lg:w-[75%] xl:w-[70%]">
-       <section className="flex items-center my-2 gap-2">
-          <img
-            src="./images/events.jpg"
-            alt=""
-            className="w-[40px] h-[40px] rounded-full"
-          />
-          <span className="font-bold">Joe D</span>
-        </section>
-        <section className="flex items-center ">
-          <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">Share with </span>
-          {/*<div className="">
+        <div>
+          <div className="lg:w-[75%] xl:w-[70%]">
+            <section className="flex items-center my-2 gap-2">
+              <img
+                src="./images/events.jpg"
+                alt=""
+                className="w-[40px] h-[40px] rounded-full"
+              />
+              <span className="font-bold">Joe D</span>
+            </section>
+            <section className="flex items-center ">
+              <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
+                Share with
+              </span>
+              {/*<div className="">
             <select
               name=""
               id=""
@@ -56,9 +61,9 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
             </select>
           </div>*/}
 
-          <SelectDropdown />
-        </section>
-       </div>
+              <SelectDropdown />
+            </section>
+          </div>
           <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
           <div className="leftSide">
             {/* comment */}
@@ -68,12 +73,13 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
               </textarea>
             </div>
             {/* add location */}
-            <div>
+            <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">
               <input
                 type="text"
-                className="w-[90%] p-2 text-sm border-b-2 border-gray-400 outline-none font-bold placeholder-gray-500"
                 placeholder="Add Location"
+                className="flex-1  p-2 outline-none"
               />
+              <SlLocationPin size={20}/>
             </div>
             {/* accordion */}
             {/* <div className="my-2">
@@ -98,7 +104,7 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
           </div>
         </div>
 
-        <div >
+        <div>
           <MainCarousel />
         </div>
       </div>

@@ -10,7 +10,7 @@ const Topbar = () => {
 
       {/* font weight changed into bold to semi-bold & padding added */ }
 
-      <p className="font-semibold text-center md:text-sm text-[10px] py-1">
+      <p className="w-[90%] font-semibold text-center md:text-sm text-[10px] py-1">
         A one stop place for connecting back to your personal world.
       </p>
     </div>

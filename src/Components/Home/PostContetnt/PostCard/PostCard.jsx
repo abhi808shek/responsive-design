@@ -24,6 +24,7 @@ import {
 import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 import LikeModal from "../../Modal/LikeModal/LikeModal";
+import VideoCommentsModal from "../../KicksPage/VideoCommentsModal";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -40,7 +41,7 @@ const PostCard = ({ userData, item }) => {
     originalPost: false,
     externalShare: false,
   });
-  const [like, setLike] = useState(false);
+
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   {
     /* implementing dynamic description, some redesign the postcard component */
@@ -53,15 +54,41 @@ const PostCard = ({ userData, item }) => {
   const onShowShareModal = () => {
     console.log("jwww");
     setShowShareModal({ ...showShareModal, shareModal: true });
-    // setShowShareModal(showShareModal);
   };
-  // const {totalComments} = useSelector((state)=>state.userReducer)
   const dispatch = useDispatch();
   const showMenuListModal = () => {
     setShowMenuList(!showMenuList);
     setUserStatus(item.userId);
   };
 
+  const [likeButton, setLikeButton] = useState(false);
+
+  const [openModal, setOpenModal] = useState({
+    OnLikeModal: false,
+    commentModal: false,
+  });
+
+  const onHandleOpenLikeModal = () => {
+    setOpenModal({
+      ...openModal,
+      OnLikeModal: true,
+    });
+  };
+
+  const onHandleOpenCommentModal = () => {
+    setOpenModal({
+      ...openModal,
+      commentModal: true,
+    });
+  };
+
+  const onHandleCloseModal = () => {
+    setOpenModal({
+      ...openModal,
+      OnLikeModal: false,
+      commentModal: false,
+    });
+  };
   const onClickOnNext = () => {
     setShowShareModal({
       ...showShareModal,
@@ -71,14 +98,14 @@ const PostCard = ({ userData, item }) => {
   };
 
   useEffect(() => {
-    setLike(item?.isliked);
+    setLikeButton(item?.isliked);
   }, [likedDetails]);
   const onHandleChange = (event) => {
     setInputComment(event.target.value);
   };
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const onLikeIncrease = async () => {
-    if (like) {
+    if (likeButton) {
       const dislikeResponse = await dispatch(
         decreaseLikeByLikeId(
           defaultRootData?.data?.postdata?.profileid,
@@ -89,7 +116,7 @@ const PostCard = ({ userData, item }) => {
         dispatch(
           getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
         );
-        setLike(false);
+        setLikeButton(false);
       }
     } else {
       const postDeatils = {
@@ -104,7 +131,7 @@ const PostCard = ({ userData, item }) => {
         dispatch(
           getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
         );
-        setLike(true);
+        setLikeButton(true);
       }
     }
   };
@@ -130,10 +157,6 @@ const PostCard = ({ userData, item }) => {
       setPostMenuModal({ ...postMenuModal, showReportModal: true });
     }
   };
-  const [likeModal, setLikeModal] = useState(false);
-  const openLikeModal = () => {
-    setLikeModal(true);
-  };
 
   const handleCloseModal = () => {
     setPostMenuModal({
@@ -158,7 +181,6 @@ const PostCard = ({ userData, item }) => {
             <div className="flex w-[46px] h-[46px]">
               {/* due to img broke dynamic src commented */}
               <img
-                // src={item.userIcon}
                 src={item?.profile?.pimage ? item?.profile?.pimage : user}
                 alt=""
                 className="w-full h-full rounded-full mt-1 object-cover"
@@ -248,7 +270,7 @@ const PostCard = ({ userData, item }) => {
         <section className="flex justify-between w-full mt-2 mb-1  px-2">
           <div
             className="flex justify-center gap-2 items-center cursor-pointer"
-            onClick={openLikeModal}
+            onClick={onHandleOpenLikeModal}
           >
             <HiUserGroup size={16} />
 
@@ -259,8 +281,8 @@ const PostCard = ({ userData, item }) => {
 
           <div className="flex  gap-5 items-center">
             <span
-              className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600"
-              // onClick={{}}
+              className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600 cursor-pointer"
+              onClick={onHandleOpenCommentModal}
             >
               {item?.commentcount ? item?.commentcount : 0} Comments
             </span>
@@ -276,7 +298,7 @@ const PostCard = ({ userData, item }) => {
           <hr className="w-full mb-2 text-gray-500" />
           <div className="flex justify-between ">
             <div className="flex flex-col items-center justify-center cursor-pointer">
-              {like ? (
+              {likeButton ? (
                 <img
                   src={KicksAfterLike}
                   alt=""
@@ -377,9 +399,14 @@ const PostCard = ({ userData, item }) => {
         </Portals>
       )}
 
-      {likeModal && (
+      {openModal.OnLikeModal && (
         <Portals>
-          <LikeModal />
+          <LikeModal closeLikeModal={onHandleCloseModal} />
+        </Portals>
+      )}
+      {openModal.commentModal && (
+        <Portals>
+          <VideoCommentsModal onClose={onHandleCloseModal} />
         </Portals>
       )}
     </>
