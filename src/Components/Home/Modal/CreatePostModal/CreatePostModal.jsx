@@ -2,10 +2,21 @@ import React from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
 import SelectDropdown from './SelectDropdown'
+import { Autocomplete } from "@react-google-maps/api";
+import Dropdown from "../../../Login/Content/Modal/Dropdown";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
+  const [state, setState] = useState({})
+  const { postPrivacy } = state;
+  const navigate = useNavigate()
   const onCloseCreatePostModal = ()=>{
     setShowCreatePostModal(false)
+  }
+
+  const handlePostPrivacy = (selectedValue) => {
+    setState({...state,  postPrivacy: selectedValue})
   }
   return (
     <div className="bg-white top-8 lg:w-[77%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-4 rounded-2xl mx-auto relative z-20">
@@ -18,7 +29,10 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
           <button className="bg-[#6780AF] text-white font-bold px-5 rounded-full ">
             Post
           </button>
-          <button className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full" onClick={handleCloseModal}>
+          <button
+            className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full"
+            onClick={handleCloseModal}
+          >
             Discard
           </button>
         </div>
@@ -26,19 +40,21 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
 
       <hr className="w-100 h-1 bg-gray-200 border-0 rounded md:my-3 dark:bg-gray-900" />
       <div className="grid grid-cols-2 gap-2">
-          <div>
-       <div className="lg:w-[75%] xl:w-[70%]">
-       <section className="flex items-center my-2 gap-2">
-          <img
-            src="./images/events.jpg"
-            alt=""
-            className="w-[40px] h-[40px] rounded-full"
-          />
-          <span className="font-bold">Joe D</span>
-        </section>
-        <section className="flex items-center ">
-          <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">Share with </span>
-          {/*<div className="">
+        <div>
+          <div className="lg:w-[75%] xl:w-[70%]">
+            <section className="flex items-center my-2 gap-2">
+              <img
+                src="./images/events.jpg"
+                alt=""
+                className="w-[40px] h-[40px] rounded-full"
+              />
+              <span className="font-bold">Joe D</span>
+            </section>
+            <section className="flex items-center ">
+              <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
+                Share with{" "}
+              </span>
+              {/*<div className="">
             <select
               name=""
               id=""
@@ -56,16 +72,34 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
             </select>
           </div>*/}
 
-          <SelectDropdown />
-        </section>
-       </div>
+              {/* <SelectDropdown /> */}
+              <Dropdown
+                selectedValue={postPrivacy}
+                handleChange={handlePostPrivacy}
+                name="Select who can see your post"
+                options={[
+                  { name: "Public" },
+                  { name: "Friends" },
+                  { name: "Relatives" },
+                  { name: "Classmates" },
+                  { name: "Officemates" },
+                  {
+                    name: "Create your own union",
+                    onClick: "/create-union",
+                  },
+                ]}
+                keyName="name"
+              />
+            </section>
+          </div>
           <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
           <div className="leftSide">
             {/* comment */}
             <div className="comment">
-              <textarea className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]">
-                Write a something..........
-              </textarea>
+              <textarea
+                placeholder="Write something..."
+                className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
+              ></textarea>
             </div>
             {/* add location */}
             <div>
@@ -98,7 +132,7 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
           </div>
         </div>
 
-        <div >
+        <div>
           <MainCarousel />
         </div>
       </div>

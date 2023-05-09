@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const setPostData = (postData) => async (dispatch) => {
+export const createPost = (postData) => async (dispatch) => {
   const postDataResult = await axios.post(
     "http://3.233.82.34:8080/api/post/add",
     postData,
@@ -14,7 +14,7 @@ export const setPostData = (postData) => async (dispatch) => {
   console.log("postDataResult", postDataResult);
   dispatch({
     type: "SET_POST_DATA",
-    payload: post,
+    payload: postDataResult,
   });
 };
 

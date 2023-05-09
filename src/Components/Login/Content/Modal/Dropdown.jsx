@@ -3,6 +3,7 @@ import { Listbox, Menu, Transition } from '@headlessui/react'
 import { MdArrowDropDown } from "react-icons/md"
 import { isEmpty } from '../../../Utility/utility'
 import EmptyComponent from '../../../empty component/EmptyComponent'
+import { Link } from 'react-router-dom'
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(' ')
@@ -37,20 +38,34 @@ export default function Dropdown({label,up, style, name, options=[], handleChang
                     <div className="py-1">
                         {
                             options.map((item,index) => {
-                                return (                                
-                                    <Listbox.Option key={index} value={item}>
-                                        {({ active }) => (                                            
-                                            <a  href="#"
-                                                className={classNames(
-                                                    active ? 'bg-gray-100 text-gray-900' : 'text-[#707070] ',
-                                                    'block px-4 py-2 text-sm'
-                                                )}
-                                            >
-                                                {item[keyName]}                                                                                                                                                                                       
-                                            </a>
-                                        )}
-                                    </Listbox.Option>                                                                                              
-                                )
+                                return (
+                                  <Listbox.Option key={index} value={item}>
+                                    {({ active }) =>
+                                      item?.onClick ? (
+                                        <Link to={item?.link} className={classNames(active
+                                              ? "bg-gray-100 text-gray-900"
+                                              : "text-[#707070] ",
+                                            "block px-4 py-2 text-sm"
+                                          )}
+                                        >
+                                          {item[keyName]}
+                                        </Link>
+                                      ) : (
+                                        <a
+                                          href="#"
+                                          className={classNames(
+                                            active
+                                              ? "bg-gray-100 text-gray-900"
+                                              : "text-[#707070] ",
+                                            "block px-4 py-2 text-sm"
+                                          )}
+                                        >
+                                          {item[keyName]}
+                                        </a>
+                                      )
+                                    }
+                                  </Listbox.Option>
+                                );
                             })
                         }
                     </div>
