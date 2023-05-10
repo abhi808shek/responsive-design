@@ -14,6 +14,8 @@ import CreatedEvent from './CreatedEvent'
 import RvspModal from './Modal/RvspModal'
 import ChooseTemplate from './Modal/ChooseTemplate'
 import AddGuestModal from './Modal/AddGuestModal'
+import SuccessCreate from './SuccessCreate'
+import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -34,6 +36,10 @@ export default function Umeet(){
   const [showRvspModal, setShowRvspModal] = useState(false)
   const [showTemplate, setShowTemplate] = useState(false)
   const [showAddGroup, setShowAddGroup] = useState(false)
+  const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
+
+  {/* type of event personal, political, public local state*/}
+  const [whichType, setWhichType] = useState('')
 
   function EventStatus({ data }){
     if(noCreateEvent){
@@ -44,12 +50,14 @@ export default function Umeet(){
       return <CreateEventModal 
                 selectedSpecificEvent={selectedSpecificEvent}
                 editMyEvent={editMyEvent}
+                whichType={whichType}
                 handleCreatedEvent={handleCreatedEvent}
-                handleShowTemplate={()=>{setShowTemplate(true); window.scrollTo({ top: 0, behavior: 'smooth' });}}
-                handleShowAddGroup={()=>{setShowAddGroup(true);  window.scrollTo({ top: 0, behavior: 'smooth' })} }
+                handleShowTemplate={()=>setShowTemplate(true)}
+                handleShowAddGroup={()=>setShowAddGroup(true)}
+                handleShowAddPoliticalGroup={()=>setShowPoliticalAddGroup(true)}
               />
     }else if(eventCreated){
-      return <CreatedEvent />
+      return <SuccessCreate />
     }else if(eventDetails){
       return <EventDetails handleEditEvent={handleEditEvent} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleShareEvent={()=>setShowShareMyEvent(true)} myEvent={myEvent} handleRvspModal={()=>setShowRvspModal(true)}/>
     }
@@ -100,10 +108,13 @@ export default function Umeet(){
     setSelectSpecificEvent(true)
     if(data.title.toLowerCase() == 'personal'){
       setSelectEventType(selectPersonalEventType)
+      setWhichType(data.title.toLowerCase())
     }else if(data.title.toLowerCase() == 'political'){
       setSelectEventType(selectPoliticalEventType)
+      setWhichType(data.title.toLowerCase())
     }else if(data.title.toLowerCase() == 'public'){
       setSelectEventType(selectPublicEventType)
+      setWhichType(data.title.toLowerCase())
     }
   }
 
@@ -221,6 +232,7 @@ export default function Umeet(){
      {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
      {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} handleImageChange={handleImageChange} />}
      {showAddGroup && <AddGuestModal onClose={()=>setShowAddGroup(false)} />}
+     {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
     </div>
   )
 }

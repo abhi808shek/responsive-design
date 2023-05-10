@@ -1,14 +1,27 @@
 import { useState } from 'react'
 import profile from '../../../Assets/Images/Person.jpg'
+import videoImg from '../../../Assets/Images/videoImg.jpg'
 
 const dataList = [
   'All','Action', 'Adventures', 'Arts & Craft', 'Beauty Tips', 'Comedy', 'Drama', 'Fiction', 'Novel', 'Romance'
 ]
 
-export default function SelectedVideoModal({ onClose, selectedVideo }){
- 
+export default function SelectedVideoModal({ onClose, selectedVideo, handleModal }){
+  const [selectedVideoHere, setSelectedVideoHere] = useState(null);
+
+  function handleFileSelection(event) {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      setSelectedVideoHere(reader.result);
+    };
+
+    reader.readAsDataURL(file);
+  }
+
  return (
-  <div className='top-0 absolute left-0 fixed flex justify-center items-center w-full h-full' style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
+  <div className={`${handleModal ? 'top-8' : 'top-0'} absolute left-0 fixed flex justify-center items-center w-full h-full`} style={{ backgroundColor: 'rgba(0, 0, 0, 0.5)' }}>
    <div className='bg-white p-4 w-[35%] rounded-lg min-h-[83%]'>
     <p className='py-1 border-b mb-2 font-semibold text-orange-600 flex justify-center text-xl'>Add Kicks</p>
     <section className='flex'>
@@ -25,7 +38,18 @@ export default function SelectedVideoModal({ onClose, selectedVideo }){
      </div>
 
      <div className='h-56 w-[50%] flex justify-center rounded-lg overflow-hidden'>
-      <video src={selectedVideo} className='h-full w-[70%] rounded-lg object-cover' autoPlay />
+     {
+      selectedVideo ? 
+        <video src={selectedVideoHere ? selectedVideoHere : selectedVideo} className='h-full w-[70%] rounded-lg object-cover' autoPlay /> : 
+        <div className='flex flex-col' htmlFor="chooseVideo">         
+         <input type="file" id="chooseVideo" className='hidden' />
+         <label htmlFor='chooseVideo' className='h-full w-full'>
+          <img src={videoImg} className='h-[80%] cursor-pointer rounded-lg object-cove'/>
+          <span className='text-[10px] mt-2 flex justify-center text-gray-500 cursor-pointer'>Select a video</span>
+         </label>
+        </div>
+     }
+      
      </div>     
     </section>
 

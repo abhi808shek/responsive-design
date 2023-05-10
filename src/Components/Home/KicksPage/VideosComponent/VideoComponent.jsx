@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useRef, useState } from 'react';
 import ReactPlayer from "react-player";
 import v2 from '../../../../Assets/Videos/v2.mp4';
 import { BsThreeDotsVertical } from 'react-icons/bs'
@@ -8,19 +8,35 @@ import mute from '../../../../Assets/Images/Mute.png';
 import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png';
 import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
 import kicksShare from '../../../../Assets/Images/Kicks Share.png';
+import collection from '../../../../Assets/Images/Collections.png'
 import OwnUserVideoModal from '../OwnUserVideoModal'
 import DeleteVideoModal from '../DeleteVideoModal'
 import EditMyVideoModal from '../EditMyVideoModal'
 import OtherUserVideoModal from '../OtherUserVideoModal'
 import VideoCommentsModal from '../VideoCommentsModal'
+import SavedCollections from '../SavedCollections'
 
-const VideoComponent = ({ dataList }) => {
-  const [isMyVideo, setIsMyVideo] = useState(false)
+const VideoComponent = ({ dataList, handleLikeModal }) => {
+  const [isMyVideo, setIsMyVideo] = useState(true)
   const [showOwnVideoModal, setShowOwnVideoModal] = useState(false)
   const [showOthersVideoModal, setShowOthersVideoModal] = useState(false)
   const [deleteVideo, setDeletetVideo] = useState(false)
   const [editVideo, setEditVideo] = useState(false)  
   const [commentVideo, setCommentVideo] = useState(false)
+  const [showCollection, setShowCollection] = useState(false)
+  const [isMuted, setIsMuted] = useState(false);
+
+  const videoRef = useRef(null);
+
+  const handleButtonActions = (elem) => {
+    if(elem.title == 'mute'){
+      console.log(isMuted, videoRef.current.muted)
+      setIsMuted(!isMuted);
+      videoRef.current.muted = !videoRef.current.muted;
+    }else if(elem.title == 'comments'){
+      setCommentVideo(true)
+    }
+  }
 
   const handleDelete = ()=>{
     setShowOwnVideoModal(false)
@@ -41,13 +57,16 @@ const VideoComponent = ({ dataList }) => {
       setShowOwnVideoModal(false)
     }
   }
+
+  const handleActionModals = (elem)=>{
+    if(elem.title == 'likes') handleLikeModal()
+  }
+
   return (
     <div className="relative h-full">
 
       <section className="absolute fixed overflow-hidden top-0 right-0 bottom-0 left-0 h-full w-full z-0">
-         <video className="absolute top-0 bottom-0 bg-red-300 h-auto w-full" loop={true} autoPlay="autoplay" controls>
-           <source src={v2} type="video/mp4" />
-         </video>
+         <video ref={videoRef} src={v2} type="video/mp4" className="absolute top-0 bottom-0 bg-red-300 h-auto w-full" loop={true} autoPlay controls />
       </section>
       {/* <ReactPlayer url='https://www.youtube.com/watch?v=vNeN13EQbqk' /> */}
 
@@ -89,16 +108,16 @@ const VideoComponent = ({ dataList }) => {
        <div className='absolute bottom-[60px] right-[20px]'>
         {dataList.map((elem, index) => (
           <div
-            key={elem.title}
-            onClick={elem.title == 'comments' ? ()=>setCommentVideo(true) : null}
+            key={elem.title}            
             className="flex items-end gap-3 font-bold flex-col"
           >
             <img
-              src={index == 0 ? mute : index == 1 ? kicksPageBeforeLike : index == 2 ? kicksComments : kicksShare}
+              src={index == 0 ? mute : index == 1 ? kicksPageBeforeLike : index == 2 ? kicksComments : index == 3 ? kicksShare : collection}
               alt=""
+              onClick={()=>handleButtonActions(elem)}
               className="w-[30px] cursor-pointer"
             />
-            <div className="text-[12px] text-white flex items-center">
+            <div onClick={()=>handleActionModals(elem)} className="text-[12px] cursor-pointer text-white flex items-center">
               {elem.title}
             </div>
           </div>
@@ -106,11 +125,12 @@ const VideoComponent = ({ dataList }) => {
         } 
        </div>
       </div>
-      {showOwnVideoModal && <OwnUserVideoModal handleEdit={handleEdit} handleDelete={handleDelete} onClose={()=>setShowOwnVideoModal(false)} />}
+      {showOwnVideoModal && <OwnUserVideoModal handleEdit={handleEdit} handleDelete={handleDelete} handleCollection={()=>setShowCollection(true)} onClose={()=>setShowOwnVideoModal(false)} />}
       {showOthersVideoModal && <OtherUserVideoModal onClose={()=>setShowOthersVideoModal(false)} />}
       {editVideo && <EditMyVideoModal onClose={()=>setEditVideo(false)} />}
       {deleteVideo && <DeleteVideoModal onClose={()=>setDeletetVideo(false)} />}
       {commentVideo && <VideoCommentsModal onClose={()=>setCommentVideo(false)} />}
+      {showCollection && <SavedCollections onClose={()=>setShowCollection(false)} />}
     </div>
   )
 }

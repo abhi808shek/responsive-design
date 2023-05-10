@@ -16,15 +16,18 @@ import mute from '../../../assets/images/mute.png'
 import Messages from '../../../assets/images/Messages.png'
 import like from '../../../assets/images/KicksBeforeLike.png'
 import share from '../../../assets/images/share.png'
+import collection from '../../../Assets/Images/collection.png'
 import './kicks.css'
 import { Link } from 'react-router-dom'
 import KicksComment from './KicksComment'
 import SelectedVideoModal from '../SearchKicksPage/SelectedVideoModal'
+import LikeModal from './LikesModal'
 
 const Kicks = () => {
   const [comments, setComments] = useState(true)
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectVideo, setSelectVideo] = useState(false)  
+  const [showLikeModal, setShowLikeModal] = useState(false)
 
   const data = [
     { title: "Following" },
@@ -34,9 +37,10 @@ const Kicks = () => {
 
   const dataList = [
     { title: "mute", img: mute  },
-    { title: "25 likes", img: like },
+    { title: "likes", img: like },
     { title: "comments", img: Messages },
     { title: "share", img: share },
+    { title: "save", img: collection },
   ];
 
   function handleFileSelection(event) {
@@ -94,7 +98,7 @@ const Kicks = () => {
 
 
       <section className="overflow-y-scroll w-[30%] h-[90vh] hideScroll">
-        <VideoComponent dataList={dataList} />
+        <VideoComponent dataList={dataList} handleLikeModal={()=>setShowLikeModal(true)} />
         <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
       </section>
@@ -124,7 +128,8 @@ const Kicks = () => {
           <FaArrowAltCircleRight className="w-9 h-9 text-white cursor-pointer" />
         </div>
       </section>
-      {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={()=>setSelectVideo(false)} />}        
+      {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={()=>setSelectVideo(false)} handleModal={true}/>}
+      {showLikeModal && <LikeModal onClose={()=>setShowLikeModal(false)}/>}
     </div >
   );
 };

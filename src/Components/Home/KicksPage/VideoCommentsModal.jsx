@@ -1,21 +1,22 @@
 import { MdOutlineMusicNote } from 'react-icons/md'
 import { TiArrowBack } from 'react-icons/ti'
 import { AiFillHeart } from 'react-icons/ai'
-import { IoSend } from 'react-icons/io5'
 import profile from '../../../Assets/Images/Person.jpg'
 import profile2 from '../../../Assets/Images/bg2.jpg'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
+import { IoSend } from 'react-icons/io5'
 
 export default function VideoCommentsModal({ onClose }){
  return (
-  <section className='fixed justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-  <section className='w-[40%]  bg-white h-[80%] mt-16 overflow-scroll hideScroll text-black rounded-xl p-0.5'>
-    <div className='flex justify-between p-3 border-b'>      
+  <section className='fixed justify-center z-30 items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+  <section className='w-[40%] bg-white h-[86%] mt-16 text-black rounded-xl p-0.5'>
+    <div className='flex justify-between p-2 border-b'>      
       <span className='text-[19px] font-medium'>Comments</span>
       <AiOutlineCloseCircle onClick={onClose} className='w-7 h-7 text-gray-700 cursor-pointer' />
     </div>
-	{[1,2,3].map((data, i)=>(<>
+    <section className='h-[81%] overflow-y-scroll hideScrol'>
+	  {[1,2,3].map((data, i)=>(<>
     <div key={i} className='my-2 flex items-center'>
        <div className='w-1/6 flex justify-center'>
         <img src={profile} className='w-10 h-10 rounded-full object-cover' />
@@ -74,6 +75,12 @@ export default function VideoCommentsModal({ onClose }){
   </>  
 	))
 	}
+  </section>
+  {/* input section*/}
+  <div className='mx-5 mt-2 bg-gray-100 flex items-center px-1 py-1 border-gray-400 border rounded-lg'>
+   <input className='w-full my-1 outline-none bg-gray-100' placeholder='Write something...'/>
+   <span><IoSend className='text-blue-500 text-2xl mx-2 cursor-pointer'/></span>
+  </div>
   </section>
 </section>
  )
