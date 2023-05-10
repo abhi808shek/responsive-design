@@ -11,6 +11,7 @@ import {
 } from "../../redux/actionCreators/eventActionCreator";
 import { getAllPostWithLimit } from "../../redux/actionCreators/rootsActionCreator";
 import { sponseredTabSelected } from "../../redux/actionCreators/userActionCreator";
+import PostCard from "../Home/PostContetnt/PostCard/PostCard";
 
 const Event = () => {
   const btnData = [
@@ -50,30 +51,33 @@ const Event = () => {
   };
   return (
     <div className="w-full bg-[#EAE9E7] flex flex-col flex-1 items-center">
-      <div className="header h-16 w-[40%] mt-2 rounded-md flex justify-center items-center text-lg text-white font-bold bg-[#7991BD]">
-        <h1>{defaultEventData?.data?.tital}</h1>
+      <div className="header h-16 w-[95%] sm:w-[50%] lg:w-[40%] mt-2 rounded-md flex justify-center items-center text-lg text-white font-bold bg-[#7991BD]">
+        <h1>
+          {defaultEventData?.data?.tital
+            ? defaultEventData?.data?.tital
+            : "Travel"}
+        </h1>
       </div>
-      <div className="slider w-[40%] bg-[#EAE9E7] mt-2">
+      <div className="slider w-[95%] sm:w-[50%] lg:w-[40%] bg-[#EAE9E7] mt-2">
         <Carousel>
-          {image?.map((img) => (
+          {/* {image?.map((img) => (
             <img
               key={img}
-              src={img ? imag : "./images/events.jpg"}
-              alt=""
-              className="w-[100%] h-[70vh] object-cover rounded-[20px]"
-            />
-          ))}
-            {/* {image?.map((img) => (
-            <img
-              key={img}
-              src="./images/events.jpg"
+              src={img ? img : "./images/events.jpg"}
               alt=""
               className="w-[100%] h-[70vh] object-cover rounded-[20px]"
             />
           ))} */}
+          {[1, 2]?.map((img) => (
+            <img
+              src="./images/events.jpg"
+              alt=""
+              className="w-[100%] h-[32vh] sm:h-[40vh] lg:h-[50vh] object-cover rounded-[20px]"
+            />
+          ))}
         </Carousel>
       </div>
-      <div className="flex justify-center gap-2 mt-5 h-16 items-center w-[40%] rounded-lg bg-white">
+      <div className="flex justify-center gap-2 mt-5 h-16 items-center w-[95%] sm:w-[50%] lg:w-[40%] rounded-lg bg-white">
         {btnData?.map((elem, index) => (
           <ButtonComponent
             key={index}
@@ -83,15 +87,18 @@ const Event = () => {
           />
         ))}
       </div>
-      <div className="w-[40%] flex flex-col items-center justify-center gap-4 mt-2">
+      <div className="w-[95%] sm:w-[50%] lg:w-[40%] flex flex-col items-center justify-center gap-4 mt-2">
         {eventTabSelected === "Post" &&
           //  dispatch(getAllEventPost(defaultRootData?.data?.postdata?.id,defaultRootData?.data?.postdata?.profileid)) &&
           // allEventsPost?.map((post) =>
           //   Object.values(post?.data)?.map((item, index) => (
           //     <EventPostCard key={index} item={item} />
           //   ))
-          allEventsPost?.map((item,index) => (
-            <EventPostCard key={index} item={item} />
+          allEventsPost?.map((item, index) => (
+            <div className="  w-full flex items-center justify-center flex-col">
+              <PostCard />
+            </div>
+            // <EventPostCard key={index} item={item} />
           ))}
 
         {eventTabSelected === "Trending" &&
@@ -100,8 +107,11 @@ const Event = () => {
           //   Object.values(post?.data)?.map((item, index) => (
           //     <EventPostCard key={index} item={item} />
           //   ))
-          allTrendingPost?.map((item,index) => (
-            <EventPostCard key={index} item={item} />
+          allTrendingPost?.map((item, index) => (
+            <div className=" w-full flex items-center justify-center flex-col">
+              <PostCard />
+              {/* <EventPostCard key={index} item={item} /> */}
+            </div>
           ))}
 
         {eventTabSelected === "Participate" && <Participate />}

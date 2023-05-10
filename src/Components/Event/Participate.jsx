@@ -99,7 +99,7 @@ const Participate = () => {
     toasterFunction(sucessMessage?.message);
   };
   return (
-    <div className="p-6 bg-white rounded-lg shadow-md w-[100%]">
+    <div className="p-6 bg-white rounded-lg shadow-md w-[100%] mb-2">
       <div>
         <div className="mb-4">
           <textarea
@@ -157,7 +157,7 @@ const Participate = () => {
             onChange={handleTermsChange}
             required
           />
-          <label className="inline-block font-medium" htmlFor="terms">
+          <label className="inline-block text-sm sm:font-medium" htmlFor="terms">
             I accept the <a href="#">terms and conditions</a>
           </label>
           <img

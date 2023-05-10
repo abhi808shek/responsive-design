@@ -170,7 +170,7 @@ const PostCard = ({ userData, item }) => {
   return (
     <>
       <div
-        className={`flex w-[40%] rounded-lg py-2 justify-between items-center px-2 flex-col mt-2 bg-white`}
+        className={`flex w-full rounded-lg py-2 justify-between items-center px-2 flex-col mt-2 bg-white mb-2`}
       >
         {/* Top Section */}
         <section className="w-full flex items-centern justify-between">
@@ -261,7 +261,7 @@ const PostCard = ({ userData, item }) => {
             <img
               src={item?.image}
               alt=""
-              className="w-full h-[275px] rounded-xl border border-gray-500"
+              className="w-full h-[200px] sm:h-[220px] lg:h-[250px] rounded-xl border border-gray-500"
             />
           </div>
         </section>
@@ -281,12 +281,12 @@ const PostCard = ({ userData, item }) => {
 
           <div className="flex  gap-5 items-center">
             <span
-              className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600 cursor-pointer"
+              className="text-[11px] lg:text-[11px] xl:text-[12px] font-medium text-gray-600 cursor-pointer"
               onClick={onHandleOpenCommentModal}
             >
               {item?.commentcount ? item?.commentcount : 0} Comments
             </span>
-            <span className="lg:text-[11px] xl:text-[12px] font-medium text-gray-600">
+            <span className=" text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-gray-600">
               28 Shares
             </span>
           </div>

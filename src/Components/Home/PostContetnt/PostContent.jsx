@@ -19,18 +19,18 @@ const PostContent = ({ data, showModalFunc, width, userData }) => {
     //   ))}
     // </div>
     <div className="w-full flex items-center justify-center flex-col">
-    {[1,2,3,4].map((elem, index) => (
-   
-        <PostCard
-          key={elem?.id}
-          item={elem}
-          userData={userData}
-          showModal={showModalFunc}
-          width={width}
-        />
-   
-    ))}
-  </div>
+      {[1, 2, 3, 4].map((elem, index) => (
+        <div className=" sm:w-[50%] lg:w-[40%] flex items-center justify-center flex-col px-2">
+          <PostCard
+            key={elem?.id}
+            item={elem}
+            userData={userData}
+            showModal={showModalFunc}
+            width={width}
+          />
+        </div>
+      ))}
+    </div>
   );
 };
 
