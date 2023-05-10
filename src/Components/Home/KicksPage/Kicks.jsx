@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectKicksType } from "../../../redux/actionCreators/userActionCreator";
+
 import events from "./events.jpg"
 import VideoComponent from "./VideosComponent/VideoComponent";
 import ReactPlayer from 'react-player'
@@ -20,11 +20,38 @@ import './kicks.css'
 import { Link } from 'react-router-dom'
 import KicksComment from './KicksComment'
 import SelectedVideoModal from '../SearchKicksPage/SelectedVideoModal'
+import { getFollowingKicks, getLatestKicks, getTrendingKicks, selectKicksType } from "../../../redux/actionCreators/kicksActionCreator";
+import EmptyComponent from '../../../Components/empty component/EmptyComponent'
+import { isEmpty } from "../../Utility/utility";
 
 const Kicks = () => {
+  const dispatch = useDispatch();
+
+  const reducerDate = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile,
+      followingsContent: state.kicksReducer.followingKicks,
+      trendingContents: state.kicksReducer.trendingKicks,
+      latestContents: state.kicksReducer.latestKicks,
+    };
+  });
+
+  const { profile, followingsContent, trendingContents, latestContents}  = reducerDate;
+  const [state, setState ] = useState({})
+  const { kicksType = 'Following'} = state
   const [comments, setComments] = useState(true)
   const [selectedVideo, setSelectedVideo] = useState(null);
-  const [selectVideo, setSelectVideo] = useState(false)  
+  const [selectVideo, setSelectVideo] = useState(false);
+
+  const videoData = useMemo(() => {
+      return kicksType === 'Following' ? followingsContent : kicksType === 'Trending' ? trendingContents :
+      kicksType === 'Latest' ? latestContents : {}
+  }, [kicksType])
+
+  useEffect(() => {
+    getKicks('Following')
+  }, [])
+
 
   const data = [
     { title: "Following" },
@@ -34,7 +61,7 @@ const Kicks = () => {
 
   const dataList = [
     { title: "mute", img: mute  },
-    { title: "25 likes", img: like },
+    { title: "likes", img: like },
     { title: "comments", img: Messages },
     { title: "share", img: share },
   ];
@@ -50,9 +77,24 @@ const Kicks = () => {
     reader.readAsDataURL(file);
   }
 
-  const dispatch = useDispatch();
-  const { kicksType } = useSelector((state) => state.userReducer);
+  // const { kicksType } = useSelector((state) => state.userReducer);
 
+  const getKicks = (kicksType) => {
+        setState({...state, kicksType: kicksType})
+        const data = {
+          categories: [],
+          profileId: profile?.id,
+          rootRequest: false,
+        };
+        let params = {index: 0, size: 10}
+        if (kicksType === "Latest") {
+          dispatch(getLatestKicks(params, {...data, segment: 'LATEST'}));
+        } else if (kicksType === "Trending") {
+          dispatch(getTrendingKicks(params, {...data, segment: 'TRENDING'}));
+        } else if (kicksType === "Following") {
+          dispatch(getFollowingKicks(params,{...data, segment: 'FOLLOWING'}))
+        }
+  }
   return (
     <div className={`w-full flex h-[90vh] bg-[url(${events})] z-10`}>
       <section className="flex w-[25%] items-center justify-center bg-black">
@@ -67,7 +109,7 @@ const Kicks = () => {
                   backgroundColor:
                     kicksType === elem.title ? "#DD8E58" : "black",
                 }}
-                onClick={() => dispatch(selectKicksType(elem.title))}
+                onClick={() => getKicks(elem.title)}
               >
                 {elem.title}
               </p>
@@ -93,10 +135,19 @@ const Kicks = () => {
       {/* Reels Section */}
 
 
-      <section className="overflow-y-scroll w-[30%] h-[90vh] hideScroll">
+      <section className="overflow-y-scroll text-white bg-black w-[30%] h-[90vh] hideScroll">
+      {
+          isEmpty(videoData?.content) ? 
+          <EmptyComponent message={`There is no video in ${kicksType} section`}/>  :
+          videoData?.content?.map((item) => {
+            return(
+              <VideoComponent dataList={dataList} data={item}/>
+            )
+          })
+      }
+        {/* <VideoComponent dataList={dataList} />
         <VideoComponent dataList={dataList} />
-        <VideoComponent dataList={dataList} />
-        <VideoComponent dataList={dataList} />
+        <VideoComponent dataList={dataList} /> */}
       </section>
 
       {/* Comment Section */}
