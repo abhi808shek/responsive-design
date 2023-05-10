@@ -174,6 +174,7 @@ export const startFollowing = (data) => async (dispatch) => {
             type: '',
             payload: response.data
         })
+        return response.data
     }catch(error){
         throw error
     }

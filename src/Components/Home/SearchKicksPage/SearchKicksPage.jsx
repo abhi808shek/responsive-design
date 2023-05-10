@@ -81,7 +81,7 @@ const SearchKicksPage = () => {
         <div className=" w-[60%]">
           <div className="flex w-full items-center my-1">
             <span onClick={()=>setShowCategories(true)} className='cursor-pointer'><BiCategory className='text-white bg-[#6e6f6f] h-10 w-10 rounded-full p-0.5' /></span>
-            <input type='search' className='w-full mx-2 h-10 rounded-lg outline-none px-2' onFocus={()=>setIsFocused(true)} width={95} bgColor="#fff" />
+            <input placeholder="Search by name/keyword/hashtag" type='search' className='w-full mx-2 h-10 rounded-lg outline-none px-2' onFocus={()=>setIsFocused(true)} width={95} bgColor="#fff" />
             <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' />
             <span><label onClick={()=>setSelectVideo(true)} htmlFor='chooseVideo'><HiPlus className='text-white bg-[#6e6f6f] h-10 w-10 rounded-full p-0.5 cursor-pointer'/></label></span>
           </div>

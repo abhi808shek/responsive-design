@@ -12,7 +12,10 @@ export default function KicksComment({addComment}){
    const handleChange = (event) => {
       setState({...state, commentText: event.target.value})
    }
-
+   const handleSendBtn = () => {
+      addComment(commentText);
+      setState({...state, commentText: ''})
+   }
  return (
  	<>
 {/* <section className='w-11/12 bg-white h-[405px] overflow-scroll hideScroll text-black rounded-xl p-0.5'>
@@ -47,8 +50,8 @@ export default function KicksComment({addComment}){
 
    <section className=' my-2 flex items-center text-black'>
     <div className='flex justify-center items-center rounded-md bg-white'>
-     <input value={commentText} name='commentText' className='w-full h-9 rounded-md outline-none pl-3 whitespace-break-spaces' onChange={handleChange}/>
-     <span onClick={() => addComment(commentText)}><IoSend className='text-blue-500 text-2xl mx-2 cursor-pointer'/></span>
+     <input value={commentText} name='commentText' placeholder='Add cooment...' className='w-full h-9 rounded-md outline-none pl-3 whitespace-break-spaces' onChange={handleChange}/>
+     <span onClick={handleSendBtn}><IoSend className='text-blue-500 text-2xl mx-2 cursor-pointer'/></span>
     </div>
    </section>
 </>

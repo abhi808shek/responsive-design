@@ -7,21 +7,45 @@ import profile2 from '../../../Assets/Images/bg2.jpg'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { BsThreeDots } from 'react-icons/bs'
 import { useState } from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { Input } from '@material-tailwind/react'
+import TypeMessage from '../../chat/TypeMessage'
+import { addCommentOnKicks, getCommentsByPostid } from '../../../redux/actionCreators/kicksActionCreator'
+import moment from 'moment'
 
 export default function VideoCommentsModal({ onClose }){
+  const dispatch = useDispatch()
   const reducerData = useSelector((state) => {
     return {
-      commentsList: state.kicksReducer.comments
+      commentsList: state.kicksReducer.comments,
+      activePost: state.rootsReducer?.activePost ,  //active post --- that post which is currently click by user
+      profile: state.profileReducer.profile
     }
   });
-  const { commentsList = []} = reducerData
+  const { commentsList = [], activePost, profile} = reducerData
   const [state, setState] = useState({})
   const {} =  state;
-console.log(commentsList, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
+
+  const handleSendComment = (msgText) => {
+    if(msgText?.trim()){
+        const payload = {
+          profileid: profile?.id,
+          postid: activePost?.id,
+          text: msgText,
+          image: "image",
+          emogi: "emogi",
+          datetime: moment().format("YYYY-MM-DDTHH:mm:ms"),
+        };  
+        dispatch(addCommentOnKicks(payload)).then((res) => {
+          if(res?.status) {
+            dispatch(getCommentsByPostid(activePost?.id))
+          }
+        })
+      }
+    }
  return (
-  <section className='fixed justify-center z-10 items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
-  <section className='w-[40%]  bg-white h-[80%] mt-16 overflow-scroll hideScroll text-black rounded-xl p-0.5'>
+  <section className='fixed items-stretch justify-center z-10 top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
+  <section className='w-[40%] relative  bg-white h-[80%] mt-16 overflow-scroll hideScroll text-black rounded-xl p-0.5'>
     <div className='flex justify-between p-3 border-b'>      
       <span className='text-[19px] font-medium'>Comments</span>
       <AiOutlineCloseCircle onClick={onClose} className='w-7 h-7 text-gray-700 cursor-pointer' />
@@ -71,7 +95,7 @@ console.log(commentsList, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
           {replycount?.map((item) => {
             const { text, emoji, commentid, profile, likecount } = item;
             const name = profile?.fname+profile?.lname
-            console.log(item, profile, profile?.pimage, "___________ IIIIIIIIIIIIIIIIIIII")
+            {/* console.log(item, profile, profile?.pimage, "___________ IIIIIIIIIIIIIIIIIIII") */}
             return (
               <div key={i} className="my-2 ml-[14%] w-[83%] flex items-center">
                 <div className="w-1/6 text-sm flex justify-center">
@@ -117,6 +141,9 @@ console.log(commentsList, "UUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUUU");
   }
 )
 	}
+  <div className='mt-auto absolute -bottom-1 bg-blue-200 rounded-md px-3'>
+      <TypeMessage placeholder ='Add comment' sendMessage = {handleSendComment}/>
+  </div>
   </section>
 </section>
  )

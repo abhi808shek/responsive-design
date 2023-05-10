@@ -8,17 +8,27 @@ import mute from '../../../../Assets/Images/Mute.png';
 import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png';
 import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
 import kicksShare from '../../../../Assets/Images/Kicks Share.png';
+import kicksLiked from "../../../../Assets/Images/KicksLike.png";
+import unmute from "../../../../Assets/Images/Un-Mute.png"
 import OwnUserVideoModal from '../OwnUserVideoModal'
 import DeleteVideoModal from '../DeleteVideoModal'
 import EditMyVideoModal from '../EditMyVideoModal'
 import OtherUserVideoModal from '../OtherUserVideoModal'
 import VideoCommentsModal from '../VideoCommentsModal'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addLikes, getCommentsByPostid } from "../../../../redux/actionCreators/kicksActionCreator";
 import moment from "moment/moment";
+import { startFollowing } from "../../../../redux/actionCreators/profileAction";
+import { toast } from "react-toastify";
 
 const VideoComponent = ({ dataList , data}) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const reducerData = useSelector((state) => {
+    return {
+      profileDetail: state.profileReducer.profile
+    }
+  });
+  const { profileDetail } = reducerData
   const [isMyVideo, setIsMyVideo] = useState(false)
   const [showOwnVideoModal, setShowOwnVideoModal] = useState(false)
   const [showOthersVideoModal, setShowOthersVideoModal] = useState(false)
@@ -71,6 +81,10 @@ const name = profile?.fname+profile?.lname
   }
 
   const handleIconClick = (title) => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: data
+    })
     if(title === 'comments'){
       dispatch(getCommentsByPostid(id));
       setCommentVideo(true);
@@ -83,7 +97,26 @@ const name = profile?.fname+profile?.lname
         type:'c',
         datetime: moment().format('YYYY-MM-DDTHH:mm:ss:ms')
       }
-      dispatch(addLikes(payload))
+      dispatch(addLikes(payload)).then((res) => {
+        if(res.status) {
+          toast.success(res.message)
+        }else{
+          toast.error(res.message)
+        }
+      })
+    }else if(title === 'follow'){
+      const payload = {
+        myprofileid: profileDetail?.id,
+        followerprofileid: profileid,
+        datetimes: "01-02-2021",
+      };  
+      dispatch(startFollowing(payload)).then((res) => {
+        if(res?.status){
+          toast.success(res?.message)
+        } else {
+          toast.error(res.message)
+        }
+      })
     }
   }
 
@@ -139,13 +172,14 @@ const name = profile?.fname+profile?.lname
       <div className="relative bottom-2 h-[600px]">
         <div className="absolute bottom-[60px] right-[20px]">
           {dataList?.map((elem, index) => (
+            (elem.title === 'follow' & profileid === profileDetail?.id) ? "" :
             <div
               key={elem.title}
               onClick={() => handleIconClick(elem.title) }
               className="flex items-end mb-3 gap- font-semibold flex-col"
             >
               <img
-                src={elem.img}
+                src={(elem.title === 'likes' && isliked) ? kicksLiked : (elem.title === 'mute' && isMute) ? unmute : elem.img}
                 alt=""
                 className="w-[30px] cursor-pointer"
               />
