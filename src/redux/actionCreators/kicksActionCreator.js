@@ -101,3 +101,19 @@ export const getCommentsByPostid = (data) => async (dispatch) => {
         throw error;
     }
 }
+
+export const createKicksPost = (data) => async (dispatch) => {
+    try {
+        const response = await axios.post(`http://3.233.82.34:8080/instance/api/instancepost/add`, data);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+        return response.data
+    }catch(error){
+        throw error;
+    }
+}
+
+// http://3.233.82.34:8080/instance/api/instancepost/getpoststag/utag1/utype1
+// http://3.233.82.34:8080/instance/api/instancetag/getprofile/utag

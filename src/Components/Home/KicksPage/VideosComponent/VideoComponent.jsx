@@ -88,7 +88,7 @@ const name = profile?.fname+profile?.lname
   }
 
   return (
-    <div key={profile?.id} className="relative my-24 h-full">
+    <div key={profile?.id} className="relative my-10 h-full">
       <div className="flex px-1 pt-5 mb-5">
         <div className="z-10">
           <img

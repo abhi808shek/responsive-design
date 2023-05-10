@@ -3,11 +3,19 @@ import { TiArrowBack } from 'react-icons/ti'
 import { AiFillHeart } from 'react-icons/ai'
 import { IoSend } from 'react-icons/io5'
 import profile from '../../../Assets/Images/Person.jpg'
+import { useState } from 'react'
 
-export default function KicksComment(){
+export default function KicksComment({addComment}){
+   const [state, setState] = useState({});
+   const { commentText} = state;
+
+   const handleChange = (event) => {
+      setState({...state, commentText: event.target.value})
+   }
+
  return (
  	<>
-<section className='w-11/12 bg-white h-[405px] overflow-scroll hideScroll text-black rounded-xl p-0.5'>
+{/* <section className='w-11/12 bg-white h-[405px] overflow-scroll hideScroll text-black rounded-xl p-0.5'>
 	{[1,2,3,4,5,6,7].map((data, i)=>(
     <div key={i} className='my-2 flex items-center'>
        <div className='w-1/6 flex justify-center'>
@@ -35,12 +43,12 @@ export default function KicksComment(){
     </div>
 	))
 	}
-   </section>
+   </section> */}
 
-   <section className='w-10/12 my-2 flex justify-center items-center text-black'>
-    <div className='w-11/12 flex justify-center items-center rounded-md bg-white'>
-     <input className='w-full h-9 rounded-md outline-none pl-3'/>
-     <span><IoSend className='text-blue-500 text-2xl mx-2 cursor-pointer'/></span>
+   <section className=' my-2 flex items-center text-black'>
+    <div className='flex justify-center items-center rounded-md bg-white'>
+     <input value={commentText} name='commentText' className='w-full h-9 rounded-md outline-none pl-3 whitespace-break-spaces' onChange={handleChange}/>
+     <span onClick={() => addComment(commentText)}><IoSend className='text-blue-500 text-2xl mx-2 cursor-pointer'/></span>
     </div>
    </section>
 </>

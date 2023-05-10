@@ -51,7 +51,7 @@ const Kicks = () => {
   useEffect(() => {
     getKicks('Following')
   }, [])
-
+console.log(videoData, '+++++++++++++++++++++++');
 
   const data = [
     { title: "Following" },
@@ -95,9 +95,12 @@ const Kicks = () => {
           dispatch(getFollowingKicks(params,{...data, segment: 'FOLLOWING'}))
         }
   }
+  const handleComment = (commentText) => {
+
+  }
   return (
     <div className={`w-full flex h-[90vh] bg-[url(${events})] z-10`}>
-      <section className="flex w-[25%] items-center justify-center bg-black">
+      <section className="flex w-[35%] items-center justify-center bg-black">
         <div className="w-[80%] flex flex-col items-center">
           <div className="flex flex-col gap-3">
             {data.map((elem) => (
@@ -119,7 +122,7 @@ const Kicks = () => {
               <HiSearch className='w-8 p-0.5 h-8 cursor-pointer bg-[#6e6f6f] text-white rounded-full'/>
              </Link>
              <div>
-              <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' />
+              {/* <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' /> */}
               <span><label onClick={()=>setSelectVideo(true)} htmlFor='chooseVideo'><HiPlus className='w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white'/></label></span>
              </div>
             </section>
@@ -135,14 +138,41 @@ const Kicks = () => {
       {/* Reels Section */}
 
 
-      <section className="overflow-y-scroll text-white bg-black w-[30%] h-[90vh] hideScroll">
+      <section className="overflow-y-scroll flex-1  text-white bg-black  h-[90vh] hideScroll">
       {
           isEmpty(videoData?.content) ? 
           <EmptyComponent message={`There is no video in ${kicksType} section`}/>  :
           videoData?.content?.map((item) => {
-            return(
-              <VideoComponent dataList={dataList} data={item}/>
-            )
+            const { text} = item
+            console.log(item , "IIIIIIIIIIIIIIIII TTTTTTTTTTT MMMMMMMMMMM")
+            return (
+              <div className="flex ">
+                <VideoComponent dataList={dataList} data={item} />
+
+                {/* Comment Section */}
+                <section className="flex flex-1 items-center bg-black ml-20">
+                  <div className="w-[80%] flex flex-col text-[12px] text-white gap-2 pl-4">
+                    <h1 className="font-bold">#nature_lover #nature_lover</h1>
+                    <p>{text}</p>
+                    <div className="flex gap-4">
+                      <div className=" px-3 font-bold bg-white text-gray-500 flex items-center justify-center rounded-lg">
+                        @music
+                      </div>
+                      <BsMusicNoteList className="w-7 h-7 text-white cursor-pointer" />
+                      <p className="flex items-center">
+                        maayadari maayadari andamaa
+                      </p>
+                    </div>
+                    {comments && <KicksComment  addComment={handleComment}/>}
+                  </div>
+
+                  {/*Right Arrow Button */}
+                  <div className="w-[20%]">
+                    <FaArrowAltCircleRight className="w-9 h-9 text-white cursor-pointer" />
+                  </div>
+                </section>
+              </div>
+            );
           })
       }
         {/* <VideoComponent dataList={dataList} />
@@ -150,31 +180,6 @@ const Kicks = () => {
         <VideoComponent dataList={dataList} /> */}
       </section>
 
-      {/* Comment Section */}
-      <section className="flex w-[45%] items-center bg-black">
-        <div className="w-[80%] flex flex-col text-[12px] text-white gap-2 pl-4">
-          <h1 className="font-bold">#nature_lover #nature_lover</h1>
-          <p>
-            “Nature is a creative and controlling force in the universe,” “the
-            external world in its entirety” or “humankind's original condition.”
-          </p>
-          <div className="flex gap-4">
-            <div className="w-[20%] font-bold bg-white text-gray-500 flex items-center justify-center rounded-lg">
-              @music
-            </div>
-            <BsMusicNoteList className="w-7 h-7 text-white cursor-pointer"/>
-            <p className="flex items-center">
-              maayadari maayadari andamaa
-            </p>
-          </div>
-          {comments && <KicksComment />}
-        </div>
-
-        {/*Right Arrow Button */}
-        <div className="w-[20%]">
-          <FaArrowAltCircleRight className="w-9 h-9 text-white cursor-pointer" />
-        </div>
-      </section>
       {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={()=>setSelectVideo(false)} />}        
     </div >
   );

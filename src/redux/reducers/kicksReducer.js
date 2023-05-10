@@ -2,7 +2,7 @@ const initialState = {
   latestKicks: [],
   trendingKicks: [],
   followingKicks: [],
-  comments: {}
+  comments: []
 };
 
 const kicksReducer = (state = initialState, action) => {
