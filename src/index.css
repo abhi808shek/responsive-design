@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 *{
   margin: 0;
   padding: 0;
@@ -11,11 +12,7 @@
   font-family: 'Poppins', sans-serif;
 }
 
-/* *::-webkit-scrollbar {
-  width: 40px;
-  color:gray;
-  height: 100px;
-} */
+
 
 /* width */
 ::-webkit-scrollbar {

@@ -21,6 +21,14 @@ export default function MainCarousel() {
       partialVisibilityGutter: 40,
       slidesToSlide: 1,
     },
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 1,
+    },
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1,
+    },
   };
 
   const handleImageChange = (e) => {
@@ -46,21 +54,22 @@ export default function MainCarousel() {
           src={deleteIcon}
           alt=""
           className="z-10 w-[30px] h-[30px] cursor-pointer"
-          onClick={() => {setImageFile([])
-          setVideoFile([]);}}
+          onClick={() => {
+            setImageFile([]);
+            setVideoFile([]);
+          }}
         />
       </div>
-      <div className="mt-2 items-center text-center w-[360px]">
+      <div className="mt-2 items-center sm:h-[50vh] text-center sm:w-[88%] lg:w-[95%]">
         <Carousel
           responsive={responsive}
           showDots={true}
-          className="lg:ml[10px] xl:ml-10 w-[97%]"
+          className=" lg:w-[97%]"
         >
-         
           {ImageFile?.length || VideoFile.length ? (
             [...VideoFile, ...ImageFile].map((elem) => (
-              <div className="flex h-full">
-                <div className="w-full h-[50vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg">
+              <div className="flex h-full sm:w-[100%] lg:w-full justify-center bg-red-500 py-2">
+                <div className=" sm:h-[45vh] sm:w-[90%] lg:w-[90%] flex flex-col border border-gray-400 rounded-lg px-2 mb-4 self-center">
                   {elem.type.includes("image") ? (
                     <img
                       src={URL.createObjectURL(elem)}
@@ -79,10 +88,10 @@ export default function MainCarousel() {
               </div>
             ))
           ) : (
-            <div className="flex h-full">
-              <div className="mb-4 w-full h-[50vh] flex justify-center items-center ">
+            <div className="flex h-full sm:w-[100%] lg:w-full justify-center py-2">
+              <div className="mb-4 sm:w-full sm:h-[45vh] lg:h-[50vh] flex justify-center items-center ">
                 <label
-                  className="font-medium mb-1 w-[90%] h-[45vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg "
+                  className="font-medium mb-1 sm:w-[80%] lg:w-[90%] sm:h-[32vh]  lg:h-[45vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg "
                   htmlFor="image"
                 >
                   <ImageIcon

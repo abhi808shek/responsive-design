@@ -8,18 +8,18 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
     setShowCreatePostModal(false)
   }
   return (
-    <div className="bg-white top-8 lg:w-[77%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-4 rounded-2xl mx-auto relative z-20">
+    <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20 bg-red-400 ">
       {/* create post */}
       <div className="flex justify-between">
-        <div>
-          <h3 className="font-bold">{title} Post</h3>
+        <div className="w-full">
+          <h3 className=" text-sm sm:text-md font-bold">{title} Post</h3>
         </div>
-        <div className="">
-          <button className="bg-[#6780AF] text-white font-bold px-5 rounded-full ">
+        <div className="flex">
+          <button className="bg-[#6780AF] text-white text-sm px-3 font-semibold  sm:font-bold sm:px-5 rounded-full ">
             Post
           </button>
           <button
-            className="bg-transparent text-[#6780AF] font-semibold px-3 mx-3 border border-[#6780AF] rounded-full"
+            className="bg-transparent text-[#6780AF] font-semibold px-3 text-sm  sm:font-bold sm:px-5 mx-3 border border-[#6780AF] rounded-full"
             onClick={handleCloseModal}
           >
             Discard
@@ -27,10 +27,10 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
         </div>
       </div>
 
-      <hr className="w-100 h-1 bg-gray-200 border-0 rounded md:my-3 dark:bg-gray-900" />
-      <div className="grid grid-cols-2 gap-2">
-        <div>
-          <div className="lg:w-[75%] xl:w-[70%]">
+      <hr className="w-100 h-[2px] sm:h-1 bg-gray-200 border-0 rounded my-2 sm:my-3 dark:bg-gray-900" />
+      <div className="grid sm:grid-cols-2 gap-2 ">
+        <div className="">
+          <div className="lg:w-[75%] xl:w-[70%] ">
             <section className="flex items-center my-2 gap-2">
               <img
                 src="./images/events.jpg"
@@ -40,35 +40,18 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
               <span className="font-bold">Joe D</span>
             </section>
             <section className="flex items-center ">
-              <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
+              <span className=" text-xs sm:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
                 Share with
               </span>
-              {/*<div className="">
-            <select
-              name=""
-              id=""
-              className="border-2 border-gray-500 cursor-pointer text-[10px] font-semibold h-5 "
-            >
-              <option value="group">Create New Group</option>
-              <option value="Friends" default>
-                Friends
-              </option>
-              <option value="Relative">Relative</option>
-              <option value="Classmates">Classmates</option>
-              <option value="Officemates">Officemates</option>
-              <option value="Party">Party</option>
-              <option value="Organization">Organization</option>
-            </select>
-          </div>*/}
 
               <SelectDropdown />
             </section>
           </div>
-          <div className="absolute left-2/4 -ml-0.5 w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
+          <div className="absolute sm:left-2/4 sm:ml-0.5 sm:w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
           <div className="leftSide">
             {/* comment */}
             <div className="comment">
-              <textarea className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]">
+              <textarea className="px-2 pt-2 sm:px-4 sm:pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none h-[90px] sm:h-[100px] xl:h-[125px] text-xs ">
                 Write a something..........
               </textarea>
             </div>
@@ -79,7 +62,7 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
                 placeholder="Add Location"
                 className="flex-1  p-2 outline-none"
               />
-              <SlLocationPin size={20}/>
+              <SlLocationPin size={20} />
             </div>
             {/* accordion */}
             {/* <div className="my-2">
