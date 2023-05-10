@@ -2,10 +2,21 @@ import React from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
 import SelectDropdown from './SelectDropdown'
+import { Autocomplete } from "@react-google-maps/api";
+import Dropdown from "../../../Login/Content/Modal/Dropdown";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 import {SlLocationPin} from "react-icons/sl"
 const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
+  const [state, setState] = useState({})
+  const { postPrivacy } = state;
+  const navigate = useNavigate()
   const onCloseCreatePostModal = ()=>{
     setShowCreatePostModal(false)
+  }
+
+  const handlePostPrivacy = (selectedValue) => {
+    setState({...state,  postPrivacy: selectedValue})
   }
   return (
     <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20 bg-red-400 ">
@@ -44,16 +55,34 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
                 Share with
               </span>
 
-              <SelectDropdown />
+              {/* <SelectDropdown /> */}
+              <Dropdown
+                selectedValue={postPrivacy}
+                handleChange={handlePostPrivacy}
+                name="Select who can see your post"
+                options={[
+                  { name: "Public" },
+                  { name: "Friends" },
+                  { name: "Relatives" },
+                  { name: "Classmates" },
+                  { name: "Officemates" },
+                  {
+                    name: "Create your own union",
+                    onClick: "/create-union",
+                  },
+                ]}
+                keyName="name"
+              />
             </section>
           </div>
           <div className="absolute sm:left-2/4 sm:ml-0.5 sm:w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
           <div className="leftSide">
             {/* comment */}
             <div className="comment">
-              <textarea className="px-2 pt-2 sm:px-4 sm:pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none h-[90px] sm:h-[100px] xl:h-[125px] text-xs ">
-                Write a something..........
-              </textarea>
+              <textarea
+                placeholder="Write something..."
+                className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
+              ></textarea>
             </div>
             {/* add location */}
             <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">

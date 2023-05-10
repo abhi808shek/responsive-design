@@ -123,8 +123,8 @@ export const getPostHistoryByPostId = (postId) => async (dispatch) => {
 export const setPostReport = (reportResult) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-    const postReportResult = await axios.get(
-      `http://3.233.82.34:8080/api/post/report/`,
+    const postReportResult = await axios.post(
+      `http://3.233.82.34:8080/api/post/report`,
       reportResult,
       {
         headers: {

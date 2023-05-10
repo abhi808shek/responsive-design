@@ -22,6 +22,10 @@ const rootsReducer = (state = initialState, action) => {
         ...state,
         likedDetails: action.payload,
       };
+    case "ACTIVE_POST":
+      return {
+        ...state, activePost: action.payload
+      }
 
     default:
       return state;
