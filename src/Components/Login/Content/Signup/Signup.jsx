@@ -144,7 +144,7 @@ const Signup = () => {
   return (
     <>
       {/* padding increased */}
-      <div className="w-full h-full rounded-[20px] flex flex-col justify-center items-center gap-1 p-7">
+      <div className="w-full rounded-[20px] flex flex-col justify-center items-center gap-1 px-6">
         <Heading title="Get Started" />
         <div className="flex w-full justify-between mb-2">
           <span>

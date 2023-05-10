@@ -30,7 +30,7 @@ const SliderSection = () => {
     },
   };
   return (
-    <div className="flex flex-col w-[40%] relative">
+    <div className="flex flex-col w-[95%] sm:w-[50%]  lg:w-[40%] relative">
       <div className="flex justify-between w-full pt-2">
         <span className="font-bold text-sm">Recent Kicks</span>
         <span className="text-sm text-[#788eb7] font-medium">
@@ -71,7 +71,7 @@ const SliderSection = () => {
         arrows={true}
         containerClass={`w-full h-[200px] z-[1]`}
       >
-          {[1, 2, 3, 4, 4]?.map((data) => (
+          {[1, 2, 3, 4, 4,4,5]?.map((data) => (
             <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
               <Link to="/kicks">
               <img
