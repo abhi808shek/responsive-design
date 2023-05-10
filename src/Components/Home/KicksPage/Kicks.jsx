@@ -75,7 +75,6 @@ const Kicks = () => {
 
   const dataList = [
     { title: "mute", img: mute },
-    { title: "mute", img: mute },
     { title: "likes", img: like },
     { title: 'follow', img: beforeFollow },
     { title: "comments", img: Messages },
