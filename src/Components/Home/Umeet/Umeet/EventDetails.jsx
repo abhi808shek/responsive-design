@@ -74,6 +74,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShare
      </div>     
 
      <RenderStatus />
+    { myEvent && (
 
      <div className='w-full my-8 p-3 py-7 bg-white rounded-xl'>
       <div className='flex justify-between font-semibold px-2 pb-4'>
@@ -86,7 +87,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShare
        ))}
       </Carousel>
      </div>
-
+    )}
     </div>
     
   </section>

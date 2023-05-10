@@ -3,7 +3,7 @@ import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState } from 'react'
 import ToggleButton from './ToggleButton';
 
-const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup }) => {
+const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup, handleShowAddPoliticalGroup, whichType }) => {
   const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
   
@@ -13,6 +13,11 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
       setSelectedImage(URL.createObjectURL(image));
     }
   };
+
+  const handleShowGroup = ()=>{
+    if(whichType == 'personal') handleShowAddGroup()
+    else if(whichType == 'political') handleShowAddPoliticalGroup()
+  }
 
   return (
     <div className='fullPage bg-white border-gray-300'>
@@ -45,16 +50,16 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
          <input type="file" id="myfile" accept="image/*" onChange={handleImageChange} className='hidden' />        
         </div>
         <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
-        <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Event Title*'/>
-        <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
-        <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
+        <input className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*'/>
+        <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
+        <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
         <div className='my-2 flex items-center'>
          <span className='font-bold text-xl text-gray-600'>Event Mode</span>
          <div className='px-6 flex items-center'>
-          <input type='radio' className='accent-[#649B8E] w-5 h-5' id='cation' /><label for='cation' className='pl-2'>Cation</label>
+          <input type='radio' className='accent-[#649B8E] w-5 h-5' id='cation' /><label for='cation' className='pl-2'>At Location</label>
          </div>
          <div className='px-6 flex items-center'>
-          <input type='radio' className='accent-[#649B8E] w-5 h-5' id='location'/><label for='location' className='pl-2'>Location</label>
+          <input type='radio' className='accent-[#649B8E] w-5 h-5' id='location'/><label for='location' className='pl-2'>Online</label>
          </div>
         </div>
 
@@ -73,8 +78,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
         <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Host Mail Id*'/>
 
         <div className='flex items-center my-2'>
-         <img onClick={handleShowAddGroup} src={guest} className='cursor-pointer' />
-         <label onClick={handleShowAddGroup} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
+         <img onClick={handleShowGroup} src={guest} className='cursor-pointer' />
+         <label onClick={handleShowGroup} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
         </div>
 
         <div className='border-b'>

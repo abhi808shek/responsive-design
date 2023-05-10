@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import profile from '../../../Assets/Images/Person.jpg'
+import videoImg from '../../../Assets/Images/videoImg.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { MdDelete } from 'react-icons/md';
 import { imageUploadApi } from '../../../redux/actionCreators/rootsActionCreator';

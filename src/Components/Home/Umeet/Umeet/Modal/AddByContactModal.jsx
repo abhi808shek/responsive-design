@@ -17,15 +17,15 @@ const AddByContactModal = ({ onClose }) => {
          <button className='px-4 py-1.5 text-sm rounded-md border text-[#649B8E] boredr-[#649B8E]'>Choose Classmate</button>
          <button className='px-4 py-1.5 text-sm rounded-md text-white ml-5 border bg-[#649B8E]'>Add by Email/Phone</button>
        </div>
-       <div className='border-b'>        
-        <div className='flex items-center my-3'>        
+       <div className=''>        
+        <div className='flex items-center my-2'>
          <input className='w-full outline-none border bg-gray-200 border-gray-200 rounded-lg h-9 pl-1' placeholder='example' />
          <span className='text-gray-600 px-0.5'>@</span>
          <input className='w-full outline-none bg-gray-200 border border-gray-200 rounded-lg h-9 pl-1' placeholder='domain.co' />
          <button className='px-4 py-1.5 text-sm rounded-md text-white ml-1 border bg-[#649B8E]'>Add</button>
         </div>
 
-        <div className='flex items-center my-3'>  
+        <div className='flex items-center pb-3 border-b border-gray-300'>  
          <select className='bg-gray-200 mr-2 outline-none h-9 rounded-lg px-2 border border-gray-200'>          
           <option>+91</option>
           <option>USA</option>

@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { AiOutlineCloseCircle, AiOutlineEdit, AiOutlineDelete } from 'react-icons/ai'
 import { GrNotification } from 'react-icons/gr'
+import { MdOutlineBookmarks } from 'react-icons/md'
 
-const OwnUserVideoModal = ({ onClose, handleEdit, handleDelete }) => {
+const OwnUserVideoModal = ({ onClose, handleEdit, handleDelete, handleCollection }) => {
   const [count, setCount] = useState(1);
 
   return (
@@ -23,8 +24,12 @@ const OwnUserVideoModal = ({ onClose, handleEdit, handleDelete }) => {
       <span className='ml-3'>Delete</span>
      </div>
      <div className='flex py-3 cursor-pointer hover:bg-blue-50'>
-      <GrNotification className='w-7 h-7' />
+      <GrNotification className='w-7 h-7 p-0.5' />
       <span className='ml-3'>Mute Notification</span>
+     </div>
+     <div onClick={handleCollection} className='flex py-3 cursor-pointer hover:bg-blue-50'>
+      <MdOutlineBookmarks className='w-7 h-7' />
+      <span className='ml-3'>Saved Collections</span>
      </div>
     </section>
    </div>

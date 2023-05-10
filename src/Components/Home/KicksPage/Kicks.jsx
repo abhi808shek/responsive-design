@@ -3,24 +3,9 @@ import { useDispatch, useSelector } from "react-redux";
 
 import events from "./events.jpg";
 import VideoComponent from "./VideosComponent/VideoComponent";
-import ReactPlayer from "react-player";
-import v1 from "../../../Assets/Videos/v1.mp4";
-import v2 from "../../../Assets/Videos/v2.mp4";
-import v3 from "../../../Assets/Videos/v3.mp4";
-import v4 from "../../../Assets/Videos/v4.mp4";
-import v5 from "../../../Assets/Videos/v5.mp4";
 import { HiPlus, HiSearch } from "react-icons/hi";
-import { BsMusicNoteList } from "react-icons/bs";
-import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
-import mute from "../../../assets/images/mute.png";
-import Messages from "../../../assets/images/Messages.png";
-import like from "../../../assets/images/KicksBeforeLike.png";
 import beforeFollow from "../../../Assets/Images/Kicks before follow.png"
-import share from "../../../assets/images/share.png";
 import "./kicks.css";
-import { Link } from "react-router-dom";
-import KicksComment from "./KicksComment";
-import SelectedVideoModal from "../SearchKicksPage/SelectedVideoModal";
 import {
   addCommentOnKicks,
   getFollowingKicks,
@@ -28,6 +13,22 @@ import {
   getTrendingKicks,
   selectKicksType,
 } from "../../../redux/actionCreators/kicksActionCreator";
+import v1 from "../../../Assets/Videos/v1.mp4";
+import v2 from "../../../Assets/Videos/v2.mp4";
+import v3 from "../../../Assets/Videos/v3.mp4";
+import v4 from "../../../Assets/Videos/v4.mp4";
+import v5 from "../../../Assets/Videos/v5.mp4";
+import { BsMusicNoteList } from "react-icons/bs";
+import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
+import mute from "../../../assets/images/mute.png";
+import Messages from "../../../assets/images/Messages.png";
+import like from "../../../assets/images/KicksBeforeLike.png";
+import share from "../../../assets/images/share.png";
+import collection from "../../../Assets/Images/collection.png";
+import "./kicks.css";
+import { Link } from "react-router-dom";
+import KicksComment from "./KicksComment";
+import SelectedVideoModal from "../SearchKicksPage/SelectedVideoModal";
 import EmptyComponent from "../../../Components/empty component/EmptyComponent";
 import { isEmpty } from "../../Utility/utility";
 import moment from "moment";
@@ -74,10 +75,12 @@ const Kicks = () => {
 
   const dataList = [
     { title: "mute", img: mute },
+    { title: "mute", img: mute },
     { title: "likes", img: like },
     { title: 'follow', img: beforeFollow },
     { title: "comments", img: Messages },
     { title: "share", img: share },
+    { title: "save", img: collection },
   ];
 
   function handleFileSelection(event) {

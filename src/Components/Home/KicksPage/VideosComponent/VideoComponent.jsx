@@ -1,98 +1,117 @@
-import React, { useState } from "react";
+import { useRef, useState } from "react";
 import ReactPlayer from "react-player";
-import v2 from '../../../../Assets/Videos/v2.mp4';
-import { BsThreeDotsVertical } from 'react-icons/bs'
-import eye from '../../../../Assets/Images/Eye icon.png'
-import group from '../../../../Assets/Images/Group 716@3x.png';
-import mute from '../../../../Assets/Images/Mute.png';
-import kicksPageBeforeLike from '../../../../Assets/Images/Kicks before like.png';
-import kicksComments from '../../../../Assets/Images/Kicks Comment.png';
-import kicksShare from '../../../../Assets/Images/Kicks Share.png';
+import v2 from "../../../../Assets/Videos/v2.mp4";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import eye from "../../../../Assets/Images/Eye icon.png";
+import group from "../../../../Assets/Images/Group 716@3x.png";
+import mute from "../../../../Assets/Images/Mute.png";
+import kicksPageBeforeLike from "../../../../Assets/Images/Kicks before like.png";
+import kicksComments from "../../../../Assets/Images/Kicks Comment.png";
+import kicksShare from "../../../../Assets/Images/Kicks Share.png";
+import collection from "../../../../Assets/Images/Collections.png";
 import kicksLiked from "../../../../Assets/Images/KicksLike.png";
 import unmute from "../../../../Assets/Images/Un-Mute.png"
-import OwnUserVideoModal from '../OwnUserVideoModal'
-import DeleteVideoModal from '../DeleteVideoModal'
-import EditMyVideoModal from '../EditMyVideoModal'
-import OtherUserVideoModal from '../OtherUserVideoModal'
-import VideoCommentsModal from '../VideoCommentsModal'
+import OwnUserVideoModal from "../OwnUserVideoModal";
+import DeleteVideoModal from "../DeleteVideoModal";
+import EditMyVideoModal from "../EditMyVideoModal";
+import OtherUserVideoModal from "../OtherUserVideoModal";
+import VideoCommentsModal from "../VideoCommentsModal";
 import { useDispatch, useSelector } from "react-redux";
-import { addLikes, getCommentsByPostid } from "../../../../redux/actionCreators/kicksActionCreator";
+import {
+  addLikes,
+  getCommentsByPostid,
+} from "../../../../redux/actionCreators/kicksActionCreator";
 import moment from "moment/moment";
 import { startFollowing } from "../../../../redux/actionCreators/profileAction";
 import { toast } from "react-toastify";
 
-const VideoComponent = ({ dataList , data}) => {
+const VideoComponent = ({ dataList, data }) => {
   const dispatch = useDispatch();
   const reducerData = useSelector((state) => {
     return {
       profileDetail: state.profileReducer.profile
     }
   });
-  const { profileDetail } = reducerData
-  const [isMyVideo, setIsMyVideo] = useState(false)
-  const [showOwnVideoModal, setShowOwnVideoModal] = useState(false)
-  const [showOthersVideoModal, setShowOthersVideoModal] = useState(false)
-  const [deleteVideo, setDeletetVideo] = useState(false)
-  const [editVideo, setEditVideo] = useState(false)  
+  const { profileDetail } = reducerData;
+  const [isMyVideo, setIsMyVideo] = useState(false);
+  const [showOwnVideoModal, setShowOwnVideoModal] = useState(false);
+  const [showOthersVideoModal, setShowOthersVideoModal] = useState(false);
+  const [deleteVideo, setDeletetVideo] = useState(false);
+  const [editVideo, setEditVideo] = useState(false);
   const [commentVideo, setCommentVideo] = useState(false);
-  const [state, setState] = useState({})
-  const { isMute = true} = state
-const {
-  id,
-  commentcount = '',
-  createddatetime,
-  duration,
-  image,
-  isliked,
-  likecount = '',
-  profile,
-  segment,
-  shareto,
-  text,
-  type,
-  video,
-  viewcount,
-  viptype,
-  profileid,
-} = data;
-const name = profile?.fname+profile?.lname
-  const handleDelete = ()=>{
-    setShowOwnVideoModal(false)
-    setDeletetVideo(true)
-  }
+  const [showCollection, setShowCollection] = useState(false);
+  const [isMuted, setIsMuted] = useState(false);
 
-  const handleEdit = ()=>{
-    setShowOwnVideoModal(false)
-    setEditVideo(true)
-  }
+  const videoRef = useRef(null);
 
-  const handleIsMyVideo = (data)=>{
+  const handleButtonActions = (elem) => {
+    if (elem.title == "mute") {
+      console.log(isMuted, videoRef.current.muted);
+      setIsMuted(!isMuted);
+      videoRef.current.muted = !videoRef.current.muted;
+    } else if (elem.title == "comments") {
+      setCommentVideo(true);
+    }
+  };
+
+  const [state, setState] = useState({});
+  const { isMute = true } = state;
+  const {
+    id,
+    commentcount = "",
+    createddatetime,
+    duration,
+    image,
+    isliked,
+    likecount = "",
+    profile,
+    segment,
+    shareto,
+    text,
+    type,
+    video,
+    viewcount,
+    viptype,
+    profileid,
+  } = data;
+  const name = profile?.fname + profile?.lname;
+  const handleDelete = () => {
+    setShowOwnVideoModal(false);
+    setDeletetVideo(true);
+  };
+
+  const handleEdit = () => {
+    setShowOwnVideoModal(false);
+    setEditVideo(true);
+  };
+
+  const handleIsMyVideo = (data) => {
     dispatch({
       type: "ACTIVE_POST",
-      payload: data
-    })
-    if(isMyVideo){
-      setShowOthersVideoModal(false)
-      setShowOwnVideoModal(true)
-    }else{
-      setShowOthersVideoModal(true)
-      setShowOwnVideoModal(false)
+      payload: data,
+    });
+    if (isMyVideo) {
+      setShowOthersVideoModal(false);
+      setShowOwnVideoModal(true);
+    } else {
+      setShowOthersVideoModal(true);
+      setShowOwnVideoModal(false);
     }
-  }
+  };
 
   const handleIconClick = (title) => {
     dispatch({
       type: "ACTIVE_POST",
       payload: data
     })
-    if(title === 'comments'){
+    if (title === "comments") {
       dispatch(getCommentsByPostid(id));
       setCommentVideo(true);
-    }else if(title === 'mute'){
-      setState({...state, isMute: !isMute})
-    }else if(title === 'likes'){
+    } else if (title === "mute") {
+      setState({ ...state, isMute: !isMute });
+    } else if (title === "likes") {
       const payload = {
-        postid : id,
+        postid: id,
         profileid: profileid,
         type:'c',
         datetime: moment().format('YYYY-MM-DDTHH:mm:ss:ms')
@@ -118,7 +137,7 @@ const name = profile?.fname+profile?.lname
         }
       })
     }
-  }
+  };
 
   return (
     <div key={profile?.id} className="relative my-10 h-full">
@@ -156,7 +175,7 @@ const name = profile?.fname+profile?.lname
           loop={true}
           autoPlay="autoplay"
           controls
-          muted = {isMute}
+          muted={isMute}
         >
           <source src={video} type="video/mp4" />
         </video>
@@ -175,7 +194,7 @@ const name = profile?.fname+profile?.lname
             (elem.title === 'follow' & profileid === profileDetail?.id) ? "" :
             <div
               key={elem.title}
-              onClick={() => handleIconClick(elem.title) }
+              onClick={() => handleIconClick(elem.title)}
               className="flex items-end mb-3 gap- font-semibold flex-col"
             >
               <img
@@ -184,7 +203,11 @@ const name = profile?.fname+profile?.lname
                 className="w-[30px] cursor-pointer"
               />
               <div className="text-[12px] text-white flex items-center">
-                {elem.title === 'likes' ? `${likecount} likes` : elem.title === 'comments' ? `${commentcount} comments`: elem.title}
+                {elem.title === "likes"
+                  ? `${likecount} likes`
+                  : elem.title === "comments"
+                  ? `${commentcount} comments`
+                  : elem.title}
               </div>
             </div>
           ))}
@@ -209,6 +232,6 @@ const name = profile?.fname+profile?.lname
       )}
     </div>
   );
-}
+};
 
 export default VideoComponent;
