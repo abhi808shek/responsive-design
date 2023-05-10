@@ -46,6 +46,7 @@ import SingleUnionPage from "./Components/Home/Unions/SingleUnionPage";
 import CreateUnion from "./Components/Home/Unions/CreateUnion";
 import ContactUs from "./Components/Home/ContactUs/ContactUs";
 import EventResultsPage from "./Components/Event/EventResultsPage";
+import HashTagPage from "./Components/Home/SearchPage/HashTagPage";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -144,8 +145,7 @@ const App = () => {
             <Route path="single-unions-page" element={<SingleUnionPage />} />
             <Route path="create-union" element={<CreateUnion />} />
             <Route path="contact-us" element={<ContactUs />} />
-
-
+            <Route path="hashtag-page" element={<HashTagPage />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}

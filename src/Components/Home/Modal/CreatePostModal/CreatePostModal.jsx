@@ -6,7 +6,7 @@ import { Autocomplete } from "@react-google-maps/api";
 import Dropdown from "../../../Login/Content/Modal/Dropdown";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-
+import {SlLocationPin} from "react-icons/sl"
 const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
   const [state, setState] = useState({})
   const { postPrivacy } = state;
@@ -52,7 +52,7 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
             </section>
             <section className="flex items-center ">
               <span className="md:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
-                Share with{" "}
+                Share with
               </span>
               {/*<div className="">
             <select
@@ -102,12 +102,13 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
               ></textarea>
             </div>
             {/* add location */}
-            <div>
+            <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">
               <input
                 type="text"
-                className="w-[90%] p-2 text-sm border-b-2 border-gray-400 outline-none font-bold placeholder-gray-500"
                 placeholder="Add Location"
+                className="flex-1  p-2 outline-none"
               />
+              <SlLocationPin size={20}/>
             </div>
             {/* accordion */}
             {/* <div className="my-2">

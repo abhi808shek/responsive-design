@@ -3,6 +3,7 @@ import { BsImage } from "react-icons/bs";
 import Portals from "../../Portals/Portals";
 import CreatePostModal from "../Modal/CreatePostModal/CreatePostModal";
 import LikeModal from "../Modal/LikeModal/LikeModal";
+import HashTagPage from "../SearchPage/HashTagPage";
 
 const PostForm = ({ width, bgColor }) => {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
