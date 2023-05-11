@@ -11,7 +11,7 @@ const SingleUnionPage = () => {
   };
   const membersTab = ["Members", "Invited Members"];
   return (
-    <div className="w-[40%] bg-[#E4E7EC] mx-auto flex flex-col items-center gap-2 px-4 h-[89%] mt-1">
+    <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-[#E4E7EC] mx-auto flex flex-col items-center gap-2 px-4 h-[89%] mt-1">
       <div className="flex gap-2 w-full h-[40px] py-2 mb-2">
         <img src="./images/events.jpg" alt="" className="w-[30px] h-[30px]" />
         <div className="flex-col flex flex-1">
@@ -19,7 +19,7 @@ const SingleUnionPage = () => {
           <p className="text-gray-500 text-[10px]">0 Joined</p>
         </div>
         <button
-          className="px-5 bg-blue-400 text-white font-bold py-1 text-xs rounded-lg"
+          className="px-5 bg-blue-400 text-white font-bold py-1 text-[10px] rounded-lg"
           // onClick={onCreateUnion}
         >
           Invite +
@@ -31,13 +31,17 @@ const SingleUnionPage = () => {
           <img
             src="./images/events.jpg"
             alt=""
-            className="w-[45px] h-[45px] rounded-full"
+            className="w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] rounded-full"
           />
         </div>
         <div className=" flex flex-1 flex-col justify-center ml-4">
-          <span className="font-bold text-sm">Abhi Personal Profile</span>
+          <span className="font-bold text-xs sm:text-sm">
+            Abhi Personal Profile
+          </span>
           <em>
-            <p className="text-[10px] font-bold text-green-700">Admin</p>
+            <p className="text-[9px] sm:text-[10px]  font-bold text-green-700">
+              Admin
+            </p>
           </em>
         </div>
       </div>
@@ -46,7 +50,7 @@ const SingleUnionPage = () => {
         {membersTab?.map((elem) => (
           <button
             key={elem}
-            className="w-[35%] bg-blue-400 text-white font-bold py-1 text-xs rounded-lg"
+            className="w-[35%] bg-blue-400 text-white font-bold py-1 text-[10px] sm:text-xs rounded-lg"
             style={{
               backgroundColor: unionMembersTab === elem ? "#7991BD" : "#666567",
             }}

@@ -14,13 +14,13 @@ const ChangeRelationshipModal = ({
 
   console.log(relationOption, "+++++++++++++++++++++");
   return (
-    <div className="w-[25%] bg-white flex flex-col rounded-lg">
+    <div className=" w-[80%] sm:w-[40%] lg:w-[30%] xl:w-[25%] bg-white flex flex-col rounded-lg">
       <h1 className="text-center my-2 font-bold text-sm">{title}</h1>
 
       {dataList?.map((elem, index) => (
         <React.Fragment key={index}>
           <hr />
-          <div className="flex gap-2 py-4 px-4">
+          <div className="flex gap-2 py-2 sm:py-3 lg:py-3 xl:py-4 px-4">
             <input
               name={elem.name}
               onChange={handleRelation}

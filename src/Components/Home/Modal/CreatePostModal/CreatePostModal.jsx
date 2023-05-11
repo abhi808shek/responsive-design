@@ -19,7 +19,7 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
     setState({...state,  postPrivacy: selectedValue})
   }
   return (
-    <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20 bg-red-400 ">
+    <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
       {/* create post */}
       <div className="flex justify-between">
         <div className="w-full">

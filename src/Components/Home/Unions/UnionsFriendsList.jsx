@@ -7,20 +7,19 @@ const UnionsFriendsList = () => {
         <img
           src="./images/events.jpg"
           alt=""
-          className="w-[45px] h-[45px] rounded-full"
+          className="w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] rounded-full"
         />
       </div>
       <div className=" flex flex-1 flex-col justify-center ml-4">
-        <span className="font-bold text-sm">Elisa K</span>
+        <span className="font-bold text-xs sm:text-sm">Elisa K</span>
         <em>
-          
-          <p className="text-[10px] font-bold text-gray-500">Friend,Relative</p>
+          <p className="text-[9px] sm:text-[10px] font-bold text-gray-500">Friend,Relative</p>
         </em>
       </div>
 
       <div className="flex gap-2 items-center cursor-pointer">
         <button
-          className="px-5 bg-blue-400 text-white font-bold py-1 text-xs rounded-lg"
+          className="px-5 bg-blue-400 text-white font-bold py-1 text-[10px] sm:text-xs rounded-lg"
           // onClick={onCreateUnion}
         >
           Invite +

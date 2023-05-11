@@ -57,9 +57,9 @@ const MyFriendsPage = () => {
   const {filterOptions}= option 
   return (
     <div className="w-[100%] h-full bg-[#E4E7EC] flex justify-center z-10 mt-1">
-      <div className="w-[40%] bg-white text-black">
-        <section className="flex gap-2 px-2 items-center">
-         <div className="w-1/2">
+      <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-white text-black mt-1">
+        <section className="flex gap-2 px-2 items-center flex-col-reverse lg:flex-row ">
+         <div className="w-full flex">
           <Dropdown
             label='View by'
             options={filterOptions}
@@ -70,7 +70,7 @@ const MyFriendsPage = () => {
           />
          </div>
       
-          <div className="flex sm:w-[60%] lg:w-[58%] xl:w-[70%]">
+          <div className="flex w-[100%] lg:w-[58%] xl:w-[70%]">
             <SearchComponent
               width={98}
               bgColor={"#E4E7EC"}
@@ -82,11 +82,11 @@ const MyFriendsPage = () => {
 
         <section className="">
         {
-          isEmpty(friends) 
-          ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
-          :
+          // isEmpty(friends) 
+          // ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
+          // :
           <div className="px-1 mt-2 flex flex-col gap-2">
-            {friends.map((elem,index) => (
+            {[1,2,3,4]?.map((elem,index) => (
               <React.Fragment key={index}>
                 <FriendList icon={true} desc={true} data={elem} />
                 <hr />

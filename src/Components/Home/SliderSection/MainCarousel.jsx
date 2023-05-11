@@ -68,7 +68,7 @@ export default function MainCarousel() {
         >
           {ImageFile?.length || VideoFile.length ? (
             [...VideoFile, ...ImageFile].map((elem) => (
-              <div className="flex h-full sm:w-[100%] lg:w-full justify-center bg-red-500 py-2">
+              <div className="flex h-full sm:w-[100%] lg:w-full justify-center py-2">
                 <div className=" sm:h-[45vh] sm:w-[90%] lg:w-[90%] flex flex-col border border-gray-400 rounded-lg px-2 mb-4 self-center">
                   {elem.type.includes("image") ? (
                     <img
