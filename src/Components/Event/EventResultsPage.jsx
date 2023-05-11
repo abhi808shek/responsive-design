@@ -21,7 +21,7 @@ const EventResultsPage = () => {
 
   return (
     <>
-      <div className="w-[40%] mt-1 px-4 bg-[#E4E7EC] mx-auto py-4 flex flex-col gap-4">
+      <div className="w-[95%] sm:w-[50%] lg:w-[40%] mt-1 px-4 bg-[#E4E7EC] mx-auto py-4 flex flex-col gap-4">
         <div
           className="px-2 flex py-2 rounded-lg gap-2 w-full bg-gray-400 cursor-pointer"
           onClick={onHandleFashionShow}
