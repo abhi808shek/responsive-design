@@ -27,13 +27,13 @@ const VerificationRequest = () => {
     });
   };
   return (
-    <div className="bg-white border-2 w-[40%] mx-auto flex flex-col items-center px-4 gap-2 mt-[70px] rounded-xl pb-2">
+    <div className="bg-white border-2 w-[95%] sm:w-[50%] lg:w-[40%] mx-auto flex flex-col items-center px-4 gap-2 mt-1 rounded-xl pb-2">
       <h1 className="font-bold mt-2"> Welcome to verification process</h1>
-      <p className="text-sm text-center">
+      <p className="text-[10px] sm:text-xs lg:text-sm text-center">
         A Uynite Verified badged will be added next to your Profile Name, which
         makes your account as a Public Figure, Celebrity &amp; Global Brand.
       </p>
-      <p className="text-sm text-blue-400 text-center mb-2">
+      <p className="text-[10px] sm:text-xs lg:text-sm text-blue-400 text-center mb-2">
         Submitting a request for verification does not guarantee that your
         Profile will get verified.
       </p>
@@ -44,9 +44,7 @@ const VerificationRequest = () => {
       <textarea
         name=""
         id=""
-        cols="75"
-        rows="6"
-        className="rounded-lg text-xs p-2 border-2"
+        className="rounded-lg text-xs p-2 border-2 w-full h-[120px]"
         placeholder="Tell us something about you..."
       ></textarea>
 
@@ -86,7 +84,7 @@ const VerificationRequest = () => {
       <div className="w-full h-[2px] bg-gray-500"></div>
       <button
         className="bg-blue-400 text-white w-[90%] text-sm py-2 font-bold rounded-lg"
-        onClick={()=>navigate("/confirmation-request")}
+        onClick={() => navigate("/confirmation-request")}
       >
         Submit
       </button>

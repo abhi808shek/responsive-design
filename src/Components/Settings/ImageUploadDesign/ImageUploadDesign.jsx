@@ -3,11 +3,11 @@ import ImageIcon from "@mui/icons-material/Image";
 
 const ImageUploadDesign = ({ title, handleImageChange, file }) => {
   return (
-    <div>
+    <div className="w-full">
       <p className="text-sm my-2">{title}</p>
 
       <label
-        className="font-medium w-[480px] mb-1 h-[40vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg"
+        className="font-medium w-full mb-1 h-[40vh] flex flex-col items-center justify-center border border-gray-400 rounded-lg"
         htmlFor="image"
       >
         {!file ? (

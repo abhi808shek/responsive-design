@@ -6,7 +6,7 @@ const Button2 = ({title, onClick,disabled, id}) => {
       <button
         id={id}
         type="button"
-        className={`bg-[#7991BD] text-white w-[70%] rounded-3xl py-2 lg:w-[50%] lg:py-1 font-bold text-xs`}
+        className={`bg-[#7991BD] text-white w-[70%] rounded-3xl py-2 font-bold text-xs`}
         disabled={disabled}
         onClick={onClick}
       >

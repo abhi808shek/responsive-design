@@ -35,7 +35,7 @@ const EnterCode = ({ title }) => {
       setTimer(true);
       setTimeout(() => {
         setTimer(false);
-      }, 4000);
+      }, 5*60*1000);
     }
   };
   
@@ -52,10 +52,16 @@ const EnterCode = ({ title }) => {
   const [seconds, setSeconds] = useState(5 * 60);
 
   useEffect(() => {
+    if (timer === false) {
+      setTimer(true);
+      setTimeout(() => {
+        setTimer(false);
+      }, 5 * 60 * 1000);
+    }
     const intervalId = setInterval(() => {
       setSeconds((prevSeconds) => prevSeconds - 1);
     }, 1000);
-
+    
     return () => clearInterval(intervalId);
   }, []);
 
