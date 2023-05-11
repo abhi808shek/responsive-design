@@ -2,6 +2,7 @@ const initialState = {
   kicksList: [],
   postList: [],
   likedDetails: {},
+  activePost: {}
 };
 
 const rootsReducer = (state = initialState, action) => {

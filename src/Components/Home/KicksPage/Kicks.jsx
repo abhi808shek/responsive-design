@@ -3,13 +3,21 @@ import { useDispatch, useSelector } from "react-redux";
 
 import events from "./events.jpg";
 import VideoComponent from "./VideosComponent/VideoComponent";
-import ReactPlayer from "react-player";
+import { HiPlus, HiSearch } from "react-icons/hi";
+import beforeFollow from "../../../Assets/Images/Kicks before follow.png"
+import "./kicks.css";
+import {
+  addCommentOnKicks,
+  getFollowingKicks,
+  getLatestKicks,
+  getTrendingKicks,
+  selectKicksType,
+} from "../../../redux/actionCreators/kicksActionCreator";
 import v1 from "../../../Assets/Videos/v1.mp4";
 import v2 from "../../../Assets/Videos/v2.mp4";
 import v3 from "../../../Assets/Videos/v3.mp4";
 import v4 from "../../../Assets/Videos/v4.mp4";
 import v5 from "../../../Assets/Videos/v5.mp4";
-import { HiPlus, HiSearch } from "react-icons/hi";
 import { BsMusicNoteList } from "react-icons/bs";
 import { FaArrowAltCircleLeft, FaArrowAltCircleRight } from "react-icons/fa";
 import mute from "../../../assets/images/mute.png";
@@ -21,14 +29,9 @@ import "./kicks.css";
 import { Link } from "react-router-dom";
 import KicksComment from "./KicksComment";
 import SelectedVideoModal from "../SearchKicksPage/SelectedVideoModal";
-import {
-  getFollowingKicks,
-  getLatestKicks,
-  getTrendingKicks,
-  selectKicksType,
-} from "../../../redux/actionCreators/kicksActionCreator";
 import EmptyComponent from "../../../Components/empty component/EmptyComponent";
 import { isEmpty } from "../../Utility/utility";
+import moment from "moment";
 
 const Kicks = () => {
   const dispatch = useDispatch();
@@ -63,7 +66,6 @@ const Kicks = () => {
   useEffect(() => {
     getKicks("Following");
   }, []);
-  console.log(videoData, "+++++++++++++++++++++++");
 
   const data = [
     { title: "Following" },
@@ -74,6 +76,7 @@ const Kicks = () => {
   const dataList = [
     { title: "mute", img: mute },
     { title: "likes", img: like },
+    { title: 'follow', img: beforeFollow },
     { title: "comments", img: Messages },
     { title: "share", img: share },
     { title: "save", img: collection },
@@ -108,7 +111,19 @@ const Kicks = () => {
       dispatch(getFollowingKicks(params, { ...data, segment: "FOLLOWING" }));
     }
   };
-  const handleComment = (commentText) => {};
+  const handleComment = (commentText, postid) => {
+    if (commentText?.trim()) {
+      const payload = {
+        profileid: profile?.id,
+        postid: postid,
+        text: commentText,
+        image: "image",
+        emogi: "emogi",
+        datetime: moment().format("YYYY-MM-DDTHH:mm:ms"),
+      };
+      dispatch(addCommentOnKicks(payload));
+    }
+  };
   return (
     <div className={`w-full flex h-[90vh] bg-[url(${events})] z-10`}>
       <section className="flex w-[35%] items-center justify-center bg-black">
@@ -155,15 +170,14 @@ const Kicks = () => {
 
       {/* Reels Section */}
 
-      <section className="overflow-y-scroll flex-1  text-white bg-black  h-[90vh] hideScroll">
+      <section className="overflow-y-scroll flex-1 w-1/2 text-white bg-black  h-[90vh] hideScroll">
         {isEmpty(videoData?.content) ? (
           <EmptyComponent
             message={`There is no video in ${kicksType} section`}
           />
         ) : (
           videoData?.content?.map((item) => {
-            const { text } = item;
-            console.log(item, "IIIIIIIIIIIIIIIII TTTTTTTTTTT MMMMMMMMMMM");
+            const { text, id } = item;
             return (
               <div className="flex ">
                 <VideoComponent dataList={dataList} data={item} />
@@ -182,7 +196,11 @@ const Kicks = () => {
                         maayadari maayadari andamaa
                       </p>
                     </div>
-                    {comments && <KicksComment addComment={handleComment} />}
+                    {comments && (
+                      <KicksComment
+                        addComment={(text) => handleComment(text, id)}
+                      />
+                    )}
                   </div>
 
                   {/*Right Arrow Button */}

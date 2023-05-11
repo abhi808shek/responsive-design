@@ -85,6 +85,7 @@ export const addLikes = (data) => async (dispatch) => {
             type: 'ADD_LIKE',
             payload: response.data
         })
+        return response.data
     }catch(error){
         throw error;
     }
@@ -114,6 +115,28 @@ export const createKicksPost = (data) => async (dispatch) => {
         throw error;
     }
 }
+export const addCommentOnKicks = (commentDetails) => async (dispatch) => {
+  try {
+    // const getStoredData = await getUserDataFromLocalStorage
+    const getCommentResult = await axios.post(
+      `http://3.233.82.34:8080/instance/api/comment/add`,
+      commentDetails,
+      {
+        headers: {
+          "Accept-Language": "en",
+        //   Authorization: `Bearer ${getStoredData?.token}`,
+        },
+      }
+    );
+    dispatch({
+        type: "ADD_COMMENT",
+        payload: getCommentResult?.data,
+    });
+    return getCommentResult?.data
+  } catch (error) {
+    console.log(error.message);
+  }
+};
 
 // http://3.233.82.34:8080/instance/api/instancepost/getpoststag/utag1/utype1
 // http://3.233.82.34:8080/instance/api/instancetag/getprofile/utag
