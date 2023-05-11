@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getUserDataFromLocalStorage } from "../../Components/Utility/utility";
+import { getQueryParams } from "../../Components/Utility/utility";
 // -----------------------------------------------FOR ALL POST RELATED API------------------------------------------------------------
 
 // GET KICKS VIDEOS WITH LIMITS
@@ -71,6 +72,27 @@ export const getPostByPostId = (postId) => async (dispatch) => {
   }
 };
 
+export const getPostList = (data) => async (dispatch) => {
+    const getStoredData = await getUserDataFromLocalStorage();
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/post/api/post/getposts/${data}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+          Authorization: `Bearer ${getStoredData?.token}`,
+        },
+      }
+    );
+    dispatch({
+      type: "GET_POST_LIST",
+      payload: response.data,
+    })
+  }catch(err) {
+    throw err;
+  }
+}
+
 // ADD ALL POST COMMENTS
 export const addCommentOnPost = (commentDetails) => async (dispatch) => {
     try {
@@ -95,6 +117,17 @@ export const addCommentOnPost = (commentDetails) => async (dispatch) => {
     }
   };
 
+  export const getCommentByPostid = (data, payload) => async (dispatch) => {
+    try{
+      const response = await axios.get(`http://3.233.82.34:8080/post/api/comment/${data}?${getQueryParams(payload)}`, payload);
+      dispatch({
+        type: "COMMENTS_LIST",
+        payload: response.data
+      })
+    }catch(error){
+      throw error
+    }
+  }
 
 // GET POST HISTORY
 export const getPostHistoryByPostId = (postId) => async (dispatch) => {

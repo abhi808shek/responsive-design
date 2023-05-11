@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getQueryParams} from '../../Components/Utility/utility';
+import { getQueryParams, getUserDataFromLocalStorage} from '../../Components/Utility/utility';
 
 
 export const selectKicksType = (kicksType) => (dispatch) => {
@@ -16,9 +16,18 @@ export const selectKicksType = (kicksType) => (dispatch) => {
   });
 };
 export const addKicks= (data) => async (dispatch) => {
+      const getStoredData = await getUserDataFromLocalStorage();
+
     try{
         const response = await axios.post(
-          `http://3.233.82.34:8080/instance/api/instancepost/add`, data
+          `http://3.233.82.34:8080/instance/api/instancepost/add`,
+          data,
+          {
+            headers: {
+              "Accept-Language": "en",
+              Authorization: `Bearer ${getStoredData?.token}`,
+            },
+          }
         );
         dispatch({
             type: '',
@@ -31,9 +40,16 @@ export const addKicks= (data) => async (dispatch) => {
 
 
 export const getLatestKicks = (urlParams, data) => async (dispatch) => {
+    const getStoredData = await getUserDataFromLocalStorage();
     try{
         const response = await axios.post(
-          `http://3.233.82.34:8080/instance/api/fetch/kicks?${getQueryParams(urlParams)}`, data
+          `http://3.233.82.34:8080/instance/api/fetch/kicks?${getQueryParams(urlParams)}`, data, 
+        {
+          headers: {
+            "Accept-Language": "en",
+            Authorization: `Bearer ${getStoredData?.token}`,
+          },
+        }
         );
         console.log(response);
         dispatch({

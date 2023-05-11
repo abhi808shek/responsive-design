@@ -3,7 +3,7 @@ const initialState = {
   postList: [],
   likedDetails: {},
   activePost: {},
-  userPostList:[],
+  postList: [],
 };
 
 const rootsReducer = (state = initialState, action) => {
@@ -26,12 +26,37 @@ const rootsReducer = (state = initialState, action) => {
       };
     case "ACTIVE_POST":
       return {
-        ...state, activePost: action.payload
-      }
+        ...state,
+        activePost: action.payload,
+      };
+    case "GET_POST_LIST":
+      return { ...state, postList: action.payload.data };
+    case "INCREASE_COMMENT_COUNT":
+      const { postList } = state;
+      const newData = postList.map((item) => {
+        return item?.id === action.payload
+          ? { ...item, commentcount: item.commentcount + 1 }
+          : item;
+      });
+      return { ...state, postList: newData };
 
-    case "GET_POSTS_LIST":
-      return { ...state, userPostList: action.payload.data}
+    case "INCREASE_LIKE_COUNT":
+      const { postList: allPost } = state;
+      const newPostList = allPost.map((item) => {
+        return item?.id === action.payload
+          ? { ...item, likecount: item.likecount + 1, isliked: true }
+          : item;
+      });
+      return { ...state, postList: newPostList };
 
+    case "DECREASE_LIKE_COUNT":
+      const { postList: allPostList } = state;
+      const desliked = allPostList.map((item) => {
+        return item?.id === action.payload
+          ? { ...item, likecount: item.likecount - 1, isliked: false}
+          : item;
+      });
+      return { ...state, postList: desliked };
     default:
       return state;
   }

@@ -2,10 +2,10 @@ import React from 'react'
 
 const UnfriendModal = ({closeModalOption}) => {
     return (
-        <div className="w-[18%] bg-white flex flex-col rounded-lg">
+        <div className="w-[80%] sm:w-[40%] lg:w-[30%] xl:w-[28%] bg-white flex flex-col rounded-lg">
           <h1 className="text-center my-3 font-bold text-sm">Are you sure to Unfriend ?</h1>
     <hr />
-        <div className='w-full py-4 flex justify-center'>
+        <div className='w-full py-6 flex justify-center'>
             <img src="./images/unfriend.png" alt="" />
         </div>
     

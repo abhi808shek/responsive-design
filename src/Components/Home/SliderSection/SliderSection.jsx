@@ -10,18 +10,15 @@ const SliderSection = () => {
   const dispatch = useDispatch()
   const reducerData = useSelector((state) => {
     return {
-      kicksList: state.kicksReducer.latestKick,
+      kicksList: state.kicksReducer.latestKicks,
       profile: state.profileReducer.profile
     }
   })
-  const { kicksList, profile}  = reducerData;
+  const { kicksList = { content: []}, profile}  = reducerData;
 
   useEffect(() => {
-    let params = { index: 0, size: 10 };
-    dispatch(getLatestKicks(params, profile.id))
+ 
   }, [])
-  const firstName = "Sharma";
-  const lastName = "G";
 
   const responsive = {
     superLargeDesktop: {
@@ -84,27 +81,31 @@ const SliderSection = () => {
         arrows={true}
         containerClass={`w-full h-[200px] z-[1]`}
       >
-          {[1, 2, 3, 4, 4,4,5]?.map((data) => (
-            <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
+          {kicksList?.content?.map((data) =>{
+            const { profile, video} = data
+
+            return(
+            <div className="w-[91%] mt-5 mb-2 h-[160px] bg-black rounded-3xl ml-1">
               <Link to="/kicks">
-              <img
-                src="./images/events.jpg"
-                alt=""
-                className=" rounded-3xl h-full"
-              />
+              <div className="h-full">
+                <video height={'100%'} className="h-full" width={'200px'} src={video} autoPlay></video>
+              </div>
               {/* title name tag added */}
               <img
-                src="./images/events.jpg"
+                src={profile?.pimage}
                 alt=""
                 className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
               />
               <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
                 {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
-                Joe Doe
+                {`${profile?.fname} ${profile?.lname}`}
               </span>
         </Link>
             </div>
-          ))}
+          )
+          }
+          ) || []
+          }
       </Carousel>
     </div>
   );

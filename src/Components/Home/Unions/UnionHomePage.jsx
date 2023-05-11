@@ -34,15 +34,15 @@ const UnionHomePage = () => {
     dispatch(unionTabSelection(option));
   };
   return (
-    <div className="w-[40%] mx-auto flex flex-col items-center gap-5 px-4 h-[88%] mt-1 pt-4 bg-[#E4E7EC] ">
-      <h1 className="text-sm text-center">
+    <div className="w-[95%] sm:w-[50%] lg:w-[40%] mx-auto flex flex-col items-center gap-5 px-4 h-[88%] mt-1 pt-4 bg-[#E4E7EC] ">
+      <h1 className="text-xs sm:text-sm text-center">
         Create and Join Private unions to Create post's Events and Polls.
       </h1>
       <div className="flex justify-center gap-5 w-full">
         {unionData?.map((elem) => (
           <button
             key={elem}
-            className={`w-[30%] text-white font-bold py-1 text-xs rounded-lg`}
+            className={`w-[30%] text-white font-bold py-1 text-[9px] sm:text-xs rounded-lg`}
             style={{
               backgroundColor: unionTab === elem ? "#7991BD" : "#666567",
             }}
@@ -52,7 +52,7 @@ const UnionHomePage = () => {
           </button>
         ))}
         <button
-          className={`w-[30%] text-white font-bold py-1 text-xs rounded-lg bg-[#7991BD]`}
+          className={`w-[30%] text-white font-bold py-1  text-[9px] sm:text-xs rounded-lg bg-[#7991BD]`}
           onClick={onCreateUnion}
         >
           Add Unions

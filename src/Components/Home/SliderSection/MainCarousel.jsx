@@ -4,9 +4,8 @@ import "react-multi-carousel/lib/styles.css";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../../assets/images/delete.png";
 
-export default function MainCarousel() {
-  const [ImageFile, setImageFile] = useState([]);
-  const [VideoFile, setVideoFile] = useState([]);
+export default function MainCarousel({ handleImageChange, ImageFile, VideoFile, isEdit}) {
+
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -31,21 +30,7 @@ export default function MainCarousel() {
     },
   };
 
-  const handleImageChange = (e) => {
-    const fileList = e.target.files;
-    console.log("fileListwwwwwwwww", fileList);
-
-    const fileArray = Array.from(fileList);
-    fileArray.forEach((element) => {
-      if (element?.type?.includes("image")) {
-        console.log("eeeeeeeeeeeeeeee", element);
-        setImageFile((ImageFile) => [...ImageFile, element]);
-      } else {
-        setVideoFile((VideoFile) => [...VideoFile, element]);
-      }
-    });
-    console.log("fileArray", fileArray);
-  };
+console.log(ImageFile, isEdit, "IIIIIIIIIIIIIIIIIIIII");
 
   return (
     <>
@@ -54,10 +39,7 @@ export default function MainCarousel() {
           src={deleteIcon}
           alt=""
           className="z-10 w-[30px] h-[30px] cursor-pointer"
-          onClick={() => {
-            setImageFile([]);
-            setVideoFile([]);
-          }}
+          onClick={() => { handleImageChange('delete')}}
         />
       </div>
       <div className="mt-2 items-center sm:h-[50vh] text-center sm:w-[88%] lg:w-[95%]">
@@ -67,18 +49,18 @@ export default function MainCarousel() {
           className=" lg:w-[97%]"
         >
           {ImageFile?.length || VideoFile.length ? (
-            [...VideoFile, ...ImageFile].map((elem) => (
-              <div className="flex h-full sm:w-[100%] lg:w-full justify-center bg-red-500 py-2">
+            [...VideoFile, ...ImageFile]?.map((elem) => (
+              <div className="flex h-full sm:w-[100%] lg:w-full justify-center py-2">
                 <div className=" sm:h-[45vh] sm:w-[90%] lg:w-[90%] flex flex-col border border-gray-400 rounded-lg px-2 mb-4 self-center">
-                  {elem.type.includes("image") ? (
+                  {(elem?.type?.includes("image") || isEdit) ? (
                     <img
-                      src={URL.createObjectURL(elem)}
+                      src={isEdit ? elem : URL.createObjectURL(elem)}
                       alt="image"
                       className="h-full w-full object-contain"
                     />
                   ) : (
                     <video
-                      src={URL.createObjectURL(elem)}
+                      src={isEdit ? elem : URL.createObjectURL(elem)}
                       alt="image"
                       className="h-full w-full object-contain"
                       autoPlay

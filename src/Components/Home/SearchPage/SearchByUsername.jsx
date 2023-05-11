@@ -8,9 +8,9 @@ const SearchByUsername = () => {
           <img
             src="./images/events.jpg"
             alt=""
-            className="w-[40px] h-[40px] rounded-full"
+            className="w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] rounded-full"
           />
-          <h1 className="font-bold text-sm text-[#4B4B4B]">Abhishek</h1>
+          <h1 className="font-bold text-xs sm:text-sm text-[#4B4B4B]">Abhishek</h1>
         </div>
       ))}
     </div>
