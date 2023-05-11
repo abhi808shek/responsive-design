@@ -160,12 +160,12 @@ const Setting = () => {
                 <PasswordInput />
                 <div className="flex text-white justify-end gap-2">
                   <button
-                    className="bg-blue-400 w-[20%] py-2 rounded-lg text-xs"
+                    className="bg-blue-400 w-[30%] sm:w-[25%] py-2 rounded-lg text-[10px] xl:text-xs"
                     onClick={onDeactivateClick}
                   >
                     De-Activate
                   </button>
-                  <button className="bg-blue-400 w-[20%] py-2 rounded-lg text-xs">
+                  <button className="bg-blue-400 w-[30%] sm:w-[25%] py-2 rounded-lg text-[10px] xl:text-xs">
                     Cancel
                   </button>
                 </div>

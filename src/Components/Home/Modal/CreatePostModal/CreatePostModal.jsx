@@ -102,7 +102,7 @@ const CreatePostModal = ({
     })
   }
   return (
-    <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
+    <div className="overflow-y-scroll bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
       {/* create post */}
       <div className="flex justify-between">
         <div className="w-full">
@@ -139,7 +139,7 @@ const CreatePostModal = ({
               </span>
             </section>
             <section className="flex items-center ">
-              <span className=" text-xs sm:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
+              <span className=" text-xs w-[40%] sm:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
                 Share with
               </span>
 
