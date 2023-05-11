@@ -83,9 +83,9 @@ export const addLikes = (data) => async (dispatch) => {
         const response = await axios.post(`http://3.233.82.34:8080/instance/api/instancelike/add`, data);
         dispatch({
             type: 'ADD_LIKE',
-            payload: response.data
+            payload: response
         })
-        return response.data
+        return response
     }catch(error){
         throw error;
     }

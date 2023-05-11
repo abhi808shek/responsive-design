@@ -3,6 +3,7 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import ReportReasonModal from './ReportReasonModal'
 import { useDispatch, useSelector } from "react-redux";
 import { setPostReport } from "../../../redux/actionCreators/rootsActionCreator";
+import { toast } from "react-toastify";
 
 const ReasonsData = [
  'Nudity or Sexual', 'Sucide related', 'Self-Injury', 'Eating-Disorders',
@@ -36,8 +37,15 @@ const ReportModal = ({ onClose }) => {
         Createdatetime: new Date()
     }
     dispatch(setPostReport(payload)).then((res) => {
+      if(res.status){
+        toast.success(res.message)
+      }else {
+        toast.error(res.message)
+      }
       // console.log(res, "+++++++++++++ REEEEEEEEEEEEEEEEEPPPPPPPP");
-    });
+    }).catch(err => {
+      toast.error(err.message)
+    })
   }
 
   return (

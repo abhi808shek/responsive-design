@@ -2,7 +2,8 @@ const initialState = {
   kicksList: [],
   postList: [],
   likedDetails: {},
-  activePost: {}
+  activePost: {},
+  userPostList:[],
 };
 
 const rootsReducer = (state = initialState, action) => {
@@ -27,6 +28,9 @@ const rootsReducer = (state = initialState, action) => {
       return {
         ...state, activePost: action.payload
       }
+
+    case "GET_POSTS_LIST":
+      return { ...state, userPostList: action.payload.data}
 
     default:
       return state;

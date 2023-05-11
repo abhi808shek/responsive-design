@@ -141,7 +141,7 @@ export default function VideoCommentsModal({ onClose }){
   }
 )
 	}
-  <div className='mt-auto absolute -bottom-1 bg-blue-200 rounded-md px-3'>
+  <div className='mt-auto absolute w-full -bottom-1 bg-blue-200 rounded-md px-2'>
       <TypeMessage placeholder ='Add comment' sendMessage = {handleSendComment}/>
   </div>
   </section>

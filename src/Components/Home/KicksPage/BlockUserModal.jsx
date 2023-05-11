@@ -19,7 +19,7 @@ const BlockUserModal = ({ onClose }) => {
     </div>
 
     <div className='flex my-3'>
-     <button className='bg-[#649b8e] text-white font-bold border border-[#649b8e] px-5 w-1/2 mx-3 py-2 rounded-lg'>Block</button>
+     <button onClick={handleBlock} className='bg-[#649b8e] text-white font-bold border border-[#649b8e] px-5 w-1/2 mx-3 py-2 rounded-lg'>Block</button>
      <button onClick={onClose} className='px-5 w-1/2 border border-[#649b8e] py-2 mx-3 rounded-lg'>Cancel</button>    
     </div>
 

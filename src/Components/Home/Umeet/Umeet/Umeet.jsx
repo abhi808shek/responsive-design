@@ -38,6 +38,9 @@ export default function Umeet(){
   const [showAddGroup, setShowAddGroup] = useState(false)
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
 
+  const [state, setState] = useState({})
+  const { templateImage }  = state
+
   {/* type of event personal, political, public local state*/}
   const [whichType, setWhichType] = useState('')
 
@@ -87,6 +90,10 @@ export default function Umeet(){
     setNoMyEvent(false)
     setEditMyEvent(false)
     setCreateEvent(true)
+  }
+
+  const handleTemplateImage = (url) => {
+    setState({...state, templateImage: url})
   }
 
   const handleEventDetails = ()=>{
@@ -230,7 +237,7 @@ export default function Umeet(){
      {showDeleteMyEvent && <EventDeleteModal onClose={()=>setShowDeleteMyEvent(false)} />}
      {showShareMyEvent && <EventShareModal onClose={()=>setShowShareMyEvent(false)} />}
      {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
-     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} handleImageChange={handleImageChange} />}
+     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
      {showAddGroup && <AddGuestModal onClose={()=>setShowAddGroup(false)} />}
      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
     </div>

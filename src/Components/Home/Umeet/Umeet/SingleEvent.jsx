@@ -2,12 +2,26 @@ import UmeetNotAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-
 import UmeetAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import Umeetmaybe from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
 import { BsThreeDots } from 'react-icons/bs'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import editImg from '../../../../Assets/Images/Edit profile.png'
 import deleteImg from '../../../../Assets/Images/Delete.png'
 import shareImg from '../../../../Assets/Images/External share.png'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllEvents } from '../../../../redux/actionCreators/umeetActionCreator'
 
 function EventStatus({ data }){
+  const dispatch = useDispatch();
+  const reducerData = useSelector((state) => {
+    return {
+      profile : state.profileReducer.profile
+    }
+  });
+  
+  const {profile} = reducerData
+
+  useEffect(() => {
+    dispatch(getAllEvents(profile?.id))
+  }, [])
     if(data.status.toLowerCase() == 'attending'){
        	return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer'/>
     }else if(data.status.toLowerCase() == 'not attending'){

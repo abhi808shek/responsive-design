@@ -47,6 +47,7 @@ import CreateUnion from "./Components/Home/Unions/CreateUnion";
 import ContactUs from "./Components/Home/ContactUs/ContactUs";
 import EventResultsPage from "./Components/Event/EventResultsPage";
 import HashTagPage from "./Components/Home/SearchPage/HashTagPage";
+import { getProfileById } from "./redux/actionCreators/profileAction";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -70,7 +71,8 @@ const App = () => {
 
   useEffect(() => {
     isUserLoggedIn();
-  }, [dispatch,userData]);
+    getProfileById(userData?.id)
+  }, [userData]);
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker

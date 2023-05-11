@@ -24,6 +24,7 @@ import {
 import moment from "moment/moment";
 import { startFollowing } from "../../../../redux/actionCreators/profileAction";
 import { toast } from "react-toastify";
+import { Link, useNavigate } from "react-router-dom";
 
 const VideoComponent = ({ dataList, data }) => {
   const dispatch = useDispatch();
@@ -45,6 +46,7 @@ const VideoComponent = ({ dataList, data }) => {
   const videoRef = useRef(null);
 
   const handleButtonActions = (elem) => {
+    const navigate = useNavigate()
     if (elem.title == "mute") {
       console.log(isMuted, videoRef.current.muted);
       setIsMuted(!isMuted);
@@ -117,11 +119,14 @@ const VideoComponent = ({ dataList, data }) => {
         datetime: moment().format('YYYY-MM-DDTHH:mm:ss:ms')
       }
       dispatch(addLikes(payload)).then((res) => {
-        if(res.status) {
-          toast.success(res.message)
+        console.log(res, "++++++++++++++++++++++");
+        if(res.data.status) {
+          toast.success(res.data.message)
         }else{
-          toast.error(res.message)
+          toast.error(res.data.message)
         }
+      }).catch((err) => {
+        toast.error(err.message)
       })
     }else if(title === 'follow'){
       const payload = {
@@ -141,15 +146,15 @@ const VideoComponent = ({ dataList, data }) => {
 
   return (
     <div key={profile?.id} className="relative my-10 h-full">
-      <div className="flex px-1 pt-5 mb-5">
-        <div className="z-10">
+      <div className="flex px-1 pt-5 mb-5 w-[400px]">
+        <Link className="cursor-pointer" to={`/profile/${profileid}`}>
           <img
             src={profile?.pimage}
             alt=""
             className="w-[45px] h-[45px] rounded-full object-cover"
           />
-        </div>
-        <div className=" flex flex-1 z-10 flex-col text-white justify-center ml-2">
+        </Link>
+        <div className="cursor-pointer flex flex-1 z-10 flex-col text-white justify-center ml-2">
           <div className="flex items-center gap-2">
             <h1 className="font-semibold ">
               {name ? `${profile?.fname} ${profile?.lname}` : "User"}
@@ -171,7 +176,7 @@ const VideoComponent = ({ dataList, data }) => {
       </div>
       <section className="absolute fixed flex items-center bg-black overflow-hidden right-0  left-0 h-1/2 w-full z-0">
         <video
-          className="absolute bg-red-300 h-auto w-full"
+          className="absolute bg-red-300 h-full w-full"
           loop={true}
           autoPlay="autoplay"
           controls

@@ -1,12 +1,25 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getLatestKicks } from "../../../redux/actionCreators/kicksActionCreator";
 
 const SliderSection = () => {
-  const { kicksList } = useSelector((state) => state.rootsReducer);
+  // const { kicksList } = useSelector((state) => state.rootsReducer);
+  const dispatch = useDispatch()
+  const reducerData = useSelector((state) => {
+    return {
+      kicksList: state.kicksReducer.latestKick,
+      profile: state.profileReducer.profile
+    }
+  })
+  const { kicksList, profile}  = reducerData;
 
+  useEffect(() => {
+    let params = { index: 0, size: 10 };
+    dispatch(getLatestKicks(params, profile.id))
+  }, [])
   const firstName = "Sharma";
   const lastName = "G";
 
