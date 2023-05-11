@@ -1,22 +1,82 @@
 import React from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
-import SelectDropdown from './SelectDropdown'
+import SelectDropdown from "./SelectDropdown";
 import { Autocomplete } from "@react-google-maps/api";
 import Dropdown from "../../../Login/Content/Modal/Dropdown";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {SlLocationPin} from "react-icons/sl"
-const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
-  const [state, setState] = useState({})
-  const { postPrivacy } = state;
-  const navigate = useNavigate()
-  const onCloseCreatePostModal = ()=>{
-    setShowCreatePostModal(false)
-  }
+import { SlLocationPin } from "react-icons/sl";
+import { useDispatch, useSelector } from "react-redux";
+import { createPost } from "../../../../redux/actionCreators/postActionCreator";
+import moment from "moment";
+import { imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
+const CreatePostModal = ({
+  setShowCreatePostModal,
+  title,
+  handleCloseModal,
+}) => {
+  const dispatch = useDispatch()
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile,
+    };
+  });
+  const { profile } = reducerData;
+  const name = profile?.fname + profile?.lname;
+  const [state, setState] = useState({});
+
+  const { postPrivacy, postContent } = state;
+
+  const [ImageFile, setImageFile] = useState([]);
+  const [VideoFile, setVideoFile] = useState([]);
+
+  const navigate = useNavigate();
+  const onCloseCreatePostModal = () => {
+    setShowCreatePostModal(false);
+  };
+
+  const handleImageChange = async (e) => {
+    if (e === "delete") {
+      setImageFile("");
+      setVideoFile("");
+    } else {
+      const fileList = e.target.files;
+      // console.log("fileListwwwwwwwww", fileList);
+      console.log(fileList, "file listtttttttttt");
+       const uploadFile = await dispatch(imageUploadApi(fileList[0]))
+      const fileArray = Array.from(fileList);
+      fileArray.forEach((element) => {
+        if (element?.type?.includes("image")) {
+          // console.log("eeeeeeeeeeeeeeee", element);
+          setImageFile((ImageFile) => [...ImageFile, element]);
+        } else {
+          setVideoFile((VideoFile) => [...VideoFile, element]);
+        }
+      });
+      console.log("fileArray", fileArray);
+    }
+  };
 
   const handlePostPrivacy = (selectedValue) => {
-    setState({...state,  postPrivacy: selectedValue})
+    setState({ ...state, postPrivacy: selectedValue });
+  };
+
+  const handleCreatePost = () => {
+    const payload = {
+      shareto: postPrivacy?.name,
+      type: "personal",
+      template: "template1",
+      image: ImageFile,
+      text: postContent,
+      suggesttemp: "sugest1",
+      utag: null,
+      delete: false,
+      close: "close",
+      profileid: profile?.id,
+      postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
+    };  
+    dispatch(createPost(payload))
   }
   return (
     <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20 bg-red-400 ">
@@ -26,7 +86,10 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
           <h3 className=" text-sm sm:text-md font-bold">{title} Post</h3>
         </div>
         <div className="flex">
-          <button className="bg-[#6780AF] text-white text-sm px-3 font-semibold  sm:font-bold sm:px-5 rounded-full ">
+          <button
+            onClick={handleCreatePost}
+            className="bg-[#6780AF] text-white text-sm px-3 font-semibold  sm:font-bold sm:px-5 rounded-full "
+          >
             Post
           </button>
           <button
@@ -48,7 +111,9 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
                 alt=""
                 className="w-[40px] h-[40px] rounded-full"
               />
-              <span className="font-bold">Joe D</span>
+              <span className="font-bold">
+                {name ? `${profile?.fname} ${profile?.lname}` : "User"}
+              </span>
             </section>
             <section className="flex items-center ">
               <span className=" text-xs sm:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
@@ -80,6 +145,8 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
             {/* comment */}
             <div className="comment">
               <textarea
+                value={postContent}
+                onChange={(e) => setState('postContent', e.target.value)}
                 placeholder="Write something..."
                 className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
               ></textarea>
@@ -117,7 +184,11 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
         </div>
 
         <div>
-          <MainCarousel />
+          <MainCarousel
+            ImageFile={ImageFile}
+            VideoFile={VideoFile}
+            handleImageChange={handleImageChange}
+          />
         </div>
       </div>
     </div>
