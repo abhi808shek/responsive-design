@@ -16,6 +16,7 @@ export const createPost = (postData) => async (dispatch) => {
     type: "SET_POST_DATA",
     payload: postDataResult.data,
   });
+  return postDataResult.data
 };
 
 export const setLikes = (likeObject) => (dispatch) => {

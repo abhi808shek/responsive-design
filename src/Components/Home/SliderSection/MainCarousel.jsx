@@ -4,7 +4,7 @@ import "react-multi-carousel/lib/styles.css";
 import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../../assets/images/delete.png";
 
-export default function MainCarousel({ handleImageChange, ImageFile, VideoFile}) {
+export default function MainCarousel({ handleImageChange, ImageFile, VideoFile, isEdit}) {
 
   const responsive = {
     superLargeDesktop: {
@@ -30,7 +30,7 @@ export default function MainCarousel({ handleImageChange, ImageFile, VideoFile})
     },
   };
 
-
+console.log(ImageFile, isEdit, "IIIIIIIIIIIIIIIIIIIII");
 
   return (
     <>
@@ -49,18 +49,18 @@ export default function MainCarousel({ handleImageChange, ImageFile, VideoFile})
           className=" lg:w-[97%]"
         >
           {ImageFile?.length || VideoFile.length ? (
-            [...VideoFile, ...ImageFile].map((elem) => (
+            [...VideoFile, ...ImageFile]?.map((elem) => (
               <div className="flex h-full sm:w-[100%] lg:w-full justify-center py-2">
                 <div className=" sm:h-[45vh] sm:w-[90%] lg:w-[90%] flex flex-col border border-gray-400 rounded-lg px-2 mb-4 self-center">
-                  {elem.type.includes("image") ? (
+                  {(elem?.type?.includes("image") || isEdit) ? (
                     <img
-                      src={URL.createObjectURL(elem)}
+                      src={isEdit ? elem : URL.createObjectURL(elem)}
                       alt="image"
                       className="h-full w-full object-contain"
                     />
                   ) : (
                     <video
-                      src={URL.createObjectURL(elem)}
+                      src={isEdit ? elem : URL.createObjectURL(elem)}
                       alt="image"
                       className="h-full w-full object-contain"
                       autoPlay

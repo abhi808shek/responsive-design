@@ -11,6 +11,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { createPost } from "../../../../redux/actionCreators/postActionCreator";
 import moment from "moment";
 import { imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
+import { toast } from "react-toastify";
 const CreatePostModal = ({
   setShowCreatePostModal,
   title,
@@ -20,15 +21,17 @@ const CreatePostModal = ({
   const reducerData = useSelector((state) => {
     return {
       profile: state.profileReducer.profile,
+      activePost: state.rootsReducer.activePost
     };
   });
-  const { profile } = reducerData;
+  const { profile, activePost} = reducerData;
   const name = profile?.fname + profile?.lname;
   const [state, setState] = useState({});
+  const isEdit = title === 'Edit';
 
-  const { postPrivacy, postContent } = state;
+  const { postPrivacy= isEdit ? activePost?.shareto : '' , postContent = isEdit ? activePost?.text : "", uploadFileList } = state;
 
-  const [ImageFile, setImageFile] = useState([]);
+  const [ImageFile, setImageFile] = useState(isEdit ? [activePost?.image] : []);
   const [VideoFile, setVideoFile] = useState([]);
 
   const navigate = useNavigate();
@@ -43,8 +46,7 @@ const CreatePostModal = ({
     } else {
       const fileList = e.target.files;
       // console.log("fileListwwwwwwwww", fileList);
-      console.log(fileList, "file listtttttttttt");
-       const uploadFile = await dispatch(imageUploadApi(fileList[0]))
+      // console.log(fileList, "file listtttttttttt");
       const fileArray = Array.from(fileList);
       fileArray.forEach((element) => {
         if (element?.type?.includes("image")) {
@@ -54,9 +56,23 @@ const CreatePostModal = ({
           setVideoFile((VideoFile) => [...VideoFile, element]);
         }
       });
-      console.log("fileArray", fileArray);
+      // const uploadFile = await dispatch(imageUploadApi(fileList[0]))
+      // setState((prev) => ({...prev, }))
+      uploadAllImages(fileArray)
+      // console.log(uploadFile, "resppppppppppp");
     }
   };
+
+  function uploadAllImages (files) {
+    // console.log(files, 'GGGGGGGGGGGGGGG');
+    Promise.all(files.map((item, index) => {
+      return dispatch(imageUploadApi(item))
+    })).then((res) => {
+      // console.log(res, 'RDDDDDDDDDDDD');
+      const paths = res.map(item => item.path)
+      setState({...state, uploadFileList: paths})
+    })
+  }
 
   const handlePostPrivacy = (selectedValue) => {
     setState({ ...state, postPrivacy: selectedValue });
@@ -67,7 +83,7 @@ const CreatePostModal = ({
       shareto: postPrivacy?.name,
       type: "personal",
       template: "template1",
-      image: ImageFile,
+      image: uploadFileList[0],
       text: postContent,
       suggesttemp: "sugest1",
       utag: null,
@@ -76,7 +92,14 @@ const CreatePostModal = ({
       profileid: profile?.id,
       postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
     };  
-    dispatch(createPost(payload))
+    dispatch(createPost(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res.message);
+        handleCloseModal()
+      }else{
+        toast.error(res.message)
+      }
+    })
   }
   return (
     <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
@@ -185,6 +208,7 @@ const CreatePostModal = ({
 
         <div>
           <MainCarousel
+          isEdit ={isEdit}
             ImageFile={ImageFile}
             VideoFile={VideoFile}
             handleImageChange={handleImageChange}
