@@ -5,7 +5,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import deleteIcon from "../../../assets/images/delete.png";
 
 export default function MainCarousel({ handleImageChange, ImageFile, VideoFile, isEdit}) {
-
+console.log(ImageFile, VideoFile, "PPPPPPPPP");
   const responsive = {
     superLargeDesktop: {
       // the naming can be any, depends on you.
@@ -61,9 +61,9 @@ export default function MainCarousel({ handleImageChange, ImageFile, VideoFile, 
                     />
                   ) : (
                     <video
-                      src={elem?.type?.includes("image") ? URL.createObjectURL(elem) : elem}
+                      src={elem?.type?.includes("video") ? URL.createObjectURL(elem) : elem}
                       alt="image"
-                      className="h-[25vh] w-[20%] sm:h-[45vh] sm:w-[90%] lg:w-[90%] object-contain"
+                      className="h-[25vh] sm:h-[45vh] sm:w-[90%] lg:w-[90%] object-contain"
                       autoPlay
                     />
                   )}

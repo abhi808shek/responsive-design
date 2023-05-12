@@ -87,7 +87,7 @@ const SignupOtp = ({ title }) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [timer]);
 
 
   const minutes = Math.floor(seconds / 60);
