@@ -2,7 +2,7 @@ import Congratulations from '../../../../Assets/Images/Umeet/Umeet-Main/Congratu
 
 export default function SuccessCreate(){
  return (
-  <div className='w-[60%] h-[70%] bg-white rounded-xl p-5'>
+  <div className='w-full lg:w-[64%] xl:w-[60%] h-max lg:h-[70%] bg-white rounded-xl p-5'>
    <p className='font-bold text-xl flex justify-center py-2'>Success</p>
    <p className='font-medium text-xl flex justify-center'>Congratulations!</p>
    <div className='my-4 flex justify-center items-center'>

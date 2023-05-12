@@ -3,7 +3,12 @@ import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
 
-const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup, handleShowAddPoliticalGroup, whichType, politicalPartyFeedback, politicalPartyMeeting, handlePoliticalFeedbackQuestion }) => {
+const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, 
+  handleCreatedEvent, handleShowTemplate, handleShowAddGroup, 
+  handleShowAddPoliticalGroup, whichType, politicalPartyFeedback, 
+  politicalPartyMeeting, handlePoliticalFeedbackQuestion,
+  publicShopOpening }) => {
+
   const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
   
@@ -17,6 +22,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
   const handleShowGroup = ()=>{
     if(whichType == 'personal') handleShowAddGroup()
     else if(whichType == 'political') handleShowAddPoliticalGroup()
+    else if(whichType == 'public') handleShowAddPoliticalGroup()
   }
   
   // useEffect(()=>{
@@ -25,7 +31,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
 
   return (
     <div className='lg:fullPage bg-white border-gray-300'>
-     <div className={`${editMyEvent ? 'w-[60%]' : 'w-full md:w-[96%]' } border bg-white md:px-2 lg:px-3`}>
+     <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]' } border bg-white md:px-2 lg:px-3`}>
        {
         editMyEvent ? <div className='px-3 my-2.5 text-[17px] font-semibold'>Edit Event</div>       
          : <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
@@ -57,7 +63,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
         <input className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*'/>
         <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
         <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
-        <div className={`${politicalPartyFeedback ? 'hidden' : ''} my-2 flex items-center`}>
+        <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
          <span className='font-bold text-xl text-gray-600'>Event Mode</span>
          <div className='px-6 flex items-center'>
           <input type='radio' className='accent-[#649B8E] w-5 h-5' id='cation' /><label for='cation' className='pl-2'>At Location</label>
@@ -69,7 +75,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
 
         <input className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*'/>
 
-        <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
+        <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
          <div>
           <select className='h-10 outline-none border-b bg-white px-6'>
            <option>+91</option>
@@ -79,7 +85,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
          <input className='border-b ml-3 border-gray-300 pl-2 h-10 my-2 w-full' placeholder='Host Phone Number*'/>
         </div>
 
-        <input className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Host Mail Id*'/>
+        <input className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Host Mail Id*'/>
 
         <div className='flex items-center my-2'>
          <img onClick={handleShowGroup} src={guest} className='cursor-pointer' />
@@ -88,6 +94,11 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
 
         <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b`}>
           <select className='h-10 outline-none w-full border-b bg-white text-gray-600'>
+           {publicShopOpening && (<>
+             <option>Chat Type - Hide</option>
+             <option>Chat Type - Show</option>
+            </>)
+          }
            <option>Guest List & Display to all</option>
            <option>USA</option>
           </select>

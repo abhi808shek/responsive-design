@@ -9,7 +9,7 @@ const EventDeleteModal = ({ onClose }) => {
 
   return (
   <section className='fixed z-20 justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-   <div className='w-[30%] h-[50%] flex flex-col justify-between p-4 bg-white ml-[9%] mt-[4%] rounded-2xl'>
+   <div className='w-[86%] md:w-[40%] lg:w-[42%] xl:w-[30%] h-[50%] flex flex-col justify-between p-4 bg-white md:ml-[9%] mt-[4%] rounded-2xl'>
     <div className='flex justify-between border-b py-1 pb-2 text-gray-600'>
         <span className='text-[18px] text-gray-700 font-semibold'>Delete Event</span>
         <AiOutlineCloseCircle onClick={onClose} className='w-8 cursor-pointer hover:text-red-500 h-7'/>

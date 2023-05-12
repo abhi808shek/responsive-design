@@ -26,7 +26,7 @@ export default function Umeet(){
   const [editMyEvent, setEditMyEvent] = useState(false)
   const [eventDetails, setEventDetails] = useState(false)
   const [selectSpecificEvent, setSelectSpecificEvent] = useState(false)
-  const [selectedSpecificEvent, setSelectedSpecificEvent] = useState('')
+  const [selectedSpecificEvent, setSelectedSpecificEvent] = useState(null)
   const [myEvent, setMyEvent] = useState(false)
   const [showDeleteMyEvent, setShowDeleteMyEvent] = useState(false)
   const [showShareMyEvent, setShowShareMyEvent] = useState(false)
@@ -49,6 +49,7 @@ export default function Umeet(){
   {/* single event states*/}
   const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(false)
   const [politicalPartyMeeting, setPoliticalPartyMeeting] = useState(false)
+  const [publicShopOpening, setPublicShopOpening] = useState(false)
 
   function EventStatus({ data }){
     if(noCreateEvent){
@@ -67,6 +68,7 @@ export default function Umeet(){
               politicalPartyFeedback={politicalPartyFeedback}
               handlePoliticalFeedbackQuestion={()=>setShowPoliticalFeedbackQuestionModal(true)}
               politicalPartyMeeting={politicalPartyMeeting}
+              publicShopOpening={publicShopOpening}
               />
     }else if(eventCreated){
       return <SuccessCreate />
@@ -92,12 +94,15 @@ export default function Umeet(){
     setEventCreated(true)
     setNoMyEvent(false)    
     setCreateEvent(false)
+    setSelectedSpecificEvent(null)
   }
 
   const handleMyEvent = ()=>{
     setNoCreateEvent(false)
     setCreateEvent(false)
-    setNoMyEvent(true)
+    setEventDetails(false)
+    setNoMyEvent(true) 
+    setSelectedSpecificEvent(null)   
   }
 
   const handleCreateEvent = ()=>{
@@ -153,9 +158,25 @@ export default function Umeet(){
       setPoliticalPartyFeedback(false)
     }else if(data.event == 'Party Candidates Feedback'){
       setPoliticalPartyFeedback(true)
-    }else{
+    }else if(data.event == 'Shop Opening'){
       setPoliticalPartyMeeting(false)
-      setPoliticalPartyFeedback(false)      
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Product Launch'){
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Public Meeting'){
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Public Feedback'){
+      setPoliticalPartyFeedback(true)
+    }else{
+      setPoliticalPartyFeedback(false)
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(false)      
     }
   }
 
@@ -206,6 +227,7 @@ export default function Umeet(){
   }
 
   function AllEvents({ handleEditEvent }){
+
     return (
      <section className='border overflow-y-scroll hideScroll border-gray-400 bg-white rounded mr-2 w-full h-full'>
       {/* */}
@@ -224,7 +246,14 @@ export default function Umeet(){
       </div>
 
       <div className=''>
-       <SingleEvent dataList={dataList} myEvent={myEvent} myEventataList={myEventataList} handleEventDetails={handleEventDetails} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleEditEvent={handleEditEvent}/>
+       <SingleEvent 
+        dataList={dataList} 
+        myEvent={myEvent} 
+        myEventataList={myEventataList} 
+        handleEventDetails={handleEventDetails} 
+        handleDeleteEvent={()=>setShowDeleteMyEvent(true)} 
+        handleEditEvent={handleEditEvent}
+        />
       </div>
      </section>
     )
@@ -233,7 +262,7 @@ export default function Umeet(){
   return (
     <div className={`flex flex-col-reverse md:flex-row bg-[#e4e7ec] relative md:fullCover overflow-y-scroll hideScroll`}>
       {/* Left All Events page */}
-     <section className={`border relative md:fullPage rounded md:mr-2 w-full md:w-[46%] lg:4/6 md:mt-[46px]`}>
+     <section className={`${(eventDetails || selectedSpecificEvent) ? 'hidden md:flex' : ''} border relative md:fullPage rounded md:mr-2 w-full md:w-[46%] lg:w-2/6 md:mt-[46px]`}>
       {
         createEvent ? (
         <>

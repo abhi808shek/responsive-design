@@ -8,7 +8,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
     const [publics, setPublics] = useState(false)
     const [political, setPolitical] = useState(false)
     const [online, setOnline] = useState(false)
-    const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(true)
+    const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(false)
     const [isPoliticalPartyFeedback, setIsPoliticalPartyFeedback] = useState(false)
 
     const handleFeedback = ()=>{
