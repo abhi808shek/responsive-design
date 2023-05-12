@@ -94,10 +94,6 @@ const CreatePostModal = ({
       delete: false,
       close: "close",
       profileid: profile?.id,
-<<<<<<< HEAD
-      postdate: moment().format("DD-MM-YYYY HH:mm:ms"),
-    };
-=======
       postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
     };
     const updatePayload = {
@@ -112,7 +108,6 @@ const CreatePostModal = ({
       delete: false,
       close: "close",
       postid: activePost?.id,
-      type: "",
       datetime: moment().format("DD-MM-YYYY HH:mm:ms"),
     }; 
     isEdit ? 
@@ -120,20 +115,13 @@ const CreatePostModal = ({
       handleCloseModal()
     })
      :
->>>>>>> 5914aa0082d0b4e540bc59ca550c86324ccd8c50
     dispatch(createPost(payload)).then((res) => {
       if (res?.status) {
         toast.success(res.message);
-<<<<<<< HEAD
-        handleCloseModal();
-      } else {
-        toast.error(res.message);
-=======
         handleCloseModal()
         dispatch(getAllPostWithLimit(profile?.id))
       }else{
         toast.error(res.message)
->>>>>>> 5914aa0082d0b4e540bc59ca550c86324ccd8c50
       }
     });
   };
@@ -205,11 +193,7 @@ const CreatePostModal = ({
             <div className="comment">
               <textarea
                 value={postContent}
-<<<<<<< HEAD
-                onChange={(e) => setState("postContent", e.target.value)}
-=======
                 onChange={(e) =>handlePostContent(e)}
->>>>>>> 5914aa0082d0b4e540bc59ca550c86324ccd8c50
                 placeholder="Write something..."
                 className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
               ></textarea>
