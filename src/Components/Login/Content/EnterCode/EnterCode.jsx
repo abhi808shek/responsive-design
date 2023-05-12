@@ -84,7 +84,7 @@ const EnterCode = ({ title }) => {
   return (
     <>
       {/* padding added */}
-      <div className="w-full h-full p-1 py-[20px] rounded-[20px] flex flex-col justify-center items-center gap-2">
+      <div className="w-full h-full py-[20px] rounded-[20px] flex flex-col justify-center items-center gap-2">
         <Heading title={title} />
         {/* font-size increased, color changed */}
         <p className="text-[11px] font-bold w-[78%] mb-1">
