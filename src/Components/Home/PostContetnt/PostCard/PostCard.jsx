@@ -19,12 +19,14 @@ import {
   addCommentOnPost,
   decreaseLikeByLikeId,
   getAllPostWithLimit,
+  getCommentByPostid,
   getLikesById,
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 import LikeModal from "../../Modal/LikeModal/LikeModal";
 import VideoCommentsModal from "../../KicksPage/VideoCommentsModal";
+import { getPostLike } from "../../../../redux/actionCreators/postActionCreator";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -43,12 +45,17 @@ const PostCard = ({ userData, item }) => {
   });
 
   const { likedDetails } = useSelector((state) => state.rootsReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      activePost: state.rootsReducer.activePost,
+      profile: state.profileReducer.profile
+    }
+  });
+  const { activePost, profile} = reducerData;
   {
     /* implementing dynamic description, some redesign the postcard component */
   }
-  const description = item?.text
-    ? item?.text
-    : "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... ";
+  const description = item?.text ? item?.text : ""
 
   const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
@@ -57,6 +64,10 @@ const PostCard = ({ userData, item }) => {
   };
   const dispatch = useDispatch();
   const showMenuListModal = () => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: item
+    });
     setShowMenuList(!showMenuList);
     setUserStatus(item.userId);
   };
@@ -69,6 +80,11 @@ const PostCard = ({ userData, item }) => {
   });
 
   const onHandleOpenLikeModal = () => {
+    let payload = {
+          pageNumber: 0,
+          pageSize: 10,
+    };
+    dispatch(getPostLike(item?.id, payload))
     setOpenModal({
       ...openModal,
       OnLikeModal: true,
@@ -76,6 +92,15 @@ const PostCard = ({ userData, item }) => {
   };
 
   const onHandleOpenCommentModal = () => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: item
+    });
+    let payload = {
+      pageNumber: 1,
+      pageSize: 10
+    }
+    dispatch(getCommentByPostid(item?.id, payload))
     setOpenModal({
       ...openModal,
       commentModal: true,
@@ -105,10 +130,14 @@ const PostCard = ({ userData, item }) => {
   };
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const onLikeIncrease = async () => {
-    if (likeButton) {
+    if (item?.isliked) {
+      dispatch({
+              type: "DECREASE_LIKE_COUNT",
+              payload: item?.id,
+      });
       const dislikeResponse = await dispatch(
         decreaseLikeByLikeId(
-          defaultRootData?.data?.postdata?.profileid,
+          profile?.id,
           item?.likeid
         )
       );
@@ -125,12 +154,12 @@ const PostCard = ({ userData, item }) => {
         profileid: item?.profileid,
         type: "p",
       };
-
+      dispatch({
+        type: "INCREASE_LIKE_COUNT",
+        payload: item?.id
+      })
       const response = await dispatch(getLikesById(postDeatils));
       if (response?.status) {
-        dispatch(
-          getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
-        );
         setLikeButton(true);
       }
     }
@@ -145,7 +174,11 @@ const PostCard = ({ userData, item }) => {
     };
     dispatch(addCommentOnPost(commentData));
     setInputComment("");
-    dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+    dispatch({
+      type: "INCREASE_COMMENT_COUNT",
+      payload: item.id
+    })
+    // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
   };
 
   const handleClickMenu = (modalName) => {
@@ -235,7 +268,6 @@ const PostCard = ({ userData, item }) => {
         {showMenuList && (
           <MenuModal
             postId={item?.id}
-            profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
             closeModel={handleClickMenu}
@@ -245,15 +277,16 @@ const PostCard = ({ userData, item }) => {
         {/* Content/About And Images Section */}
         <section className="w-full flex flex-col items-center mt-2 px-2">
           <div className=" w-full ">
-            <p className="text-[13px] font-[400] text-gray-500">
-              {showMore ? description : `${shortDescription}...`}
+            <p className="text-[11px] sm:text-[12px] lg:text-[13px] font-[400] text-gray-500">
+              {showMore ? description : `${shortDescription}`}
 
-              <span
+              { description.length > 150 && <span
                 className="text-xs text-[#2F58CD] font-bold cursor-pointer"
                 onClick={() => setShowMore(!showMore)}
               >
-                {showMore ? "Show less" : "Read more"}
+                {showMore ? "Show less" : "... Read more"}
               </span>
+              }
             </p>
           </div>
 
@@ -286,9 +319,9 @@ const PostCard = ({ userData, item }) => {
             >
               {item?.commentcount ? item?.commentcount : 0} Comments
             </span>
-            <span className=" text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-gray-600">
+            {/* <span className=" text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-gray-600">
               28 Shares
-            </span>
+            </span> */}
           </div>
         </section>
 
@@ -298,7 +331,7 @@ const PostCard = ({ userData, item }) => {
           <hr className="w-full mb-2 text-gray-500" />
           <div className="flex justify-between ">
             <div className="flex flex-col items-center justify-center cursor-pointer">
-              {likeButton ? (
+              {item?.isliked ? (
                 <img
                   src={KicksAfterLike}
                   alt=""

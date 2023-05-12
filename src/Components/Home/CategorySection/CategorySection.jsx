@@ -9,7 +9,7 @@ const CatergorySection = ({selectedOption,setSelectedOption}) => {
     { title: "Kicks" },
   ];
   return (
-    <div className="xl:w-[95%] lg:w-[96%] bg-white flex justify-around py-2 mt-2 ml-1 rounded-xl">
+    <div className="flex-1 mx-3 bg-white flex justify-around py-2 mt-2 ml-1 rounded-xl">
       {data?.map((elem) => (
         <button
           key={elem.title}

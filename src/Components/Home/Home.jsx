@@ -14,23 +14,38 @@ import {
   getUnionListByProfileId,
 } from "../../redux/actionCreators/rootsActionCreator";
 import NoPostPage from "./NoPostPage/NoPostPage";
+import { getLatestKicks } from "../../redux/actionCreators/kicksActionCreator";
 
 const Home = ({ onShowReportModal, showReportModal }) => {
   const dispatch = useDispatch();
 
   const { defaultRootData } = useSelector((state) => state.eventReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile
+    }
+  })
+  const { profile } = reducerData
   const { postList } = useSelector((state) => state.rootsReducer);
   const onLoad = () => {
     if (!Object.keys(defaultRootData)?.length) {
       dispatch(defaultRootScreen());
     } else {
-      const data = {
-        profileId: defaultRootData?.data?.postdata?.profileid,
-        rootRequest: true,
-        segment: "FOLLOWING",
-      };
-      dispatch(getKicksVideosWithLimit(data));
-      dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+      // const data = {
+      //   profileId: defaultRootData?.data?.postdata?.profileid,
+      //   rootRequest: true,
+      //   segment: "FOLLOWING",
+      // };
+         let params = { index: 0, size: 10 };
+         const data = {
+           categories: [],
+           profileId: profile?.id,
+           rootRequest: false,
+           segment: "LATEST",
+         };
+         dispatch(getLatestKicks(params, data));
+      // dispatch(getKicksVideosWithLimit(data));
+      // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
       dispatch(
         getUnionListByProfileId(defaultRootData?.data?.postdata?.profileid)
       );

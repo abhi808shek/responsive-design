@@ -38,6 +38,9 @@ export default function Umeet() {
   const [showAddGroup, setShowAddGroup] = useState(false)
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
 
+  const [state, setState] = useState({})
+  const { templateImage } = state
+
   {/* type of event personal, political, public local state*/ }
   const [whichType, setWhichType] = useState('')
 
@@ -87,6 +90,10 @@ export default function Umeet() {
     setNoMyEvent(false)
     setEditMyEvent(false)
     setCreateEvent(true)
+  }
+
+  const handleTemplateImage = (url) => {
+    setState({ ...state, templateImage: url })
   }
 
   const handleEventDetails = () => {
@@ -196,43 +203,50 @@ export default function Umeet() {
   }
 
   return (
-    <div className={`flex bg-[#e4e7ec] relative fullCover overflow-y-scroll hideScroll`}>
-      {/* Left All Events page */}
-      <section className='border relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
-        {
-          createEvent ? (
-            <>
-              {
-                selectSpecificEvent ? <SelectSpecificEventType /> : <SelectEvent />
-              }
-            </>
-          ) : <AllEvents handleEditEvent={handleEditEvent} />
-        }
-      </section>
+    <>
+      <div className={`flex bg-[#e4e7ec] relative fullCover overflow-y-scroll hideScroll`}>
+        {/* Left All Events page */}
+        <section className='border relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
+          {
+            createEvent ? (
+              <>
+                {
+                  selectSpecificEvent ? <SelectSpecificEventType /> : <SelectEvent />
+                }
+              </>
+            ) : <AllEvents handleEditEvent={handleEditEvent} />
+          }
+        </section>
 
-      {/* Right All Events page */}
-      <section className='w-4/6 relative bg-[#e4e7ec]'>
-        {/* events top select */}
-        <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
-          <div onClick={handleCreateEvent} className={`flex items-center cursor-pointer ${createEvent ? 'text-[#649B8E]' : ''}`}>
-            <HiPlus className='h-7 w-7 rounded-full bg-gray-200' />
-            <span className='pl-1'>Create Event</span>
+        {/* Right All Events page */}
+        <section className='w-4/6 relative bg-[#e4e7ec]'>
+          {/* events top select */}
+          <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
+            <div onClick={handleCreateEvent} className={`flex items-center cursor-pointer ${createEvent ? 'text-[#649B8E]' : ''}`}>
+              <HiPlus className='h-7 w-7 rounded-full bg-gray-200' />
+              <span className='pl-1'>Create Event</span>
+            </div>
+
+            <div onClick={handleMyEvent} className={`flex items-center pl-12 cursor-pointer ${createEvent ? '' : 'text-[#649B8E]'}`}>
+              <BsCalendarEvent className='h-7 w-7 rounded-full' />
+              <span className='pl-1'>Your Events</span>
+            </div>
           </div>
 
           <div onClick={handleMyEvent} className={`flex items-center pl-12 cursor-pointer ${createEvent ? '' : 'text-[#649B8E]'}`}>
             <BsCalendarEvent className='h-7 w-7 rounded-full' />
             <span className='pl-1'>Your Events</span>
           </div>
-        </div>
+          <EventStatus />
+        </section>
 
-        <EventStatus />
-      </section>
-      {showDeleteMyEvent && <EventDeleteModal onClose={() => setShowDeleteMyEvent(false)} />}
-      {showShareMyEvent && <EventShareModal onClose={() => setShowShareMyEvent(false)} />}
-      {showRvspModal && <RvspModal onClose={() => setShowRvspModal(false)} />}
-      {showTemplate && <ChooseTemplate onClose={() => setShowTemplate(false)} handleImageChange={handleImageChange} />}
-      {showAddGroup && <AddGuestModal onClose={() => setShowAddGroup(false)} />}
-      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={() => setShowPoliticalAddGroup(false)} />}
-    </div>
+        {showDeleteMyEvent && <EventDeleteModal onClose={() => setShowDeleteMyEvent(false)} />}
+        {showShareMyEvent && <EventShareModal onClose={() => setShowShareMyEvent(false)} />}
+        {showRvspModal && <RvspModal onClose={() => setShowRvspModal(false)} />}
+        {showTemplate && <ChooseTemplate onClose={() => setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
+        {showAddGroup && <AddGuestModal onClose={() => setShowAddGroup(false)} />}
+        {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={() => setShowPoliticalAddGroup(false)} />}
+      </div>
+    </>
   )
 }

@@ -49,6 +49,7 @@ import EventResultsPage from "./Components/Event/EventResultsPage";
 import HashTagPage from "./Components/Home/SearchPage/HashTagPage";
 import TermsAndConditions from "./Components/Home/ProfilePage/TermsAndConditionPage/TermsAndConditions";
 import PrivacyPolicy from "./Components/Home/ProfilePage/PrivacyPolicy/PrivacyPolicy";
+import { getProfileById } from "./redux/actionCreators/profileAction";
 
 const App = () => {
   const dispatch = useDispatch();
@@ -71,6 +72,7 @@ const App = () => {
   };
 
   useEffect(() => {
+    dispatch(getProfileById(userData?.id))
     isUserLoggedIn();
   }, [dispatch, userData]);
 

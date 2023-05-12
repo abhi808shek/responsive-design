@@ -99,6 +99,7 @@ const Kicks = () => {
   // const { kicksType } = useSelector((state) => state.userReducer);
 
   const getKicks = (kicksType) => {
+    dispatch({ type: "KICKS_SEGMENT", payload: kicksType })
     setState({ ...state, kicksType: kicksType });
     const data = {
       categories: [],
@@ -169,16 +170,12 @@ const Kicks = () => {
         </div> */}
 
 
-        <section className="overflow-y-scroll flex-1 text-white bg-black   h-[90vh] hideScroll">
-          {isEmpty(videoData?.content) ? (
-            <EmptyComponent
-              message={`There is no video in ${kicksType} section`}
-            />
-          ) : (
+        <section className="overflow-y-scroll flex-1 w-1/2 text-white bg-black  h-[90vh] hideScroll">
+          {(
             videoData?.content?.map((item) => {
               const { text, id } = item;
               return (
-                <div className="">
+                <div className="flex ">
                   <VideoComponent dataList={dataList} data={item} />
 
                   {/* Comment Section */}

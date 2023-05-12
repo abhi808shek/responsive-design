@@ -21,14 +21,16 @@ const ConfirmationRequest = () => {
   };
   return (
     <>
-      <div className="w-[40%] mx-auto flex justify-center items-center bg-gray-300 flex-col h-full mt-2 rounded-xl">
+      <div className="w-[95%] sm:w-[50%] lg:w-[40%] mx-auto flex justify-center items-center bg-gray-300 flex-col h-full mt-2 rounded-xl">
         {!isVerified ? (
-          <h1 className="w-[80%] text-center">
+          <h1 className="w-[80%] text-center text-[13px] sm:text-xs lg:text-sm">
             Your verification is in under process and will be verified within
             3-4 business weeks.
           </h1>
         ) : (
-          <h1 className="w-[80%] text-center">Your verification is done.</h1>
+          <h1 className="w-[80%] text-center text-[14px] sm:text-xs lg:text-sm">
+            Your verification is done.
+          </h1>
         )}
       </div>
       {confirmRequest && (

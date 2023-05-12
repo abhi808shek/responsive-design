@@ -119,3 +119,34 @@ export const getRequestList= (data) => async (dispatch) => {
         throw error
     }
 }
+
+export const acceptFriendRequest = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(`http://3.233.82.34:8080/friend/api/friend/add`, data);
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data
+    })
+    return response.data
+  }catch(err){
+    throw err;
+  }
+}
+
+export const cancelFriendRequest = (data) => async (dispatch) => {
+  const { profileid, friendprofileid} = data
+  try {
+    const response = await axios.put(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+

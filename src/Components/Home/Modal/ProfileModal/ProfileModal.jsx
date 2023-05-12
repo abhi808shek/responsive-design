@@ -28,7 +28,7 @@ const ProfileModal = () => {
   };
 
   return (
-    <div className=" lg:w-[28%] xl:w-[22%] bg-white border border-gray-300 gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[95%] mt-2 h-[320px] z-50">
+    <div className=" lg:w-[28%] xl:w-[22%] bg-white border border-gray-300 gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[95%] mt-2 h-[340px] z-50 ">
       <Link to="/profile">
         <div className="flex items-center gap-2 py-2  px-3">
           <img
