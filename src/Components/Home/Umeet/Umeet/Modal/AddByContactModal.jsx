@@ -11,7 +11,7 @@ const AddByContactModal = ({ onClose }) => {
   return (
     <div className='absolute fixe top-0 w-full z-20 h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
 
-     <div className='w-[30%] min-h-[87%] flex flex-col bg-white justify-between rounded-xl p-5'>
+     <div className='w-[86%] md:w-[50%] lg:w-[39%] xl:w-[30%] 2xl:w-[25%] min-h-[87%] flex flex-col bg-white justify-between rounded-xl p-5'>
       <div className=''>
        <div className='flex justify-between items-center border-b pb-2 text-gray-600'>
          <button className='px-4 py-1.5 text-sm rounded-md border text-[#649B8E] boredr-[#649B8E]'>Choose Classmate</button>

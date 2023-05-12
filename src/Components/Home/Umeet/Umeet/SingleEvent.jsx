@@ -22,6 +22,7 @@ function EventStatus({ data }){
   useEffect(() => {
     dispatch(getAllEvents(profile?.id))
   }, [])
+
     if(data.status.toLowerCase() == 'attending'){
        	return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer'/>
     }else if(data.status.toLowerCase() == 'not attending'){
@@ -31,11 +32,11 @@ function EventStatus({ data }){
     }else if(data.status.toLowerCase() == 'completed'){
        	return <button className='px-2 py-0.5 text-[12px] rounded border-gray-500 text-gray-700 border'>completed</button>
     }else return null
-}
+  }
 
 const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }) => {
   const [showDetail, setShowDetail] = useState(false)
-
+console.log(handleEditEvent)
   return (
    <>
    {
@@ -63,16 +64,16 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, ha
          <BsThreeDots onClick={()=>setShowDetail(!showDetail)} className='w-8 h-8 cursor-pointer mr-2 text-gray-700'/>
         {
         showDetail ? (
-         <section className='absolute z-20 right-[4%] top-[45%] border bg-white border-gray-300'>
+         <section className='absolute z-30 right-[4%] top-[45%] border bg-white border-gray-300'>
           <div onClick={handleEditEvent} className='flex hover:bg-gray-300 p-2 cursor-pointer border-b border-gray-300'>
            <img src={editImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Edit Event</span>
           </div>
-          <div onClick={handleDeleteEvent} className='flex cursor-pointer p-2 border-b border-gray-300'>
+          <div onClick={handleDeleteEvent} className='flex hover:bg-gray-300 cursor-pointer p-2 border-b border-gray-300'>
            <img src={deleteImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Delete Event</span>
           </div>
-          <div onClick={handleShareEvent} className='flex cursor-pointer p-2'>
+          <div onClick={handleShareEvent} className='flex hover:bg-gray-300 cursor-pointer p-2'>
            <img src={shareImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Share Event</span>
           </div>

@@ -32,7 +32,7 @@ const AddDataList = [
 const PoliticalGuestAddModal = ({ onClose }) => {
   const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
   const [selectCountry, setSelectCountry] = useState(false)
-  const [country, setCountry] = useState(null)
+  const [country, setCountry] = useState('')
   const [whichBy, setWhichBy] = useState('')
   const [selectBy, setSelectBy] = useState([])
   const [isSelectedBy, setIsSelectedBy] = useState(false)
@@ -62,7 +62,7 @@ const PoliticalGuestAddModal = ({ onClose }) => {
 
   return (
     <div className='absolut fixed top-8 left-0 h-full w-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
-     <div className='w-[30%] h-[80%] bg-white rounded-xl p-3'>
+     <div className='w-[96%] md:w-[60%] lg:w-[40%] xl:w-[30%] h-[80%] bg-white rounded-xl p-3'>
       <div className='flex justify-between py-1 text-gray-600'>
         <div className='text-[18px] flex justify-center font-bold text-gray-700 text-gray-800 w-11/12'>Add Guests</div>
         <span className='w-1/12'>
@@ -71,11 +71,11 @@ const PoliticalGuestAddModal = ({ onClose }) => {
       </div>
       {/* selecting country, place */}
       <section className='w-full h-full'>
-       {selectCountry ? <div className='py-2 text-center rounded-lg bg-white text-[#519d8b] border border-[#519d8b] w-full my-2 cursor-pointer font-bold'>{country}</div> :
+       {selectCountry ? <div className='py-2 font-semibold text-center rounded-lg bg-white text-[#519d8b] border border-[#519d8b] w-full my-2 cursor-pointer font-bold'>{country}</div> :
         <>
-         <div className='py-2 text-center rounded-lg bg-white text-[#519d8b] border border-[#519d8b] w-full my-2 cursor-pointer'>Select Country</div>
+         <div className='py-2 font-semibold text-center rounded-lg bg-white text-[#519d8b] border border-[#519d8b] w-full my-2 cursor-pointer'>Select Country</div>
          <input type='search' className='outline-none border-b border-[#519d8b] text-[#519d8b] w-full my-2' placeholder='Search Country..'/>
-         <div className='h-[68%] overflow-y-scroll'>
+         <div className='h-[63%] lg:h-[68%] overflow-y-scroll'>
          {CountryList.map((data, i)=>(
           <div key={i} className='flex items-center my-2.5'>
            <input onChange={handleOptionChange}  checked={country == data} value={data} type='radio' id={data} className='w-5 h-5'/>
@@ -93,14 +93,14 @@ const PoliticalGuestAddModal = ({ onClose }) => {
         {/* select by loksabha, state, Assembly */}
         {isSelectedBy ? <PoliticalAddBy selectBy={selectBy} whichBy={whichBy} onClose={()=>setIsSelectedBy(false)} /> : (
         <>
-        {selectCountry && (country.toLowerCase() == 'india') ? (
+        {selectCountry ? ( (country.toLowerCase() == 'india') ? (
           <section className='flex flex-col justify-center w-full'>
            {AddDataList.map((data)=>(
             <div key={data} onClick={()=>handleAddBy(data)} className='flex items-center justify-center py-2 rounded-lg cursor-pointer my-2 text-center bg-[#519d8b] text-white py-2 font-bold'>Add By {data}<BiRightArrowAlt className='w-7 h-7' /></div>
           ))}
           </section>
           ) : <div onClick={()=>handleAddBy('State')} className='flex items-center justify-center py-2 rounded-lg cursor-pointer my-2 text-center bg-[#519d8b] text-white py-2 font-bold'>Add By State<BiRightArrowAlt className='w-7 h-7' /></div>
-        }
+        ) : null}
         </>)
         }
 

@@ -25,7 +25,7 @@ const ChooseTemplate = ({ onClose, handleImageChange, saveTemplate }) => {
       className="absolut fixed top-8 w-full h-full flex justify-center items-center"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
     >
-      <div className="w-[41%] flex flex-col justify-between min-h-[86%] bg-white rounded-xl p-3">
+      <div className="w-[98%] md:w-[70%] lg:w-[41%] flex flex-col justify-between min-h-[86%] bg-white rounded-xl p-3">
         <div className="">
           <div className="flex justify-between items-center border-b pb-2 text-gray-600">
             <span className="text-[18px] text-gray-700">Choose Template</span>
