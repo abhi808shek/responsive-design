@@ -147,7 +147,7 @@ console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
   return (
     <>
       <div className="w-[100%] mt-2 flex-1 bg-[#E4E7EC] flex justify-center py-2 ">
-        <div className="flex w-[40%] relative bg-white rounded-md flex-col items-center">
+        <div className="flex w-[95%] sm:w-[50%] lg:w-[40%] relative bg-white rounded-md flex-col items-center bg-red-400">
           {/* Search Section */}
           <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
             <input

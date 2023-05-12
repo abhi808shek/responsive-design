@@ -13,7 +13,7 @@ const UnionsSearchList = () => {
     dispatch(unionsFriendsTab(option));
   };
   return (
-    <div className="w-[40%] bg-[#E4E7EC] mx-auto flex flex-col items-center gap-3 mt-[4px] h-[88%] py-2 px-4">
+    <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-[#E4E7EC] mx-auto flex flex-col items-center gap-3 mt-[4px] h-[88%] py-2 px-4">
       <div className="flex gap-2 w-full">
         <img src="./images/events.jpg" alt="" className="w-[30px] h-[30px]" />
         <div className="flex-col flex ">
@@ -25,7 +25,7 @@ const UnionsSearchList = () => {
         {friendsTab?.map((elem) => (
           <button
             key={elem}
-            className="w-[35%] bg-blue-400 text-white font-bold py-1 text-xs rounded-lg"
+            className="w-[35%] bg-blue-400 text-white font-bold py-1 text-[10px] sm:text-xs rounded-lg"
             style={{
               backgroundColor: unionFriendsTab === elem ? "#7991BD" : "#666567",
             }}
@@ -39,11 +39,15 @@ const UnionsSearchList = () => {
       <div className="w-full">
         <SearchComponent bgColor="white" />
       </div>
-      { unionFriendsTab === "Find Friends" && <h1 className="text-xs font-semibold">Suggestions</h1>}
+      {unionFriendsTab === "Find Friends" && (
+        <h1 className="text-xs font-semibold">Suggestions</h1>
+      )}
 
       <div className="w-full overflow-y-scroll h-[72%] flex flex-col gap-3">
-    { unionFriendsTab === "Friends" &&  [1,2,32,3,3,3,].map(()=>( <UnionsFriendsList />)) }
-     { unionFriendsTab === "Find Friends" && [1,2,32,3,3,3,2,2,2].map(()=>( <UnionFindFriends />))}
+        {unionFriendsTab === "Friends" &&
+          [1, 2, 32, 3, 3, 3].map(() => <UnionsFriendsList />)}
+        {unionFriendsTab === "Find Friends" &&
+          [1, 2, 32, 3, 3, 3, 2, 2, 2].map(() => <UnionFindFriends />)}
       </div>
     </div>
   );

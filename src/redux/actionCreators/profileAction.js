@@ -174,6 +174,7 @@ export const startFollowing = (data) => async (dispatch) => {
             type: '',
             payload: response.data
         })
+        return response.data
     }catch(error){
         throw error
     }
@@ -365,6 +366,8 @@ export const getPGfriends= (data) => async (dispatch) => {
     }
 }
 
+
+// http://3.233.82.34:8080/instance/api/instancepost/getbyid/60881f9260d72c36923811ae
 // export const = (data) => async (dispatch) => {
 //     try{
 //         const response = await axios.get(``);

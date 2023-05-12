@@ -3,7 +3,7 @@ import Input from "../../Login/Content/InputBox/Input";
 
 const ContactUs = () => {
   return (
-    <div className="w-[40%] bg-[#E4E7EC] h-full mx-auto px-4 py-4 mt-1">
+    <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-[#E4E7EC] h-full mx-auto px-4 py-4 mt-1">
       <h1>Raise a Support Ticket</h1>
 
       <div className="w-full py-2">

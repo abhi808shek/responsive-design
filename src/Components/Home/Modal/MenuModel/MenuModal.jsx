@@ -34,7 +34,6 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
       }
       dispatch(getAllPostWithLimit(profileId));
     }
-    console.log("option33", option);
     closeModel(option);
     dispatch(menuModalTabSelect(option));
   };

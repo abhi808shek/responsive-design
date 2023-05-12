@@ -80,12 +80,10 @@ const Setting = () => {
   ];
   return (
     <>
-      <div className="w-[40%] bg-white border-2 mx-auto rounded-b-xl flex-col flex pb-4">
+      <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-white border-2 mx-auto rounded-b-xl flex-col flex pb-4">
         {/* Privacy Section */}
         <section className="flex flex-col">
-          <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 ">
-            Privacy
-          </h1>
+          <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 ">Privacy</h1>
           {data?.map((elem) => (
             <SettingOptions key={elem?.title} elem={elem} />
           ))}
@@ -114,18 +112,17 @@ const Setting = () => {
                 display: openDropdown.changePassword ? "block" : "none",
               }}
             >
-              {oldPassword ? <CreatenewPassword /> : <OldPassword OldPasswordChange={OldPasswordChange}/>}
+              {oldPassword ? (
+                <CreatenewPassword />
+              ) : (
+                <OldPassword OldPasswordChange={OldPasswordChange} />
+              )}
             </div>
           </div>
 
-          <div className="px-2" onClick={()=>navigate("/blocklist-page")}>
-            <div
-              className="flex cursor-pointer w-full my-2"
-             
-            >
-              <h1  className="text-sm flex-1" >
-                Blocked users
-              </h1>
+          <div className="px-2" onClick={() => navigate("/blocklist-page")}>
+            <div className="flex cursor-pointer w-full my-2">
+              <h1 className="text-sm flex-1">Blocked users</h1>
               <img
                 src="./images/groups.png"
                 alt=""
@@ -163,12 +160,12 @@ const Setting = () => {
                 <PasswordInput />
                 <div className="flex text-white justify-end gap-2">
                   <button
-                    className="bg-blue-400 w-[20%] py-2 rounded-lg text-xs"
+                    className="bg-blue-400 w-[30%] sm:w-[25%] py-2 rounded-lg text-[10px] xl:text-xs"
                     onClick={onDeactivateClick}
                   >
                     De-Activate
                   </button>
-                  <button className="bg-blue-400 w-[20%] py-2 rounded-lg text-xs">
+                  <button className="bg-blue-400 w-[30%] sm:w-[25%] py-2 rounded-lg text-[10px] xl:text-xs">
                     Cancel
                   </button>
                 </div>

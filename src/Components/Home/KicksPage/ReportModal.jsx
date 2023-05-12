@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import ReportReasonModal from './ReportReasonModal'
+import { useDispatch, useSelector } from "react-redux";
+import { setPostReport } from "../../../redux/actionCreators/rootsActionCreator";
+import { toast } from "react-toastify";
 
 const ReasonsData = [
  'Nudity or Sexual', 'Sucide related', 'Self-Injury', 'Eating-Disorders',
@@ -9,7 +12,41 @@ const ReasonsData = [
 ]
 
 const ReportModal = ({ onClose }) => {
-  const [showReasonModal, setShowReasonModal] = useState(false)
+  const dispatch = useDispatch()
+
+  const reducerData = useSelector((state) => {
+    return {
+      activePost: state.rootsReducer?.activePost
+    }
+  })
+  const { activePost } = reducerData;
+
+  const [showReasonModal, setShowReasonModal] = useState(false);
+  const [reason, setReason]  = useState('');
+
+  const handleReportClick = (reasonName) => {
+    setShowReasonModal(true);
+    setReason(reasonName)
+  }
+  const reportPost = () => {
+    const payload = {
+        reportedid: activePost?.id,
+        profileid: activePost?.profile?.id,
+        message: reason,
+        type: 'post',
+        Createdatetime: new Date()
+    }
+    dispatch(setPostReport(payload)).then((res) => {
+      if(res.status){
+        toast.success(res.message)
+      }else {
+        toast.error(res.message)
+      }
+      // console.log(res, "+++++++++++++ REEEEEEEEEEEEEEEEEPPPPPPPP");
+    }).catch(err => {
+      toast.error(err.message)
+    })
+  }
 
   return (
   <section className='fixed z-20 justify-center items-center top-0 left-0 h-full w-full flex z-20' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
@@ -22,11 +59,11 @@ const ReportModal = ({ onClose }) => {
 
     <div>
      {ReasonsData.map((reason, i)=>(
-      <div onClick={()=>setShowReasonModal(true)} className='py-1.5 cursor-pointer hover:bg-blue-50'>{reason}</div>
+      <div onClick={() =>handleReportClick(reason)} className='py-1.5 cursor-pointer hover:bg-blue-50'>{reason}</div>
      ))}
     </div>
    </div>
-   {showReasonModal && <ReportReasonModal onClose={()=>setShowReasonModal(false)} />}
+   {showReasonModal && <ReportReasonModal reportPost={reportPost} onClose={()=>setShowReasonModal(false)} />}
   </section>
   )
 }

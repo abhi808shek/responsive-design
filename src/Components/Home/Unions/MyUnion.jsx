@@ -42,7 +42,7 @@ const MyUnion = ({
   return (
     <>
       <div
-        className="w-full  h-[100%] overflow-y-scroll flex flex-col gap-2 cursor-pointer"
+        className="w-full  h-[100%] overflow-y-scroll flex flex-col gap-2 cursor-pointer xl:px-2"
         onClick={onSingleUnionPage}
       >
         {[1, 2, 3, 4, 5, 3, 4, 5, 6, 4, 33, 3, 3, 3, , 2, 2, 2, 2, 2, 23]?.map(
@@ -74,7 +74,7 @@ const MyUnion = ({
                 ></PopOver>
               ) : (
                 <button
-                  className={`w-[10%] border-2  border-[#979797] text-[#7991BD] font-bold text-xs rounded-lg`}
+                  className={`w-[15%] sm:w-[12%] border-2   border-[#979797] text-[#7991BD] font-bold text-xs rounded-lg`}
                   onClick={onHandleModal}
                 >
                   Exit

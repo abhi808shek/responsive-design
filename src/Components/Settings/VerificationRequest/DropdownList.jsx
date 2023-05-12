@@ -12,9 +12,9 @@ const DropdownList = () => {
     { name: "Other" },
   ];
   return (
-    <select className="w-full py-2 outline-none border-2 rounded-lg pl-2 text-sm flex gap-2">
-      {data.map((elem,index) => (
-        <option value={elem?.name} key={index}>
+    <select className="w-full py-2 outline-none border-2 rounded-lg pl-2 text-[10px] sm:text-xs lg:text-sm flex gap-2 font-bold sm:font-normal">
+      {data.map((elem, index) => (
+        <option value={elem?.name} key={index} className="">
           {elem?.name}
         </option>
       ))}

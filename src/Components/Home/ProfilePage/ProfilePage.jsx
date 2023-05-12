@@ -32,10 +32,11 @@ const ProfilePage = ({ isOther }) => {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
       friends: state?.profileReducer?.friends,
-      profileDetail: state?.profileReducer?.profileDetail?.data
+      profileDetail: state?.profileReducer?.profileDetail?.data,
+      profile: state.profileReducer.profile
     }
   });
-  const { following, followers, friends, profileDetail} = reducerData;
+  const { following, followers, friends,profileDetail, profile} = reducerData;
 
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
@@ -48,9 +49,9 @@ const ProfilePage = ({ isOther }) => {
         // toast.error(res.message)
       }
     });
-    dispatch(getFollowing(user?.id));
-    dispatch(getFollower(user?.id));
-    dispatch(getFriendsList(user?.id));
+    dispatch(getFollowing(profile?.id));
+    dispatch(getFollower(profile?.id));
+    dispatch(getFriendsList(profile?.id));
   }, []);
 
   const handleUploadImage = async (name, value) => {
@@ -72,7 +73,7 @@ const ProfilePage = ({ isOther }) => {
     <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-2">
       <section className="flex lg:w-[50%] flex-col mt-2 items-end">
         <ProfileImageSection 
-        uploadImage={handleUploadImage} data={profileDetail || {}}
+        uploadImage={handleUploadImage} data={profile || {}}
         friends={friends} following={ following } followers={followers}
         coverImg={coverImg} profileImg={profileImg} isOther={isOther} />
 
@@ -81,7 +82,7 @@ const ProfilePage = ({ isOther }) => {
       </section>
       <section className="flex w-[50%] pr-[8px] flex-col">
         {/* Category Section */}
-        <section className="w-[98%] mt-3 flex items-center justify-center">
+        <section className="w-[98%] max-w-2xl ml-3 mt-3 flex items-center justify-between">
           <CategorySection selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
         </section>
         
@@ -102,7 +103,7 @@ const ProfilePage = ({ isOther }) => {
 
 
 
-        <section className="w-full mt-3 rounded-xl flex justify-center">
+        <section className="w-full max-w-2xl mt-3 rounded-xl flex justify-center">
           <GridBoxes selectedOption={selectedOption}/>
         </section>
       </section>
