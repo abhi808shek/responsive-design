@@ -13,7 +13,8 @@ import TypeMessage from '../../chat/TypeMessage'
 import { addCommentOnKicks, getCommentsByPostid } from '../../../redux/actionCreators/kicksActionCreator'
 import moment from 'moment'
 
-export default function VideoCommentsModal({ onClose }){
+export default function 
+VideoCommentsModal({ onClose }){
   const dispatch = useDispatch()
   const reducerData = useSelector((state) => {
     return {

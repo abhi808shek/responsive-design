@@ -20,19 +20,19 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
   const userName = data?.fname + data?.lname;
 
   const [state, setState] = useState({})
-  const { showModal, modalName } = state;
+  const { showModal, modalName, modalData } = state;
   const dispatch = useDispatch()
 
   const handleModal =async (name) => {
     if(name === "Friends"){
       const data =await dispatch(getFriendsList(id))
-      setState({...state, showModal: true, modalName: name})
+      setState({...state, showModal: true, modalName: name, modalData: friends})
     }else if(name === 'Followers'){
       dispatch(getFollower(id))
-       setState({...state, showModal: true, modalName: name})
+       setState({...state, showModal: true, modalName: name, modalData: followers})
     }else if( name === 'Following'){
       dispatch(getFollowing(id))
-       setState({...state, showModal: true, modalName: name})
+       setState({...state, showModal: true, modalName: name, modalData: following})
     }
   }
   return (
@@ -99,7 +99,7 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
       {
         showModal &&
         <Portals closeModal={() => setState({...state, showModal: false})}>
-        <FollowersModal modalName={`Your ${modalName}`} data={friends}/>
+        <FollowersModal modalName={`Your ${modalName}`} data={modalData}/>
         </Portals>
       }
     </div>
