@@ -11,5 +11,5 @@
 }
 
 .hideScroll::-webkit-scrollbar-thumb {
-  display: none;
+	display: none;
 }

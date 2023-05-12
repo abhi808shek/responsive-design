@@ -1,4 +1,4 @@
-import React, {useMemo, useState} from "react";
+import React, { useMemo, useState } from "react";
 import Input from "../../input/input";
 import Dropdown from "../../Login/Content/Modal/Dropdown";
 import { AiOutlinePlusCircle } from "react-icons/ai";
@@ -79,14 +79,14 @@ const PersonalAccount = ({
     { year: "2008" },
     { year: "2007" },
   ];
-console.log(states,education, "Staeeeeeee");
-  const getGraduation = ()  => {
+  console.log(states, education, "Staeeeeeee");
+  const getGraduation = () => {
 
   }
   return (
     <>
       <Dropdown2
-      style={'w-full'}
+        style={'w-full'}
         label={"Country: "}
         name={"Select country"}
         country={country}
@@ -143,7 +143,7 @@ console.log(states,education, "Staeeeeeee");
             placeholder: "School Name",
             type: "text",
             onChange: (e) => handleEducation(e.target.name, e.target.value),
-            value: `${schoolname || ""} ${schooladdress || "" }`,
+            value: `${schoolname || ""} ${schooladdress || ""}`,
           }}
         />
         <Dropdown
@@ -158,7 +158,7 @@ console.log(states,education, "Staeeeeeee");
       <div className="flex gap-3">
         <div className="w-1/2">
           <Accordion
-          handleClick={getGraduation}
+            handleClick={getGraduation}
             title={
               <p className="flex gap-3 items-center justify-between">
                 <span>Graduation</span>
@@ -177,7 +177,7 @@ console.log(states,education, "Staeeeeeee");
             />
             <div className="">
               <Dropdown
-              up={true}
+                up={true}
                 style={"my-2 w-full"}
                 options={ugdegreeList}
                 keyName={'degree'}
@@ -186,7 +186,7 @@ console.log(states,education, "Staeeeeeee");
                 selectedValue={ugdegree}
               />
               <Dropdown
-              up={true}
+                up={true}
                 style={" w-full"}
                 options={ugdegreeList}
                 keyName='branch'
@@ -196,7 +196,7 @@ console.log(states,education, "Staeeeeeee");
               />
             </div>
             <Dropdown
-            up={true}
+              up={true}
               style={"my-2 w-full"}
               options={year}
               keyName='year'
@@ -235,7 +235,7 @@ console.log(states,education, "Staeeeeeee");
                 selectedValue={pgdegree}
               />
               <Dropdown
-              up={true}
+                up={true}
                 style={" w-full"}
                 options={pgdegreeList}
                 keyName='branch'

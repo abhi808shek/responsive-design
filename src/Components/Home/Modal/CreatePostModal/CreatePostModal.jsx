@@ -6,18 +6,20 @@ import { Autocomplete } from "@react-google-maps/api";
 import Dropdown from "../../../Login/Content/Modal/Dropdown";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
-import {SlLocationPin} from "react-icons/sl"
-const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
+import { SlLocationPin } from "react-icons/sl";
+const CreatePostModal = ({ setShowCreatePostModal, title, handleCloseModal }) => {
   const [state, setState] = useState({})
   const { postPrivacy } = state;
   const navigate = useNavigate()
-  const onCloseCreatePostModal = ()=>{
+  const onCloseCreatePostModal = () => {
     setShowCreatePostModal(false)
   }
 
   const handlePostPrivacy = (selectedValue) => {
-    setState({...state,  postPrivacy: selectedValue})
+    setState({ ...state, postPrivacy: selectedValue })
   }
+
+
   return (
     <div className="bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20 bg-red-400 ">
       {/* create post */}
@@ -86,12 +88,14 @@ const CreatePostModal = ({setShowCreatePostModal,title,handleCloseModal}) => {
             </div>
             {/* add location */}
             <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">
-              <input
+              {/* <input
                 type="text"
                 placeholder="Add Location"
                 className="flex-1  p-2 outline-none"
-              />
+              /> */}
+
               <SlLocationPin size={20} />
+
             </div>
             {/* accordion */}
             {/* <div className="my-2">
