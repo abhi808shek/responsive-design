@@ -52,6 +52,7 @@ const EnterCode = ({ title }) => {
   const [seconds, setSeconds] = useState(5 * 60);
 
   useEffect(() => {
+    console.log("Timererrr", timer);
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
@@ -61,9 +62,9 @@ const EnterCode = ({ title }) => {
     const intervalId = setInterval(() => {
       setSeconds((prevSeconds) => prevSeconds - 1);
     }, 1000);
-    
+
     return () => clearInterval(intervalId);
-  }, []);
+  }, [timer]);
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
