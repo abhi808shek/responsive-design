@@ -7,7 +7,6 @@ import {
 } from "@material-tailwind/react";
 
 export default function MenuDropdown({ button, options, handleOption }) {
-    console.log(options, "___________________ VVVVVVVVVVVVVVVVv");
   return (
     <Menu>
       <MenuHandler >

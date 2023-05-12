@@ -1,29 +1,40 @@
 import { useState } from 'react'
 
 export default function PoliticalAddBy({ onClose, whichBy, selectBy }){
+ const [addByMail, setAddByMail] = useState(false)
+
  return (
  <section className='h-full'>
   <div className='flex justify-between font-semibold my-1'>
-   <span className='bg-[#649b8e] cursor-pointer flex justify-center rounded-lg mx-1 w-1/2 px-1 py-1 text-white'>Add By {whichBy}</span>
-   <span className='border text-[#649b8e] w-1/2 cursor-pointer flex justify-center rounded-lg mx-1 border-[#649b8e] px-1 py-1'>Add By Email</span>
+   <span onClick={()=>setAddByMail(false)} className={`${addByMail ? 'border text-[#649b8e]' : 'bg-[#649b8e] text-white' } cursor-pointer flex justify-center rounded-lg mx-1 w-1/2 px-1 border-[#649b8e] py-1`}>Add By {whichBy}</span>
+   <span onClick={()=>setAddByMail(true)} className={`${addByMail ? 'bg-[#649b8e] text-white': '' } border text-[#649b8e] w-1/2 cursor-pointer flex justify-center rounded-lg mx-1 border-[#649b8e] px-1 py-1`}>Add By Email</span>
   </div>
+ 
+  {addByMail ? (
+  	<section className='h-[52%] lg:h-[61%] 2xl:h-[63%]'>
+    <div className='flex items-center my-3'>       
+     <input className='w-full outline-none bg-gray-200 border border-gray-200 rounded-lg h-9 pl-1' placeholder='Entre Email Address' />
+     <button className='px-4 py-1.5 text-sm rounded-md text-white ml-1 border bg-[#649B8E]'>Add</button>
+    </div>
+    </section>
+  	): (<>
+    <input type='search' className='outline-none border-b border-[#519d8b] text-[#519d8b] w-full my-2' placeholder='Search..'/>
 
-  <input type='search' className='outline-none border-b border-[#519d8b] text-[#519d8b] w-full my-2' placeholder='Search..'/>
-
-  <div className='flex items-center'>
+    <div className='flex items-center'>
      <input type='checkbox' id='selectAll' className='w-5 h-5'/>
      <label htmlFor='selectAll' className='ml-5 text-[17px] text-gray-700'>Select All</label>
-  </div> 
-  <div className='h-[50%] overflow-y-scroll'>
-  {selectBy.map((data, i)=>(
+    </div>
+
+   <div className='h-[41%] lg:h-[49%] 2xl:h-[53%] overflow-y-scroll'>
+   {selectBy.map((data, i)=>(
     <div key={i} className='flex items-center my-2.5'>
      <input value={data} type='checkbox' id={data} className='w-5 h-5'/>
      <label htmlFor={data} className='ml-5 text-[17px] text-gray-700'>{data}</label>
     </div> 
    ))}
-  </div>
-
-  <div className='flex mx-6'>
+  </div></>
+  )}
+  <div className='flex mx-6 my-2'>
    <button className='py-2 bg-[#649b8e] m-1 font-semibold text-white rounded-lg w-full'>Add Invities</button>
    <button onClick={onClose} className='py-2 border border-[#649b8e] m-1 font-semibold rounded-lg w-full'>Cancel</button>
   </div>
