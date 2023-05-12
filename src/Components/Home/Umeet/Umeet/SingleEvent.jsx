@@ -65,18 +65,18 @@ console.log(handleEditEvent)
         {
         showDetail ? (
          <section className='absolute z-30 right-[4%] top-[45%] border bg-white border-gray-300'>
-          <div onClick={handleEditEvent} className='flex hover:bg-gray-300 p-2 cursor-pointer border-b border-gray-300'>
-           <img src={editImg} className='w-6 h-6' />
-           <span className='pr-4 px-2'>Edit Event</span>
-          </div>
+          {/*<div onClick={handleEditEvent} className='flex hover:bg-gray-300 p-2 cursor-pointer border-b border-gray-300'>
+                     <img src={editImg} className='w-6 h-6' />
+                     <span className='pr-4 px-2'>Edit Event</span>
+                    </div>
           <div onClick={handleDeleteEvent} className='flex hover:bg-gray-300 cursor-pointer p-2 border-b border-gray-300'>
            <img src={deleteImg} className='w-6 h-6' />
            <span className='pr-4 px-2'>Delete Event</span>
           </div>
-          <div onClick={handleShareEvent} className='flex hover:bg-gray-300 cursor-pointer p-2'>
-           <img src={shareImg} className='w-6 h-6' />
-           <span className='pr-4 px-2'>Share Event</span>
-          </div>
+          {/*<div onClick={handleShareEvent} className='flex hover:bg-gray-300 cursor-pointer p-2'>
+                     <img src={shareImg} className='w-6 h-6' />
+                     <span className='pr-4 px-2'>Share Event</span>
+                    </div> */}
          </section>
           ) : null
         }

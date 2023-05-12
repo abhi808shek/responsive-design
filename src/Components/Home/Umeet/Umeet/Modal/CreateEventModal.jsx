@@ -7,7 +7,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   handleCreatedEvent, handleShowTemplate, handleShowAddGroup, 
   handleShowAddPoliticalGroup, whichType, politicalPartyFeedback, 
   politicalPartyMeeting, handlePoliticalFeedbackQuestion,
-  publicShopOpening }) => {
+  publicShopOpening, handlePersonalOtherModal }) => {
 
   const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
@@ -20,15 +20,17 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   };
 
   const handleShowGroup = ()=>{
-    if(whichType == 'personal') handleShowAddGroup()
+    if(whichType == 'personal'){ 
+      if(selectedSpecificEvent == 'Re-Union'){
+        handleShowAddGroup()
+      }else{
+        handlePersonalOtherModal()
+      }
+    }
     else if(whichType == 'political') handleShowAddPoliticalGroup()
     else if(whichType == 'public') handleShowAddPoliticalGroup()
   }
   
-  // useEffect(()=>{
-
-  // },[politicalPartyFeedback, politicalPartyMeeting])
-
   return (
     <div className='lg:fullPage bg-white border-gray-300'>
      <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]' } border bg-white md:px-2 lg:px-3`}>
@@ -137,7 +139,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
         <div className='flex flex-col my-1'>
          <button onClick={handleCreatedEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
-         <button onClick={handleCreatedEvent} className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>         
+         <button className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>         
         </div>
 
        </div>
