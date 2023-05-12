@@ -39,7 +39,7 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
   };
   return (
     <>
-      <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
+      <div className="w-[50%] sm:w-[30%] lg:w-[25%] xl:w-[20%] absolute border-2 border-gray-300 bg-white right-[9%] sm:right-[29%] lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
         {data
           .filter((elem) => {
             if (userStatus === user.userId) {
@@ -55,15 +55,15 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
           ?.map((elem) => (
             <div
               key={elem.name}
-              className="flex gap-2 border-b-2 border-gray-300 items-center mx-2 py-2 cursor-pointer"
+              className="flex gap-2 border-b-2 border-gray-300 items-center mx-2 py-1 lg:py-1.5 cursor-pointer"
               style={{
                 backgroundColor:
                   menuModalTab === elem.name ? "#7991BD" : "white",
               }}
               onClick={() => onHandleClick(elem.name)}
             >
-              <img src={elem.icon} alt="" className="w-[25px] " />
-              <span className="text-[12px] text-gray-600 font-semibold">
+              <img src={elem.icon} alt="" className="w-[18px] sm:w-[20px] lg:w-[25px] " />
+              <span className="text-[9px] sm:text-[10px] text-gray-600 font-semibold">
                 {elem.name}
               </span>
             </div>

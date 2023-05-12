@@ -436,7 +436,7 @@ const Modal = ({ modalType, handleClose }) => {
             <div className="flex justify-center" onClick={handleCreateProfile}>
               <label
                 htmlFor=""
-                className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer text-white font-medium"
+                className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer mt-5 text-white font-medium"
               >
                 Create
               </label>

@@ -4,7 +4,7 @@ import LikedProfile from "./LikedProfile";
 import { RxCrossCircled } from "react-icons/rx";
 const LikeModal = ({ closeLikeModal }) => {
   return (
-    <div className="w-[30%] h-[74%] bg-white rounded-lg px-4 flex flex-col gap-2 pt-2">
+    <div className="w-[95%] sm:w-[50%] lg:w-[30%] h-[74%] bg-white rounded-lg px-4 flex flex-col gap-2 pt-2">
       <div className="flex w-full  items-center">
         <div className="flex-1 gap-1 items-center flex justify-center">
           <img src={LikeIcon} alt="" className="w-[30px] h-[30px]" />
