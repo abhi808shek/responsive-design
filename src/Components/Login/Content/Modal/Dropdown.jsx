@@ -45,7 +45,7 @@ export default function Dropdown({label,up, style, name, options=[], handleChang
               className={`
                ${
                 up ? "bottom-[44px]" : ""
-              } h-[16rem] overflow-auto absolute z-10 mt-2 w-[100%] lg:w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
+              } h-[8rem] xl:h-[16rem] overflow-auto absolute z-10 mt-1 mb-2 w-[100%] lg:w-50 origin-top-right rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none`}
             >
               {isEmpty(options) ? (
                 <EmptyComponent message={"Data not available"} />
