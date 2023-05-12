@@ -320,7 +320,9 @@ const initialState = {
                 }
             ]
         },
-    ]
+    ],
+    postHistory: {},
+    postLikes: []
 }
 
 const postReducer = (state = initialState, action) => {
@@ -340,6 +342,10 @@ const postReducer = (state = initialState, action) => {
                 return post;
             });
             return { ...state, posts: newPosts };
+        case "GET_POST_HISTORY":
+            return {...state, postHistory: action.payload.data}
+        case "GET_POST_LIKE":
+            return { ...state, postLikes: action.payload.data}
         default:
             return state;
     }

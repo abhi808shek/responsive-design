@@ -8,28 +8,32 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../../redux/actionCreators/postActionCreator";
+import { createPost, updatePost } from "../../../../redux/actionCreators/postActionCreator";
 import moment from "moment";
-import { imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
+import { getAllPostWithLimit, imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
 import { toast } from "react-toastify";
 const CreatePostModal = ({
   setShowCreatePostModal,
   title,
   handleCloseModal,
 }) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const reducerData = useSelector((state) => {
     return {
       profile: state.profileReducer.profile,
-      activePost: state.rootsReducer.activePost
+      activePost: state.rootsReducer.activePost,
     };
   });
-  const { profile, activePost} = reducerData;
+  const { profile, activePost } = reducerData;
   const name = profile?.fname + profile?.lname;
   const [state, setState] = useState({});
-  const isEdit = title === 'Edit';
+  const isEdit = title === "Edit";
 
-  const { postPrivacy= isEdit ? activePost?.shareto : '' , postContent = isEdit ? activePost?.text : "", uploadFileList } = state;
+  const {
+    postPrivacy = isEdit ? activePost?.shareto : "",
+    postContent = isEdit ? activePost?.text : "",
+    uploadFileList,
+  } = state;
 
   const [ImageFile, setImageFile] = useState(isEdit ? [activePost?.image] : []);
   const [VideoFile, setVideoFile] = useState([]);
@@ -39,39 +43,39 @@ const CreatePostModal = ({
     setShowCreatePostModal(false);
   };
 
+  const handlePostContent = (e) => {
+     setState({...state, "postContent": e.target.value});
+  }
+
   const handleImageChange = async (e) => {
     if (e === "delete") {
       setImageFile("");
       setVideoFile("");
     } else {
       const fileList = e.target.files;
-      // console.log("fileListwwwwwwwww", fileList);
-      // console.log(fileList, "file listtttttttttt");
+
       const fileArray = Array.from(fileList);
       fileArray.forEach((element) => {
         if (element?.type?.includes("image")) {
-          // console.log("eeeeeeeeeeeeeeee", element);
           setImageFile((ImageFile) => [...ImageFile, element]);
         } else {
           setVideoFile((VideoFile) => [...VideoFile, element]);
         }
       });
-      // const uploadFile = await dispatch(imageUploadApi(fileList[0]))
-      // setState((prev) => ({...prev, }))
-      uploadAllImages(fileArray)
-      // console.log(uploadFile, "resppppppppppp");
+
+      uploadAllImages(fileArray);
     }
   };
 
-  function uploadAllImages (files) {
-    // console.log(files, 'GGGGGGGGGGGGGGG');
-    Promise.all(files.map((item, index) => {
-      return dispatch(imageUploadApi(item))
-    })).then((res) => {
-      // console.log(res, 'RDDDDDDDDDDDD');
-      const paths = res.map(item => item.path)
-      setState({...state, uploadFileList: paths})
-    })
+  function uploadAllImages(files) {
+    Promise.all(
+      files.map((item, index) => {
+        return dispatch(imageUploadApi(item));
+      })
+    ).then((res) => {
+      const paths = res.map((item) => item.path);
+      setState({ ...state, uploadFileList: paths });
+    });
   }
 
   const handlePostPrivacy = (selectedValue) => {
@@ -83,7 +87,7 @@ const CreatePostModal = ({
       shareto: postPrivacy?.name,
       type: "personal",
       template: "template1",
-      image: uploadFileList[0],
+      image: uploadFileList?.[0],
       text: postContent,
       suggesttemp: "sugest1",
       utag: null,
@@ -91,16 +95,36 @@ const CreatePostModal = ({
       close: "close",
       profileid: profile?.id,
       postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
-    };  
+    };
+    const updatePayload = {
+      profileid: profile?.id,
+      shareto: postPrivacy?.name,
+      type: "personal",
+      template: "template1",
+      image: uploadFileList?.[0],
+      text: postContent,
+      suggesttemp: "sugest1",
+      utag: null,
+      delete: false,
+      close: "close",
+      postid: activePost?.id,
+      datetime: moment().format("DD-MM-YYYY HH:mm:ms"),
+    }; 
+    isEdit ? 
+    dispatch(updatePost(updatePayload)).then((res) => {
+      handleCloseModal()
+    })
+     :
     dispatch(createPost(payload)).then((res) => {
-      if(res?.status){
+      if (res?.status) {
         toast.success(res.message);
         handleCloseModal()
+        dispatch(getAllPostWithLimit(profile?.id))
       }else{
         toast.error(res.message)
       }
-    })
-  }
+    });
+  };
   return (
     <div className="overflow-y-scroll bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
       {/* create post */}
@@ -169,7 +193,7 @@ const CreatePostModal = ({
             <div className="comment">
               <textarea
                 value={postContent}
-                onChange={(e) => setState('postContent', e.target.value)}
+                onChange={(e) =>handlePostContent(e)}
                 placeholder="Write something..."
                 className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
               ></textarea>
@@ -183,32 +207,12 @@ const CreatePostModal = ({
               />
               <SlLocationPin size={20} />
             </div>
-            {/* accordion */}
-            {/* <div className="my-2">
-              <span className="text-gray-500 font-bold inline align-center">
-                Turn off commenting
-              </span>
-              <label className="relative inline-flex items-center mb-5 cursor-pointer float-right mr-12">
-                <input type="checkbox" value="" class="sr-only peer" />
-                <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
-              </label>
-
-              <p className="text-black text-opacity-40 w-[90%] text-sm">
-                You can change this later by going to the options at the top of
-                your post.
-              </p>
-            </div> */}
-
-            {/* <hr className="w-[90%] h-0.5 bg-gray-300 border-0 rounded md:my-3 dark:bg-black-900" />
-            <div>
-              <AccordionToggle />
-            </div> */}
           </div>
         </div>
 
         <div>
           <MainCarousel
-          isEdit ={isEdit}
+            isEdit={isEdit}
             ImageFile={ImageFile}
             VideoFile={VideoFile}
             handleImageChange={handleImageChange}

@@ -2,8 +2,6 @@ import React, { useState } from "react";
 import { BsImage } from "react-icons/bs";
 import Portals from "../../Portals/Portals";
 import CreatePostModal from "../Modal/CreatePostModal/CreatePostModal";
-import LikeModal from "../Modal/LikeModal/LikeModal";
-import HashTagPage from "../SearchPage/HashTagPage";
 
 const PostForm = ({ width, bgColor }) => {
   const [showCreatePostModal, setShowCreatePostModal] = useState(false);
@@ -27,12 +25,12 @@ const PostForm = ({ width, bgColor }) => {
       </div>
       {showCreatePostModal && (
         <Portals>
-          {/* <LikeModal /> */}
           <CreatePostModal
             title={"Create"}
             setShowCreatePostModal={setShowCreatePostModal}
             handleCloseModal={() => setShowCreatePostModal(false)}
           />
+
         </Portals>
       )}
     </>

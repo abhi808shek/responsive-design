@@ -30,7 +30,7 @@ const rootsReducer = (state = initialState, action) => {
         activePost: action.payload,
       };
     case "GET_POST_LIST":
-      return { ...state, postList: action.payload.data };
+      return { ...state, postList: action.payload.data.content };
     case "INCREASE_COMMENT_COUNT":
       const { postList } = state;
       const newData = postList.map((item) => {

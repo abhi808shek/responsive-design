@@ -78,21 +78,19 @@ const MyFriendsPage = () => {
             />
           </div>
         </section>
-        <hr className="" />
+        {/* <hr className="" /> */}
 
         <section className="">
         {
-          // isEmpty(friends) 
-          // ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
-          // :
-          <div className="px-1 mt-2 flex flex-col gap-2">
-            {[1,2,3,4]?.map((elem,index) => (
+          isEmpty(friends) 
+          ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
+          :
+          [1,2,3,4]?.map((elem,index) => (
               <React.Fragment key={index}>
                 <FriendList icon={true} desc={true} data={elem} />
-                <hr />
+                {/* <hr /> */}
               </React.Fragment>
-            ))}
-          </div>
+            ))
         }
         </section>
         {/* <Locations/> */}

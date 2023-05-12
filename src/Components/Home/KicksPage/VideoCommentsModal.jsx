@@ -61,7 +61,7 @@ VideoCommentsModal({ onClose }){
          {
            /* console.log(data, "CCCCCCCCCCCCCMMMMMMMMMMMMMMMMMM") */
          }
-         const { profile, text, id, likecount, replycount } = data;
+         const { profile, text, id, likecount, replycount, datetime } = data;
          const name = profile?.fname + profile?.lname;
          return (
            <>
@@ -80,7 +80,7 @@ VideoCommentsModal({ onClose }){
                        {name ? `${profile?.fname} ${profile.lname}` : "User"}
                      </span>
                      <span className="text-[10px] px-2">
-                       Apr 29, 2023 at 8.30am
+                       {moment(datetime, "YYYY-MM-DDTHH:mm:ms").format('DD  MMM, YYYY')}
                      </span>
                    </div>
                    <div>

@@ -4,7 +4,7 @@ import ReportModal from "../Modal/ReportModal/ReportModal";
 import userData from "../dataList";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getPostList } from "../../../redux/actionCreators/rootsActionCreator";
+import { getAllPostWithLimit, getPostList } from "../../../redux/actionCreators/rootsActionCreator";
 
 const PostContent = ({ data, showModalFunc, width, userData }) => {
   const dispatch = useDispatch();
@@ -17,7 +17,7 @@ const PostContent = ({ data, showModalFunc, width, userData }) => {
   const { profile, postList  = [] } =  reducerData
 
   useEffect(() => {
-    dispatch(getPostList(profile?.id))
+    dispatch(getAllPostWithLimit(profile?.id))
   }, [])
   return (
     // <div className="w-full h-[100%] flex items-center justify-center flex-col">

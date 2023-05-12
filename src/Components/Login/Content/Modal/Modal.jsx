@@ -183,16 +183,16 @@ const Modal = ({ modalType, handleClose }) => {
     },
     (
       <div
-        className="absolute py-2 rounded-xl px-10 top-1/2 left-1/2 bg-white max-w-[60rem] w-[75vw] text-center"
+        className=" bg-white w-[95%] sm:w-[95%] lg:w-[95%] h-[100vh] sm:h-[88%] lg:h-[90%] mt-[15px] xl:w-[75%]  xl:h-[80%] sm:mt-[0px] text-center py-2"
         style={{
-          transform: "translate(-50%, -50%)",
+          // transform: "translate(-50%, -50%)",
           boxShadow: "0px 10px 8px #3f3f3fd9",
         }}
       >
         <h2 className="font-semibold text-xl border-b-[3px] border-grey-400 py-2">
           Let's Create Profile
         </h2>
-        <div className="flex flex-col md:flex-row my-4">
+        <div className="flex bg-white flex-col md:flex-row my-4 h-[118vh] sm:h-[80%]">
           <div className="md:w-1/2 mr-4 border-r-[3px] border-grey-400">
             {/* font-weight removed, font-size reduced, padding added,*/}
             <h2 className="text-xl py-3">Add Profile Picture</h2>
@@ -208,11 +208,13 @@ const Modal = ({ modalType, handleClose }) => {
               />
               <label
                 htmlFor="profilePic"
-                className="flex justify-center items-center cursor-pointer w-[15rem] h-[15rem] mx-auto rounded-full block bg-gray-200"
+                className="flex justify-center items-center cursor-pointer w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto rounded-full bg-gray-200"
               >
                 {imgFile ? (
                   <img
-                    className={"w-[15rem] h-[15rem] mx-auto rounded-full block"}
+                    className={
+                      "w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto rounded-full block"
+                    }
                     src={URL.createObjectURL(imgFile)}
                   />
                 ) : (
@@ -225,14 +227,14 @@ const Modal = ({ modalType, handleClose }) => {
                 {/* bg-color, padding, font-weight of label changed */}
                 <label
                   htmlFor="profilePic"
-                  className="bg-[#6780af] cursor-pointer p-[4px 20px] rounded-xl py-2 text-white font-medium mt-6 px-6"
+                  className="bg-[#6780af] text-xs sm:text-sm cursor-pointer p-[4px 20px] rounded-xl py-2 text-white font-medium mt-6 px-6"
                 >
                   Select from computer
                 </label>
               </div>
             </div>
           </div>
-          <div className="md:w-1/2 max-w-[25rem] px-4 relative">
+          <div className="md:w-1/2 max-w-[25rem] px-4 relative mt-2 bg-white">
             <div className="mx-auto">
               {/*<Dropdown
               name={isPersonal ? "Select Profile Type*" : "Organization"}
@@ -274,7 +276,7 @@ const Modal = ({ modalType, handleClose }) => {
                         id="Male"
                         className="h-5 w-4 accent-stone-500"
                         onClick={(e) => handleGender(e)}
-                      />{" "}
+                      />
                       <label className="pl-2">Male</label>
                     </div>
 
@@ -307,7 +309,7 @@ const Modal = ({ modalType, handleClose }) => {
                     className="w-full h-9 border-[1px] my-1 px-2 text-gray-500 outline-none border-gray-300 rounded-[5px]"
                   />
                   <Dropdown2
-                  style={'w-full'}
+                    style={"w-full"}
                     name={"Select country"}
                     country={country}
                     options={countryList}
@@ -320,7 +322,7 @@ const Modal = ({ modalType, handleClose }) => {
 
                   {country ? (
                     <>
-                      <div className="flex gap-2">
+                      <div className="flex  flex-col sm:flex-row lg:gap-2">
                         <Dropdown
                           name={"State"}
                           options={stateList}
@@ -338,7 +340,7 @@ const Modal = ({ modalType, handleClose }) => {
                           }
                         />
                       </div>
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <Dropdown
                           name={"Loksabha"}
                           keyName={"loksabha"}
@@ -385,7 +387,7 @@ const Modal = ({ modalType, handleClose }) => {
                         className="h-5 w-4 accent-stone-500"
                         id="Male"
                         onChange={(e) => handleGender(e)}
-                      />{" "}
+                      />
                       <label className="pl-2">Male</label>
                     </div>
 
@@ -434,7 +436,7 @@ const Modal = ({ modalType, handleClose }) => {
             <div className="flex justify-center" onClick={handleCreateProfile}>
               <label
                 htmlFor=""
-                className="bg-[#6780af] w-52 py-1.5 flex justify-center py-1 rounded-xl block mt-[60px] cursor-pointer text-white font-medium"
+                className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer mt-5 text-white font-medium"
               >
                 Create
               </label>
@@ -442,7 +444,7 @@ const Modal = ({ modalType, handleClose }) => {
           </div>
         </div>
         <span
-          className="absolute top-4 right-2 cursor-pointer"
+          className="absolute top-[5%] lg:right-[3rem] sm:top-[8%] xl:right-[12rem] xl:top-[12%] cursor-pointer"
           onClick={() => handleClose()}
         >
           <AiOutlineCloseCircle size={25} className="text-gray-600" />
