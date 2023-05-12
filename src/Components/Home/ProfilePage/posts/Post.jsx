@@ -13,7 +13,7 @@ const Post = () => {
     const reducerData = useSelector((state) => {
         return {
             profile: state.profileReducer.profile || {},
-            postList: state.profileReducer.userPostList
+            postList: state.profileReducer.userPostList 
         }
     });
 
@@ -28,7 +28,7 @@ const Post = () => {
     </div>
 
     {
-        postList.map((post) => {
+        postList?.map((post) => {
             const {userData, } = post
             return (
                 <PostCard userData={userData || []} item={post}/>
