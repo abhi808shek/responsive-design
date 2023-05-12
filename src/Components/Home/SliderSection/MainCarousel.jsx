@@ -30,7 +30,6 @@ export default function MainCarousel({ handleImageChange, ImageFile, VideoFile, 
     },
   };
 
-console.log(ImageFile, isEdit, "IIIIIIIIIIIIIIIIIIIII");
 
   return (
     <>
@@ -56,13 +55,13 @@ console.log(ImageFile, isEdit, "IIIIIIIIIIIIIIIIIIIII");
                 <div className=" sm:h-[45vh] w-[100%] sm:w-[90%] lg:w-[90%] flex flex-col border border-gray-400 rounded-lg px-2 mb-4 justify-center items-center">
                   {elem?.type?.includes("image") || isEdit ? (
                     <img
-                      src={isEdit ? elem : URL.createObjectURL(elem)}
+                      src={elem?.type?.includes("image") ? URL.createObjectURL(elem) : elem}
                       alt="image"
                       className="h-[25vh] w-[90%]  sm:h-[45vh] sm:w-[90%] lg:w-[90%] object-contain"
                     />
                   ) : (
                     <video
-                      src={isEdit ? elem : URL.createObjectURL(elem)}
+                      src={elem?.type?.includes("image") ? URL.createObjectURL(elem) : elem}
                       alt="image"
                       className="h-[25vh] w-[20%] sm:h-[45vh] sm:w-[90%] lg:w-[90%] object-contain"
                       autoPlay

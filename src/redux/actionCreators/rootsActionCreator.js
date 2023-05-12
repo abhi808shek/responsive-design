@@ -30,7 +30,6 @@ export const getKicksVideosWithLimit = (data) => async (dispatch) => {
 export const getAllPostWithLimit = (profileId) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-    console.log("getStoredData", getStoredData?.token);
     const getAllPost = await axios.post(
       `http://3.233.82.34:8080/post/api/v2/fetch/home/posts/${profileId}?index=0&size=10`,
       {},
@@ -42,8 +41,8 @@ export const getAllPostWithLimit = (profileId) => async (dispatch) => {
       }
     );
     dispatch({
-      type: "GET_ALL_POST_WITH_LIMITS",
-      payload: getAllPost?.data?.data,
+      type: "GET_POST_LIST",
+      payload: getAllPost?.data,
     });
   } catch (error) {
     console.log(error.message);
@@ -385,7 +384,7 @@ export const deletePostByPostId = (profileId,postId) => async (dispatch) => {
         type: "DELETE_POST_BY_POST_ID",
         // payload: deletePostResult?.data,
       });
-      return deletePostResult;
+      return deletePostResult.data;
     } catch (error) {
       console.log(error.message);
     }
@@ -458,7 +457,7 @@ export const getUserPostList= (data) => async (dispatch) => {
         );
         console.log(response);
         dispatch({
-          type: "GET_POSTS_LIST",
+          type: "GET_USER_POST",
           payload: response.data,
         });
     }catch(error){

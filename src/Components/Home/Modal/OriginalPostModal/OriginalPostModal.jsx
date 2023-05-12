@@ -1,8 +1,17 @@
 import React from "react";
 import { GrLocation } from "react-icons/gr";
+import { useSelector } from "react-redux";
 
 const OriginalPostModal = ({ handleCloseModal }) => {
-  
+  const reducerData = useSelector((state) => {
+    return {
+      postHistory: state.postReducer.postHistory,
+      activePost: state.rootsReducer.activePost
+    }
+  })
+
+  const { postHistory = [], activePost = {}} = reducerData;
+  const {  profile, text, location, image} = activePost 
 
   return (
     // Original Post Section
@@ -13,7 +22,7 @@ const OriginalPostModal = ({ handleCloseModal }) => {
           <section className="w-full flex items-center pl-3">
             <div className="flex w-[50px] h-[50px]">
               <img
-                src="./images/events.jpg"
+                src={profile?.pimage}
                 alt=""
                 className="w-[45px] h-[45px] rounded-full"
               />
@@ -21,10 +30,10 @@ const OriginalPostModal = ({ handleCloseModal }) => {
 
             <div className="flex flex-col flex-1 justify-center ml-2">
               <div className="flex items-start">
-                <span className="text-sm ml-1 font-bold"> Joe D</span>
-                <span className="text-xs ml-2 font-semibold mt-0.5">
+                <span className="text-sm ml-1 font-bold"> {`${profile?.fname} ${profile?.lname}`}</span>
+                {/* <span className="text-xs ml-2 font-semibold mt-0.5">
                   @Software Developer
-                </span>
+                </span> */}
               </div>
 
               <div className="flex items-center gap-1">
@@ -34,27 +43,27 @@ const OriginalPostModal = ({ handleCloseModal }) => {
                 <span className="text-xs font-semibold">1 year ago</span>
                 <GrLocation size={10} />
                 {/* <img src="" alt="" /> */}
-                <span className="text-xs font-semibold"> Chicago</span>
+                <span className="text-xs font-semibold"> {location}</span>
               </div>
             </div>
           </section>
 
           <section className="w-full flex flex-col items-center px-2">
             <div className=" w-full h-full pl-3">
-              <p className="text-[10px] sm:text-[12px] font-[400] text-gray-500">
-                The guitar is classified as a chordophone – meaning the sound is
-                produced by a vibrating string stretched between two fixed
-                points. Just loved to play it.
+              <p className="text-[13px] font-[400] text-gray-500">
+                {text}
               </p>
             </div>
-
+                {
+                  image &&
             <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
               <img
-                src="./images/events.jpg"
+                src={image}
                 alt=""
                 className="w-full h-[100px] sm:h-[175px] lg:h-[180px] xl:h-[270px] rounded-xl"
               />
             </div>
+                }
           </section>
         </div>
       </div>
@@ -73,15 +82,14 @@ const OriginalPostModal = ({ handleCloseModal }) => {
           </button>
         </div>
 
-        {[1, 2, 34, 56, 323, 2323, 434].map((lem, index) => (
-          <div
-            className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px] w-[95%]"
-            key={index}
-          >
+        {postHistory.map((elem,index) => {
+          const { image, profile, text, location} = elem?.post
+          return (
+          <div className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]" key={index}>
             <section className="w-full flex items-center ml-3 justify-around">
               <div className="flex w-[50px] h-[50px]">
                 <img
-                  src="./images/events.jpg"
+                  src= {profile?.pimage}
                   alt=""
                   className="w-[45px] h-[45px] rounded-full"
                 />
@@ -89,9 +97,9 @@ const OriginalPostModal = ({ handleCloseModal }) => {
 
               <div className="flex flex-col flex-1 justify-center ml-2">
                 <div className="flex items-start">
-                  <span className="text-sm ml-1 font-bold"> Joe D</span>
+                  <span className="text-sm ml-1 font-bold">{`${profile?.fname} ${profile.lname}`}</span>
                   <span className="text-xs ml-2 font-semibold mt-0.5">
-                    @Software Developer
+                    {/* @Software Developer */}
                   </span>
                 </div>
 
@@ -101,20 +109,21 @@ const OriginalPostModal = ({ handleCloseModal }) => {
                   <span className="text-xs font-semibold">1 year ago</span>
                   <GrLocation size={10} />
                   {/* <img src="" alt="" /> */}
-                  <span className="text-xs font-semibold"> Chicago</span>
+                  <span className="text-xs font-semibold"> {location}</span>
                 </div>
               </div>
             </section>
 
             <div className=" w-full h-full flex justify-center">
-              <p className="text-[10px] sm:text-[12px] text-gray-500 w-[95%] mb-[6px] text-semibold">
-                The guitar is classified as a chordophone – meaning the sound is
-                produced by a vibrating string stretched between two fixed
-                points. Just loved to play it.
+              <p className="text-[12px] text-gray-500 w-[95%] mb-[6px] text-semibold">
+                {text}
               </p>
             </div>
           </div>
-        ))}
+        )
+        }
+        )
+        }
       </div>
     </div>
   );
