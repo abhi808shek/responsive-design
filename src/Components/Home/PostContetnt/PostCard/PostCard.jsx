@@ -26,6 +26,7 @@ import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 import LikeModal from "../../Modal/LikeModal/LikeModal";
 import VideoCommentsModal from "../../KicksPage/VideoCommentsModal";
+import { getPostLike } from "../../../../redux/actionCreators/postActionCreator";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -79,6 +80,11 @@ const PostCard = ({ userData, item }) => {
   });
 
   const onHandleOpenLikeModal = () => {
+    let payload = {
+          pageNumber: 0,
+          pageSize: 10,
+    };
+    dispatch(getPostLike(item?.id, payload))
     setOpenModal({
       ...openModal,
       OnLikeModal: true,
@@ -262,7 +268,6 @@ const PostCard = ({ userData, item }) => {
         {showMenuList && (
           <MenuModal
             postId={item?.id}
-            profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
             closeModel={handleClickMenu}

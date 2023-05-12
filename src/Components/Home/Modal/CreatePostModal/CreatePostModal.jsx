@@ -8,9 +8,9 @@ import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { SlLocationPin } from "react-icons/sl";
 import { useDispatch, useSelector } from "react-redux";
-import { createPost } from "../../../../redux/actionCreators/postActionCreator";
+import { createPost, updatePost } from "../../../../redux/actionCreators/postActionCreator";
 import moment from "moment";
-import { imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
+import { getAllPostWithLimit, imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
 import { toast } from "react-toastify";
 const CreatePostModal = ({
   setShowCreatePostModal,
@@ -38,6 +38,10 @@ const CreatePostModal = ({
   const onCloseCreatePostModal = () => {
     setShowCreatePostModal(false);
   };
+
+  const handlePostContent = (e) => {
+     setState({...state, "postContent": e.target.value});
+  }
 
   const handleImageChange = async (e) => {
     if (e === "delete") {
@@ -83,7 +87,7 @@ const CreatePostModal = ({
       shareto: postPrivacy?.name,
       type: "personal",
       template: "template1",
-      image: uploadFileList[0],
+      image: uploadFileList?.[0],
       text: postContent,
       suggesttemp: "sugest1",
       utag: null,
@@ -91,11 +95,32 @@ const CreatePostModal = ({
       close: "close",
       profileid: profile?.id,
       postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
-    };  
+    };
+    const updatePayload = {
+      profileid: profile?.id,
+      shareto: postPrivacy?.name,
+      type: "personal",
+      template: "template1",
+      image: uploadFileList?.[0],
+      text: postContent,
+      suggesttemp: "sugest1",
+      utag: null,
+      delete: false,
+      close: "close",
+      postid: activePost?.id,
+      type: "",
+      datetime: moment().format("DD-MM-YYYY HH:mm:ms"),
+    }; 
+    isEdit ? 
+    dispatch(updatePost(updatePayload)).then((res) => {
+      handleCloseModal()
+    })
+     :
     dispatch(createPost(payload)).then((res) => {
       if(res?.status){
         toast.success(res.message);
         handleCloseModal()
+        dispatch(getAllPostWithLimit(profile?.id))
       }else{
         toast.error(res.message)
       }
@@ -169,7 +194,7 @@ const CreatePostModal = ({
             <div className="comment">
               <textarea
                 value={postContent}
-                onChange={(e) => setState('postContent', e.target.value)}
+                onChange={(e) =>handlePostContent(e)}
                 placeholder="Write something..."
                 className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
               ></textarea>

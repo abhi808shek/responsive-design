@@ -10,9 +10,16 @@ import {
   getAllPostWithLimit,
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
+import { getPostHistory } from "../../../../redux/actionCreators/postActionCreator";
 
 const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
   const { menuModalTab } = useSelector((state) => state.userReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile
+    }
+  });
+  const { profile} = reducerData
   const [showReportModal, setShowReportModal] = useState(false);
   const [originalPost, setOriginalPost] = useState(false);
 
@@ -21,18 +28,22 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
 
   const onHandleClick = async (option) => {
     if (option === "Report") {
-      console.log("showReportModal111", showReportModal);
+      // console.log("showReportModal111", showReportModal);
       setShowReportModal(true);
-      console.log("showReportModa222", showReportModal);
+      // console.log("showReportModa222", showReportModal);
     } else if (option === "History") {
+      dispatch(getPostHistory(postId))
       setOriginalPost(true);
     } else if (option === "Delete Post") {
-      const isDeleted = dispatch(deletePostByPostId(profileId, postId));
-      console.log("Deleted", isDeleted);
-      if (!isDeleted?.status) {
-        return toasterFunction("Something went wrong");
+      const response = await dispatch(deletePostByPostId(profile?.id, postId));
+      console.log(response, "TTTTTTTTTTTTTTTTTTT")
+      // console.log("Deleted", isDeleted);
+      if (!response?.status) {
+        return toasterFunction(response.message);
+      }else{
+        toasterFunction(response?.message)
+        dispatch(getAllPostWithLimit(profile?.id));
       }
-      dispatch(getAllPostWithLimit(profileId));
     }
     closeModel(option);
     dispatch(menuModalTabSelect(option));

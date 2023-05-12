@@ -11,11 +11,11 @@ const Post = () => {
     const reducerData = useSelector((state) => {
         return {
             profile: state.profileReducer.profile,
-            postList: state.rootsReducer.userPostList
+            postList: state.profileReducer.userPostList
         }
     });
 
-    const { profile = {}, postList} = reducerData;
+    const { profile = {}, postList = []} = reducerData;
     useEffect(() =>  {
         dispatch(getUserPostList(profile.id))
     }, [])

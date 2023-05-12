@@ -70,7 +70,7 @@ const App = () => {
   };
 
   useEffect(() => {
-    getProfileById(userData?.id)
+    dispatch(getProfileById(userData?.id))
     isUserLoggedIn();
   }, [dispatch,userData]);
 

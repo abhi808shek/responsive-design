@@ -88,7 +88,7 @@ const SliderSection = () => {
             <div className="w-[91%] mt-5 mb-2 h-[160px] bg-black rounded-3xl ml-1">
               <Link to="/kicks">
               <div className="h-full">
-                <video height={'100%'} className="h-full" width={'200px'} src={video} autoPlay></video>
+                <video height={'100%'} className="h-full" width={'200px'} src={video} muted></video>
               </div>
               {/* title name tag added */}
               <img
