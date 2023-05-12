@@ -163,6 +163,10 @@ export const selectPublicEventType = [
 
 export const selectPoliticalEventType = [
  {
+   img: PartyMeetingPolitical,
+   event: 'Party Meeting'
+ },
+ {
    img: PartyFeedbacksPolitical,
    event: 'Party Feedbacks'
  },
@@ -170,12 +174,8 @@ export const selectPoliticalEventType = [
    img: PartyCandidatesFeedbackPolitical,
    event: 'Party Candidates Feedback'
  },
- {
-   img: PartyMeetingPolitical,
-   event: 'Party Meeting'
- },
- {
-   img: PoliticalPolitical,
-   event: 'Political'
- }
+ // {
+ //   img: PoliticalPolitical,
+ //   event: 'Political'
+ // }
 ]

@@ -26,7 +26,9 @@ const responsive = {
   }
 };
 
-const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent, handleRvspModal }) => {  
+const EventDetails = ({ myEvent, handleDeleteEvent, 
+  handleEditEvent, handleShareEvent, handleRvspModal }) => {  
+
   const [details, setDetails] = useState(true)
   const [guests, setGuests] = useState(false)
   const [chat, setChat] = useState(false)
@@ -42,6 +44,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShare
     setGuests(true)
     setChat(false)
   }
+
   const handleChat = ()=>{
     setDetails(false)
     setGuests(false)
@@ -49,14 +52,19 @@ const EventDetails = ({ myEvent, handleDeleteEvent, handleEditEvent, handleShare
   }
 
   function RenderStatus(){
-    if(details) return <DetailsOfEvent myEvent={myEvent} handleDeleteEvent={handleDeleteEvent} handleEditEvent={handleEditEvent} handleShareEvent={handleShareEvent} />
+    if(details) return <DetailsOfEvent 
+                        myEvent={myEvent} 
+                        handleDeleteEvent={handleDeleteEvent} 
+                        handleEditEvent={handleEditEvent} 
+                        handleShareEvent={handleShareEvent}
+                        />
     else if(guests) return <EventGuests />
     else if(chat) return <EventChat />
   }
 
   return (
   <section className={`w-full mr-1 flex items-center ${chat ? 'mb-3' : 'mb-12'}`}>
-    <div className='w-[60%] flex flex-col items-center'>
+    <div className='w-[96%] lg:w-[60%] flex flex-col items-center'>
      <div className='p-3 w-full bg-white rounded-xl'>
       <h3 className='py-2 text-xl font-medium flex justify-center'>Hill pro</h3>
       <div className='w-full overflow-hidden'>

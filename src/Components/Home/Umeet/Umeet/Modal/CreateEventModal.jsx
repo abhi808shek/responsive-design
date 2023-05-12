@@ -1,9 +1,9 @@
 import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
 
-const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup, handleShowAddPoliticalGroup, whichType }) => {
+const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEvent, handleShowTemplate, handleShowAddGroup, handleShowAddPoliticalGroup, whichType, politicalPartyFeedback, politicalPartyMeeting, handlePoliticalFeedbackQuestion }) => {
   const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
   
@@ -18,10 +18,14 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
     if(whichType == 'personal') handleShowAddGroup()
     else if(whichType == 'political') handleShowAddPoliticalGroup()
   }
+  
+  // useEffect(()=>{
+
+  // },[politicalPartyFeedback, politicalPartyMeeting])
 
   return (
-    <div className='fullPage bg-white border-gray-300'>
-     <div className={`${editMyEvent ? 'w-[60%]' : 'w-[96%]' } border bg-white px-3`}>
+    <div className='lg:fullPage bg-white border-gray-300'>
+     <div className={`${editMyEvent ? 'w-[60%]' : 'w-full md:w-[96%]' } border bg-white md:px-2 lg:px-3`}>
        {
         editMyEvent ? <div className='px-3 my-2.5 text-[17px] font-semibold'>Edit Event</div>       
          : <div className='px-3 my-2.5 text-[17px] font-semibold'>Create Event</div>
@@ -53,7 +57,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
         <input className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*'/>
         <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
         <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
-        <div className='my-2 flex items-center'>
+        <div className={`${politicalPartyFeedback ? 'hidden' : ''} my-2 flex items-center`}>
          <span className='font-bold text-xl text-gray-600'>Event Mode</span>
          <div className='px-6 flex items-center'>
           <input type='radio' className='accent-[#649B8E] w-5 h-5' id='cation' /><label for='cation' className='pl-2'>At Location</label>
@@ -63,9 +67,9 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
          </div>
         </div>
 
-        <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Location*'/>
+        <input className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*'/>
 
-        <div className='flex items-center'>
+        <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
          <div>
           <select className='h-10 outline-none border-b bg-white px-6'>
            <option>+91</option>
@@ -75,21 +79,21 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
          <input className='border-b ml-3 border-gray-300 pl-2 h-10 my-2 w-full' placeholder='Host Phone Number*'/>
         </div>
 
-        <input className='border-b border-gray-300 h-10 my-2 w-full' placeholder='Host Mail Id*'/>
+        <input className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Host Mail Id*'/>
 
         <div className='flex items-center my-2'>
          <img onClick={handleShowGroup} src={guest} className='cursor-pointer' />
          <label onClick={handleShowGroup} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
         </div>
 
-        <div className='border-b'>
+        <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b`}>
           <select className='h-10 outline-none w-full border-b bg-white text-gray-600'>
            <option>Guest List & Display to all</option>
            <option>USA</option>
           </select>
         </div>
 
-        <div className='flex my-7 justify-between'>
+        <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex my-7 justify-between`}>
           <span className='text-gray-700'>Food Availability</span>
           <div className="py-">
            <ToggleButton />
@@ -97,7 +101,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
         </div>
 
         {editMyEvent && 
-         <div className='flex my-7 justify-between'>
+         <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex my-7 justify-between`}>
           <span className='text-gray-700'>Live Streaming</span>
           <div className="py-">
            <ToggleButton />
@@ -105,13 +109,24 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, handleCreatedEve
          </div>
         }
         <label className=''>About Event</label>
-        <textarea rows='3' className='w-full outline-none my-2 rounded-xl relative border p-2'/>
+        <textarea rows='3' placeholder='say something...' className='w-full outline-none my-2 rounded-xl relative border p-2'/>
+
+        <div className={`${politicalPartyFeedback ? '' : 'hidden'} `}>
+         <p onClick={handlePoliticalFeedbackQuestion} className='py-2 font-bold text-[18px] cursor-pointer text-[#519d8b]'>Create Your Question</p>
+         <label className=''>Your Question</label>
+         <textarea placeholder='What about it?' rows='3' className='w-full outline-none my-2 rounded-xl relative border p-2'/>
+        </div>
+
+        <div className={`${politicalPartyFeedback ? '' : 'hidden'} flex my-7 justify-between`}>
+          <span className='text-gray-700'>Feedback only visible to me</span>
+          <div className="py-">
+           <ToggleButton />
+          </div>        
+        </div>
+
         <div className='flex flex-col my-1'>
          <button onClick={handleCreatedEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
-
-         {editMyEvent && 
-          <button onClick={handleCreatedEvent} className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>
-         }
+         <button onClick={handleCreatedEvent} className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>         
         </div>
 
        </div>
