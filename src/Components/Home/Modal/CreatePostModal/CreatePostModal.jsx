@@ -113,6 +113,8 @@ const CreatePostModal = ({
     isEdit ? 
     dispatch(updatePost(updatePayload)).then((res) => {
       handleCloseModal()
+      handleCloseModal();
+      dispatch(getAllPostWithLimit(profile?.id));
     })
      :
     dispatch(createPost(payload)).then((res) => {

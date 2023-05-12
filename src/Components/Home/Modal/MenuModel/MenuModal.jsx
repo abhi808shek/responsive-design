@@ -36,7 +36,6 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
       setOriginalPost(true);
     } else if (option === "Delete Post") {
       const response = await dispatch(deletePostByPostId(profile?.id, postId));
-      console.log(response, "TTTTTTTTTTTTTTTTTTT")
       // console.log("Deleted", isDeleted);
       if (!response?.status) {
         return toasterFunction(response.message);

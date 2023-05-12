@@ -34,7 +34,7 @@ const PostContent = ({ data, showModalFunc, width, userData }) => {
     //   ))}
     // </div>
     <div className="w-full flex items-center justify-center flex-col">
-      {postList.map((elem, index) => (
+      {postList?.map((elem, index) => (
         <div className=" sm:w-[50%] lg:w-[40%] flex items-center justify-center flex-col px-2">
           <PostCard
             key={elem?.id}
