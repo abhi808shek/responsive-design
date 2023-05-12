@@ -59,7 +59,7 @@ const PostCard = ({ userData, item }) => {
 
   const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
-    console.log("jwww");
+    // console.log("jwww");
     setShowShareModal({ ...showShareModal, shareModal: true });
   };
   const dispatch = useDispatch();

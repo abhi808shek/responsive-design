@@ -9,8 +9,8 @@ import HashTagPage from "../SearchPage/HashTagPage";
 const Unions = () => {
   return (
     <>
-      {/* <UnionHomePage /> */}
-      <HashTagPage />
+      <UnionHomePage />
+      {/* <HashTagPage /> */}
       {/* <UnionReceiversPage /> */}
       {/* <SearchPage /> */}
     </>

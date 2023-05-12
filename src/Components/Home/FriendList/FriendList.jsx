@@ -1,8 +1,6 @@
 import React, { useMemo, useState } from "react";
 import CommentMenuModal from "../Modal/CommentMenuModal/CommentMenuModal";
 import { BsThreeDotsVertical } from "react-icons/bs";
-import Popover from "../../popover/Popover";
-import PopOver from "../../popover/Popover";
 import { Link } from "react-router-dom";
 import UnfriendModal from "../Modal/UnfriendModal/UnfriendModal";
 import Portals from "../../Portals/Portals";
@@ -11,7 +9,7 @@ import BlockModal from "../Modal/BlockModal/BlockModal";
 import MenuDropdown from "../../common/MenuDropdown";
 
 const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
-  const { fname, lname, profileid, profiletype = 'Personal' } = data;
+  const { fname, lname, profileid, profiletype = "Personal" } = data;
   const name = fname + lname;
   const action = [
     { name: "Un-Friend" },
@@ -19,23 +17,22 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     { name: "Block" },
   ];
 
-  
-    const options = useMemo(() => {
-      const forPersonalAcc = [
-        { name: "Friends", key: "friend", checked: true, disable: true },
-        { name: "Relative", key: "relative", checked: false },
-        { name: "Classmate", key: "classmate", checked: false },
-        { name: "Officemate", key: "officemate", checked: false },
-      ];
-      const forOrgAcc = [
-        { name: "Friend", key: "friend", checked: true, disable: true },
-      ];
-      return {
-        relationOption: profiletype === 'Personal' ? forPersonalAcc : forOrgAcc,
-      };
-    }, []);
+  const options = useMemo(() => {
+    const forPersonalAcc = [
+      { name: "Friends", key: "friend", checked: true, disable: true },
+      { name: "Relative", key: "relative", checked: false },
+      { name: "Classmate", key: "classmate", checked: false },
+      { name: "Officemate", key: "officemate", checked: false },
+    ];
+    const forOrgAcc = [
+      { name: "Friend", key: "friend", checked: true, disable: true },
+    ];
+    return {
+      relationOption: profiletype === "Personal" ? forPersonalAcc : forOrgAcc,
+    };
+  }, []);
 
-    const { relationOption} = options
+  const { relationOption } = options;
   const [modalType, setModalType] = useState({
     unFriend: false,
     changeRelationship: false,
@@ -94,19 +91,23 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
             </p>
           )}
         </Link>
-        {icon ? 
-        <div>
-          <MenuDropdown
-            button={
-              <div className="flex gap-2 items-center cursor-pointer">
-                <BsThreeDotsVertical className="" size={18}/>
-              </div>
-            }
-            options={action}
-            handleOption = {openModalOption}
-          />
-        </div>
-         : null}
+        {icon ? (
+          <div>
+            <MenuDropdown
+              button={
+                <div className="flex gap-2 items-center cursor-pointer">
+                  <BsThreeDotsVertical className="" size={18} />
+                </div>
+              }
+              options={[
+                { name: "Un-Friend" },
+                { name: "Change Relationship" },
+                { name: "Block" },
+              ]}
+              handleOption={openModalOption}
+            />
+          </div>
+        ) : null}
       </div>
 
       {/* (
