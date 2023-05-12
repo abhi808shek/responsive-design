@@ -17,6 +17,7 @@ import AddGuestModal from './Modal/AddGuestModal'
 import SuccessCreate from './SuccessCreate'
 import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
+import PersonalOtherGuest from './Modal/PersonalOtherGuest'
 
 export default function Umeet() {
   const [selected, SetSelected] = useState(false)
@@ -37,6 +38,7 @@ export default function Umeet() {
   const [showRvspModal, setShowRvspModal] = useState(false)
   const [showTemplate, setShowTemplate] = useState(false)
   const [showAddGroup, setShowAddGroup] = useState(false)
+  const [showAddGroupPersonalOthers, setShowAddGroupPersonalOthers] = useState(false)
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
   const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
 
@@ -69,9 +71,9 @@ export default function Umeet() {
         handlePoliticalFeedbackQuestion={() => setShowPoliticalFeedbackQuestionModal(true)}
         politicalPartyMeeting={politicalPartyMeeting}
         publicShopOpening={publicShopOpening}
+        handlePersonalOtherModal={() => setShowAddGroupPersonalOthers(true)}
       />
     } else if (eventCreated) {
-
       return <SuccessCreate />
     } else if (eventDetails) {
       return <EventDetails
@@ -110,8 +112,10 @@ export default function Umeet() {
     setNoCreateEvent(true)
     setNoMyEvent(false)
     setEditMyEvent(false)
+    setEventDetails(false)
     setCreateEvent(true)
     setSelectSpecificEvent(false)
+    setSelectedSpecificEvent(false)
   }
 
   const handleTemplateImage = (url) => {
@@ -313,6 +317,7 @@ export default function Umeet() {
       {showRvspModal && <RvspModal onClose={() => setShowRvspModal(false)} />}
       {showTemplate && <ChooseTemplate onClose={() => setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
       {showAddGroup && <AddGuestModal onClose={() => setShowAddGroup(false)} />}
+      {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={() => setShowAddGroupPersonalOthers(false)} />}
       {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={() => setShowPoliticalAddGroup(false)} />}
       {showPoliticalFeedbackQuestionModal && <PoliticalFeedbackQuestion onClose={() => setShowPoliticalFeedbackQuestionModal(false)} />}
     </div>
