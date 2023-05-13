@@ -31,7 +31,7 @@ import "../kicks.css"
 import { useEffect } from "react";
 import { debounce } from "../../../Utility/utility";
 import { GrWaypoint } from "react-icons/gr";
-import { Link, useNavigate } from "react-router-dom";
+
 const VideoComponent = ({ dataList, data }) => {
   const dispatch = useDispatch();
   const reducerData = useSelector((state) => {
@@ -64,7 +64,6 @@ const VideoComponent = ({ dataList, data }) => {
   //     setCommentVideo(true);
   //   }
   // };
-
   const onVideoClick = () => {
     if (isVideoPlaying) {
       videoRef.current.pause();
@@ -74,7 +73,6 @@ const VideoComponent = ({ dataList, data }) => {
       setIsvideoPlaying(true);
     }
   }
-
   const [state, setState] = useState({});
   const { isMute = true } = state;
   const {
@@ -138,13 +136,11 @@ const VideoComponent = ({ dataList, data }) => {
         datetime: moment().format('YYYY-MM-DDTHH:mm:ss:ms')
       }
       dispatch(addLikes(payload)).then((res) => {
-        if (res.data.status) {
-          toast.success(res.data.message)
+        if (res.status) {
+          toast.success(res.message)
         } else {
-          toast.error(res.data.message)
+          toast.error(res.message)
         }
-      }).catch((err) => {
-        toast.error(err.message)
       })
     } else if (title === 'follow') {
       const payload = {
@@ -163,48 +159,94 @@ const VideoComponent = ({ dataList, data }) => {
   };
 
   return (
-    <div key={profile?.id} className="relative my-10 h-full snap-y snap-mandatory">
-      <div className="flex px-1 pt-5 mb-5">
-        <div className="z-10">
-          <img
-            src={profile?.pimage}
-            alt=""
-            className="w-[45px] h-[45px] rounded-full object-cover"
-          />
-        </div>
-        <div className=" flex flex-1 z-10 flex-col text-white justify-center ml-2">
-          <div className="flex items-center gap-2">
-            <h1 className="font-semibold ">
-              {name ? `${profile?.fname} ${profile?.lname}` : "User"}
-            </h1>
-            <p className="text-[10px] font-medium">5 hours ago</p>
-          </div>
+    <div key={profile?.id} className="snap-y snap-mandatory">
+      <div className="">
 
-          <div className="flex gap-2 items-center">
-            <img src={eye} alt="" className="w-[15px] h-[15px]" />
-            <p className="text-[10px]">{viewcount} Views</p>
-          </div>
+        <section className="relative snap-y snap-mandatory justify-center overflow-scroll flex items-center bg-black hideScroll right-0  left-0 h-1/2 w-full z-0">
 
+          <video
+            className="h-[500px] w-[300px] cursor-pointer"
+            loop={true}
+            autoPlay="autoplay"
+            muted={isMute}
+            ref={videoRef}
+            onClick={onVideoClick}
+          >
+            <source
+              // src={data?.video} type="video/mp4"
+              src={shortVideo} type="video/mp4"
+            />
+          </video>
+
+          <div className="absolute right-1">
+            {dataList?.map((elem, index) => (
+              (elem.title === 'follow' & profileid === profileDetail?.id) ? "" :
+                <div
+                  key={elem.title}
+                  onClick={() => handleIconClick(elem.title)}
+                  className="flex items-end mb-3 gap- font-semibold flex-col"
+                >
+                  <img
+                    src={(elem.title === 'likes' && isliked) ? kicksLiked : (elem.title === 'mute' && isMute) ? unmute : elem.img}
+                    alt=""
+                    className="w-[30px] cursor-pointer"
+                  />
+
+                  <div className="text-[12px] text-white flex items-center">
+                    {elem.title === "likes"
+                      ? `${likecount} likes`
+                      : elem.title === "comments"
+                        ? `${commentcount} comments`
+                        : elem.title}
+                  </div>
+
+                </div>
+
+            ))}
+            <span>
+              <label
+                onClick={() => setSelectVideo(true)}
+                htmlFor="chooseVideo"
+              >
+                <HiPlus className="w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white ml-[52px]" />
+              </label>
+            </span>
+          </div>
+        </section>
+
+
+
+        <div className="flex relative bottom-[67px]">
+          <div className="">
+            <div className="flex gap-2 items-center mb-3">
+              <img src={eye} alt="" className="w-[15px] h-[15px]" />
+              <p className="text-[10px]">{viewcount} Views </p>
+            </div>
+            <div className="flex">
+              <img
+                src={profile?.pimage}
+                alt=""
+                className="w-[50px] h-[50px] rounded-full object-cover inline mr-3"
+              />
+              <span className="font-semibold flex items-start">
+                {name ? `${profile?.fname} ${profile?.lname}` : "User"}
+              </span>
+              <div className="flex items-start cursor-pointer z-30">
+                <BsThreeDotsVertical
+                  onClick={() => handleIsMyVideo(data)}
+                  className="w-[27px] h-[27px] text-white"
+                />
+              </div>
+            </div>
+            <div className="ml-[53px] mt-[-22px]">
+              <span className="px-3 py-[2px] border-white p-1 text-[10px] rounded-lg bg-white text-slate-400 mr-4">Adventures</span>
+              <span className="text-[10px] font-medium">5 hours ago</span>
+            </div>
+          </div>
         </div>
-        <div className="flex items-center cursor-pointer z-30">
-          <BsThreeDotsVertical
-            onClick={() => handleIsMyVideo(data)}
-            className="w-[27px] h-[27px] text-white"
-          />
-        </div>
+
+
       </div>
-      <section className="absolute fixed flex items-center bg-black overflow-hidden right-0  left-0 h-1/2 w-full z-0">
-        <video
-          className="h-[500px] w-full cursor-pointer"
-          loop={true}
-          autoPlay="autoplay"
-          muted={isMute}
-          width="320" height="240"
-          ref={videoRef}
-          onClick={onVideoClick}        >
-          <source src={video} type="video/mp4" />
-        </video>
-      </section>
       {/* <ReactPlayer url='https://www.youtube.com/watch?v=vNeN13EQbqk' /> */}
 
       {/* For profile picture */}

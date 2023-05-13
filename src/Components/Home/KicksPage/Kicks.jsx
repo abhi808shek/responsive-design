@@ -170,12 +170,16 @@ const Kicks = () => {
         </div> */}
 
 
-        <section className="overflow-y-scroll flex-1 w-1/2 text-white bg-black  h-[90vh] hideScroll">
-          {(
+        <section className="overflow-y-scroll flex-1 text-white bg-black   h-[90vh] hideScroll">
+          {isEmpty(videoData?.content) ? (
+            <EmptyComponent
+              message={`There is no video in ${kicksType} section`}
+            />
+          ) : (
             videoData?.content?.map((item) => {
               const { text, id } = item;
               return (
-                <div className="flex ">
+                <div className="">
                   <VideoComponent dataList={dataList} data={item} />
 
                   {/* Comment Section */}

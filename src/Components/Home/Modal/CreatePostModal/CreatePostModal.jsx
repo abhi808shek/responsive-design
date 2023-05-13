@@ -202,11 +202,11 @@ const CreatePostModal = ({
             </div>
             {/* add location */}
             <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">
-              {/* <input
+              <input
                 type="text"
                 placeholder="Add Location"
                 className="flex-1  p-2 outline-none"
-              /> */}
+              />
 
               <SlLocationPin size={20} />
 
