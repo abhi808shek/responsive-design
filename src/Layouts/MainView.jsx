@@ -5,9 +5,9 @@ import { Outlet, useNavigate } from 'react-router-dom';
 const MainView = ({children}) => {
     const navigate = useNavigate()
 
-    useEffect(() => {
-        navigate("/root")
-    }, [])
+    // useEffect(() => {
+    //     navigate("/root")
+    // }, [])
     
   return (
     <div className='flex flex-col h-screen '>

@@ -11,7 +11,7 @@ const PostForm = ({ width, bgColor }) => {
   return (
     <>
       <div
-        className={`flex  border-gray-400 rounded-md justify-between items-center w-[95%] sm:w-[50%] lg:w-[40%] h-[50px] m-auto z-10 bg-white mt-2 cursor-pointer bg-red-600`}
+        className={`flex  border-gray-400 rounded-md justify-between items-center w-[95%] sm:w-[50%] lg:w-[40%] h-[50px] m-auto z-10 mt-2 cursor-pointer bg-red-600`}
         onClick={createPostModal}
       >
         <input

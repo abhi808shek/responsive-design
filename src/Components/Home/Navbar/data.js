@@ -7,7 +7,7 @@ export const dataList = [
         name: "Root",
         title: "Connect Friends",
         icon: "./images/Roots.png",
-        url: "/root"
+        url: "/"
     },
 
     {
