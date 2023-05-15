@@ -67,7 +67,7 @@ const Navbar = () => {
         </div>
 
         {/* Search Bar Section */}
-        <div className=" w-[80%] h-[38px] rounded-md relative bg-[#e4e7ec]  md:mr-5 hide_serchbar">
+        <div className=" w-[80%] h-[38px] rounded-md relative bg-[#e4e7ec]  md:mr-5 hide_searchbar">
           <input
             type="text"
             className="outline-none rounded-sm h-[38px] bg-[#e4e7ec]"
@@ -85,8 +85,8 @@ const Navbar = () => {
       <div className="responsive_navbar">
         {/* Root */}
         <section className="w-full flex h-full items-end bg-[#E4E7EC] rounded-tl-xl rounded-tr-xl relative">
-          <div className="absolute top-0 p-1.5 bg-white w-full"></div>
-          <div className=" h-[80%] flex w-full rounded-t-md items-end px-2 pb-1 gap-1 md:px-10">
+          <div className="absolute top-0 p-0 lg:p-1.5 bg-white w-full"></div>
+          <div className=" h-[80%] flex w-full rounded-t-md items-end px-2 pb-1 gap-0 lg:gap-3 md:px-2">
             {dataList.map((elem) => (
               <div
                 key={elem.name}
@@ -97,8 +97,8 @@ const Navbar = () => {
                 }}
                 onClick={() => onClickSlectedTab(elem)}
               >
-                <div className={`h-full flex items-center justify-center ${isMobile ? "w-full text-center" : "w-[35px]"}`}>
-                  <img src={elem.icon} alt="" className="w-[35px]" />
+                <div className={`h-full flex items-center justify-center ${isMobile ? "w-full text-center pt-1" : "w-[35px]"}`}>
+                  <img src={elem.icon} alt="" className="w-[27px] lg:w-[35px]" />
                 </div>
 
                 <div className="flex flex-col justify-center">
