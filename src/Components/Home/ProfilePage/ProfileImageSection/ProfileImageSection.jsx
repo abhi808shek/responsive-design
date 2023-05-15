@@ -36,7 +36,7 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
     }
   }
   return (
-    <div className="lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center my-3">
+    <div className="sm:w-[95%] lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center my-3">
       {/*Cover Image Section */}
       <input id="cover-pic" type="file" accept="image/*" className="hidden" onChange={(e) =>uploadImage('coverImg', e.target.files)}/>
       <label htmlFor={`${isOther ? "" : "cover-pic" }`} className="w-[95%] h-[200px] rounded-xl flex justify-center mt-3">

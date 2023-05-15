@@ -24,15 +24,15 @@ const Post = () => {
     dispatch(getUserPostList(profile.id));
   }, []);
   return (
-    <div className="flex flex-col justify-center items-center bg-red-700">
-      <div className="bg-white rounded-md w-full sm:w-[90%] lg:w-[80%]">
+    <div className="flex flex-col justify-center items-center ">
+      <div className="bg-white rounded-md w-full flex py-2">
         <PostForm />
       </div>
 
       {postList?.map((post) => {
         const { userData } = post;
         return (
-          <div className="w-full sm:w-[90%] lg:w-[80%] flex items-center justify-center flex-col ">
+          <div className="w-full flex items-center justify-center flex-col ">
             <PostCard userData={userData || []} item={post} />
           </div>
         );
