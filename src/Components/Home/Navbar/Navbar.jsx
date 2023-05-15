@@ -9,6 +9,7 @@ import { isTabSelected } from "../../../redux/actionCreators/userActionCreator";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { Navigate, useNavigate } from "react-router-dom";
 import g from "../../../assets/images/notification1.png"
+import "./navbar.css";
 
 const Navbar = () => {
   const [profileModal, setProfileModal] = useState(false);
@@ -45,38 +46,38 @@ const Navbar = () => {
   };
 
   return (
-    {/* navbar scrollable to fixed postion and its relative class removed */},
-    <section className="h-[65px] w-full fixed flex bg-white z-20">
+    {/* navbar scrollable to fixed postion and its relative class removed */ },
+    <section className="h-[65px] w-full fixed flex bg-white z-20 responsive_navbar2">
       {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
       {/* Left Section */}
-      <div className=" w-[30%] flex h-[65px] flex-row justify-evenly items-center ">
+      <div className="md:w-[30%] flex h-[65px] flex-row justify-center items-center">
         {/* Logo Section */}
 
-        <div className="w-[15%]">
+        <div className="w-[50px] mx-[14px]">
           <img src="./images/Logo.png" alt="" className=" w-[52px] h-[52px]" />
         </div>
 
         {/* Search Bar Section */}
-        <div className="bg-[#E4E7EC] w-[80%] flex lg:gap-1 xl:gap-0 items-center h-10 rounded-md">
+        <div className=" w-[80%] h-10 rounded-md relative bg-[#e4e7ec]  md:mr-5">
           <input
             type="text"
-            className="outline-none rounded-sm lg:w-[85%] xl:w-[90%] h-10 bg-[#E4E7EC] ml-2"
+            className="outline-none rounded-sm h-10 bg-[#e4e7ec]"
             placeholder="Search..."
           />
           <img
             src="./images/Search.png"
             alt=""
-            className="w-5 h-5 cursor-pointer lg:"
+            className="w-5 h-5 cursor-pointer absolute top-[30%] right-[6%]"
           />
         </div>
       </div>
 
       {/* --------------------------------------------------------------------------------------- */}
-      <div className="w-[40%]">
+      <div className="responsive_navbar">
         {/* Root */}
         <section className="w-full flex h-full items-end bg-[#E4E7EC] rounded-tl-xl rounded-tr-xl relative">
           <div className="absolute top-0 p-1.5 bg-white w-full"></div>
-          <div className=" h-[80%] flex w-full rounded-t-md items-end px-1 gap-1 ">
+          <div className=" h-[80%] flex w-full rounded-t-md items-end px-2 pb-1 gap-1 md:px-10">
             {dataList.map((elem) => (
               <div
                 key={elem.name}
@@ -101,7 +102,7 @@ const Navbar = () => {
       </div>
 
       {/* ---------------------------------------------------------------------------------------------------- */}
-      <div className=" w-[30%]">
+      <div className=" w-[31%] responsive_navbar1">
         <div className="w-full flex justify-evenly items-center h-full">
           {/* Peoples */}
 
@@ -129,7 +130,7 @@ const Navbar = () => {
             <img
               src="./images/events.jpg"
               alt=""
-              className="w-[36px] h-[36px] rounded-full object-cover"
+              className="rounded-full object-cover event_img_height"
             />
             <BsChevronCompactDown className="" />
           </div>
@@ -139,7 +140,6 @@ const Navbar = () => {
         </div>
       </div>
     </section>
-
   );
 };
 

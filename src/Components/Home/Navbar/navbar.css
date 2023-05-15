@@ -1,0 +1,43 @@
+@media only screen and (max-width: 900px) {
+    .responsive_navbar {
+        position: fixed;
+        left: 0;
+        bottom: 0px;
+        width: 100%;
+        font-size: 1px;
+    }
+
+    .responsive_navbar h1 {
+        font-size: 10px;
+    }
+
+    .responsive_navbar div {
+        z-index: 999;
+        height: 50px
+    }
+
+    .responsive_navbar1 {
+        width: 77% !important;
+    }
+
+    .responsive_navbar1 div img {
+        height: 25px;
+    }
+
+    .responsive_navbar1 div {
+        font-size: 10px;
+    }
+}
+
+
+input[type=text] {
+    width: 100%;
+    border-radius: 4px;
+    padding: 3px;
+    resize: vertical;
+}
+
+.event_img_height {
+    height: 30px !important;
+    width: 30px !important;
+}

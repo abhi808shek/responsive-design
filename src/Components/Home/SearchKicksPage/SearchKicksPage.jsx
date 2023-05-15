@@ -31,19 +31,19 @@ const SearchKicksPage = () => {
     reader.readAsDataURL(file);
   }
 
-  const handleHastag = ()=>{
+  const handleHastag = () => {
     setSearch(false)
     setPeople(false)
     setHastag(true)
   }
 
-  const handPeople = ()=>{
+  const handPeople = () => {
     setSearch(false)
     setPeople(true)
     setHastag(false)
   }
 
-  const handleSearch = ()=>{
+  const handleSearch = () => {
     setSearch(true)
     setPeople(false)
     setHastag(false)
@@ -55,41 +55,39 @@ const SearchKicksPage = () => {
     { title: "Trending" },
   ]
 
-  function RenderStatus(){
-    if(search) return <SearchVideo />
-    else if(people) return <SearchPeople />
-    else if(hastag) return <SearchHastag />
+  function RenderStatus() {
+    if (search) return <SearchVideo />
+    else if (people) return <SearchPeople />
+    else if (hastag) return <SearchHastag />
   }
   return (
     <div className={`w-full relative flex lg:h-[90vh] xl:h-[90vh]`}>
-     <div className='w-full flex justify-center bg-black'>
-      <section className="flex w-[42%] col-span-2 flex-col">
-        <div className=" ">
-          <div className="flex w-full items-center my-1">
-            <span onClick={()=>setShowCategories(true)} className='cursor-pointer'><BiCategory className='text-white bg-[#6e6f6f] h-10 w-10 rounded-full p-0.5' /></span>
-            <input placeholder="Search by name/keyword/hashtag" type='search' className='w-full mx-2 h-10 rounded-lg outline-none px-2' onFocus={()=>setIsFocused(true)} width={95} bgColor="#fff" />
-            <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' />
-            <span><label onClick={()=>setSelectVideo(true)} htmlFor='chooseVideo'><HiPlus className='text-white bg-[#6e6f6f] h-10 w-10 rounded-full p-0.5 cursor-pointer'/></label></span>
+      <div className='w-full flex justify-center bg-black'>
+        <section className="flex w-[42%] col-span-2 flex-col">
+          <div className=" ">
+            <div className="flex w-full items-center my-1">
+              <input placeholder="Search by name/keyword/hashtag" type='search' className='w-full mx-2 h-10 rounded-lg outline-none px-2' onFocus={() => setIsFocused(true)} width={95} bgColor="#fff" />
+              <input type='file' id='chooseVideo' onChange={handleFileSelection} className='hidden' />
+              <span><label onClick={() => setSelectVideo(true)} htmlFor='chooseVideo'><HiPlus className='text-white bg-[#6e6f6f] h-10 w-10 rounded-full p-0.5 cursor-pointer' /></label></span>
+            </div>
           </div>
-        </div>
 
-      {isFocused && (
-      <div className='p-2 mb-1 w-full flex bg-white rounded-lg'>
-       <div onClick={handleSearch} className={`${search ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Video</div>
-       <div onClick={handPeople} className={`${people ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}>Profile</div>
-       <div onClick={handleHastag} className={`${hastag ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Hastag</div>
-      </div>   
-      )}
+          {isFocused && (
+            <div className='p-2 mb-1 w-full flex bg-white rounded-lg'>
+              <div onClick={handleSearch} className={`${search ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Video</div>
+              <div onClick={handPeople} className={`${people ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}>Profile</div>
+              <div onClick={handleHastag} className={`${hastag ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Hastag</div>
+            </div>
+          )}
 
-      {/* Reels Sections */}
-      <div className=" w-full overflow-y-scroll hideScroll h-[89%]  bg-white p-2 rounded-lg">
-       <RenderStatus />
+          {/* Reels Sections */}
+          <div className=" w-full overflow-y-scroll hideScroll h-[89%]  bg-white p-2 rounded-lg">
+            <RenderStatus />
+          </div>
+        </section>
+        {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={() => setSelectVideo(false)} />}
       </div>
-     </section>
-      {showCategories && <CategoriesModal onClose={()=>setShowCategories(false)} />}
-      {selectVideo && <SelectedVideoModal selectedVideo={selectedVideo} onClose={()=>setSelectVideo(false)} />}
     </div>
-  </div>
   );
 };
 

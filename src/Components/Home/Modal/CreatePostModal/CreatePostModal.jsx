@@ -44,7 +44,7 @@ const CreatePostModal = ({
   };
 
   const handlePostContent = (e) => {
-     setState({...state, "postContent": e.target.value});
+    setState({ ...state, "postContent": e.target.value });
   }
 
   const handleImageChange = async (e) => {
@@ -109,23 +109,23 @@ const CreatePostModal = ({
       close: "close",
       postid: activePost?.id,
       datetime: moment().format("DD-MM-YYYY HH:mm:ms"),
-    }; 
-    isEdit ? 
-    dispatch(updatePost(updatePayload)).then((res) => {
-      handleCloseModal()
-      handleCloseModal();
-      dispatch(getAllPostWithLimit(profile?.id));
-    })
-     :
-    dispatch(createPost(payload)).then((res) => {
-      if (res?.status) {
-        toast.success(res.message);
+    };
+    isEdit ?
+      dispatch(updatePost(updatePayload)).then((res) => {
         handleCloseModal()
-        dispatch(getAllPostWithLimit(profile?.id))
-      }else{
-        toast.error(res.message)
-      }
-    });
+        handleCloseModal();
+        dispatch(getAllPostWithLimit(profile?.id));
+      })
+      :
+      dispatch(createPost(payload)).then((res) => {
+        if (res?.status) {
+          toast.success(res.message);
+          handleCloseModal()
+          dispatch(getAllPostWithLimit(profile?.id))
+        } else {
+          toast.error(res.message)
+        }
+      });
   };
   return (
     <div className="overflow-y-scroll bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
@@ -195,7 +195,7 @@ const CreatePostModal = ({
             <div className="comment">
               <textarea
                 value={postContent}
-                onChange={(e) =>handlePostContent(e)}
+                onChange={(e) => handlePostContent(e)}
                 placeholder="Write something..."
                 className="px-4 pt-2 outline-none bg-[#E4E7EC] w-[95%] rounded-lg my-4 resize-none lg:h-[100px] xl:h-[125px]"
               ></textarea>
@@ -207,7 +207,9 @@ const CreatePostModal = ({
                 placeholder="Add Location"
                 className="flex-1  p-2 outline-none"
               />
+
               <SlLocationPin size={20} />
+
             </div>
           </div>
         </div>

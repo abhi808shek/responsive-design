@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from 'react'
 import { GoogleMap, LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
@@ -19,6 +20,8 @@ function Autocomplete() {
     setSearchBox(ref)
   };
 
+  console.log("serch box", searchBox)
+
   const onPlacesChanged = () => {
     console.log(searchBox.getPlaces());
   };
@@ -31,7 +34,8 @@ function Autocomplete() {
           // googleMapsApiKey='AlzaSyAcJzppx6PHvFiGQlP3HXcC21cgDATqAoE'
           // googleMapsApiKey='AIzaSyCm0bUdRDZL9DmCxxDyFxCv9YYoGixvYko'
           // AIzaSyCxfRNiw6DgtJadpT7qVO2It8rVhaiGCx0
-          googleMapsApiKey="AIzaSyD2t7ciNg4QST3zXCjSJVuQapFEhBTLo_E"
+          // googleMapsApiKey="AIzaSyD2t7ciNg4QST3zXCjSJVuQapFEhBTLo_E"
+          googleMapsApiKey="AIzaSyDVh55QHg4bqcLPZeU8EhAgw-wX0tdowMU"
         >
           <GoogleMap
             id="searchbox-example"

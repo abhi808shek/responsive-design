@@ -47,6 +47,8 @@ import CreateUnion from "./Components/Home/Unions/CreateUnion";
 import ContactUs from "./Components/Home/ContactUs/ContactUs";
 import EventResultsPage from "./Components/Event/EventResultsPage";
 import HashTagPage from "./Components/Home/SearchPage/HashTagPage";
+import TermsAndConditions from "./Components/Home/ProfilePage/TermsAndConditionPage/TermsAndConditions";
+import PrivacyPolicy from "./Components/Home/ProfilePage/PrivacyPolicy/PrivacyPolicy";
 import { getProfileById } from "./redux/actionCreators/profileAction";
 
 const App = () => {
@@ -57,7 +59,7 @@ const App = () => {
     if (userData === null) {
       dispatch(settingUserLoginData(false, {}));
     } else {
-    const token = localStorage.getItem('token')
+      const token = localStorage.getItem('token')
       axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
       axios.defaults.headers.common['Content-Type'] = "application-json"
       axios.defaults.headers.common['Accept-Language'] = "en"
@@ -72,7 +74,7 @@ const App = () => {
   useEffect(() => {
     dispatch(getProfileById(userData?.id))
     isUserLoggedIn();
-  }, [dispatch,userData]);
+  }, [dispatch, userData]);
 
   if ("serviceWorker" in navigator) {
     navigator.serviceWorker
@@ -148,6 +150,8 @@ const App = () => {
             <Route path="create-union" element={<CreateUnion />} />
             <Route path="contact-us" element={<ContactUs />} />
             <Route path="hashtag-page" element={<HashTagPage />} />
+            <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+            <Route path="privacy-policy" element={<PrivacyPolicy />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}
