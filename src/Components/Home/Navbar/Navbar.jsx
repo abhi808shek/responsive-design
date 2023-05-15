@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineDown } from "react-icons/ai";
 import ProfileModal from "../Modal/ProfileModal/ProfileModal";
 import NotificationModal from "../Modal/NotificationModal/NotificationModal";
@@ -21,6 +21,15 @@ const Navbar = () => {
   const userFriendsModal = () => {
     setFriendsModal(!friendsModal);
   };
+
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
+  useEffect(() => {
+    window.addEventListener("resize", () => {
+      const ismobile = window.innerWidth < 900;
+      if (ismobile !== isMobile) setIsMobile(ismobile);
+    }, false);
+  }, [isMobile]);
+
 
   const userProfileModal = () => {
     setProfileModal(!profileModal);
@@ -58,10 +67,10 @@ const Navbar = () => {
         </div>
 
         {/* Search Bar Section */}
-        <div className=" w-[80%] h-10 rounded-md relative bg-[#e4e7ec]  md:mr-5">
+        <div className=" w-[80%] h-[38px] rounded-md relative bg-[#e4e7ec]  md:mr-5 hide_serchbar">
           <input
             type="text"
-            className="outline-none rounded-sm h-10 bg-[#e4e7ec]"
+            className="outline-none rounded-sm h-[38px] bg-[#e4e7ec]"
             placeholder="Search..."
           />
           <img
@@ -81,19 +90,20 @@ const Navbar = () => {
             {dataList.map((elem) => (
               <div
                 key={elem.name}
-                className={`flex w-[33.33%] items-center rounded-t-md cursor-pointer gap-2 h-[90%] justify-center `}
+                className={`w-[33.33%] items-center rounded-t-md cursor-pointer gap-2 h-[90%] justify-center ${isMobile ? "" : "flex"}`}
                 style={{
                   backgroundColor:
                     selectedTab === elem.name ? "#6780AF" : "#D8D8D8",
                 }}
                 onClick={() => onClickSlectedTab(elem)}
               >
-                <div className="w-[35px] h-full flex items-center justify-center">
+                <div className={`h-full flex items-center justify-center ${isMobile ? "w-full text-center" : "w-[35px]"}`}>
                   <img src={elem.icon} alt="" className="w-[35px]" />
                 </div>
+
                 <div className="flex flex-col justify-center">
-                  <h1 className="text-sm font-bold">{elem.name}</h1>
-                  <span className="text-[9px] font-semibold">{elem.title}</span>
+                  <h1 className={`text-sm font-bold  ${isMobile ? "text-center" : ""}`}>{elem.name}</h1>
+                  <span className="text-[9px] font-semibold display_title">{elem.title}</span>
                 </div>
               </div>
             ))}
@@ -114,9 +124,9 @@ const Navbar = () => {
               className="flex flex-col items-center cursor-pointer relative"
               onClick={() => onHandleClick(elem)}
             >
-              <img src={elem.icon} alt={elem.name} className=" h-[30px] " />
+              <img src={elem.icon} alt={elem.name} className="h-[30px] profile_img" />
 
-              <div className="lg:text-[10px] xl:text-[12px] font-bold">
+              <div className=" font-bold">
                 {elem.name}
               </div>
             </div>
@@ -130,7 +140,7 @@ const Navbar = () => {
             <img
               src="./images/events.jpg"
               alt=""
-              className="rounded-full object-cover event_img_height"
+              className="rounded-full object-cover w-[35px] h-[35px]"
             />
             <BsChevronCompactDown className="" />
           </div>

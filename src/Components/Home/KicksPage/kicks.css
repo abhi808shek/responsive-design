@@ -5,3 +5,15 @@
 .hideScroll {
   scrollbar-width: none;
 }
+
+@media only screen and (max-width: 1024px) {
+  .responsive_desktop {
+    display: none;
+  }
+}
+
+/* @media only screen and (min-width: 1024px) {
+  .responsive_mobile {
+    display: none
+  }
+} */
