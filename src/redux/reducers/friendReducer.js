@@ -1,6 +1,6 @@
 const initialState = {
   usersList: [],
-  requestList: [{ name: "rah" }],
+  requestList: [],
 };
 
 const  friendReducer= (state = initialState, action) => {
