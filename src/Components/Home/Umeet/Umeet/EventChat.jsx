@@ -76,8 +76,9 @@ export default function EventChat() {
 
   const clickHandler = () => {
     dispatch(addEventMessage({ message: postMessage }))
-
+    sendMessage(postMessage);
   }
+
   return (
     <div className="flex flex-col h-[580px] border rounded-lg pt-2 overflow-hidden border-gray-400 w-full">
       <div className="flex-1 hideScroll overflow-y-scroll">
@@ -105,7 +106,7 @@ export default function EventChat() {
             }
           }}
 
-          onChange={(e) => setPostmessage(e.target.value)}
+          onChange={(e) => { setPostmessage(e.target.value); }}
         />
         <img src={Send} className='mr-2 h-10 w-10 cursor-pointer' onClick={clickHandler} />
       </div>
