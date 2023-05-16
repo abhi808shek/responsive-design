@@ -1,10 +1,12 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import wishes from '../../../../Assets/Images/Umeet/wishesTemplate.webp'
 import DetailsOfEvent from './DetailsOfEvent'
 import EventGuests from './EventGuests'
 import EventChat from './EventChat'
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
+import { getEventDetails } from '../../../../redux/actionCreators/umeetActionCreator'
+import { useSelector, useDispatch } from 'react-redux'
 
 const responsive = {
   superLargeDesktop: {
@@ -27,12 +29,22 @@ const responsive = {
 };
 
 const EventDetails = ({ myEvent, handleDeleteEvent, 
-  handleEditEvent, handleShareEvent, handleRvspModal }) => {  
+  handleEditEvent, handleShareEvent, handleRvspModal,
+  singleEvent }) => {  
 
   const [details, setDetails] = useState(true)
   const [guests, setGuests] = useState(false)
   const [chat, setChat] = useState(false)
 
+  const dispatch = useDispatch()
+  const { umeetReducer } = useSelector(state=>state)
+
+  useEffect(()=>{
+    dispatch(getEventDetails(singleEvent))
+  }, [])
+  
+  console.log(umeetReducer.eventDetail)
+  
   const handleDetails = ()=>{
     setDetails(true)
     setGuests(false)
@@ -91,7 +103,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent,
       </div>
       <Carousel responsive={responsive} containerClass={`w-full pl-2 z-[1]`}>
        {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
-        <img src={wishes} className='w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer' />
+        <img id={data} src={wishes} className='w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer' />
        ))}
       </Carousel>
      </div>

@@ -7,43 +7,48 @@ import editImg from '../../../../Assets/Images/Edit profile.png'
 import deleteImg from '../../../../Assets/Images/Delete.png'
 import shareImg from '../../../../Assets/Images/External share.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllEvents } from '../../../../redux/actionCreators/umeetActionCreator'
+import { getAllEvents, getEventList } from '../../../../redux/actionCreators/umeetActionCreator'
 
-function EventStatus({ data }){
-  const dispatch = useDispatch();
-  const reducerData = useSelector((state) => {
-    return {
-      profile : state.profileReducer.profile
-    }
-  });
-  
-  const {profile} = reducerData
-
-  useEffect(() => {
-    dispatch(getAllEvents(profile?.id))
-  }, [])
-
-    if(data.status.toLowerCase() == 'attending'){
+  function EventStatus({ data }){
+    if(data.eventstatus == 'attending'){
        	return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer'/>
-    }else if(data.status.toLowerCase() == 'not attending'){
+    }else if(data.eventstatus == 'not attending'){
        	return <img src={UmeetNotAttending} className='h-10 w-10 cursor-pointer'/>
-    }else if(data.status.toLowerCase() == 'pending'){
+    }else if(data.eventstatus == 'pending'){
        	return <img src={Umeetmaybe} className='h-10 w-10 cursor-pointer'/>
-    }else if(data.status.toLowerCase() == 'completed'){
+    }else if(data.eventstatus == 'completed'){
        	return <button className='px-2 py-0.5 text-[12px] rounded border-gray-500 text-gray-700 border'>completed</button>
     }else return null
   }
 
-const SingleEvent = ({ dataList, myEventataList, handleEventDetails, myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }) => {
+const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
+ myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }) => {
   const [showDetail, setShowDetail] = useState(false)
-console.log(handleEditEvent)
+
+  const dispatch = useDispatch()
+
+  const reducerData = useSelector((state) => {
+    return {
+      profile : state.profileReducer.profile,
+      allEvents: state.umeetReducer.allEvents.slice(0,30)
+    }
+  });
+  
+  const { profile, allEvents  } = reducerData
+  console.log(allEvents, profile?.id)
+
+  useEffect(() => {
+    dispatch(getEventList(profile?.id))
+    dispatch(getAllEvents(profile?.id))
+  }, [])
+
   return (
    <>
    {
     myEvent ? ( <>
      { myEventataList &&
      myEventataList.map((data,i)=>(
-      <div key={i} onClick={handleEventDetails} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+      <div key={i} onClick={()=>handleEventDetails(data.id)} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
        {/* Img section */}
        <div className='w-1/4 flex items-center justify-center'>
         <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />
@@ -89,26 +94,28 @@ console.log(handleEditEvent)
     } </>
     ) : (
      <>
-      { dataList &&
-     dataList.map((data,i)=>(
-      <div key={i} onClick={handleEventDetails} className='flex cursor-pointer p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+      { allEvents &&
+     allEvents.map((data,i)=>(
+      <div key={i} onClick={()=>handleEventDetails(data.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
        {/* Img section */}
-       <div className='w-1/4 flex items-center justify-center'>
-        <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />
+       <div className='w-4/12 fle h-[75px] items-center justify-center'>
+        <img src={data.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
        </div>
       {/* center section */}
-       <div className='2/4 flex flex-col'>
-        <p className='text-[#649b8e] font-medium text-[14px]'>{data.title}</p>
-        <span className='text-gray-600 text-[12px]'>{data.time}</span>
+       <section className='w-6/12 pl-2'>
+       <div className='flex w-full flex-col'>
+        <p className='text-[#649b8e] font-medium text-[14px]'>{data.eventName}</p>
+        <span className='text-gray-600 text-[12px]'>{data.eventdateAndTime}</span>
         <span className='text-[12px] text-gray-600'>Hosted by:<strong className='text-gray-800'> {data.host}</strong></span>
         {
-         data.status.toLowerCase() !== 'completed' ? (
-          <span className='text-[12px] text-gray-600'>Status:<strong className='text-gray-800'> {data.status}</strong></span>
+         data.eventstatus && data.eventstatus !== 'completed' ? (
+          <span className='text-[12px] text-gray-600'>Status:<strong className='text-gray-800'> {data.eventstatus}</strong></span>
          ) : null 
         }        
        </div>
+       </section>
       {/* End status section */}
-      <div className='w-1/4 flex items-center justify-center'>
+      <div className='w-2/12 flex items-center justify-center'>
          <EventStatus data={data} handleEventDetails={handleEventDetails} />
       </div>
      </div>

@@ -2,6 +2,8 @@ import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
+import { createEvent, updateEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { useDispatch, useSelector } from 'react-redux'
 
 const CreateEventModal = ({ selectedSpecificEvent, editMyEvent, 
   handleCreatedEvent, handleShowTemplate, handleShowAddGroup, 
@@ -9,6 +11,17 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   politicalPartyMeeting, handlePoliticalFeedbackQuestion,
   publicShopOpening, handlePersonalOtherModal }) => {
 
+  const [formState, setFormState] = useState({
+    eventName: '',
+    eventdateAndTime: '',
+    eventAddress: '',
+    eventHostPhnNumber: '',
+    hostmailid: ''
+  })
+
+  const dispatch = useDispatch()
+  const { profileReducer } = useSelector(state=>state)
+  
   const [enabled, setEnabled] = useState(false)  
   const [selectedImage, setSelectedImage] = useState(null);
   
@@ -30,7 +43,36 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     else if(whichType == 'political') handleShowAddPoliticalGroup()
     else if(whichType == 'public') handleShowAddPoliticalGroup()
   }
-  
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormState(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
+  }
+
+  const postData = {
+   "eventName": formState.eventName,
+   "date_created": new Date(),
+   "event_category": whichType,
+   "eventTemplate": "need",
+   "profileid": profileReducer.profile.id,
+   "eventdateAndTime": formState.eventdateAndTime,
+   "eventAddress": formState.eventAddress,
+   "eventHostPhnNumber": formState.eventHostPhnNumber,
+   "eventfrndEducationType": "need",
+   "eventPrivacyType": "need",
+   "eventFrndId": "need",
+   "eventType": selectedSpecificEvent,
+   "hostmailid": formState.hostmailid,
+   "id": '608a36dee1c7ec43cf93644f'
+  }
+
+  // useEffect(()=>{
+  //   if(eventCreateSuccess) handleCreatedEvent()
+  // },[eventCreateSuccess])
+
   return (
     <div className='lg:fullPage bg-white border-gray-300'>
      <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]' } border bg-white md:px-2 lg:px-3`}>
@@ -62,8 +104,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
          <input type="file" id="myfile" accept="image/*" onChange={handleImageChange} className='hidden' />        
         </div>
         <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
-        <input className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*'/>
-        <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
+        <input name='eventName' onChange={handleChange} className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*'/>
+        <input name='eventdateAndTime' onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*'/>
         <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*'/>
         <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
          <span className='font-bold text-xl text-gray-600'>Event Mode</span>
@@ -75,7 +117,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
          </div>
         </div>
 
-        <input className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*'/>
+        <input name='eventAddress' onChange={handleChange} className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*'/>
 
         <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
          <div>
@@ -84,10 +126,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
            <option>USA</option>
           </select>
          </div>
-         <input className='border-b ml-3 border-gray-300 pl-2 h-10 my-2 w-full' placeholder='Host Phone Number*'/>
+         <input name='eventHostPhnNumber' onChange={handleChange} className='border-b ml-3 border-gray-300 pl-2 h-10 my-2 w-full' placeholder='Host Phone Number*'/>
         </div>
 
-        <input className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Host Mail Id*'/>
+         <input type='email' name='hostmailid' onChange={handleChange} className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Host Mail Id*'/>
 
         <div className='flex items-center my-2'>
          <img onClick={handleShowGroup} src={guest} className='cursor-pointer' />
@@ -138,7 +180,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
         </div>
 
         <div className='flex flex-col my-1'>
-         <button onClick={handleCreatedEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
+         {editMyEvent ? 
+         <button onClick={()=>dispatch(updateEvent(postData))} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>Update</button>
+         :<button onClick={()=>dispatch(createEvent(postData))} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
+         }
          <button className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>         
         </div>
 

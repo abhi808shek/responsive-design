@@ -5,6 +5,7 @@ import postReducer from "./reducers/postReducer";
 import profileReducer from "./reducers/profileReducer";
 import friendReducer from "./reducers/friendReducer";
 import kicksReducer from "./reducers/kicksReducer";
+import umeetReducer from "./reducers/umeetReducer";
 import { eventReducer } from './reducers/eventReducer';
 import rootsReducer from './reducers/rootsReducer';
 
@@ -17,7 +18,8 @@ const allReducer = combineReducers({
   rootsReducer,
   profileReducer,
   friendReducer,
-  kicksReducer
+  kicksReducer,
+  umeetReducer
 })
 
 

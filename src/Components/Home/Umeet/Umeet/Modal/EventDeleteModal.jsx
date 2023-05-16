@@ -3,9 +3,12 @@ import notAttend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-NotAt
 import Attend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import maybe from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
 import { AiOutlineCloseCircle } from 'react-icons/ai'
+import { deleteEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { useDispatch, useSelector } from 'react-redux'
 
 const EventDeleteModal = ({ onClose }) => {
-  const [count, setCount] = useState(1);
+
+  const dispatch = useDispatch()
 
   return (
   <section className='fixed z-20 justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -15,7 +18,7 @@ const EventDeleteModal = ({ onClose }) => {
         <AiOutlineCloseCircle onClick={onClose} className='w-8 cursor-pointer hover:text-red-500 h-7'/>
     </div> 
     <textarea rows='7' id='message' name='message' className="w-full px-3 py-2 text-gray-700 border border-gray-300 rounded focus:outline-none focus:border-blue-500" placeholder='Tell the reason for that...'/>
-    <button className='px-5 py-2 rounded-lg font-semibold my-1 text-white border bg-[#649B8E]'>Delete</button>
+    <button onClick={()=>dispatch(deleteEvent('608a36dee1c7ec43cf93644f'))}  className='px-5 py-2 rounded-lg font-semibold my-1 text-white border bg-[#649B8E]'>Delete</button>
    </div>
   </section>
   )
