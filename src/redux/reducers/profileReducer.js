@@ -16,7 +16,7 @@ const profileReducer = (state = initialState, action) => {
       case "GET_FOLLOWER":
         return { ...state, followers: action.payload };
       case "FRIEND_LIST":
-        return { ...state, friends: action.payload };
+        return { ...state, friends: action.payload.data };
       case "GET_PROFILE_DETAILS":
         localStorage.setItem("profileid", action.payload?.data?.id);
         localStorage.setItem("profile", JSON.stringify(action.payload?.data));

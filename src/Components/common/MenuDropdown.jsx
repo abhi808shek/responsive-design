@@ -12,7 +12,7 @@ export default function MenuDropdown({ button, options, handleOption }) {
       <MenuHandler >
         <Button variant="text" className="text-gray-700">{button}</Button>
       </MenuHandler>
-      <MenuList>
+      <MenuList className="z-10">
         {options?.map((item) => {
           return <MenuItem onClick={() => handleOption(item.name)} key={item?.name}>{item.name}</MenuItem>;
         })}

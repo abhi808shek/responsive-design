@@ -34,6 +34,8 @@ export const defaultRootScreen = () => async (dispatch) => {
         },
       }
     );
+
+    console.log("Eskdkd", defaultRootResult);
     dispatch({
       type: "DEFAULT_ROOT_SCREEN",
       payload: defaultRootResult?.data,
