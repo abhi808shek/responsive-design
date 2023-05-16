@@ -14,8 +14,8 @@ const Participate = () => {
   const [file, setFile] = useState(null);
   const [termsAccepted, setTermsAccepted] = useState(false);
   const [formError, setFormError] = useState("");
-  const { eventDataObj } = useSelector((state) => state.eventReducer);
-
+  const { profile } = useSelector((state) => state.profileReducer);
+console.log("ProfileId",profile);
   // Function for timestamp
   // const timestamp = (date) => {
   //   const now = moment();
@@ -64,9 +64,9 @@ const Participate = () => {
       image: uploadedImage?.path,
       likecount: 0,
       location: "",
-      // postdatetime: dateAndTime.toString(),
+      postdatetime: Date.now().toString(),
       profile: null,
-      profileid: defaultEventData?.data?.profileid,
+      profileid: profile?.id,
       shareto: "Public",
       suggesttemp: "",
       template: "No_template",

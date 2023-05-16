@@ -28,7 +28,7 @@ const AboutSection = ({ isOther, data = {} }) => {
   const isPersonal = profiletype === "Personal";
   const navigate = useNavigate();
   return (
-    <div className="sm:w-[95%] lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center ">
+    <div className="sm:mb-[80px] lg:mb-[60px] w-[95%] lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center ">
       {/*Head Section */}
       <section className="flex w-full justify-between my-2 px-4">
         <strong className="text-lg font-medium">About</strong>

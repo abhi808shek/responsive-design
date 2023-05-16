@@ -71,8 +71,8 @@ const ProfilePage = ({ isOther }) => {
     }
   }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-2">
-      <section className="flex w-[50%] flex-col mt-2 items-end">
+    <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">
+      <section className="flex sm:w-[50%] flex-col mt-2 items-center lg:items-end">
         <ProfileImageSection
           uploadImage={handleUploadImage}
           data={profile || {}}
@@ -87,18 +87,13 @@ const ProfilePage = ({ isOther }) => {
         {/* About Section */}
         <AboutSection isOther={isOther} data={profileDetail || {}} />
       </section>
-      <section className="flex w-[50%] flex-col items-center">
+      <section className="flex sm:w-[50%] flex-col items-center">
         {/* Category Section */}
-        <section className="w-full sm:w-[90%] max-w-2xl flex items-center justify-between">
+        <section className="w-full sm:w-[90%] flex items-center justify-between">
           <CategorySection
             selectedOption={selectedOption}
             setSelectedOption={setSelectedOption}
           />
-        </section>
-
-        {/* Post Form Section */}
-        <section className="w-full pl-2">
-          {/* <PostForm width={98} bgColor={"#E4E7EC"}/> */}
         </section>
 
         {/* All Post Section */}
@@ -117,7 +112,7 @@ const ProfilePage = ({ isOther }) => {
           <PrivatePage />
         </section> */}
 
-        <section className="w-full max-w-2xl mt-3 rounded-xl flex justify-center">
+        <section className="w-full mt-3 rounded-xl flex justify-center sm:w-[92%] lg:w-full xl:w-[93%]">
           <GridBoxes selectedOption={selectedOption} />
         </section>
       </section>

@@ -8,7 +8,7 @@ import PostKicks from "../ProfilePage/posts/PostKicks";
 const GridBoxes = ({selectedOption}) => {
   
   return (
-    <div className="w-full sm:w-[90%] lg:w-[85%] xl:w-[95%] flex text-center rounded-xl">
+    <div className="w-[95%] sm:w-[95%] lg:w-[85%] xl:w-[95%] flex text-center rounded-xl">
       {
         <div className="rounded-lg w-full">
           {selectedOption === "Post" && <Post />}

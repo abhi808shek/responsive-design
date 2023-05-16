@@ -15,13 +15,13 @@ const PostPhotos = () => {
     dispatch(getImageList(profile.id))
   }, [])
   return (
-    <div className="w-full grid sm:grid-cols-3 lg:grid-cols-4 gap-3 text-center rounded-xl p-2 h-[400px] bg-white">
+    <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 text-center rounded-xl p-2 h-[400px] bg-white">
       {[
         [1, 2, 3, 4].map(() => (
           <img
             src="./images/events.jpg"
             alt=""
-            className="w-[150px] h-[100px] rounded-lg object-cover"
+            className="w-[100px] sm:w-[150px] sm:h-[100px] rounded-lg object-cover"
           />
         )),
       ]}
