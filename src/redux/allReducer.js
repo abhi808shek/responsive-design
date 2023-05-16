@@ -21,7 +21,8 @@ const allReducer = combineReducers({
   friendReducer,
   kicksReducer,
   unionReducer,
-})
+  umeetReducer,
+});
 
 
 export default allReducer;
