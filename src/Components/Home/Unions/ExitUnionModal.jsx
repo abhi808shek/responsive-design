@@ -1,6 +1,6 @@
 import React from "react";
 
-const ExitUnionModal = ({ onCloseModal }) => {
+const  ExitUnionModal = ({ onCloseModal, exitUnion }) => {
   return (
     <div className="w-[40%] flex flex-col justify-center gap-3 p-2 rounded-xl items-center bg-white">
       <h1 className="font-bold text-sm text-center w-[90%]">
@@ -11,7 +11,7 @@ const ExitUnionModal = ({ onCloseModal }) => {
         Once Exit from Group, all members and group posts will be Delete
       </p>
       <div className="w-full flex justify-center gap-4">
-        <button className="text-white text-xs py-2 font-bold bg-blue-500 rounded-lg w-[40%]">
+        <button onClick={exitUnion} className="text-white text-xs py-2 font-bold bg-blue-500 rounded-lg w-[40%]">
           Exit
         </button>
         <button

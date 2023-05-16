@@ -6,6 +6,7 @@ import profileReducer from "./reducers/profileReducer";
 import friendReducer from "./reducers/friendReducer";
 import kicksReducer from "./reducers/kicksReducer";
 import { eventReducer } from './reducers/eventReducer';
+import unionReducer from "./reducers/unionReducer";
 import rootsReducer from './reducers/rootsReducer';
 
 
@@ -17,7 +18,8 @@ const allReducer = combineReducers({
   rootsReducer,
   profileReducer,
   friendReducer,
-  kicksReducer
+  kicksReducer,
+  unionReducer,
 })
 
 
