@@ -3,11 +3,6 @@ import { setDataOnStorage } from "../../Components/Utility/utility";
 
 // CHECKING USER pr Email EXIST OR NOT
 
-const config = {
-  headers: {
-    "Accept-Language": "en",
-  },
-};
 
 export const saveUserSignupData = (data) => async (dispatch) => {
   const datalist = {
@@ -282,7 +277,7 @@ export const uploadImage = (data) => async (dispatch) => {
 
 
 
-export const getCountryList = (data) => async (dispatch) => {
+export const getCountryList = () => async (dispatch) => {
   try {
     const response = await axios.get(
       `http://3.233.82.34:8080/api/user/country/countrylist`,
@@ -297,12 +292,12 @@ export const getCountryList = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_COUNTRY_LIST",
-      payload: response.data
+      payload: response?.data
     })
     return response
   } catch(err) {
     console.log(err, 'errror login');
-    throw err.response.data
+    throw err?.response?.data
   }
 }
 
