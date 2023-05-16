@@ -164,53 +164,55 @@ const VideoComponent = ({ dataList, data }) => {
 
         <section className="relative snap-y snap-mandatory justify-center overflow-scroll flex items-center bg-black hideScroll right-0  left-0 h-1/2 w-full z-0">
 
-          <video
-            className="h-[500px] w-[300px] cursor-pointer"
-            loop={true}
-            autoPlay="autoplay"
-            muted={isMute}
-            ref={videoRef}
-            onClick={onVideoClick}
-          >
-            <source
-              // src={data?.video} type="video/mp4"
-              src={shortVideo} type="video/mp4"
-            />
-          </video>
+          <div className="relative">
+            <video
+              className="h-[500px] w-[300px] cursor-pointer "
+              loop={true}
+              autoPlay="autoplay"
+              muted={isMute}
+              ref={videoRef}
+              onClick={onVideoClick}
+            >
+              <source
+                // src={data?.video} type="video/mp4"
+                src={shortVideo} type="video/mp4"
+              />
+            </video>
 
-          <div className="absolute right-1">
-            {dataList?.map((elem, index) => (
-              (elem.title === 'follow' & profileid === profileDetail?.id) ? "" :
-                <div
-                  key={elem.title}
-                  onClick={() => handleIconClick(elem.title)}
-                  className="flex items-end mb-3 gap- font-semibold flex-col"
-                >
-                  <img
-                    src={(elem.title === 'likes' && isliked) ? kicksLiked : (elem.title === 'mute' && isMute) ? unmute : elem.img}
-                    alt=""
-                    className="w-[30px] cursor-pointer"
-                  />
+            <div className="absolute right-[5%] bottom-[8%]">
+              {dataList?.map((elem, index) => (
+                (elem.title === 'follow' & profileid === profileDetail?.id) ? "" :
+                  <div
+                    key={elem.title}
+                    onClick={() => handleIconClick(elem.title)}
+                    className="flex items-end mb-3 gap- font-semibold flex-col"
+                  >
+                    <img
+                      src={(elem.title === 'likes' && isliked) ? kicksLiked : (elem.title === 'mute' && isMute) ? unmute : elem.img}
+                      alt=""
+                      className="w-[30px] cursor-pointer"
+                    />
 
-                  <div className="text-[12px] text-white flex items-center">
-                    {elem.title === "likes"
-                      ? `${likecount} likes`
-                      : elem.title === "comments"
-                        ? `${commentcount} comments`
-                        : elem.title}
+                    <div className="text-[12px] text-white flex items-center">
+                      {elem.title === "likes"
+                        ? `${likecount} likes`
+                        : elem.title === "comments"
+                          ? `${commentcount} comments`
+                          : elem.title}
+                    </div>
+
                   </div>
 
-                </div>
-
-            ))}
-            <span>
-              <label
-                onClick={() => setSelectVideo(true)}
-                htmlFor="chooseVideo"
-              >
-                <HiPlus className="w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white ml-[52px]" />
-              </label>
-            </span>
+              ))}
+              <span>
+                <label
+                  onClick={() => setSelectVideo(true)}
+                  htmlFor="chooseVideo"
+                >
+                  <HiPlus className="w-8 h-8 p-0.5 bg-[#6e6f6f] cursor-pointer rounded-full text-white ml-[52px]" />
+                </label>
+              </span>
+            </div>
           </div>
         </section>
 

@@ -5,19 +5,17 @@ export const createEvent = (data) => async (dispatch) => {
         const response = await axios.post(
           `http://3.233.82.34:8080/event/api/event/createEvent`,data
         );
+        dispatch({ type: 'EVENT_CREATE_SUCCESS', payload: response.data });
         console.log(response);
-        dispatch({
-            type: '',
-            payload: response.data
-        })
     }catch(error){
+        dispatch({ type: 'EVENT_CREATE_FAILURE', payload: error.message });
         throw error
     }
 }
 
 export const updateEvent= (data) => async (dispatch) => {
     try{
-        const response = await axios.get(
+        const response = await axios.put(
           `http://3.233.82.34:8080/event/api/event/updateEvent`, data
         );
         console.log(response);
@@ -42,6 +40,7 @@ export const deleteEvent = (data) => async (dispatch) => {
         });
         response.data
     }catch(error){
+        console.log(error)
         throw error
     }
 }
@@ -53,7 +52,7 @@ export const getEventDetails = (data) => async (dispatch) => {
         );
         console.log(response);
         dispatch({
-            type: '',
+            type: 'SINGLE_EVEVT_DETAIL',
             payload: response.data
         })
     }catch(error){
@@ -61,22 +60,23 @@ export const getEventDetails = (data) => async (dispatch) => {
     }
 }
 
-export const getEventList= (data) => async (dispatch) => {
+export const getEventList = (data) => async (dispatch) => {
     try{
         const response = await axios.get(
-          `http://3.233.82.34:8080/event/api/event/getEvent`, data
+          `http://3.233.82.34:8080/event/api/event/getEvent?limit_10`, data
         );
         console.log(response);
         dispatch({
-            type: '',
+            type: 'GET_ALL_EVEVTS',
             payload: response.data
         })
     }catch(error){
+        console.log('err',error)
         throw error
     }
 }
 
-export const getEventByProfileid= (data) => async (dispatch) => {
+export const getEventByProfileid = (data) => async (dispatch) => {
     try{
         const response = await axios.get(`http://3.233.82.34:8080/event/api/event/getmyallevent/id1`);
         console.log(response);
