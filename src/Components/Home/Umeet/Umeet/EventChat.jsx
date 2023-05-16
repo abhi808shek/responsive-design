@@ -3,45 +3,48 @@ import Send from '../../../../Assets/Images/Umeet/Umeet-Main/U-Send.png'
 import { BsCamera, BsImage } from 'react-icons/bs'
 import '../Umeet.css'
 import person from '../../../../Assets/Images/Person.jpg'
+import { useDispatch } from 'react-redux'
+import { addEventMessage } from '../../../../redux/actionCreators/umeetActionCreator'
 
 function ChatBubble({ message, sender, timestamp }) {
+
+
   return (
     <div
       className={`flex flex-col items-${sender}-end mb-4 mx-4`}
     >
       <div
-        className={`flex items-center ${
-          sender === "me" ? "justify-end" : "justify-start"
-        } mb-1`}
+        className={`flex items-center ${sender === "me" ? "justify-end" : "justify-start"
+          } mb-1`}
       >
-       <section className='flex flex-col'>
-        {sender !== "me" && (
-         <div className='flex items-center mb-1'>
-          <img
-            src={person}
-            alt="sender profile pic"
-            className="w-10 h-10 rounded-full mr-1 object-cover"
-          />
-          <p className='text-[#649B8E] italic text-[14px] font-semibold'>Ajaykumar</p>
-         </div>
-        )}
-        <div
-          className={`px-2 py-2 flex justify-between items-end rounded-lg ${
-            sender === "me"
+        <section className='flex flex-col'>
+          {sender !== "me" && (
+            <div className='flex items-center mb-1'>
+              <img
+                src={person}
+                alt="sender profile pic"
+                className="w-10 h-10 rounded-full mr-1 object-cover"
+              />
+              <p className='text-[#649B8E] italic text-[14px] font-semibold'>Ajaykumar</p>
+            </div>
+          )}
+          <div
+            className={`px-2 py-2 flex justify-between items-end rounded-lg ${sender === "me"
               ? "bg-white rounded-br-none"
               : "bg-white rounded-bl-none"
-          }`}
-        >
-          <p>{message}</p>
-          <span className='text-[9px] ml-2'>{timestamp}</span>
-        </div>
-       </section>
+              }`}
+          >
+            <p>{message}</p>
+            <span className='text-[9px] ml-2'>{timestamp}</span>
+          </div>
+        </section>
       </div>
     </div>
   );
 }
 
 export default function EventChat() {
+  const dispatch = useDispatch()
   const [messages, setMessages] = useState([
     {
       message: "Hi, how are you?",
@@ -60,6 +63,7 @@ export default function EventChat() {
     },
   ]);
 
+
   const sendMessage = (message) => {
     const newMessage = {
       message: message,
@@ -68,7 +72,12 @@ export default function EventChat() {
     };
     setMessages([...messages, newMessage]);
   };
+  const [postMessage, setPostmessage] = useState("")
 
+  const clickHandler = () => {
+    dispatch(addEventMessage({ message: postMessage }))
+
+  }
   return (
     <div className="flex flex-col h-[580px] border rounded-lg pt-2 overflow-hidden border-gray-400 w-full">
       <div className="flex-1 hideScroll overflow-y-scroll">
@@ -78,11 +87,12 @@ export default function EventChat() {
             message={msg.message}
             sender={msg.sender}
             timestamp={msg.timestamp}
+            value={postMessage.messages}
           />
         ))}
       </div>
       <div className="flex items-center bg-white">
-        <BsCamera className='h-8 w-8 text-[#649B8E] mx-2'/>
+        <BsCamera className='h-8 w-8 text-[#649B8E] mx-2' />
         <BsImage className='h-8 w-8 text-[#649B8E]' />
         <input
           type="text"
@@ -94,8 +104,10 @@ export default function EventChat() {
               e.target.value = "";
             }
           }}
+
+          onChange={(e) => setPostmessage(e.target.value)}
         />
-        <img src={Send} className='mr-2 h-10 w-10' />
+        <img src={Send} className='mr-2 h-10 w-10 cursor-pointer' onClick={clickHandler} />
       </div>
     </div>
   );

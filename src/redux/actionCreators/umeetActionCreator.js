@@ -229,3 +229,22 @@ export const getAllEvents = (data) => async (dispatch) => {
         throw error
     }
 }
+
+//Add eventmessage by event by anurag
+export const addEventMessage = (data) => async (dispatch) => {
+    try {
+        const response = await axios.post(
+            `http://3.233.82.34:8080/event/api/eventmessage/add`, data
+        );
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+    } catch (error) {
+        console.log(error)
+        throw error
+    }
+}
+
+

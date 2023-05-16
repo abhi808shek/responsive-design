@@ -28,89 +28,89 @@ const responsive = {
   }
 };
 
-const EventDetails = ({ myEvent, handleDeleteEvent, 
+const EventDetails = ({ myEvent, handleDeleteEvent,
   handleEditEvent, handleShareEvent, handleRvspModal,
-  singleEvent }) => {  
+  singleEvent }) => {
 
   const [details, setDetails] = useState(true)
   const [guests, setGuests] = useState(false)
   const [chat, setChat] = useState(false)
 
   const dispatch = useDispatch()
-  const { umeetReducer } = useSelector(state=>state)
+  const { umeetReducer } = useSelector(state => state)
 
-  useEffect(()=>{
+  useEffect(() => {
     dispatch(getEventDetails(singleEvent))
   }, [])
-  
-  console.log(umeetReducer.eventDetail)
-  
-  const handleDetails = ()=>{
+
+  console.log(umeetReducer?.eventDetail)
+
+  const handleDetails = () => {
     setDetails(true)
     setGuests(false)
     setChat(false)
   }
 
-  const handleGuests = ()=>{
+  const handleGuests = () => {
     setDetails(false)
     setGuests(true)
     setChat(false)
   }
 
-  const handleChat = ()=>{
+  const handleChat = () => {
     setDetails(false)
     setGuests(false)
     setChat(true)
   }
 
-  function RenderStatus(){
-    if(details) return <DetailsOfEvent 
-                        myEvent={myEvent} 
-                        handleDeleteEvent={handleDeleteEvent} 
-                        handleEditEvent={handleEditEvent} 
-                        handleShareEvent={handleShareEvent}
-                        />
-    else if(guests) return <EventGuests />
-    else if(chat) return <EventChat />
+  function RenderStatus() {
+    if (details) return <DetailsOfEvent
+      myEvent={myEvent}
+      handleDeleteEvent={handleDeleteEvent}
+      handleEditEvent={handleEditEvent}
+      handleShareEvent={handleShareEvent}
+    />
+    else if (guests) return <EventGuests />
+    else if (chat) return <EventChat />
   }
 
   return (
-  <section className={`w-full mr-1 flex items-center ${chat ? 'mb-3' : 'mb-12'}`}>
-    <div className='w-[96%] lg:w-[60%] flex flex-col items-center'>
-     <div className='p-3 w-full bg-white rounded-xl'>
-      <h3 className='py-2 text-xl font-medium flex justify-center'>Hill pro</h3>
-      <div className='w-full overflow-hidden'>
-       <img src={wishes} className='w-full h-[300px] object-cover rounded-xl' />
-      </div>
-      <div className='flex justify-center my-4'>
-       <button onClick={handleRvspModal} className='bg-[#649B8E] rounded-xl text-white font-semibold py-1.5 px-10'>send RVSP</button>
-      </div>
-     </div>
+    <section className={`w-full mr-1 flex items-center ${chat ? 'mb-3' : 'mb-12'}`}>
+      <div className='w-[96%] lg:w-[60%] flex flex-col items-center'>
+        <div className='p-3 w-full bg-white rounded-xl'>
+          <h3 className='py-2 text-xl font-medium flex justify-center'>Hill pro</h3>
+          <div className='w-full overflow-hidden'>
+            <img src={wishes} className='w-full h-[300px] object-cover rounded-xl' />
+          </div>
+          <div className='flex justify-center my-4'>
+            <button onClick={handleRvspModal} className='bg-[#649B8E] rounded-xl text-white font-semibold py-1.5 px-10'>send RVSP</button>
+          </div>
+        </div>
 
-     <div className='p-2.5 my-3 flex w-full bg-white rounded-xl'>
-      <div onClick={handleDetails} className={`${details ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Details</div>
-      <div onClick={handleGuests} className={`${guests ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}>Guests</div>
-      <div onClick={handleChat} className={`${chat ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Chat</div>
-     </div>     
+        <div className='p-2.5 my-3 flex w-full bg-white rounded-xl'>
+          <div onClick={handleDetails} className={`${details ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Details</div>
+          <div onClick={handleGuests} className={`${guests ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}>Guests</div>
+          <div onClick={handleChat} className={`${chat ? 'bg-[#649B8E] text-white' : 'bg-[#E4E4E4]'} rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}>Chat</div>
+        </div>
 
-     <RenderStatus />
-    { myEvent && (
+        <RenderStatus />
+        {myEvent && (
 
-     <div className='w-full my-8 p-3 py-7 bg-white rounded-xl'>
-      <div className='flex justify-between font-semibold px-2 pb-4'>
-       <span>Suggested Ads</span>
-       <span className='text-[#649B8E] cursor-pointer'>View All</span>
+          <div className='w-full my-8 p-3 py-7 bg-white rounded-xl'>
+            <div className='flex justify-between font-semibold px-2 pb-4'>
+              <span>Suggested Ads</span>
+              <span className='text-[#649B8E] cursor-pointer'>View All</span>
+            </div>
+            <Carousel responsive={responsive} containerClass={`w-full pl-2 z-[1]`}>
+              {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
+                <img id={data} src={wishes} className='w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer' />
+              ))}
+            </Carousel>
+          </div>
+        )}
       </div>
-      <Carousel responsive={responsive} containerClass={`w-full pl-2 z-[1]`}>
-       {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
-        <img id={data} src={wishes} className='w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer' />
-       ))}
-      </Carousel>
-     </div>
-    )}
-    </div>
-    
-  </section>
+
+    </section>
   )
 }
 
