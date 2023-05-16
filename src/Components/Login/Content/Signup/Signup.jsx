@@ -1,3 +1,4 @@
+
 import React, { useEffect, useRef, useState } from "react";
 import Input from "../InputBox/Input";
 import PasswordInput from "../InputBox/PasswordInput";
@@ -16,8 +17,8 @@ import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth
 
 
 import { initializeApp } from "firebase/app";
- import firebase from 'firebase/compat/app';
- import "firebase/auth";
+import firebase from 'firebase/compat/app';
+import "firebase/auth";
 import { document } from "postcss";
 
 
@@ -78,57 +79,58 @@ const Signup = () => {
         password: formik.values.password,
       };
       const response = await dispatch(saveUserSignupData(dataObj));
-      if(formik.values.phone){
+      if (formik.values.phone) {
 
-        signIn("+91"+formik.values.phone)
-      }else
-      if (response.status === 200) {
-        navigate(`/auth/verification/signup?${profileType}`)
-      }
+        signIn("+91" + formik.values.phone)
+      } else
+        if (response.status === 200) {
+          navigate(`/auth/verification/signup?${profileType}`)
+        }
     },
   });
-    // function configureRecaptcha(phoneNumber){
-    //     console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
-    //     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("sign-in-button",
-    //     {
-    //       "size": "invisible",
-    //       "callback": (response) => {
-    //         console.log(response, 'otppppppppppp sentttttt');
-    //         signIn(phoneNumber);
-    //       }
-    //     })
-    //   }
-      
-      function configureRecaptcha(phoneNumber, auth){
-        console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
-        window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button",
-        {
-          "size": "invisible",
-          "callback": (response) => {
-            console.log(response, 'otppppppppppp sentttttt');
-            // signIn(phoneNumber);
-          }
-        },    
-        auth)
-      }
-  
-  function signIn(phoneNumber){
+  // function configureRecaptcha(phoneNumber){
+  //     console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
+  //     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("sign-in-button",
+  //     {
+  //       "size": "invisible",
+  //       "callback": (response) => {
+  //         console.log(response, 'otppppppppppp sentttttt');
+  //         signIn(phoneNumber);
+  //       }
+  //     })
+  //   }
+
+  function configureRecaptcha(phoneNumber, auth) {
+    console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
+    window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button",
+      {
+        "size": "invisible",
+        "callback": (response) => {
+          console.log(response, 'otppppppppppp sentttttt');
+          // signIn(phoneNumber);
+        }
+      },
+      auth)
+  }
+
+  function signIn(phoneNumber) {
     console.log("HHHHHHHHHH");
-      const auth = getAuth()
-    try{
+    const auth = getAuth()
+    try {
       configureRecaptcha(formik.values.phone, auth);
-    }catch(err){
+    } catch (err) {
       console.log(err, 'captcha error');
     }
 
     // const auth = getAuth();
     const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmation) =>{
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmation) => {
       window.confirmation = confirmation;
-      console.log('connnnnnnnnnnfffffffffffff');
-        }).catch((err) => {
-          captchaEl.current.innerHTML = null
-        })
+      console.log('otp send');
+    }).catch((err) => {
+      captchaEl.current.innerHTML = null
+      console.log('otp not send because send', err);
+    })
   }
 
   const handleClick = (event) => {
@@ -245,10 +247,10 @@ const Signup = () => {
         </div>
         <div ref={captchaEl} id="sign-in-button"></div>
         <Button2
-        id='sign'
+          id='sign'
           title="Sign Up"
           bgColor="#7991BD"
-          disabled={!formik.isValid }
+          disabled={!formik.isValid}
           onClick={formik.handleSubmit}
         />
         <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">
