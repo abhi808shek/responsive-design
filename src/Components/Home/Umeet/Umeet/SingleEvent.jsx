@@ -29,8 +29,8 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
 
   const reducerData = useSelector((state) => {
     return {
-      profile : state.profileReducer.profile,
-      allEvents: state.umeetReducer.allEvents.slice(0,30)
+      profile : state?.profileReducer?.profile,
+      allEvents: state?.umeetReducer?.allEvents?.slice(0,30)
     }
   });
   

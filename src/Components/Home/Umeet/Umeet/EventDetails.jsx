@@ -43,7 +43,7 @@ const EventDetails = ({ myEvent, handleDeleteEvent,
     dispatch(getEventDetails(singleEvent))
   }, [])
   
-  console.log(umeetReducer.eventDetail)
+  console.log(umeetReducer?.eventDetail)
   
   const handleDetails = ()=>{
     setDetails(true)
