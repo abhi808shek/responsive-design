@@ -4,19 +4,19 @@ importScripts('https://www.gstatic.com/firebasejs/8.10.0/firebase-messaging.js')
 
 const firebaseConfig = {
 
-  apiKey: "AIzaSyDVwCREtcNTFgYZE3k_hp-XajwVHr0uh4k",
+  apiKey: "AIzaSyDbynJX-7_WEXTV27eH12PMoHuNoquzAtk",
 
-  authDomain: "uynite-agumentik.firebaseapp.com",
+  authDomain: "uynite-58644.firebaseapp.com",
 
-  projectId: "uynite-agumentik",
+  projectId: "uynite-58644",
 
-  storageBucket: "uynite-agumentik.appspot.com",
+  storageBucket: "uynite-58644.appspot.com",
 
-  messagingSenderId: "1074619514298",
+  messagingSenderId: "653379364316",
 
-  appId: "1:1074619514298:web:74d03c30f979660dfcf183",
+  appId: "1:653379364316:web:a28c0091f9eec7dea91b19",
 
-  measurementId: "G-SVVY5L5ZTH"
+  measurementId: "G-KYT183BCCB"
 
 };
 firebase.initializeApp(firebaseConfig);
