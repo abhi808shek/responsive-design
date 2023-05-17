@@ -18,6 +18,7 @@ import { imageUploadApi } from "../../../redux/actionCreators/eventActionCreator
 import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
+import PostCard from "../PostContetnt/PostCard/PostCard";
 
 const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
@@ -70,41 +71,49 @@ const ProfilePage = ({ isOther }) => {
     }
   }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-2">
-      <section className="flex lg:w-[50%] flex-col mt-2 items-end">
-        <ProfileImageSection 
-        uploadImage={handleUploadImage} data={profile || {}}
-        friends={friends} following={ following } followers={followers}
-        coverImg={coverImg} profileImg={profileImg} isOther={isOther} />
+    <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">
+      <section className="flex sm:w-[50%] flex-col mt-2 items-center lg:items-end">
+        <ProfileImageSection
+          uploadImage={handleUploadImage}
+          data={profile || {}}
+          friends={friends}
+          following={following}
+          followers={followers}
+          coverImg={coverImg}
+          profileImg={profileImg}
+          isOther={isOther}
+        />
 
         {/* About Section */}
         <AboutSection isOther={isOther} data={profileDetail || {}} />
       </section>
-      <section className="flex w-[50%] pr-[8px] flex-col">
+      <section className="flex sm:w-[50%] flex-col items-center">
         {/* Category Section */}
-        <section className="w-[98%] max-w-2xl ml-3 mt-3 flex items-center justify-between">
-          <CategorySection selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
-        </section>
-        
-        {/* Post Form Section */}
-        <section className="w-full pl-2">
-          {/* <PostForm width={98} bgColor={"#E4E7EC"}/> */}
+        <section className="w-full sm:w-[90%] flex items-center justify-between">
+          <CategorySection
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
         </section>
 
         {/* All Post Section */}
-        <section className="w-full">
-          {/* <PostContent width={100}/> */}
-        </section>
+        {/* <section className="w-full sm:w-[50%] lg:w-[80%] flex items-center justify-center flex-col px-2 ">
+          <PostCard
+            // key={elem?.id}
+            // item={elem}
+            // userData={userData}
+            // showModal={showModalFunc}
+            // width={50}
+          />
+        </section> */}
 
         {/* Private Page Section */}
         {/* <section className="w-full mt-3 h-full">
           <PrivatePage />
         </section> */}
 
-
-
-        <section className="w-full max-w-2xl mt-3 rounded-xl flex justify-center">
-          <GridBoxes selectedOption={selectedOption}/>
+        <section className="w-full mt-3 rounded-xl flex justify-center sm:w-[92%] lg:w-full xl:w-[93%]">
+          <GridBoxes selectedOption={selectedOption} />
         </section>
       </section>
     </div>

@@ -1,6 +1,6 @@
 const initialState = {
   usersList: [],
-  requestList: [{ name: "rah" }],
+  requestList: [],
 };
 
 const  friendReducer= (state = initialState, action) => {
@@ -9,6 +9,7 @@ const  friendReducer= (state = initialState, action) => {
       return { ...state, usersList: action.payload.data };
     case "GET_REQUEST_LIST":
       return { ...state, resuestList: action.payload.data};
+      
     default:
       return state;
   }

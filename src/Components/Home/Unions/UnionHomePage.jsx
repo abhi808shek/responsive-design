@@ -24,7 +24,11 @@ const UnionHomePage = () => {
   const onCloseModal = () => {
     setShowModal({ ...showModal, myUnion: false, partOfUnion: false });
   };
-  const onSingleUnionPage = () => {
+  const onSingleUnionPage = (data) => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: data
+    })
     navigate("/single-unions-page");
   };
   const onCreateUnion = () => {
@@ -52,7 +56,7 @@ const UnionHomePage = () => {
           </button>
         ))}
         <button
-          className={`w-[30%] text-white font-bold py-1  text-[9px] sm:text-xs rounded-lg bg-[#7991BD]`}
+          className={`w-[30%] text-white font-bold py-1  text-[9px] sm:text-xs rounded-lg bg-[#666567]`}
           onClick={onCreateUnion}
         >
           Add Unions

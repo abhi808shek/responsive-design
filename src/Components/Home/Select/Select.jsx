@@ -23,7 +23,7 @@ const Select = () => {
       description: "Connect & Share",
       icon: "./images/Roots.png",
       style: "bg-[#6780AF]",
-      url: "/root",
+      url: "/",
     },
     {
       title: "Kicks",

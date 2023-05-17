@@ -59,7 +59,9 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     <div className="w-full bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
-      <PostForm />
+      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-red-500">
+        <PostForm />
+      </div>
       <HeroSection />
       <SliderSection />
       <PostContent

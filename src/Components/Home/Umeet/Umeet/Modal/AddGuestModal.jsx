@@ -33,7 +33,7 @@ const AddGuestModal = ({ onClose }) => {
         <AiOutlineCloseCircle onClick={onClose} className='w-8 cursor-pointer hover:text-red-500 h-7'/>
       </div>
       {
-        dataList.map((data, i)=>(
+        dataList?.map((data, i)=>(
           <div key={i} onClick={handleShowAddPeopleModal} className='flex cursor-pointer justify-between py-3 px-3 items-center border-t'>
            <div className='flex flex-col w-5/6'>
             <span className='font-medium text-gray-800'>{data.qualification}</span>
