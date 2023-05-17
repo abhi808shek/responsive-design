@@ -20,6 +20,8 @@ import { initializeApp } from "firebase/app";
 import firebase from 'firebase/compat/app';
 import "firebase/auth";
 import { document } from "postcss";
+import { toasterFunction } from "../../../Utility/utility";
+import { toast } from "react-toastify";
 
 
 const Signup = () => {
@@ -72,6 +74,9 @@ const Signup = () => {
     // }),
     onSubmit: async (event) => {
       // event.preventDefault();
+      if (!profileType) {
+        return toasterFunction("Please select profile type");
+      }
       const dataObj = {
         datetime: Date.now().toString(),
         profileType: profileType,
@@ -79,9 +84,11 @@ const Signup = () => {
         password: formik.values.password,
       };
       const response = await dispatch(saveUserSignupData(dataObj));
+      
       if (formik.values.phone) {
-
-        signIn("+91" + formik.values.phone)
+    captchaEl.current.innerHTML = null;
+    // console.log(formik?.values.phone?.includes("91"));
+        signIn(formik?.values.phone?.includes("91") ? formik.values.phone : `+91${formik.values.phone}` )
       } else
         if (response.status === 200) {
           navigate(`/auth/verification/signup?${profileType}`)
@@ -114,21 +121,23 @@ const Signup = () => {
   }
 
   function signIn(phoneNumber) {
-    console.log("HHHHHHHHHH");
     const auth = getAuth()
     try {
-      configureRecaptcha(formik.values.phone, auth);
+      configureRecaptcha(phoneNumber, auth);
     } catch (err) {
       console.log(err, 'captcha error');
     }
 
     // const auth = getAuth();
     const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmation) => {
-      window.confirmation = confirmation;
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmationResult) => {
+      window.confirmationResult = confirmationResult;
       console.log('otp send');
+      captchaEl.current.innerHTML = null;
+      navigate(`/auth/verification/signup?${profileType}`);
     }).catch((err) => {
       captchaEl.current.innerHTML = null
+      toast.error(err.message)
       console.log('otp not send because send', err);
     })
   }

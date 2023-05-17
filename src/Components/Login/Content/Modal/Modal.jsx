@@ -24,7 +24,8 @@ import { geocodeByAddress } from "react-google-places-autocomplete";
 import Autocomplete from "react-google-autocomplete";
 import { imageUploadApi } from "../../../../redux/actionCreators/eventActionCreator";
 import AutocompletePlace from "../../../googlemap/AutocompletePlace";
-import { setDataOnStorage } from "../../../Utility/utility";
+import { setDataOnStorage, toasterFunction } from "../../../Utility/utility";
+import { async } from "@firebase/util";
 
 const Modal = ({ modalType, handleClose }) => {
   const dispatch = useDispatch();
@@ -64,6 +65,7 @@ const Modal = ({ modalType, handleClose }) => {
     loksabha,
     assembly,
     category,
+    city,
   } = states;
 
   const isPersonal = modalType === "Personal";
@@ -92,7 +94,10 @@ const Modal = ({ modalType, handleClose }) => {
     console.log(e.target.value);
     setState({ ...states, dob: e.target.value });
   };
-  const handleLiveLocationn = () => {};
+  const handleLiveLocationn = (location) => {
+    setState({...state, city: location });
+    console.log(location, "LLLOOOOOOO S");
+  };
   const handleCreateProfile = async () => {
     const payload = {
       celibrity: false, //default value.
@@ -118,6 +123,7 @@ const Modal = ({ modalType, handleClose }) => {
       email: userData.uemail, //from signup screen.
       fname: fname, //from user input BUSINESS NAME
       gender: gender,
+      city: city,
       pimage: "", //if profile image is there, add the URL here.
       loksabha: loksabha?.loksabha,
       lname: lname, //from user input – profile lnamein SLIDE 4
@@ -129,17 +135,46 @@ const Modal = ({ modalType, handleClose }) => {
     const file = new FormData();
     file.append("file", imgFile);
     const data = isPersonal ? payloads : payload;
-    // imgFile ? dispatch(imageUploadApi(file)).then((res) => {
-    //   data.pimage = res.data.path;
-    //   dispatch(createProfile(data)).then((res)=> {
-    //   if(res.data.status){
-    //     toast.success(res.data.message)
-    //     navigate('/auth/login')
-    //   } else toast.error(res.data.message)
-    // }).catch(err => {
-    //   toast.error(err.message)
-    // })
-    // }) :
+    if(isPersonal ? (fname && dob) : (selectedValue?.category && fname && orgName)){
+      toasterFunction("Please enter required field");
+      return;
+    }
+    imgFile ? dispatch(imageUploadApi(file)).then((res) => {
+      data.pimage = res.data.path;
+      dispatch(createProfile(data)).then( async (res)=> {
+      if(res.data.status){
+        toast.success(res.data.message)
+        // navigate('/auth/login')
+                  try {
+            // dispatch(checkingIsEmailExist(email))
+            const userResponse = await dispatch(
+              loginUser({
+                uemail: userData.uemail,
+                password: userData.password,
+              })
+            );
+            console.log("userResponse", userResponse);
+            const userCredential = {
+              uemail: userResponse?.data.email,
+              isLoggedIn: userResponse?.data?.loginstatus,
+              token: userResponse?.data?.loginToken,
+              id: userResponse.data.id,
+            };
+            if (!userResponse?.status) {
+              toast.error(userResponse.message);
+              return userResponse?.message;
+            }
+            toast.success(userResponse?.message);
+            await setDataOnStorage(userCredential);
+            navigate("/select");
+          } catch (error) {
+            console.log(error);
+          }
+      } else toast.error(res.data.message)
+    }).catch(err => {
+      toast.error(err.message)
+    })
+    }) :
     dispatch(createProfile(data))
       .then(async (res) => {
         if (res.data.status) {
@@ -360,9 +395,9 @@ const Modal = ({ modalType, handleClose }) => {
                           }
                         />
                       </div>
-                      <div className="mt-1.5">
+                      <div className="mt-1.5 relative">
                         {/* <Input id='autocomplete' title="Living Location*" className="w-full" onHandleChange={ handleLiveLocationn}/> */}
-                        {/* <AutocompletePlace /> */}
+                        <AutocompletePlace livePlace={handleLiveLocationn} map = {false} placeholder={'Search your city'}/>
                         {/* <input id="autocomplete" type="text"/> */}
                       </div>
                     </>

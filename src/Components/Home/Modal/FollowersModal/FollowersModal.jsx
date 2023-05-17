@@ -1,8 +1,8 @@
 import React from "react";
 import { useEffect } from "react";
 
-const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
-  console.log(data, 'modal dattaaaaaaaa');
+const FollowersModal = ({title, modalName, data, emptyMessage= 'No data', handleClick}) => {
+
   return (
     <div onClick={(e) => e.stopPropagation()} className=' w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
         <div className="my-2">{modalName}</div>
@@ -26,7 +26,7 @@ const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
                       <span className="font-bold text-sm">{`${name ? `${fname} ${lname}`: 'User'}`}</span>
                   </div>
                   <div className="flex ">
-                    <button className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>Remove</button>
+                    <button onClick={() => handleClick(friend)} className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>Remove</button>
                   </div>
                  </div>
               </div></>

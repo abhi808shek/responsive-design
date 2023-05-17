@@ -90,10 +90,9 @@ const Login = () => {
           return userResponse?.message;
         }
         toast.success(userResponse?.message);
-
         const userCredential = {
           uemail: email,
-          isLoggedIn: userResponse?.data?.loginstatus,
+          isLoggedIn: userResponse?.data?.loginToken ? true : false,
           token: userResponse?.data?.loginToken,
           id: userResponse?.data?.id,
           // profileid: profile?.id

@@ -7,9 +7,14 @@ import Portals from "../../Portals/Portals";
 import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 import BlockModal from "../Modal/BlockModal/BlockModal";
 import MenuDropdown from "../../common/MenuDropdown";
+import { useDispatch } from "react-redux";
+import { getMyUnion } from "../../../redux/actionCreators/unionActionCreator";
+import { cancelFriendRequest, updateRelation } from "../../../redux/actionCreators/friendsAction";
+import { toast } from "react-toastify";
 
 const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
-  const { fname, lname, profileid, profiletype = "Personal" } = data;
+  const dispatch = useDispatch()
+  const { fname, lname, profileid, profiletype = "Personal"} = data;
   const name = fname + lname;
   const action = [
     { name: "Un-Friend" },
@@ -18,6 +23,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
   ];
 
   const options = useMemo(() => {
+    // dispatch(getMyUnion(profileid))
     const forPersonalAcc = [
       { name: "Friends", key: "friend", checked: true, disable: true },
       { name: "Relative", key: "relative", checked: false },
@@ -28,11 +34,23 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       { name: "Friend", key: "friend", checked: true, disable: true },
     ];
     return {
-      relationOption: profiletype === "Personal" ? forPersonalAcc : forOrgAcc,
+      relation: profiletype === "Personal" ? forPersonalAcc : forOrgAcc,
     };
   }, []);
 
-  const { relationOption } = options;
+  const { relation } = options;
+
+  const [ state, setState ] = useState({})
+  const { relationOption = relation, selectedItem} = state;
+
+    const handleRelation = (e) => {
+      const name = e.target.name;
+      const value = e.target.checked;
+      const selected = relationOption.map((item) => {
+        return item?.name === name ? { ...item, checked: value } : item;
+      });
+      setState({ ...state, relationOption: selected });
+    };
   const [modalType, setModalType] = useState({
     unFriend: false,
     changeRelationship: false,
@@ -66,6 +84,38 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     });
   };
 
+  const handleUnfriend = () => {
+    // console.log(data, selectedItem);
+
+    const payload = {
+      profileid: data?.id,
+      friendprofileid: selectedItem?.id
+    };
+    dispatch(cancelFriendRequest(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res?.message);
+      }else{
+        toast.error(res.message);
+      }
+    })
+  }
+
+  const handleUpdateRelation = () => {
+        const relation = relationOption?.find((item) => item?.checked && !item.disable);
+    const payload = {
+      user1: data?.id,
+      user2: selectedItem?.id,
+      relation: relation?.name
+    }
+    dispatch(updateRelation(payload)).then((res) =>{
+      if(res?.status){
+        toast.success(res?.message)
+      }else{
+        toast.error(res?.message)
+      }
+    })
+  }
+
   return (
     <>
       <div className="flex h-[50px] px-4 items-center py- relative">
@@ -87,7 +137,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
           </span>
           {desc && (
             <p className="text-[10px] font-bold text-gray-500">
-              Hi Joe.........will plan this week
+              {/* Hi Joe.........will plan this week */}
             </p>
           )}
         </Link>
@@ -95,7 +145,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
           <div>
             <MenuDropdown
               button={
-                <div className="flex gap-2 items-center cursor-pointer">
+                <div onClick={() => setState({...state, selectedItem: data})} className="flex gap-2 items-center cursor-pointer">
                   <BsThreeDotsVertical className="" size={18} />
                 </div>
               }
@@ -120,7 +170,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
 
       {modalType.unFriend && (
         <Portals>
-          <UnfriendModal closeModalOption={closeModalOption} />
+          <UnfriendModal handleUnfriend={handleUnfriend} closeModalOption={closeModalOption} />
         </Portals>
       )}
       {modalType.changeRelationship && (
@@ -130,6 +180,8 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
             button="Update"
             closeModalOption={closeModalOption}
             relationOption={relationOption}
+            handleRelation={handleRelation}
+            handleSendRequest={handleUpdateRelation}
           />
         </Portals>
       )}
