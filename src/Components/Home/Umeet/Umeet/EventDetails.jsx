@@ -109,25 +109,22 @@ const EventDetails = ({
         <div className="p-2.5 my-3 flex w-full bg-white rounded-xl">
           <div
             onClick={handleDetails}
-            className={`${
-              details ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
-            } rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}
+            className={`${details ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
+              } rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}
           >
             Details
           </div>
           <div
             onClick={handleGuests}
-            className={`${
-              guests ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
-            } rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}
+            className={`${guests ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
+              } rounded-lg flex justify-center py-1 px-4 w-1/3 mx-2 cursor-pointer`}
           >
             Guests
           </div>
           <div
             onClick={handleChat}
-            className={`${
-              chat ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
-            } rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}
+            className={`${chat ? "bg-[#649B8E] text-white" : "bg-[#E4E4E4]"
+              } rounded-lg flex justify-center py-1 px-4 w-1/3 cursor-pointer`}
           >
             Chat
           </div>

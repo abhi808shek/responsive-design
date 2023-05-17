@@ -7,6 +7,10 @@ import PoliticalAddBy from "./PoliticalAddBy";
 import { useSelector } from "react-redux";
 import { getCountryList } from "../../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
+import {
+  searchByCountryInUmeet,
+  searchByStateInUmeet,
+} from "../../../../../redux/actionCreators/umeetActionCreator";
 
 const CountryList = [
   "India",
@@ -78,12 +82,13 @@ const PoliticalGuestAddModal = ({ onClose }) => {
   const [selectBy, setSelectBy] = useState([]);
   const [isSelectedBy, setIsSelectedBy] = useState(false);
   const { countryList } = useSelector((state) => state.authReducer);
-  
+  const { guestByStateList } = useSelector((state) => state.umeetReducer);
   const handleShowAddPeopleModal = () => {
     setShowAddPeopleModal(true);
   };
-
+  console.log("guestByStateList", guestByStateList);
   const handleOptionChange = (event) => {
+    console.log(event.target.value);
     setCountry(event.target.value);
   };
 
@@ -92,7 +97,7 @@ const PoliticalGuestAddModal = ({ onClose }) => {
     console.log(data);
     if (data.toLowerCase() == "state") {
       setWhichBy("State");
-      setSelectBy(StateList);
+      setSelectBy(guestByStateList?.data);
     } else if (data.toLowerCase() == "loksabha") {
       setWhichBy("Loksabha");
       setSelectBy(LoksabhaList);
@@ -105,8 +110,18 @@ const PoliticalGuestAddModal = ({ onClose }) => {
   useEffect(() => {
     dispatch(getCountryList());
   }, []);
- console.log("counnnnnnnnn", countryList);
-console.log("Country List.=",countryList?.forEach((elem)=>{console.log("ELmen",elem.id);}));
+  const onHandleCountrySelection = async () => {
+    const countryList = await dispatch(searchByCountryInUmeet(country));
+    console.log("countryList", countryList);
+    if (countryList?.status) {
+      console.log("countryList.data.code", countryList?.data);
+
+      for (let index = 0; index < countryList?.data?.length; index++) {
+        dispatch(searchByStateInUmeet(countryList?.data[index]?.code));
+        setSelectCountry(true);
+      }
+    }
+  };
   return (
     <div
       className="absolut fixed top-8 left-0 h-full w-full flex justify-center items-center"
@@ -141,36 +156,29 @@ console.log("Country List.=",countryList?.forEach((elem)=>{console.log("ELmen",e
                 placeholder="Search Country.."
               />
               <div className="h-[63%] lg:h-[68%] overflow-y-scroll">
-                {
-                  // Object.values(countryList)?.map((elem)=>console.log("elem",elem))
-
-                  countryList?.map((data, i) => 
-                  console.log("data",data)
-                  // (
-                  //   <div key={i} className="flex items-center my-2.5">
-                  //     <input
-                  //       onChange={handleOptionChange}
-                  //       checked={country == data}
-                  //       value={data}
-                  //       type="radio"
-                  //       id={data}
-                  //       className="w-5 h-5"
-                  //     />
-                  //     <label
-                  //       htmlFor={data}
-                  //       className="ml-5 text-[17px] text-gray-700"
-                  //     >
-                  //       {data}
-                  //     </label>
-                  //   </div>
-                  // )
-                  )
-                }
+                {countryList?.map((data, i) => (
+                  <div key={i} className="flex items-center my-2.5">
+                    <input
+                      onChange={handleOptionChange}
+                      checked={country === data?.country}
+                      value={data?.country}
+                      type="radio"
+                      id={data?.country}
+                      className="w-5 h-5"
+                    />
+                    <label
+                      htmlFor={data?.country}
+                      className="ml-5 text-[17px] text-gray-700"
+                    >
+                      {data?.country}
+                    </label>
+                  </div>
+                ))}
               </div>
 
               <div className="flex justify-end text-[#519d8b] text-xl">
                 <span
-                  onClick={() => setSelectCountry(true)}
+                  onClick={onHandleCountrySelection}
                   className="flex items-center cursor-pointer font-bold"
                 >
                   Next
