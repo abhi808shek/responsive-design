@@ -76,7 +76,7 @@ export const inviteMember= (data) => async (dispatch) => {
 export const removeUserFromUnion= (data) => async (dispatch) => {
     const { groupId, profileId} = data
     try{
-        const response = await axios.get(
+        const response = await axios.delete(
           `http://3.233.82.34:8080/friend/api/group/deleteFromGroup/${groupId}/${profileId}`
         );
         console.log(response);

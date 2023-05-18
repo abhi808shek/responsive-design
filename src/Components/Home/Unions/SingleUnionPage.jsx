@@ -14,11 +14,12 @@ const SingleUnionPage = () => {
   const reducerData = useSelector((state) => {
     return {
       memberList: state.unionReducer.memberList,
+      unionInviteeList: state.unionReducer.unionInviteeList,
       activePost: state.rootsReducer.activePost,
       profile: state.profileReducer.profile,
     }
   });
-  const { profile, activePost, } = reducerData
+  const { profile, activePost, memberList, unionInviteeList} = reducerData
 
   useEffect(() => {
     dispatch(getUnionMembers(profile.id))
@@ -32,7 +33,7 @@ const SingleUnionPage = () => {
     // console.log(item);
     const payload = {
       groupId: activePost?.groupId,
-      profileId: ''
+      profileId: item?.id
     }
     dispatch(removeUserFromUnion(payload)).then((res) => {
       if(res?.status){
@@ -99,13 +100,21 @@ const SingleUnionPage = () => {
 
       <div className="w-full h-full overflow-y-scroll mb-2 flex flex-col gap-3">
         {unionMembersTab === "Members" &&
-          [1, 2, 3, 4, 5, 3, 4, 5, 5, 6, 6, 7, 7, 7, 77].map((item) => (
-            <UnionMembers data={item} button="Remove" handleRemove={() =>handleRemove(item)}/>
+          memberList?.map((item) => (
+            <UnionMembers
+              data={item}
+              button="Remove"
+              handleRemove={() => handleRemove(item)}
+            />
           ))}
 
         {unionMembersTab === "Invited Members" &&
-          [1, 2, 3, 4, 5, 3, 4, 5, 5, 6, 6, 7, 7, 7, 77].map((item) => (
-            <UnionMembers data={item} button="Cancel" handleRemove={() => handleRemove(item)} />
+          unionInviteeList?.map((item) => (
+            <UnionMembers
+              data={item}
+              button="Cancel"
+              handleRemove={() => handleRemove(item)}
+            />
           ))}
       </div>
     </div>

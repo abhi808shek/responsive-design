@@ -28,7 +28,7 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const passwordRules = /^(?=.*\d)(?=.*[a-z]).{5,}$/;
   const phoneNumberRules = /[0-9]{10}$/;
 
   const validateEmail = (email) => {
@@ -101,7 +101,7 @@ const Login = () => {
           id: userResponse?.data?.id,
           // profileid: profile?.id
         };
-
+        dispatch(getProfileById(userResponse?.data?.id))
         await setDataOnStorage(userCredential);
         navigate("/select");
       } catch (error) {

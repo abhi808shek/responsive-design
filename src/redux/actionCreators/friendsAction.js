@@ -86,13 +86,29 @@ export const deleteRequest= (data) => async (dispatch) => {
     }
 }
 
+// export const getFriendsList = (data) => async (dispatch) => {
+//   try {
+//     const response = await axios.get(
+//       `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`, {}, 
+//       {
+        
+//       }
+//     );
+//     dispatch({
+//       type: "FRIEND_LIST",
+//       payload: response.data,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+
 export const getFriendsList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`, {}, 
-      {
-        
-      }
+      `http://3.233.82.34:8080/friend/api/friend/${data}/Accepted`,
     );
     dispatch({
       type: "FRIEND_LIST",

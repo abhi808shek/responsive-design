@@ -79,9 +79,8 @@ const MyUnion = ({
     dispatch(addUnion(payload)).then((res) => {
       setModalType({})
       if(res?.status){
-        toast.success(res?.message);
+        toast.success("Group Added");
         dispatch(getMyUnion(profile?.id));
-
       }else{
         toast.error(res?.message)
       }
@@ -91,7 +90,7 @@ const MyUnion = ({
   const exitUnion = () => {
     dispatch(deleteUnion(modalType?.activeUnion?.groupId)).then((res) => {
       if(res?.status){
-        toast.success(res?.message)
+        toast.success("Group deleted")
         dispatch(getMyUnion(profile?.id))
         setModalType({})
       }else{

@@ -23,6 +23,30 @@ export const getProfileById= (data) => async (dispatch) => {
     }
 }
 
+export const getFriendProfile = (data) => async (dispatch) => {
+  const token = JSON.parse(localStorage.getItem("userCredential")).token;
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/profile/profilebyuser/${data}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data, "<<<<<<<<<<????????");
+    dispatch({
+      type: "GET_FRIEND_DETAILS",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
 // export const addProfile= (data) => async (dispatch) => {
 //     try{
 //         const response = await axios.get(`http://3.233.82.34:8080/api/profile/profilebyuser/${data}`,

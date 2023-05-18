@@ -16,6 +16,7 @@ const Navbar = () => {
   const [notificationModal, setNotificationModal] = useState(false);
   const [friendsModal, setFriendsModal] = useState(false);
   const { selectedTab } = useSelector((state) => state.userReducer);
+  const profile = useSelector((state) => state?.profileReducer?.profile)
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const userFriendsModal = () => {
@@ -138,13 +139,13 @@ const Navbar = () => {
             onClick={userProfileModal}
           >
             <img
-              src="./images/events.jpg"
+              src={profile?.pimage}
               alt=""
               className="rounded-full object-cover w-[35px] h-[35px]"
             />
             <BsChevronCompactDown className="" />
           </div>
-          {profileModal && <ProfileModal />}
+          {profileModal && <ProfileModal profile={profile} />}
           {notificationModal && <NotificationModal />}
           {friendsModal && <FriendsModal setFriendsModal={setFriendsModal} />}
         </div>

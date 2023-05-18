@@ -22,7 +22,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const reducerData = useSelector((state) => {
     return {
-      profile: state.profileReducer.profile
+      profile: state.profileReducer.profile || {}
     }
   })
   const { profile } = reducerData

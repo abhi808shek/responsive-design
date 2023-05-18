@@ -52,6 +52,10 @@ import PrivacyPolicy from "./Components/Home/ProfilePage/PrivacyPolicy/PrivacyPo
 import { getProfileById } from "./redux/actionCreators/profileAction";
 
 const App = () => {
+    const token = localStorage.getItem("token");
+    axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    axios.defaults.headers.common["Content-Type"] = "application-json";
+    axios.defaults.headers.common["Accept-Language"] = "en";
   const dispatch = useDispatch();
   let userData = localStorage.getItem("userCredential");
   userData = JSON.parse(userData);
@@ -72,10 +76,6 @@ const App = () => {
   };
 
   useEffect(() => {
-        const token = localStorage.getItem("token");
-        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
-        axios.defaults.headers.common["Content-Type"] = "application-json";
-        axios.defaults.headers.common["Accept-Language"] = "en";
     dispatch(getProfileById(userData?.id))
     isUserLoggedIn();
   }, [dispatch, userData]);

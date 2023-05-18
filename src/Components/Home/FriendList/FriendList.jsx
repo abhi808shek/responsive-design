@@ -116,6 +116,10 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     })
   }
 
+  const handleBlock = () => {
+    // dispatch()
+  }
+
   return (
     <>
       <div className="flex h-[50px] px-4 items-center py- relative">
@@ -187,7 +191,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       )}
       {modalType.block && (
         <Portals>
-          <BlockModal closeModalOption={closeModalOption} />
+          <BlockModal handleBlock={handleBlock} closeModalOption={closeModalOption} />
         </Portals>
       )}
     </>

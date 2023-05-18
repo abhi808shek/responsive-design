@@ -9,7 +9,7 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getEducationDetail, getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { getEducationDetail, getFollower, getFollowing, getFriendProfile, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
 import { getUserDataFromLocalStorage, toasterFunction } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
@@ -25,7 +25,7 @@ const ProfilePage = ({ isOther }) => {
   const dispatch = useDispatch();
   const params = useParams()
   const user = useMemo(() => {
-    return  isOther ? { id: params?.id} : getUserDataFromLocalStorage();
+    return  isOther ? { id: params?.id} : { id: localStorage.getItem('profileid')};
   }, [isOther, params.id])
 
   
@@ -35,7 +35,7 @@ const ProfilePage = ({ isOther }) => {
       followers: state?.profileReducer?.followers,
       friends: state?.friendReducer?.friends,
       profileDetail: state?.profileReducer?.profileDetail?.data,
-      profile: state.profileReducer.profile
+      profile: state.profileReducer.profile || {}
     }
   });
   const { following, followers, friends,profileDetail, profile} = reducerData;
@@ -47,15 +47,17 @@ const ProfilePage = ({ isOther }) => {
      isPersonal ? getEducation(): '';
 
     dispatch(checkingIsEmailExist())
-    dispatch(getProfileById(user?.id)).then((res) => {
-      if(!res.status){
-        toasterFunction(res.message)
+    dispatch(
+      isOther ? getFriendProfile(user?.id) : getProfileById(user?.id)
+    ).then((res) => {
+      if (!res.status) {
+        toasterFunction(res.message);
         // toast.error(res.message)
       }
     });
-    dispatch(getFollowing(profile?.id));
-    dispatch(getFollower(profile?.id));
-    dispatch(getFriendsList(profile?.id));
+    dispatch(getFollowing(user?.id));
+    dispatch(getFollower(user?.id));
+    dispatch(getFriendsList(user?.id));
   }, []);
 
   const handleUploadImage = async (name, value) => {
@@ -74,7 +76,7 @@ const ProfilePage = ({ isOther }) => {
     }
   }
   function getEducation (){
-    dispatch(getEducationDetail(profile?.id))
+    dispatch(getEducationDetail(user?.id))
   }
   return (
     <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">
