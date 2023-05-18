@@ -107,7 +107,7 @@ const Modal = ({ modalType, handleClose }) => {
       fname: orgName, //from user input BUSINESS NAME
       gender: gender,
       pimage: "", //if profile image is there, add the URL here.
-      businesscategory: selectedValue?.category, //from user input selection.
+      businesscategory: category?.category, //from user input selection.
       personalLastName: lname, //from user input – profile lnamein SLIDE 4
       personalname: fname, //from user input – profilefnamein SLIDE 4
       profiletype: isPersonal ? "Personal" : "Organization", //profile type, while we passing in signup screen
@@ -212,6 +212,13 @@ const Modal = ({ modalType, handleClose }) => {
       });
     // console.log(response);
   };
+
+  const checkDisable = () => {
+    if(isPersonal){
+    }else {
+       return !(orgName && category?.category && fname)
+    }
+  }
   return (
     {
       /* corner radius added to componenet */
@@ -453,7 +460,7 @@ const Modal = ({ modalType, handleClose }) => {
                     type="search"
                     title="Organization Name*"
                     onHandleChange={(e) =>
-                      setState({ ...state, orgName: e.target.value })
+                      handleChange( "orgName", e.target.value )
                     }
                   />
                   <Dropdown
@@ -468,13 +475,16 @@ const Modal = ({ modalType, handleClose }) => {
             </div>
 
             {/* create button positioned to top level div */}
-            <div className="flex justify-center" onClick={handleCreateProfile}>
+            <div className="flex justify-center">
+            <button disabled={checkDisable()} className="flex justify-center" onClick={handleCreateProfile}>
               <label
                 htmlFor=""
                 className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer mt-5 text-white font-medium"
               >
                 Create
               </label>
+            </button>
+
             </div>
           </div>
         </div>

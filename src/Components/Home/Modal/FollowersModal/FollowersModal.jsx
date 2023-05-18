@@ -1,7 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 
-const FollowersModal = ({title, modalName, data, emptyMessage= 'No data', handleClick}) => {
+const FollowersModal = ({title, modalName, data, emptyMessage= '', handleClick}) => {
 
   return (
     <div onClick={(e) => e.stopPropagation()} className=' w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>

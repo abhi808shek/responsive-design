@@ -72,6 +72,10 @@ const App = () => {
   };
 
   useEffect(() => {
+        const token = localStorage.getItem("token");
+        axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+        axios.defaults.headers.common["Content-Type"] = "application-json";
+        axios.defaults.headers.common["Accept-Language"] = "en";
     dispatch(getProfileById(userData?.id))
     isUserLoggedIn();
   }, [dispatch, userData]);

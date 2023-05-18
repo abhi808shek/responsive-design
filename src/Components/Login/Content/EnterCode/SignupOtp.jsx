@@ -16,6 +16,7 @@ import Modal from "../Modal/Modal";
 
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
 import Portals from "../../../Portals/Portals";
+import { toast } from "react-toastify";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
@@ -42,14 +43,21 @@ const SignupOtp = ({ title }) => {
         uemail: signupData.uemail,
         // password: formik.values.password,
       };    
-    await dispatch(saveUserSignupData(dataObj));
-    signIn("+91"+signupData?.uemail);
+    const resendOtp = await dispatch(saveUserSignupData(dataObj));
+    if(resendOtp?.data?.status){
+        toast.success(resendOtp?.data?.message)
+    }else{
+      toast.error(resendOtp?.data?.message)
+    }
+    if(phoneNumberRules.test(signupData?.uemail)){
+      signIn("+91"+signupData?.uemail);
+    }
     
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
         setTimer(false);
-      }, 4000);
+      }, 5 * 60 * 1000);
     }
   };
   const handleClose = () => setState({...state, showModal: false })
@@ -73,13 +81,12 @@ const SignupOtp = ({ title }) => {
         });
     }else{
       const result =await dispatch(matchingOtp(signupData.uemail, otp));
-
-    }
       if(result.status){
         setState({...state, showModal: true})
       }
     if (!result.status) {
         toasterFunction(result.message)
+    }
     }
     getFirebaseToken().then( async (res) => {
       const data ={

@@ -19,6 +19,7 @@ import VideoCommentsModal from "../VideoCommentsModal";
 import { useDispatch, useSelector } from "react-redux";
 import {
   addLikes,
+  deletePostLike,
   getCommentsByPostid,
 } from "../../../../redux/actionCreators/kicksActionCreator";
 import moment from "moment/moment";
@@ -129,19 +130,39 @@ const VideoComponent = ({ dataList, data }) => {
     } else if (title === "mute") {
       setState({ ...state, isMute: !isMute });
     } else if (title === "likes") {
-      const payload = {
-        postid: id,
-        profileid: profileid,
-        type: 'c',
-        datetime: moment().format('YYYY-MM-DDTHH:mm:ss:ms')
+      if(isliked){
+         dispatch({ type: "REMOVE_LIKE", payload: id });
+         const payload = {
+           postid: id,
+           profileid: profileid,
+           type: "c",
+           datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
+         };
+         dispatch(deletePostLike(id)).then((res) => {
+           if (res.status) {
+             toast.success(res.message);
+           } else {
+             toast.error(res.message);
+           }
+         });
+      }else {
+         console.log(id, "LIKKKKKKKKKKKKKKKKK");
+         dispatch({ type: "INCREASE_LIKE", payload: id });
+         const payload = {
+           postid: id,
+           profileid: profileid,
+           type: "c",
+           datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
+         };
+         dispatch(addLikes(payload)).then((res) => {
+           if (res.status) {
+             toast.success(res.message);
+           } else {
+             toast.error(res.message);
+           }
+         });
       }
-      dispatch(addLikes(payload)).then((res) => {
-        if (res.status) {
-          toast.success(res.message)
-        } else {
-          toast.error(res.message)
-        }
-      })
+     
     } else if (title === 'follow') {
       const payload = {
         myprofileid: profileDetail?.id,
@@ -158,6 +179,9 @@ const VideoComponent = ({ dataList, data }) => {
     }
   };
 
+  const handleBlock = () => {
+    
+  }
   return (
     <div key={profile?.id} className="snap-y snap-mandatory">
       <div className="">
@@ -172,11 +196,12 @@ const VideoComponent = ({ dataList, data }) => {
               muted={isMute}
               ref={videoRef}
               onClick={onVideoClick}
+              src={video}
             >
-              <source
+              {/* <source
                 // src={data?.video} type="video/mp4"
-                src={shortVideo} type="video/mp4"
-              />
+                src={video} type="video/mp4"
+              /> */}
             </video>
 
             <div className="absolute right-[5%] bottom-[8%]">
@@ -265,7 +290,7 @@ const VideoComponent = ({ dataList, data }) => {
         />
       )}
       {showOthersVideoModal && (
-        <OtherUserVideoModal onClose={() => setShowOthersVideoModal(false)} />
+        <OtherUserVideoModal handleBlock={handleBlock} onClose={() => setShowOthersVideoModal(false)} />
       )}
       {editVideo && <EditMyVideoModal onClose={() => setEditVideo(false)} />}
       {deleteVideo && (

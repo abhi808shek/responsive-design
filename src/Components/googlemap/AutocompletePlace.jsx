@@ -13,15 +13,17 @@ const center = {
   lng: -38.523
 };
 
-function Autocomplete({ livePlace, placeholder }) {
-  const [searchBox, setSearchBox] = useState(null);
+function Autocomplete({ livePlace, placeholder, value }) {
+  const [searchBox, setSearchBox] = useState();
+  const [input, setInput] = useState(value)
 
   const onLoad = (ref) => {
     setSearchBox(ref)
   };
 
   console.log("serch box", searchBox)
-  const handleChange = () => {
+  const handleChange = (e) => {
+    // setInput(e.target.value)
     onPlacesChanged()
   }
   const onPlacesChanged = () => {
@@ -83,6 +85,7 @@ function Autocomplete({ livePlace, placeholder }) {
         <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
           <input
             type="text"
+            value={input}
             placeholder={ placeholder }
             className="border border-gray-300 border-1 py-2 rounded-md !static w-full"
             style={{

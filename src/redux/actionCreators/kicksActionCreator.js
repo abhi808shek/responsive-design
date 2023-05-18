@@ -150,9 +150,24 @@ export const addCommentOnKicks = (commentDetails) => async (dispatch) => {
     });
     return getCommentResult?.data
   } catch (error) {
-    console.log(error.message);
+    throw error
   }
 };
 
+export const deletePostLike = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+      `http://3.233.82.34:8080/instance/api/instancelike/dislike/${data}`,
+      data
+    );
+    dispatch({
+      type: "",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 // http://3.233.82.34:8080/instance/api/instancepost/getpoststag/utag1/utype1
 // http://3.233.82.34:8080/instance/api/instancetag/getprofile/utag

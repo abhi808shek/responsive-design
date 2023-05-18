@@ -150,3 +150,36 @@ export const cancelFriendRequest = (data) => async (dispatch) => {
   }
 };
 
+export const unfollow = (data) => async (dispatch) => {
+  const { profileid, friendprofileid } = data;
+  try {
+    const response = await axios.delete(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "UNFOLLOW",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const removeFollowers = (data) => async (dispatch) => {
+  const { profileid, friendprofileid } = data;
+  try {
+    const response = await axios.delete(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

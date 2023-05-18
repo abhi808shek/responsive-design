@@ -9,7 +9,7 @@ import Portals from "../../../Portals/Portals";
 import { useDispatch } from "react-redux";
 import { getFollower, getFollowing } from "../../../../redux/actionCreators/profileAction";
 import { data } from "autoprefixer";
-import { cancelFriendRequest, getFriendsList } from "../../../../redux/actionCreators/friendsAction";
+import { cancelFriendRequest, getFriendsList, removeFollowers, unfollow } from "../../../../redux/actionCreators/friendsAction";
 import { toast } from "react-toastify";
 
 const ProfileImageSection = ({ isOther, data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
@@ -42,7 +42,14 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
       profileid: id,
       friendprofileid: friend?.id
     };
-    dispatch(cancelFriendRequest(payload)).then((res) => {
+    if(modalName === "Friends"){
+      
+    }
+    dispatch(
+      modalName === "Friends" ? cancelFriendRequest(payload) :
+      modalName === "Following" ? unfollow(payload) :
+      modalName === "Followers" ? removeFollowers(payload) : {type: ""}
+      ).then((res) => {
       if(res?.status){
         toast.success(res?.message)
       }else{
@@ -147,7 +154,9 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
       } */}
       {showModal && (
         <Portals closeModal={() => setState({ ...state, showModal: false })}>
-          <FollowersModal handleClick={handleRemove} modalName={`Your ${modalName}`} data={modalData} />
+          <FollowersModal handleClick={handleRemove} modalName={`Your ${modalName}`} 
+          emptyMessage= { `No ${modalName}`}
+          data={modalData} />
         </Portals>
       )}
     </div>

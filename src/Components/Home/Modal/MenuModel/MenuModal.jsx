@@ -49,7 +49,7 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
   };
   return (
     <>
-      <div className="w-[50%] sm:w-[30%] lg:w-[25%] xl:w-[20%] absolute border-2 border-gray-300 bg-white right-[9%] sm:right-[29%] lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
+      <div className="w-[50%] sm:w-[30%] lg:w-[25%] xl:w-[20%] absolute border-2 border-gray-300 bg-white right-[9%] sm:right-[29%] lg:right-[32.8%] xl:right-[32.5%] mt-7 z-10">
         {data
           .filter((elem) => {
             if (userStatus === user.userId) {

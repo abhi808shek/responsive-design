@@ -45,7 +45,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
          };
          dispatch(getLatestKicks(params, data));
       // dispatch(getKicksVideosWithLimit(data));
-      // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+      dispatch(getAllPostWithLimit(profile.id));
       dispatch(
         getUnionListByProfileId(defaultRootData?.data?.postdata?.profileid)
       );
@@ -59,7 +59,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     <div className="w-full bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
-      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-red-500">
+      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-white">
         <PostForm />
       </div>
       <HeroSection />

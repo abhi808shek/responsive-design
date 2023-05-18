@@ -33,7 +33,7 @@ const ProfilePage = ({ isOther }) => {
     return {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
-      friends: state?.profileReducer?.friends,
+      friends: state?.friendReducer?.friends,
       profileDetail: state?.profileReducer?.profileDetail?.data,
       profile: state.profileReducer.profile
     }
