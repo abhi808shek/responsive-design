@@ -10,7 +10,7 @@ const Dropdownmenu = () => {
   ];
   return (
     <>
-      {data.map((elem) => (
+      {data?.map((elem) => (
        <DropdownOptions elem={elem} key={elem?.title} setRadioBtn={setRadioBtn} radioBtn={radioBtn}/>
       ))}
       <button className="bg-blue-400 w-[80px] h-[35px] rounded-2xl text-white text-sm font-bold my-3">

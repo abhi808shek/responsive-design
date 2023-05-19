@@ -11,8 +11,10 @@ import { GoLocation } from "react-icons/go";
 import { TbBrandRedhat } from "react-icons/tb";
 import { useNavigate } from "react-router-dom";
 import moment from "moment";
+import { useSelector } from "react-redux";
 
 const AboutSection = ({ isOther, data = {} }) => {
+  const navigate = useNavigate();
   const {
     countrycode,
     mobile,
@@ -25,10 +27,29 @@ const AboutSection = ({ isOther, data = {} }) => {
     profiletype,
     orgname,
   } = data;
+  const reducerData = useSelector((state) => {
+    return {
+      educationDetails: state.profileReducer.educationDetails || {}
+    }
+  });
+  const { educationDetails } = reducerData;
+  const {
+    schoolpass,
+    schooladdress,
+    schoolname,
+    ugbranch,
+    ugdegree,
+    collagenameug,
+    ugaddress,
+    pgpassyear,
+    pgbranch,
+    pgdegree,
+    pgaddress,
+    collagenamepg,
+  } = educationDetails;
   const isPersonal = profiletype === "Personal";
-  const navigate = useNavigate();
   return (
-    <div className="lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center ">
+    <div className="sm:mb-[80px] lg:mb-[60px] w-[95%] lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center ">
       {/*Head Section */}
       <section className="flex w-full justify-between my-2 px-4">
         <strong className="text-lg font-medium">About</strong>
@@ -76,7 +97,7 @@ const AboutSection = ({ isOther, data = {} }) => {
           </div>
           <p className="text-sm">
             <strong className="text-md font-medium">Phone : </strong>
-            <strong>{`${countrycode} ${mobile}`}</strong>
+            <strong>{`${countrycode || ""} ${mobile || ""}`}</strong>
           </p>
         </div>
 
@@ -104,7 +125,7 @@ const AboutSection = ({ isOther, data = {} }) => {
           </div>
           <p className="text-sm">
             <strong className="text-md font-medium">Living Location : </strong>
-            <strong> {`${hometown ? `${hometown} ` : ""}`} </strong>
+            <strong> {`${city ? `${city} ` : ""}`} </strong>
           </p>
         </div>
 
@@ -141,7 +162,7 @@ const AboutSection = ({ isOther, data = {} }) => {
           </p>
         </div>
         {/*District Section */}
-        <div className="flex items-center gap-2">
+        {/* <div className="flex items-center gap-2">
           <div className="w-7">
             <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
           </div>
@@ -149,10 +170,10 @@ const AboutSection = ({ isOther, data = {} }) => {
             <strong className="text-md font-medium">District : </strong>
             <strong> {`${city ? `${city} ` : ""}`} </strong>
           </p>
-        </div>
+        </div> */}
 
-           {/*Country Section */}
-           <div className="flex items-center gap-2">
+        {/*Country Section */}
+        <div className="flex items-center gap-2">
           <div className="w-7">
             <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
           </div>
@@ -162,10 +183,9 @@ const AboutSection = ({ isOther, data = {} }) => {
           </p>
         </div>
 
-
-         {/*Profession Section */}
+        {/*Profession Section */}
         <strong className="text-lg font-[800]">Profession :</strong>
-         <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2">
           <div className="w-7">
             <GoLocation alt="" className="w-6 h-6 text-[#6c6c6c]" />
           </div>
@@ -178,31 +198,60 @@ const AboutSection = ({ isOther, data = {} }) => {
           <>
             <strong className="text-lg font-[800]">Education :</strong>
             {/* Scholling Section */}
-            <div className="flex items-center gap-2">
-              <div className="w-7">
-                <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+            {schooladdress || schoolname ? (
+              <div className="flex items-center gap-2">
+                <div className="w-7">
+                  <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+                </div>
+                <p className="text-sm">
+                  Completed schooling from
+                  <strong>
+                    {" "}
+                    {schoolname}, {schooladdress}
+                  </strong>{" "}
+                  in the year
+                  <strong> {schoolpass}</strong>.
+                </p>
               </div>
-              <p className="text-sm">
-                Completed schooling from
-                <strong> St. John's school, Aurora, Chicago</strong> in the year
-                <strong> 2010</strong>.
-              </p>
-            </div>
+            ) : (
+              ""
+            )}
             {/* Graduation Section */}
-            <div className="flex items-center gap-2">
-              <div className="w-7">
-                <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+            {collagenameug || ugaddress ? (
+              <div className="flex items-center gap-2">
+                <div className="w-7">
+                  <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+                </div>
+                <p className="text-sm">
+                  Graduation details :{" "}
+                  <strong>
+                    {collagenameug ? `${collagenameug}, ` : ""} {ugdegree},{" "}
+                    {ugbranch}
+                  </strong>
+                  {/* , {ugaddress} */}
+                </p>
               </div>
-              <p className="text-sm">Add Graduation Details</p>
-            </div>
+            ) : (
+              ""
+            )}
 
             {/* Graduation Section */}
-            <div className="flex items-center gap-2">
-              <div className="w-7">
-                <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+            {collagenamepg || pgaddress || pgdegree || pgbranch ? (
+              <div className="flex items-center gap-2">
+                <div className="w-7">
+                  <TbBrandRedhat alt="" className="w-6 h-6 text-[#6c6c6c]" />
+                </div>
+                <p className="text-sm">
+                  Post Graduation Details :
+                  <strong>
+                    {collagenamepg} {pgdegree} {pgbranch}
+                  </strong>
+                  in the year <strong> {pgpassyear}</strong>
+                </p>
               </div>
-              <p className="text-sm">Add Post Graduation Details</p>
-            </div>
+            ) : (
+              ""
+            )}
           </>
         ) : (
           <>

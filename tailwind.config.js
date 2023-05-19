@@ -7,8 +7,9 @@ export default {
     "./Components/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
-  },
-  plugins: [],
+    extend: {
+    },
+    plugins: [],
+  }
 }
 

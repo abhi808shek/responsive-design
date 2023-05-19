@@ -10,7 +10,7 @@ const PersonalModal = () => {
 
   // const NewModel = () => {
     return (
-      <div className="grid place-content-center">
+      <div className="grid place-content-center bg-red-300">
         <div className="bg-white rounded-md  container w-auto h-auto mt-8">
           <div className="border-b-2 border-neutral-400 mx-2 py-2 px-2">
             <h2 className="font-bold text-center">Let's Create Profile</h2>

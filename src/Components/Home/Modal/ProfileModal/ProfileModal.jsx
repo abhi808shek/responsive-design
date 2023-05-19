@@ -7,7 +7,7 @@ import { settingUserLoginData } from "../../../../redux/actionCreators/userActio
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const ProfileModal = () => {
+const ProfileModal = ({profile = {}}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onHandleClick = (option) => {
@@ -28,19 +28,19 @@ const ProfileModal = () => {
   };
 
   return (
-    <div className=" lg:w-[28%] xl:w-[22%] bg-white border border-gray-300 gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[95%] mt-2 h-[320px] z-50">
+    <div className=" lg:w-[28%] xl:w-[22%] bg-white border border-gray-300 gap-2 flex flex-col rounded-xl absolute lg:left-[71%] xl:left-[77%] top-[95%] mt-2 h-[340px] z-50 ">
       <Link to="/profile">
         <div className="flex items-center gap-2 py-2  px-3">
           <img
-            src="./images/events.jpg"
+            src={profile?.pimage}
             alt=""
             className="w-[48px] h-[48px] object-cover rounded-full"
           />
 
           <div className="flex flex-col">
-            <span className="font-bold text-lg ml-1"> Joe D</span>
+            <span className="font-bold text-lg ml-1"> {profile?.fname || ""} {profile?.lname || ""}</span>
             <span className="text-sm text-gray-600 font-semibold">
-              @Software Developer
+              {profile.job || ""}
             </span>
           </div>
         </div>

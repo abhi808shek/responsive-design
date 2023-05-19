@@ -1,14 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { getLatestKicks } from "../../../redux/actionCreators/kicksActionCreator";
 
 const SliderSection = () => {
-  const { kicksList } = useSelector((state) => state.rootsReducer);
+  // const { kicksList } = useSelector((state) => state.rootsReducer);
+  const dispatch = useDispatch()
+  const reducerData = useSelector((state) => {
+    return {
+      kicksList: state.kicksReducer.latestKicks,
+      profile: state.profileReducer.profile
+    }
+  })
+  const { kicksList = { content: []}, profile}  = reducerData;
 
-  const firstName = "Sharma";
-  const lastName = "G";
+  useEffect(() => {
+ 
+  }, [])
 
   const responsive = {
     superLargeDesktop: {
@@ -71,27 +81,31 @@ const SliderSection = () => {
         arrows={true}
         containerClass={`w-full h-[200px] z-[1]`}
       >
-          {[1, 2, 3, 4, 4,4,5]?.map((data) => (
-            <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
+          {kicksList?.content?.map((data) =>{
+            const { profile, video} = data
+
+            return(
+            <div className="w-[91%] mt-5 mb-2 h-[160px] bg-black rounded-3xl ml-1">
               <Link to="/kicks">
-              <img
-                src="./images/events.jpg"
-                alt=""
-                className=" rounded-3xl h-full"
-              />
+              <div className="h-full">
+                <video height={'100%'} className="h-full" width={'200px'} src={video} muted></video>
+              </div>
               {/* title name tag added */}
               <img
-                src="./images/events.jpg"
+                src={profile?.pimage}
                 alt=""
                 className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
               />
               <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
                 {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
-                Joe Doe
+                {`${profile?.fname} ${profile?.lname}`}
               </span>
         </Link>
             </div>
-          ))}
+          )
+          }
+          ) || []
+          }
       </Carousel>
     </div>
   );

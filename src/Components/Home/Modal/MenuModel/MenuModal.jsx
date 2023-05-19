@@ -10,9 +10,16 @@ import {
   getAllPostWithLimit,
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import { toasterFunction } from "../../../Utility/utility";
+import { getPostHistory } from "../../../../redux/actionCreators/postActionCreator";
 
 const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
   const { menuModalTab } = useSelector((state) => state.userReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile
+    }
+  });
+  const { profile} = reducerData
   const [showReportModal, setShowReportModal] = useState(false);
   const [originalPost, setOriginalPost] = useState(false);
 
@@ -21,26 +28,28 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
 
   const onHandleClick = async (option) => {
     if (option === "Report") {
-      console.log("showReportModal111", showReportModal);
+      // console.log("showReportModal111", showReportModal);
       setShowReportModal(true);
-      console.log("showReportModa222", showReportModal);
+      // console.log("showReportModa222", showReportModal);
     } else if (option === "History") {
+      dispatch(getPostHistory(postId))
       setOriginalPost(true);
     } else if (option === "Delete Post") {
-      const isDeleted = dispatch(deletePostByPostId(profileId, postId));
-      console.log("Deleted", isDeleted);
-      if (!isDeleted?.status) {
-        return toasterFunction("Something went wrong");
+      const response = await dispatch(deletePostByPostId(profile?.id, postId));
+      // console.log("Deleted", isDeleted);
+      if (!response?.status) {
+        return toasterFunction(response.message);
+      }else{
+        toasterFunction(response?.message)
+        dispatch(getAllPostWithLimit(profile?.id));
       }
-      dispatch(getAllPostWithLimit(profileId));
     }
-    console.log("option33", option);
     closeModel(option);
     dispatch(menuModalTabSelect(option));
   };
   return (
     <>
-      <div className="w-[20%] absolute border-2 border-gray-300 bg-white lg:right-[32.8%] xl:right-[32.5%] mt-7 z-2">
+      <div className="w-[50%] sm:w-[30%] lg:w-[25%] xl:w-[20%] absolute border-2 border-gray-300 bg-white right-[9%] sm:right-[29%] lg:right-[32.8%] xl:right-[32.5%] mt-7 z-10">
         {data
           .filter((elem) => {
             if (userStatus === user.userId) {
@@ -56,15 +65,15 @@ const MenuModal = ({ data, userStatus, closeModel, profileId, postId }) => {
           ?.map((elem) => (
             <div
               key={elem.name}
-              className="flex gap-2 border-b-2 border-gray-300 items-center mx-2 py-2 cursor-pointer"
+              className="flex gap-2 border-b-2 border-gray-300 items-center mx-2 py-1 lg:py-1.5 cursor-pointer"
               style={{
                 backgroundColor:
                   menuModalTab === elem.name ? "#7991BD" : "white",
               }}
               onClick={() => onHandleClick(elem.name)}
             >
-              <img src={elem.icon} alt="" className="w-[25px] " />
-              <span className="text-[12px] text-gray-600 font-semibold">
+              <img src={elem.icon} alt="" className="w-[18px] sm:w-[20px] lg:w-[25px] " />
+              <span className="text-[9px] sm:text-[10px] text-gray-600 font-semibold">
                 {elem.name}
               </span>
             </div>

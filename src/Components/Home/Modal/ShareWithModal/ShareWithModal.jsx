@@ -5,7 +5,7 @@ const ShareWithModal = ({ setShowShareModal,showShareModal }) => {
     setShowShareModal({ ...showShareModal, shareWith: false });
   };
   return (
-    <div className="lg:w-[25%] xl:h-[55%] bg-white rounded-xl ">
+    <div className="w-[90%] sm:w-[50%] py-2 lg:w-[25%] xl:h-[55%] bg-white rounded-xl ">
       <h1 className="font-bold text-sm py-2 text-center">Share With...</h1>
       <hr />
       <section className="flex flex-col px-4 gap-2 mt-2 h-[238px] overflow-y-scroll">

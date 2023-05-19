@@ -28,7 +28,8 @@ import axios from "axios";
 const Login = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const passwordRules = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{5,}$/;
+  const passwordRules = /^(?=.*\d)(?=.*[a-z]).{5,}$/;
+  const phoneNumberRules = /[0-9]{10}$/;
 
   const validateEmail = (email) => {
     return Yup.string().email().isValidSync(email);
@@ -74,6 +75,10 @@ const Login = () => {
     onSubmit: async (e) => {
       const email = formik.values.email;
       const password = formik.values.password;
+      const isExist = await dispatch(checkingIsEmailExist(email));
+      if(!isExist.status){
+        return toast.error('Your email/phone is not registered with us')
+      }
       try {
         const userResponse = await dispatch(
           loginUser({ uemail: email, password: password })
@@ -84,21 +89,19 @@ const Login = () => {
         axios.defaults.headers.common["Content-Type"] = "application-json";
         axios.defaults.headers.common["Accept-Language"] = "en";
         // const profile = await dispatch(getProfileById(userResponse?.data?.id))
-        dispatch(checkingIsEmailExist(email));
         if (!userResponse?.status) {
           toast.error(userResponse.message);
           return userResponse?.message;
         }
         toast.success(userResponse?.message);
-
         const userCredential = {
           uemail: email,
-          isLoggedIn: userResponse?.data?.loginstatus,
+          isLoggedIn: userResponse?.data?.loginToken ? true : false,
           token: userResponse?.data?.loginToken,
           id: userResponse?.data?.id,
           // profileid: profile?.id
         };
-
+        dispatch(getProfileById(userResponse?.data?.id))
         await setDataOnStorage(userCredential);
         navigate("/select");
       } catch (error) {
@@ -124,12 +127,15 @@ const Login = () => {
       uemail: mailStatus.data.uemail,
     };
     // sendOTP(formik.values.email)
-    const otpStatus = await dispatch(sendingMailForOtp(data));
-    if (!otpStatus.status) {
-      return toasterFunction(otpStatus.message);
+    if(phoneNumberRules.test(formik.values.email)){
+    }else{
+      const otpStatus = await dispatch(sendingMailForOtp(data));
+      if (!otpStatus.status) {
+        return toasterFunction(otpStatus.message);
+      }
+      navigate("/auth/entercode");
+      toasterFunction(otpStatus.message);
     }
-    navigate("/auth/entercode");
-    toasterFunction(otpStatus.message);
   };
 
   return (

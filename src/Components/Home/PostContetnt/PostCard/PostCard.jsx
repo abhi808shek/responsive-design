@@ -19,12 +19,17 @@ import {
   addCommentOnPost,
   decreaseLikeByLikeId,
   getAllPostWithLimit,
+  getCommentByPostid,
   getLikesById,
 } from "../../../../redux/actionCreators/rootsActionCreator";
 import OriginalPostModal from "../../Modal/OriginalPostModal/OriginalPostModal";
 import UpdatePostModal from "../../Modal/CreatePostModal/CreatePostModal";
 import LikeModal from "../../Modal/LikeModal/LikeModal";
 import VideoCommentsModal from "../../KicksPage/VideoCommentsModal";
+import { getPostLike } from "../../../../redux/actionCreators/postActionCreator";
+import { Alert } from "@material-tailwind/react";
+import { ToastContainer } from "react-toastify";
+import AlertSmall from "../../../common/AlertSmall";
 
 const PostCard = ({ userData, item }) => {
   const navigate = useNavigate();
@@ -41,22 +46,32 @@ const PostCard = ({ userData, item }) => {
     originalPost: false,
     externalShare: false,
   });
+  const [ alert, setAlert] = useState()
 
   const { likedDetails } = useSelector((state) => state.rootsReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      activePost: state.rootsReducer.activePost,
+      profile: state.profileReducer.profile
+    }
+  });
+  const { activePost, profile} = reducerData;
   {
     /* implementing dynamic description, some redesign the postcard component */
   }
-  const description = item?.text
-    ? item?.text
-    : "GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... GOD is so wise that he never created FRIENDS with price tags. Because..... if He did, I can't afford a precious FRIEND like YOU!!! Friendship is sweet when it's new, Sweeter when its true, but sweetest when its u. Throughout life you will meet one person who is like no other.... ";
+  const description = item?.text ? item?.text : ""
 
   const shortDescription = description.substring(0, 300);
   const onShowShareModal = () => {
-    console.log("jwww");
+    // console.log("jwww");
     setShowShareModal({ ...showShareModal, shareModal: true });
   };
   const dispatch = useDispatch();
   const showMenuListModal = () => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: item
+    });
     setShowMenuList(!showMenuList);
     setUserStatus(item.userId);
   };
@@ -69,6 +84,11 @@ const PostCard = ({ userData, item }) => {
   });
 
   const onHandleOpenLikeModal = () => {
+    let payload = {
+          pageNumber: 0,
+          pageSize: 10,
+    };
+    dispatch(getPostLike(item?.id, payload))
     setOpenModal({
       ...openModal,
       OnLikeModal: true,
@@ -76,6 +96,15 @@ const PostCard = ({ userData, item }) => {
   };
 
   const onHandleOpenCommentModal = () => {
+    dispatch({
+      type: "ACTIVE_POST",
+      payload: item
+    });
+    let payload = {
+      pageNumber: 1,
+      pageSize: 10
+    }
+    dispatch(getCommentByPostid(item?.id, payload))
     setOpenModal({
       ...openModal,
       commentModal: true,
@@ -105,10 +134,14 @@ const PostCard = ({ userData, item }) => {
   };
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const onLikeIncrease = async () => {
-    if (likeButton) {
+    if (item?.isliked) {
+      dispatch({
+              type: "DECREASE_LIKE_COUNT",
+              payload: item?.id,
+      });
       const dislikeResponse = await dispatch(
         decreaseLikeByLikeId(
-          defaultRootData?.data?.postdata?.profileid,
+          profile?.id,
           item?.likeid
         )
       );
@@ -125,12 +158,12 @@ const PostCard = ({ userData, item }) => {
         profileid: item?.profileid,
         type: "p",
       };
-
+      dispatch({
+        type: "INCREASE_LIKE_COUNT",
+        payload: item?.id
+      })
       const response = await dispatch(getLikesById(postDeatils));
       if (response?.status) {
-        dispatch(
-          getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid)
-        );
         setLikeButton(true);
       }
     }
@@ -143,9 +176,18 @@ const PostCard = ({ userData, item }) => {
       profileid: item?.profileid,
       text: inputComment,
     };
+    if(!inputComment){
+      setAlert(true);
+      return;
+    }
+    setAlert(false)
     dispatch(addCommentOnPost(commentData));
     setInputComment("");
-    dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+    dispatch({
+      type: "INCREASE_COMMENT_COUNT",
+      payload: item.id
+    })
+    // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
   };
 
   const handleClickMenu = (modalName) => {
@@ -166,7 +208,6 @@ const PostCard = ({ userData, item }) => {
       externalShare: false,
     });
   };
-
   return (
     <>
       <div
@@ -209,14 +250,21 @@ const PostCard = ({ userData, item }) => {
                     : item?.updatpostdatetime}
                 </span>
 
-                <img
+                {/* <img
                   src="./images/groups.png"
                   alt=""
                   className="w-[12px] relative"
-                />
+                /> */}
                 {/* font size reduced */}
-                <span className="text-[11px] font-semibold">1 year ago</span>
-                <GrLocation size={10} />
+                {/* <span className="text-[11px] font-semibold">1 year ago</span> */}
+                {item?.location ? (
+                  <>
+                    <span className="text-xs">{item?.location}</span>
+                    <GrLocation size={10} />
+                  </>
+                ) : (
+                  ""
+                )}
                 {/* <img src="" alt="" /> */}
                 <span className="text-[11px] font-semibold">
                   {item?.profile?.location}
@@ -235,7 +283,6 @@ const PostCard = ({ userData, item }) => {
         {showMenuList && (
           <MenuModal
             postId={item?.id}
-            profileId={defaultRootData?.data?.postdata?.profileid}
             data={userData}
             userStatus={userStatus}
             closeModel={handleClickMenu}
@@ -245,25 +292,30 @@ const PostCard = ({ userData, item }) => {
         {/* Content/About And Images Section */}
         <section className="w-full flex flex-col items-center mt-2 px-2">
           <div className=" w-full ">
-            <p className="text-[13px] font-[400] text-gray-500">
-              {showMore ? description : `${shortDescription}...`}
+            <p className="text-[11px] sm:text-[12px] lg:text-[13px] font-[400] text-gray-500">
+              {showMore ? description : `${shortDescription}`}
 
-              <span
-                className="text-xs text-[#2F58CD] font-bold cursor-pointer"
-                onClick={() => setShowMore(!showMore)}
-              >
-                {showMore ? "Show less" : "Read more"}
-              </span>
+              {description.length > 150 && (
+                <span
+                  className="text-xs text-[#2F58CD] font-bold cursor-pointer"
+                  onClick={() => setShowMore(!showMore)}
+                >
+                  {showMore ? "Show less" : "... Read more"}
+                </span>
+              )}
             </p>
           </div>
-
-          <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
-            <img
-              src={item?.image}
-              alt=""
-              className="w-full h-[200px] sm:h-[220px] lg:h-[250px] rounded-xl border border-gray-500"
-            />
-          </div>
+          {item?.image ? (
+            <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
+              <img
+                src={item?.image}
+                alt=""
+                className="w-full h-[200px] sm:h-[220px] lg:h-[250px] rounded-xl border border-gray-500"
+              />
+            </div>
+          ) : (
+            ""
+          )}
         </section>
 
         {/* Like share Comment Button Sections  */}
@@ -286,9 +338,9 @@ const PostCard = ({ userData, item }) => {
             >
               {item?.commentcount ? item?.commentcount : 0} Comments
             </span>
-            <span className=" text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-gray-600">
+            {/* <span className=" text-[11px] lg:text-[12px] xl:text-[13px] font-medium text-gray-600">
               28 Shares
-            </span>
+            </span> */}
           </div>
         </section>
 
@@ -298,7 +350,7 @@ const PostCard = ({ userData, item }) => {
           <hr className="w-full mb-2 text-gray-500" />
           <div className="flex justify-between ">
             <div className="flex flex-col items-center justify-center cursor-pointer">
-              {likeButton ? (
+              {item?.isliked ? (
                 <img
                   src={KicksAfterLike}
                   alt=""
@@ -318,9 +370,8 @@ const PostCard = ({ userData, item }) => {
 
               <span className="text-xs font-semibold mt-1">Like</span>
             </div>
-
             {/* Input Box Section */}
-            <div className="flex grow items-center outline-gray-300 py-1 border-[1px] w-[100%] border-gray-500 justify-center gap-2 mx-3 rounded-xl mt-1.5 h-[38px]">
+            <div className="relative flex grow items-center outline-gray-300 py-1 border-[1px] w-[100%] border-gray-500 justify-center gap-2 mx-3 rounded-xl mt-1.5 h-[38px]">
               <input
                 type="text"
                 className="w-full h-full outline-none rounded-xl pl-3"
@@ -328,12 +379,20 @@ const PostCard = ({ userData, item }) => {
                 value={inputComment}
                 onChange={onHandleChange}
               />
-              <img
-                src="./images/sendIcon.png"
-                alt=""
-                className="w-[40px] pr-2 cursor-pointer"
-                onClick={onCommetIncrease}
-              />
+              {
+                <AlertSmall
+                  showAlert={alert}
+                  button={
+                    <img
+                      src="./images/sendIcon.png"
+                      alt=""
+                      className="w-[40px] pr-2 cursor-pointer"
+                      onClick={onCommetIncrease}
+                    />
+                  }
+                  message={"Please add your comment to send"}
+                />
+              }
             </div>
 
             <div

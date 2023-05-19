@@ -31,13 +31,12 @@ const SharePostModal = ({ setShowShareModal,showShareModal, onClickOnNext }) => 
 
   return (
     <>
-
-      <div className="w-[30%] bg-white flex-col flex items-center rounded-xl mt-[65px]">
+      <div className="w-[95%] sm:w-[50%] lg:w-[30%] bg-white flex-col flex items-center rounded-xl mt-[65px]">
         {/* Top Section */}
         <section className="flex w-full justify-between my-2 px-3">
           <span className="text-md font-bold">Custom Group</span>
           <button
-            className="text-md font-semibold rounded-lg flex items-center text-white bg-[#6780AF] px-[30px] py-0.5"
+            className="text-xs sm:text-md font-semibold rounded-lg flex items-center text-white bg-[#6780AF] px-[30px] py-0.5"
             onClick={onClickOnNext}
           >
             Next
@@ -49,14 +48,14 @@ const SharePostModal = ({ setShowShareModal,showShareModal, onClickOnNext }) => 
         <section className="flex w-full justify-between px-2 lg:py-1 xl:py-2 lg:h-[90px] xl:h-[120px]">
           <textarea
             type="text"
-            className="w-[98%] lg:h-[80px] xl:h-[100px] outline-none pl-2 text-black text-xs rounded-lg  lg:pt-1 xl:pt-2 bg-gray-300"
+            className="w-[98%] h-[50px] lg:h-[80px] xl:h-[100px] outline-none pl-2 text-black mt-1 text-xs rounded-lg  lg:pt-1 xl:pt-2 bg-gray-300"
             placeholder="Write something..."
           />
         </section>
 
         {/* Content Section */}
         <section className="flex w-full justify-between px-2">
-          <p className="text-xs text-gray-500 text-semibold">
+          <p className="text-[10px] sm:text-xs mt-1 text-gray-500 text-semibold">
             The guitar is classified as a chordophone – meaning the sound is
             produced by a vibrating string stretched between two fixed points.
             Just loved to play it.

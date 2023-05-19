@@ -2,40 +2,36 @@ import React, { useState } from "react";
 import { BsImage } from "react-icons/bs";
 import Portals from "../../Portals/Portals";
 import CreatePostModal from "../Modal/CreatePostModal/CreatePostModal";
-import LikeModal from "../Modal/LikeModal/LikeModal";
-import HashTagPage from "../SearchPage/HashTagPage";
 
 const PostForm = ({ width, bgColor }) => {
-  const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+  // const [showCreatePostModal, setShowCreatePostModal] = useState(false);
+  const [state,setState] = useState({});
+  const { showModal} = state
   const createPostModal = () => {
-    setShowCreatePostModal(true);
+    setState({...state, showModal: !showModal})
   };
+  console.log(state);
   return (
-    <>
-      <div
-        className={`flex  border-gray-400 rounded-md justify-between items-center w-[95%] sm:w-[50%] lg:w-[40%] h-[50px] m-auto z-10 bg-white mt-2 cursor-pointer bg-red-600`}
-        onClick={createPostModal}
-      >
+    <div className="flex justify-between w-full" onClick={createPostModal}>
         <input
           type="text"
           placeholder="Write Your Thoughts....."
-          className="lg:w-[94%] outline-none  rounded-md pl-3 py-2"
+          className="outline-none rounded-md"
         />
         <span className="mr-2">
           <BsImage size={25} />
         </span>
-      </div>
-      {showCreatePostModal && (
+      {showModal && (
         <Portals>
-          {/* <LikeModal /> */}
           <CreatePostModal
             title={"Create"}
-            setShowCreatePostModal={setShowCreatePostModal}
-            handleCloseModal={() => setShowCreatePostModal(false)}
+            handleCloseModal={() => {
+              setState(prev => ({...prev,naehal: true, showModal: false}))
+            }}
           />
         </Portals>
       )}
-    </>
+    </div>
   );
 };
 

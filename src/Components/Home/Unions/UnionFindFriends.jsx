@@ -2,8 +2,10 @@ import React, { useState } from "react";
 import Portals from "../../Portals/Portals";
 import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 
-const UnionFindFriends = () => {
+const UnionFindFriends = ({ item = {}, handleSendRequest, relationOption, handleRelation}) => {
+  const {fname, lname, id} = item;
   const [openModal, setOpenModal] = useState(false);
+
   const onHandleCloseModal = () => {
     setOpenModal(false);
   };
@@ -11,9 +13,10 @@ const UnionFindFriends = () => {
   const onHandleOpenModal = () => {
     setOpenModal(true);
   };
+
   return (
     <>
-      <div className="flex h-[60px] items-center w-full justify-center flex-col">
+      <div key={id} className="flex h-[60px] items-center w-full justify-center flex-col">
         <div className="w-full flex items-center">
           <div className="">
             <img
@@ -23,7 +26,7 @@ const UnionFindFriends = () => {
             />
           </div>
           <div className=" flex flex-1 flex-col justify-center ml-4">
-            <span className="font-bold text-sm">Elisa K</span>
+            <span className="font-bold text-sm">{fname} {lname}</span>
           </div>
           <img
             src="./images/SendFriendRequest.png"
@@ -37,9 +40,12 @@ const UnionFindFriends = () => {
       {openModal && (
         <Portals>
           <ChangeRelationshipModal
+            handleRelation={handleRelation}
+            relationOption={relationOption}
             button="Send Request"
             title="Wanna Send Friend Request"
             closeModalOption={onHandleCloseModal}
+            handleSendRequest={handleSendRequest}
           />
         </Portals>
       )}

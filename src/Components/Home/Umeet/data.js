@@ -136,32 +136,32 @@ export const selectPersonalEventType = [
 
 export const selectPublicEventType = [
  {
+   img: shopOpeningPublic,
+   event: 'Shop Opening'
+ },
+ {
    img: productLaunchPublic,
    event: 'Product Launch'
  },
  {
    img: PublicFeedbackPublic,
-   event: 'PublicFeedback'
- },
- {
-   img: publicPublic,
-   event: 'Public'
+   event: 'Public Meeting'
  },
  {
    img: publicMeetingPublic,
-   event: 'Meeting'
+   event: 'Public Feedback'
  },
  {
    img: publicOtherPublic,
    event: 'Others'
  },
- {
-   img: shopOpeningPublic,
-   event: 'Shop Opening'
- },
 ]
 
 export const selectPoliticalEventType = [
+ {
+   img: PartyMeetingPolitical,
+   event: 'Party Meeting'
+ },
  {
    img: PartyFeedbacksPolitical,
    event: 'Party Feedbacks'
@@ -170,12 +170,8 @@ export const selectPoliticalEventType = [
    img: PartyCandidatesFeedbackPolitical,
    event: 'Party Candidates Feedback'
  },
- {
-   img: PartyMeetingPolitical,
-   event: 'Party Meeting'
- },
- {
-   img: PoliticalPolitical,
-   event: 'Political'
- }
+ // {
+ //   img: PoliticalPolitical,
+ //   event: 'Political'
+ // }
 ]

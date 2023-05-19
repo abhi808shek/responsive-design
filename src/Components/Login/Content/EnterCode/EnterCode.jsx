@@ -35,7 +35,7 @@ const EnterCode = ({ title }) => {
       setTimer(true);
       setTimeout(() => {
         setTimer(false);
-      }, 4000);
+      }, 5*60*1000);
     }
   };
   
@@ -52,12 +52,20 @@ const EnterCode = ({ title }) => {
   const [seconds, setSeconds] = useState(5 * 60);
 
   useEffect(() => {
+    console.log("BRFORRRRRRRR");
+    if (timer === false) {
+      console.log("AFTERRRRRRR");
+      setTimer(true);
+      setTimeout(() => {
+        setTimer(false);
+      }, 5 * 60 * 1000);
+    }
     const intervalId = setInterval(() => {
       setSeconds((prevSeconds) => prevSeconds - 1);
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [timer]);
 
   const minutes = Math.floor(seconds / 60);
   const remainingSeconds = seconds % 60;
@@ -76,7 +84,7 @@ const EnterCode = ({ title }) => {
   return (
     <>
       {/* padding added */}
-      <div className="w-full h-full p-1 py-[20px] rounded-[20px] flex flex-col justify-center items-center gap-2">
+      <div className="w-full h-full py-[20px] rounded-[20px] flex flex-col justify-center items-center gap-2">
         <Heading title={title} />
         {/* font-size increased, color changed */}
         <p className="text-[11px] font-bold w-[78%] mb-1">

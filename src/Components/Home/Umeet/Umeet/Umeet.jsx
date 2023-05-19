@@ -16,6 +16,9 @@ import ChooseTemplate from './Modal/ChooseTemplate'
 import AddGuestModal from './Modal/AddGuestModal'
 import SuccessCreate from './SuccessCreate'
 import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
+import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
+import PersonalOtherGuest from './Modal/PersonalOtherGuest'
+import ViewFeedbacks from './Modal/ViewFeedbacks'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -25,41 +28,66 @@ export default function Umeet(){
   const [editMyEvent, setEditMyEvent] = useState(false)
   const [eventDetails, setEventDetails] = useState(false)
   const [selectSpecificEvent, setSelectSpecificEvent] = useState(false)
-  const [selectedSpecificEvent, setSelectedSpecificEvent] = useState('')
+  const [selectedSpecificEvent, setSelectedSpecificEvent] = useState(null)
   const [myEvent, setMyEvent] = useState(false)
   const [showDeleteMyEvent, setShowDeleteMyEvent] = useState(false)
   const [showShareMyEvent, setShowShareMyEvent] = useState(false)
   const [eventCreated, setEventCreated] = useState(false)
   const [eventSuccess, setEventSuccess] = useState(false)
   const [selectEventType, setSelectEventType] = useState([])
+  const [singleEvent, setSingleEvent] = useState('')
 
   const [showRvspModal, setShowRvspModal] = useState(false)
   const [showTemplate, setShowTemplate] = useState(false)
   const [showAddGroup, setShowAddGroup] = useState(false)
+  const [showAddGroupPersonalOthers, setShowAddGroupPersonalOthers] = useState(false)
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
+  const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
+  const [showFeedbackModule, setShowFeedbackModule] = useState(false)
+
+  const [state, setState] = useState({})
+  const { templateImage }  = state
 
   {/* type of event personal, political, public local state*/}
   const [whichType, setWhichType] = useState('')
 
+  {/* single event states*/}
+  const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(false)
+  const [politicalPartyMeeting, setPoliticalPartyMeeting] = useState(false)
+  const [publicShopOpening, setPublicShopOpening] = useState(false)
+
   function EventStatus({ data }){
     if(noCreateEvent){
-      return <BlankEvents event='Create Events' />
+      return <BlankEvents event='Create Events' createEvent={createEvent} />
     }else if(noMyEvent){
-      return <BlankEvents event='Your Events' />
+      return <BlankEvents event='Your Events' createEvent={createEvent} />
     }else if(createEvent){
       return <CreateEventModal 
-                selectedSpecificEvent={selectedSpecificEvent}
-                editMyEvent={editMyEvent}
-                whichType={whichType}
-                handleCreatedEvent={handleCreatedEvent}
-                handleShowTemplate={()=>setShowTemplate(true)}
-                handleShowAddGroup={()=>setShowAddGroup(true)}
-                handleShowAddPoliticalGroup={()=>setShowPoliticalAddGroup(true)}
+              selectedSpecificEvent={selectedSpecificEvent}
+              editMyEvent={editMyEvent}
+              whichType={whichType}
+              handleCreatedEvent={handleCreatedEvent}
+              handleShowTemplate={()=>setShowTemplate(true)}
+              handleShowAddGroup={()=>setShowAddGroup(true)}
+              handleShowAddPoliticalGroup={()=>setShowPoliticalAddGroup(true)}
+              politicalPartyFeedback={politicalPartyFeedback}
+              handlePoliticalFeedbackQuestion={()=>setShowPoliticalFeedbackQuestionModal(true)}
+              politicalPartyMeeting={politicalPartyMeeting}
+              publicShopOpening={publicShopOpening}
+              handlePersonalOtherModal={()=>setShowAddGroupPersonalOthers(true)}
               />
     }else if(eventCreated){
       return <SuccessCreate />
     }else if(eventDetails){
-      return <EventDetails handleEditEvent={handleEditEvent} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleShareEvent={()=>setShowShareMyEvent(true)} myEvent={myEvent} handleRvspModal={()=>setShowRvspModal(true)}/>
+      return <EventDetails 
+              handleEditEvent={handleEditEvent} 
+              handleDeleteEvent={()=>setShowDeleteMyEvent(true)} 
+              handleShareEvent={()=>setShowShareMyEvent(true)} 
+              myEvent={myEvent} 
+              handleRvspModal={()=>setShowRvspModal(true)}
+              singleEvent={singleEvent}
+              handleFeedbacks={()=>setShowFeedbackModule(true)}
+              />
     }
   }
 
@@ -74,27 +102,38 @@ export default function Umeet(){
     setEventCreated(true)
     setNoMyEvent(false)    
     setCreateEvent(false)
+    setSelectedSpecificEvent(null)
   }
 
   const handleMyEvent = ()=>{
     setNoCreateEvent(false)
     setCreateEvent(false)
-    setNoMyEvent(true)
+    setEventDetails(false)
+    setNoMyEvent(true) 
+    setSelectedSpecificEvent(null)   
   }
 
   const handleCreateEvent = ()=>{
     setNoCreateEvent(true)
     setNoMyEvent(false)
     setEditMyEvent(false)
+    setEventDetails(false)
     setCreateEvent(true)
+    setSelectSpecificEvent(false)
+    setSelectedSpecificEvent(false)
   }
 
-  const handleEventDetails = ()=>{
+  const handleTemplateImage = (url) => {
+    setState({...state, templateImage: url})
+  }
+
+  const handleEventDetails = (idData)=>{
     setNoCreateEvent(false)
     setCreateEvent(false)
     setNoMyEvent(false)
     setEventCreated(false)
     setEventDetails(true)
+    setSingleEvent(idData)
   }
 
   const handleImageChange = (event) => {
@@ -121,12 +160,40 @@ export default function Umeet(){
   const handleCreateEventForm = (data)=>{
     setNoCreateEvent(false)
     setCreateEvent(true)
+    setEditMyEvent(false)
     setSelectedSpecificEvent(data.event)
+    if(data.event == 'Party Feedbacks'){
+      setPoliticalPartyFeedback(true)
+    }else if(data.event == 'Party Meeting'){
+      setPoliticalPartyMeeting(true)
+      setPoliticalPartyFeedback(false)
+    }else if(data.event == 'Party Candidates Feedback'){
+      setPoliticalPartyFeedback(true)
+    }else if(data.event == 'Shop Opening'){
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Product Launch'){
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Public Meeting'){
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(true)
+    }else if(data.event == 'Public Feedback'){
+      setPoliticalPartyFeedback(true)
+    }else{
+      setPoliticalPartyFeedback(false)
+      setPoliticalPartyMeeting(false)
+      setPoliticalPartyFeedback(false)
+      setPublicShopOpening(false)      
+    }
   }
 
   function SelectSpecificEventType(){
     return (
-     <div className='w-full h-full bg-teal-50 p-3'>
+     <div className='w-full h-full bg-teal-50 p-3 overflow-y-scroll hideScroll'>
       <div className='flex'>
        <RxChevronLeft onClick={()=>setSelectSpecificEvent(false)} className='text-[#649B8E] w-8 h-7 flex items-center cursor-pointer'/>
        <p className='font-semibold mb- w-full flex justify-center'>Create<span className='text-[#579586] pl-1'>Event</span></p>
@@ -171,6 +238,7 @@ export default function Umeet(){
   }
 
   function AllEvents({ handleEditEvent }){
+
     return (
      <section className='border overflow-y-scroll hideScroll border-gray-400 bg-white rounded mr-2 w-full h-full'>
       {/* */}
@@ -189,16 +257,24 @@ export default function Umeet(){
       </div>
 
       <div className=''>
-       <SingleEvent dataList={dataList} myEvent={myEvent} myEventataList={myEventataList} handleEventDetails={handleEventDetails} handleDeleteEvent={()=>setShowDeleteMyEvent(true)} handleEditEvent={handleEditEvent}/>
+       <SingleEvent 
+        dataList={dataList} 
+        myEvent={myEvent} 
+        myEventataList={myEventataList} 
+        handleEventDetails={handleEventDetails} 
+        handleDeleteEvent={()=>setShowDeleteMyEvent(true)} 
+        handleEditEvent={handleEditEvent}
+        handleSingleEventDetail={handleEventDetails}
+        />
       </div>
      </section>
     )
   }
 
   return (
-    <div className={`flex bg-[#e4e7ec] relative fullCover overflow-y-scroll hideScroll`}>
+    <div className={`flex flex-col-reverse md:flex-row bg-[#e4e7ec] relative md:fullCover overflow-y-scroll hideScroll`}>
       {/* Left All Events page */}
-     <section className='border relative fullPage rounded mr-2 w-2/6 mt-[46px]'>
+     <section className={`${(eventDetails || selectedSpecificEvent) ? 'hidden md:flex' : ''} border relative md:fullPage rounded md:mr-2 w-full md:w-[46%] lg:w-2/6 md:mt-[46px]`}>
       {
         createEvent ? (
         <>
@@ -211,7 +287,7 @@ export default function Umeet(){
      </section>
 
      {/* Right All Events page */}
-     <section className='w-4/6 relative bg-[#e4e7ec]'>
+     <section className='w-full md:w-[54%] lg:w-4/6 relative bg-[#e4e7ec]'>
       {/* events top select */}
       <div className='flex pl-6 bg-white border mr-1 py-1 border-gray-400 my-1 rounded-lg'>
         <div onClick={handleCreateEvent} className={`flex items-center cursor-pointer ${createEvent ? 'text-[#649B8E]' : ''}`}>
@@ -230,9 +306,12 @@ export default function Umeet(){
      {showDeleteMyEvent && <EventDeleteModal onClose={()=>setShowDeleteMyEvent(false)} />}
      {showShareMyEvent && <EventShareModal onClose={()=>setShowShareMyEvent(false)} />}
      {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
-     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} handleImageChange={handleImageChange} />}
+     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
      {showAddGroup && <AddGuestModal onClose={()=>setShowAddGroup(false)} />}
+     {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={()=>setShowAddGroupPersonalOthers(false)} />}
      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
+     {showPoliticalFeedbackQuestionModal&& <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
+     {showFeedbackModule&& <ViewFeedbacks onClose={()=>setShowFeedbackModule(false)} />}
     </div>
   )
 }

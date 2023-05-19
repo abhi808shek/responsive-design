@@ -5,12 +5,13 @@ import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRela
 import { useNavigate } from "react-router";
 import { debounce, isEmpty, toasterFunction } from "../../Utility/utility";
 import { useDispatch, useSelector } from "react-redux";
-import { addFriend, getRequestList, getUserByMail, getUsers } from "../../../redux/actionCreators/friendsAction";
+import { acceptFriendRequest, addFriend, cancelFriendRequest, getRequestList, getUserByMail, getUsers } from "../../../redux/actionCreators/friendsAction";
 import EmptyComponent from "../../empty component/EmptyComponent";
 import Loader from "../../common/Loader";
 import moment from "moment/moment";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
+import ConfirmationModal from "../../common/ConfirmationModal";
 
 const SearchFriendsPage = ({ isFriend }) => {
   const isPersonal = true;
@@ -47,7 +48,7 @@ const SearchFriendsPage = ({ isFriend }) => {
   const [state, setState] = useState({usersList: userList });
   const [searchQuery, setSearchQuery] = useState()
   const { acceptRequest, onAcceptRequest, requestModal, usersList, activeProfile,
-  loading, relationType, relationOptions = relationOption} = state;
+  loading, relationType, relationOptions = relationOption,  cancelModal} = state;
 
   useEffect(() => {
     if(isFriend){
@@ -126,7 +127,7 @@ const SearchFriendsPage = ({ isFriend }) => {
   const handleRelation = (e) => {
     const name = e.target.name;
     const value = e.target.checked;
-    console.log(name, value);
+    // console.log(name, value);
     const selected = relationOptions.map((item) => {
      return item?.name === name ? {...item, checked: value} : item
     })
@@ -137,17 +138,50 @@ const SearchFriendsPage = ({ isFriend }) => {
     setState({...state, acceptRequest: false, activeProfile: {}})
 
   }
+  const handleConfirmationModal = (item) => {
+    setState({ ...state, cancelModal: true, activeProfile: item });
+  }
   const handleCancelRequest = () => {
-    // console.log('rejecccccctttttttt');
+    const payload = {
+      profileid: profile?.id,
+      // friendprofileid: activeProfile?.id
+      friendprofileid: "64467a007c2c17757005a469",
+    };
+    dispatch(cancelFriendRequest(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res?.message)
+      }else {
+        toast.error(res?.message)
+      }
+    })
   }
   const handleAcceptRequest = () => {
-    
+    const {fname, lname, id} = activeProfile
+    const payload = {
+      id: "600bc283b42f9c4b2eb0cdce",
+      fname: fname,
+      lname: lname,
+      friendprofileid: activeProfile?.id,
+      friendtype: 'friend',
+      profileid: profile.id,
+      requesttype: "recived",
+      getIsFriend: false,
+      reqdatetime: moment().format('YYYY-MM-DD HH:mm:ms'),
+    };  
+    dispatch(acceptFriendRequest(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res.message)
+      }else{
+        toast.error(res.message)
+      }
+    })
   }
-console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
+  console.log(relationOptions, '____________PPPPPPPPPPPPPPPPPPPP');
+// console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
   return (
     <>
       <div className="w-[100%] mt-2 flex-1 bg-[#E4E7EC] flex justify-center py-2 ">
-        <div className="flex w-[40%] relative bg-white rounded-md flex-col items-center">
+        <div className="flex w-[95%] sm:w-[50%] lg:w-[40%] relative bg-white rounded-md flex-col items-center bg-red-400">
           {/* Search Section */}
           <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
             <input
@@ -231,7 +265,7 @@ console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
                               src="./images/cancelRequest.png"
                               alt=""
                               className="w-[30px] h-[30px] cursor-pointer"
-                              onClick={handleCancelRequest}
+                              onClick={() =>handleConfirmationModal(item)}
                             />
                           )}
                         </div>
@@ -271,6 +305,15 @@ console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
           />
         </Portals>
       )}
+      {cancelModal &&
+        <Portals>
+          <ConfirmationModal title={'Are  you sure?'}
+            button={'Yes'}
+            closeModal={() => setState({...state, cancelModal: false})}
+            handleAccept={handleCancelRequest}
+          />
+        </Portals>
+      }
     </>
   );
 };

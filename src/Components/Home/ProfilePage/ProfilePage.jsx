@@ -9,7 +9,7 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { getEducationDetail, getFollower, getFollowing, getFriendProfile, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
 import { getUserDataFromLocalStorage, toasterFunction } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
@@ -18,36 +18,42 @@ import { imageUploadApi } from "../../../redux/actionCreators/eventActionCreator
 import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
+import PostCard from "../PostContetnt/PostCard/PostCard";
 
 const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
   const dispatch = useDispatch();
   const params = useParams()
   const user = useMemo(() => {
-    return  isOther ? { id: params?.id} : getUserDataFromLocalStorage();
+    return  isOther ? { id: params?.id} : { id: localStorage.getItem('profileid')};
   }, [isOther, params.id])
 
+  
   const reducerData = useSelector((state) => {
     return {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
-      friends: state?.profileReducer?.friends,
-      profileDetail: state?.profileReducer?.profileDetail?.data
+      friends: state?.friendReducer?.friends,
+      profileDetail: state?.profileReducer?.profileDetail?.data,
+      friendDetail: state.profileReducer.friendDetail,
+      profile: state.profileReducer.profile 
     }
   });
-  const { following, followers, friends, profileDetail} = reducerData;
+  const { following, followers, friends, friendDetail, profile} = reducerData;
 
+  const isPersonal = profile?.profiletype === "Personal";
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
+     isPersonal ? getEducation(): '';
+
     dispatch(checkingIsEmailExist())
-    dispatch(getProfileById(user?.id)).then((res) => {
-      console.log('profile resppppppp', res);
-      if(!res.status){
-        toasterFunction(res.message)
+     isOther ? dispatch(getFriendProfile(user?.id)).then((res) => {
+      if (!res.status) {
+        toasterFunction(res.message);
         // toast.error(res.message)
       }
-    });
+    }): "";
     dispatch(getFollowing(user?.id));
     dispatch(getFollower(user?.id));
     dispatch(getFriendsList(user?.id));
@@ -61,49 +67,60 @@ const ProfilePage = ({ isOther }) => {
     const uploadResponse =await dispatch(imageUploadApi(coverImg))
     
     if(name === "coverImg"){
-      let payloads = {...profileDetail, pcoverimage: uploadResponse.path}
+      let payloads = {...profile, pcoverimage: uploadResponse.path}
       dispatch(updateProfile(payloads))
     }else if(name === "profileImg"){
-      let payloads = {...profileDetail, pimage: uploadResponse.path};
+      let payloads = {...profile, pimage: uploadResponse.path};
       dispatch(updateProfile(payloads));
     }
   }
+  function getEducation (){
+    dispatch(getEducationDetail(user?.id))
+  }
   return (
-    <div className="w-full flex justify-evenly bg-[#E4E7EC] mt-2">
-      <section className="flex lg:w-[50%] flex-col mt-2 items-end">
-        <ProfileImageSection 
-        uploadImage={handleUploadImage} data={profileDetail || {}}
-        friends={friends} following={ following } followers={followers}
-        coverImg={coverImg} profileImg={profileImg} isOther={isOther} />
+    <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">
+      <section className="flex sm:w-[50%] flex-col mt-2 items-center lg:items-end">
+        <ProfileImageSection
+          uploadImage={handleUploadImage}
+          data={ isOther ? friendDetail : profile }
+          friends={friends}
+          following={following}
+          followers={followers}
+          coverImg={coverImg}
+          profileImg={profileImg}
+          isOther={isOther}
+        />
 
         {/* About Section */}
-        <AboutSection isOther={isOther} data={profileDetail || {}} />
+        <AboutSection isOther={isOther} data={isOther ? friendDetail : profile} />
       </section>
-      <section className="flex w-[50%] pr-[8px] flex-col">
+      <section className="flex sm:w-[50%] flex-col items-center">
         {/* Category Section */}
-        <section className="w-[98%] mt-3 flex items-center justify-center">
-          <CategorySection selectedOption={selectedOption} setSelectedOption={setSelectedOption}/>
-        </section>
-        
-        {/* Post Form Section */}
-        <section className="w-full pl-2">
-          {/* <PostForm width={98} bgColor={"#E4E7EC"}/> */}
+        <section className="w-full sm:w-[90%] flex items-center justify-between">
+          <CategorySection
+            selectedOption={selectedOption}
+            setSelectedOption={setSelectedOption}
+          />
         </section>
 
         {/* All Post Section */}
-        <section className="w-full">
-          {/* <PostContent width={100}/> */}
-        </section>
+        {/* <section className="w-full sm:w-[50%] lg:w-[80%] flex items-center justify-center flex-col px-2 ">
+          <PostCard
+            // key={elem?.id}
+            // item={elem}
+            // userData={userData}
+            // showModal={showModalFunc}
+            // width={50}
+          />
+        </section> */}
 
         {/* Private Page Section */}
         {/* <section className="w-full mt-3 h-full">
           <PrivatePage />
         </section> */}
 
-
-
-        <section className="w-full mt-3 rounded-xl flex justify-center">
-          <GridBoxes selectedOption={selectedOption}/>
+        <section className="w-full mt-3 rounded-xl flex justify-center sm:w-[92%] lg:w-full xl:w-[93%]">
+          <GridBoxes selectedOption={selectedOption} />
         </section>
       </section>
     </div>

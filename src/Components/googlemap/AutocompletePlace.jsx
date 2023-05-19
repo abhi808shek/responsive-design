@@ -1,9 +1,10 @@
+
 import React, { useEffect, useState } from 'react'
 import { GoogleMap, LoadScript, StandaloneSearchBox } from '@react-google-maps/api';
 
 const containerStyle = {
-  width: '400px',
-  height: '400px',
+  width: '10px',
+  height: '10px',
   // display: 'none'
 };
 
@@ -12,15 +13,24 @@ const center = {
   lng: -38.523
 };
 
-function Autocomplete() {
-  const [searchBox, setSearchBox] = useState(null);
+function Autocomplete({ livePlace, placeholder, value }) {
+  const [searchBox, setSearchBox] = useState();
+  const [input, setInput] = useState(value)
 
   const onLoad = (ref) => {
     setSearchBox(ref)
   };
 
+  console.log("serch box", searchBox)
+  const handleChange = (e) => {
+    // setInput(e.target.value)
+    onPlacesChanged()
+  }
   const onPlacesChanged = () => {
-    console.log(searchBox.getPlaces());
+    // console.log(searchBox.getPlaces(), '[[[[[');
+    const place = searchBox.getPlaces()
+    // console.log(place?.[0]?.formatted_address, "PPPPPP LLLLLLLLL");
+    livePlace(place?.[0]?.formatted_address);
   };
   return (
     <>
@@ -31,7 +41,8 @@ function Autocomplete() {
           // googleMapsApiKey='AlzaSyAcJzppx6PHvFiGQlP3HXcC21cgDATqAoE'
           // googleMapsApiKey='AIzaSyCm0bUdRDZL9DmCxxDyFxCv9YYoGixvYko'
           // AIzaSyCxfRNiw6DgtJadpT7qVO2It8rVhaiGCx0
-          googleMapsApiKey="AIzaSyD2t7ciNg4QST3zXCjSJVuQapFEhBTLo_E"
+          // googleMapsApiKey="AIzaSyD2t7ciNg4QST3zXCjSJVuQapFEhBTLo_E"
+          googleMapsApiKey="AIzaSyDVh55QHg4bqcLPZeU8EhAgw-wX0tdowMU"
         >
           <GoogleMap
             id="searchbox-example"
@@ -46,57 +57,51 @@ function Autocomplete() {
               <input
                 type="text"
                 placeholder="Customized your placeholder"
+                className="border border-gray-500 border-1 rounded-md"
                 style={{
                   boxSizing: `border-box`,
-                  border: `1px solid transparent`,
+                  // border: `1px solid black`,
                   width: `240px`,
                   height: `32px`,
                   padding: `0 12px`,
                   borderRadius: `3px`,
-                  boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
+                  // boxShadow: `0 2px 6px rgba(0, 0, 0, 0.1)`,
                   fontSize: `14px`,
                   outline: `none`,
                   textOverflow: `ellipses`,
                   position: "absolute",
-                  left: "50%",
-                  marginLeft: "-120px",
+                  // left: "50%",
+                  // marginLeft: "-120px",
+                  top: "0px",
+                  left: "0px",
                 }}
+                autoComplete
+                onChange={handleChange}
               />
             </StandaloneSearchBox>
           </GoogleMap>
         </LoadScript>
       ) : (
-        <GoogleMap
-          id="searchbox-example"
-          mapContainerStyle={containerStyle}
-          zoom={2.5}
-          center={center}
-        >
-          <StandaloneSearchBox
-            onLoad={onLoad}
-            onPlacesChanged={onPlacesChanged}
-          >
-            <input
-              type="text"
-              placeholder="Customized your placeholder"
-              style={{
-                boxSizing: `border-box`,
-                border: `1px solid transparent`,
-                width: `240px`,
-                height: `32px`,
-                padding: `0 12px`,
-                borderRadius: `3px`,
-                boxShadow: `0 2px 6px rgba(0, 0, 0, 0.3)`,
-                fontSize: `14px`,
-                outline: `none`,
-                textOverflow: `ellipses`,
-                position: "absolute",
-                left: "50%",
-                marginLeft: "-120px",
-              }}
-            />
-          </StandaloneSearchBox>
-        </GoogleMap>
+        <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
+          <input
+            type="text"
+            value={input}
+            placeholder={ placeholder }
+            className="border border-gray-300 border-1 py-2 rounded-md !static w-full"
+            style={{
+              boxSizing: `border-box`,
+              height: `32px`,
+              padding: `4px 12px`,
+              fontSize: `14px`,
+              outline: `none`,
+              textOverflow: `ellipses`,
+              position: "absolute",
+
+            }}
+            autoComplete="true"
+            onChange={handleChange}
+          />
+        </StandaloneSearchBox>
       )}
     </>
   );

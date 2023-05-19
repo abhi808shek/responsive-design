@@ -58,9 +58,11 @@ export const addFriend= (data) => async (dispatch) => {
 }
 
 export const updateRelation = (data) => async (dispatch) => {
-    const { user1, user2} = data
+    // const { user1, user2} = data
     try{
-        const response = await axios.put(`http://3.233.82.34:8080/friend/api/friend/update/${user1}/${user2}`);
+        const response = await axios.post(
+          `http://3.233.82.34:8080/friend/api/friend/add`, data
+        );
         console.log(response);
         dispatch({
             type: '',
@@ -86,13 +88,29 @@ export const deleteRequest= (data) => async (dispatch) => {
     }
 }
 
+// export const getFriendsList = (data) => async (dispatch) => {
+//   try {
+//     const response = await axios.get(
+//       `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`, {}, 
+//       {
+        
+//       }
+//     );
+//     dispatch({
+//       type: "FRIEND_LIST",
+//       payload: response.data,
+//     });
+//     return response.data;
+//   } catch (error) {
+//     throw error;
+//   }
+// };
+
+
 export const getFriendsList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/friend/api/friend/getfriendids/${data}`, {}, 
-      {
-        
-      }
+      `http://3.233.82.34:8080/friend/api/friend/${data}/Accepted`,
     );
     dispatch({
       type: "FRIEND_LIST",
@@ -119,3 +137,67 @@ export const getRequestList= (data) => async (dispatch) => {
         throw error
     }
 }
+
+export const acceptFriendRequest = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(`http://3.233.82.34:8080/friend/api/friend/add`, data);
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data
+    })
+    return response.data
+  }catch(err){
+    throw err;
+  }
+}
+
+export const cancelFriendRequest = (data) => async (dispatch) => {
+  const { profileid, friendprofileid} = data
+  try {
+    const response = await axios.put(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const unfollow = (data) => async (dispatch) => {
+  const { profileid, friendprofileid } = data;
+  try {
+    const response = await axios.delete(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "UNFOLLOW",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+
+export const removeFollowers = (data) => async (dispatch) => {
+  const { profileid, friendprofileid } = data;
+  try {
+    const response = await axios.delete(
+      `http://3.233.82.34:8080/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      data
+    );
+    dispatch({
+      type: "ADD_FRIEND",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};

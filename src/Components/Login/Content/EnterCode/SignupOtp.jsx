@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Button1 from "../Button/Button1";
 import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
@@ -16,13 +16,17 @@ import Modal from "../Modal/Modal";
 
 import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
 import Portals from "../../../Portals/Portals";
+import { toast } from "react-toastify";
 // import { requestNotificationPermission } from "../../../../config/firebase";
 
 
 
 
 const SignupOtp = ({ title }) => {
+  const captchaEl = useRef();
   {/* send code timing implemented dynamically */}
+  const phoneNumberRules = /[0-9]{10}$/;
+
   const [timer, setTimer] = useState(false);
   const params = useParams();
   const location = useLocation();
@@ -39,26 +43,52 @@ const SignupOtp = ({ title }) => {
         uemail: signupData.uemail,
         // password: formik.values.password,
       };    
-    await dispatch(saveUserSignupData(dataObj))
+    const resendOtp = await dispatch(saveUserSignupData(dataObj));
+    if(resendOtp?.data?.status){
+        toast.success(resendOtp?.data?.message)
+    }else{
+      toast.error(resendOtp?.data?.message)
+    }
+    if(phoneNumberRules.test(signupData?.uemail)){
+      signIn("+91"+signupData?.uemail);
+    }
+    
     if (timer === false) {
       setTimer(true);
       setTimeout(() => {
         setTimer(false);
-      }, 4000);
+      }, 5 * 60 * 1000);
     }
   };
   const handleClose = () => setState({...state, showModal: false })
   
   const onConfirmOtp = async () => {
-    const result =await dispatch(matchingOtp(signupData.uemail, otp));
+
+    if(otp?.length < 4){
+      return
+    }
+    if( phoneNumberRules.test(signupData?.uemail)){
+      confirmationResult
+        .confirm(otp)
+        .then((result) => {
+        setState({ ...state, showModal: true });
+          // User signed in successfully.
+          const user = result.user;
+        })
+        .catch((error) => {
+          console.log(error, "error");
+          // User couldn't sign in (bad verification code?)
+        });
+    }else{
+      const result =await dispatch(matchingOtp(signupData.uemail, otp));
       if(result.status){
         setState({...state, showModal: true})
       }
     if (!result.status) {
-        return toasterFunction(result.message)
+        toasterFunction(result.message)
+    }
     }
     getFirebaseToken().then( async (res) => {
-      // console.log(res);
       const data ={
          "datetime": Date.now(),
          "deviceid": uuid(),
@@ -67,16 +97,47 @@ const SignupOtp = ({ title }) => {
          "uemail": signupData.uemail,
         //  "umobile": "weware5007@fectode.com"
       }
-      // console.log(data, '{{{{{{{{{{{}}}}}}}}}}');
       const resp = await dispatch(userRegistration(data))
-      // console.log(resp, 'ressssssssssssssssss');
-    
     }).catch((err) => {
       console.log(err);
     })
     // navigate("/auth/createUser")
     toasterFunction(result.message)
   };
+  
+  function configureRecaptcha(phoneNumber, auth) {
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in-button",
+      {
+        size: "invisible",
+        callback: (response) => {
+          // console.log(response, 'otppppppppppp sentttttt');
+        },
+      },
+      auth
+    );
+  }
+
+      function signIn(phoneNumber) {
+        const auth = getAuth();
+        try {
+          configureRecaptcha(signupData?.uemail, auth);
+        } catch (err) {
+          console.log(err, "captcha error");
+        }
+        // const auth = getAuth();
+        const appVerifier = window.recaptchaVerifier;
+        signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+          .then((confirmation) => {
+            window.confirmation = confirmation;
+            console.log("otp send");
+            navigate(`/auth/verification/signup?${profileType}`);
+          })
+          .catch((err) => {
+            captchaEl.current.innerHTML = null;
+            console.log("otp not send", err);
+          });
+      }
 
   function Timer() {
   const [seconds, setSeconds] = useState(5 * 60);
@@ -87,7 +148,7 @@ const SignupOtp = ({ title }) => {
     }, 1000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, [timer]);
 
 
   const minutes = Math.floor(seconds / 60);
@@ -113,29 +174,33 @@ const SignupOtp = ({ title }) => {
         <p className="text-[11px] font-bold w-[78%] mb-1">
           We've have sent a code to your email address
         </p>
-       <div className="w-[85%]">
-       <Input
-          title="Enter Code"
-          name="entercode"
-          errorMessage="You've reached maximum attempts. Please try again from login"
-          inputValue={otp}
-          onHandleChange={onChangeHandler}
-        />
-       </div>
-        <Button2 id={'sign-in'} title="Confirm" onClick={onConfirmOtp}/>
+        <div className="w-[85%]">
+          <Input
+            title="Enter Code"
+            name="entercode"
+            errorMessage="You've reached maximum attempts. Please try again from login"
+            inputValue={otp}
+            onHandleChange={onChangeHandler}
+          />
+        </div>
+        <div ref={captchaEl} id="sign-in-button"></div>
+        <Button2 id={"sign-in"} title="Confirm" onClick={onConfirmOtp} />
         {/* padding added to send code button */}
-        {timer ? (          
+        {timer ? (
           <Timer />
         ) : (
-          <Button1 title="Send Code Again" onClick={timerFunction} />        
+          <Button1 title="Send Code Again" onClick={timerFunction} />
         )}
         <Button1 title="Cancel" path="/" onClick={() => navigate(-1)} />
       </div>
-              {showModal &&
-              <Portals>
-                 <Modal modalType={location.search.slice(1)} handleClose={handleClose} />
-              </Portals>
-          }
+      {showModal && (
+        <Portals>
+          <Modal
+            modalType={location.search.slice(1)}
+            handleClose={handleClose}
+          />
+        </Portals>
+      )}
     </>
   );
 };

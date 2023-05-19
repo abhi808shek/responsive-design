@@ -14,23 +14,33 @@ import {
   getUnionListByProfileId,
 } from "../../redux/actionCreators/rootsActionCreator";
 import NoPostPage from "./NoPostPage/NoPostPage";
+import { getLatestKicks } from "../../redux/actionCreators/kicksActionCreator";
 
 const Home = ({ onShowReportModal, showReportModal }) => {
   const dispatch = useDispatch();
 
   const { defaultRootData } = useSelector((state) => state.eventReducer);
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile || {}
+    }
+  })
+  const { profile } = reducerData
   const { postList } = useSelector((state) => state.rootsReducer);
   const onLoad = () => {
     if (!Object.keys(defaultRootData)?.length) {
       dispatch(defaultRootScreen());
     } else {
-      const data = {
-        profileId: defaultRootData?.data?.postdata?.profileid,
-        rootRequest: true,
-        segment: "FOLLOWING",
-      };
-      dispatch(getKicksVideosWithLimit(data));
-      dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+         let params = { index: 0, size: 10 };
+         const data = {
+           categories: [],
+           profileId: profile?.id,
+           rootRequest: false,
+           segment: "LATEST",
+         };
+         dispatch(getLatestKicks(params, data));
+      // dispatch(getKicksVideosWithLimit(data));
+      dispatch(getAllPostWithLimit(profile.id));
       dispatch(
         getUnionListByProfileId(defaultRootData?.data?.postdata?.profileid)
       );
@@ -44,7 +54,9 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     <div className="w-full bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
-      <PostForm />
+      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-white rounded-lg pl-2">
+        <PostForm />
+      </div>
       <HeroSection />
       <SliderSection />
       <PostContent

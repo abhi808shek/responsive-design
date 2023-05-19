@@ -1,5 +1,6 @@
 import axios from "axios";
 import { getUserDataFromLocalStorage } from "../../Components/Utility/utility";
+import { getQueryParams } from "../../Components/Utility/utility";
 // -----------------------------------------------FOR ALL POST RELATED API------------------------------------------------------------
 
 // GET KICKS VIDEOS WITH LIMITS
@@ -29,7 +30,6 @@ export const getKicksVideosWithLimit = (data) => async (dispatch) => {
 export const getAllPostWithLimit = (profileId) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-    console.log("getStoredData", getStoredData?.token);
     const getAllPost = await axios.post(
       `http://3.233.82.34:8080/post/api/v2/fetch/home/posts/${profileId}?index=0&size=10`,
       {},
@@ -41,8 +41,8 @@ export const getAllPostWithLimit = (profileId) => async (dispatch) => {
       }
     );
     dispatch({
-      type: "GET_ALL_POST_WITH_LIMITS",
-      payload: getAllPost?.data?.data,
+      type: "GET_POST_LIST",
+      payload: getAllPost?.data,
     });
   } catch (error) {
     console.log(error.message);
@@ -71,6 +71,27 @@ export const getPostByPostId = (postId) => async (dispatch) => {
   }
 };
 
+export const getPostList = (data) => async (dispatch) => {
+    const getStoredData = await getUserDataFromLocalStorage();
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/post/api/post/getposts/${data}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+          Authorization: `Bearer ${getStoredData?.token}`,
+        },
+      }
+    );
+    dispatch({
+      type: "GET_POST_LIST",
+      payload: response.data,
+    })
+  }catch(err) {
+    throw err;
+  }
+}
+
 // ADD ALL POST COMMENTS
 export const addCommentOnPost = (commentDetails) => async (dispatch) => {
     try {
@@ -95,6 +116,17 @@ export const addCommentOnPost = (commentDetails) => async (dispatch) => {
     }
   };
 
+  export const getCommentByPostid = (data, payload) => async (dispatch) => {
+    try{
+      const response = await axios.get(`http://3.233.82.34:8080/post/api/comment/${data}?${getQueryParams(payload)}`, payload);
+      dispatch({
+        type: "COMMENTS_LIST",
+        payload: response.data
+      })
+    }catch(error){
+      throw error
+    }
+  }
 
 // GET POST HISTORY
 export const getPostHistoryByPostId = (postId) => async (dispatch) => {
@@ -136,9 +168,11 @@ export const setPostReport = (reportResult) => async (dispatch) => {
     console.log("postReportResult", postReportResult);
     dispatch({
       type: "POST_REPORT",
-      payload: getPostHistory?.data,
+      payload: postReportResult?.data,
     });
+    return postReportResult.data
   } catch (error) {
+    throw error
     console.log(error.message);
   }
 };
@@ -350,7 +384,7 @@ export const deletePostByPostId = (profileId,postId) => async (dispatch) => {
         type: "DELETE_POST_BY_POST_ID",
         // payload: deletePostResult?.data,
       });
-      return deletePostResult;
+      return deletePostResult.data;
     } catch (error) {
       console.log(error.message);
     }
@@ -385,3 +419,63 @@ export const getUnionListByProfileId = (profileId) => async (dispatch) => {
       console.log(error.message);
     }
   };
+
+export const getInstancePost= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(
+          `http://3.233.82.34:8080/instance/api/instancepost/getbyid/${data}`
+        );
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+    }catch(error){
+        throw error
+    }
+}
+
+export const getPostById= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(
+          `http://3.233.82.34:8080/post/api/post/getbyid/${data}`
+        );
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+    }catch(error){
+        throw error
+    }
+}
+
+export const getUserPostList= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(
+          `http://3.233.82.34:8080/post/api/post/getposts/${data}`
+        );
+        console.log(response);
+        dispatch({
+          type: "GET_USER_POST",
+          payload: response.data,
+        });
+    }catch(error){
+        throw error
+    }
+}
+
+export const getImageList= (data) => async (dispatch) => {
+    try{
+        const response = await axios.get(
+          `http://3.233.82.34:8080/post/api/image/getbyid/ids/profile`
+        );
+        console.log(response);
+        dispatch({
+            type: '',
+            payload: response.data
+        })
+    }catch(error){
+        throw error
+    }
+}
