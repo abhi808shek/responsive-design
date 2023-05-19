@@ -1,10 +1,10 @@
 import navigation from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet navigation.png'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
-export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditEvent,
-    handleShareEvent }){
+export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
+ handleEditEvent, handleShareEvent, handleFeedbacks, eventDetail }){
 
-    const [personal, setPersonal] = useState(true)
+    const [personal, setPersonal] = useState(false)
     const [publics, setPublics] = useState(false)
     const [political, setPolitical] = useState(false)
     const [online, setOnline] = useState(false)
@@ -15,11 +15,32 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
      setIsPoliticalPartyFeedback(true)
     }
 
+    useEffect(()=>{
+      if(eventDetail && eventDetail.eventName){
+         if(eventDetail.eventType.toLowerCase().includes('political')){
+            setPolitical(true)
+         }else if(eventDetail.eventType.toLowerCase().includes('public')){
+            setPublics(true)
+         }else if(eventDetail.eventType.toLowerCase().includes('personal')){
+            setPersonal(true)
+         }
+
+         if(eventDetail.eventType.toLowerCase().includes('feedback')){
+            setPoliticalPartyFeedback(true)
+         }
+      }
+    }, [])
+
+    const options = {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric',hour: 'numeric',minute: 'numeric',second: 'numeric',timeZone: 'UTC'}
+
     return (
      <div className='p-4 bg-white rounded-xl w-full'>
       <div className={`${politicalPartyFeedback ? 'hidden' : ''} mb-1`}>
        <span className='font-bold'>Responses</span>
        <span className='ml-3'>10 of 25 responded</span>
+      </div>
+      <div className={`${(political || publics) ? '' : 'hidden'} ${politicalPartyFeedback ? 'hidden' : ''}`}>
+       <span className='font-bold'>Guests Attending: 2</span>
       </div>
       <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex py-3 my-2 border-b-2 border-gray-300`}>
        <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-green-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>5</span>Yes</div>
@@ -57,33 +78,33 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
         </div>
         )}
         
-        <p className='w-full lg:w-[60%] cursor-pointer py-1.5 text-[#649B8E] flex justify-center mb-1 font-bold'>View Feedbacks <span className='text-gray-400 pl-4'>public</span></p>        
+        <p onClick={handleFeedbacks} className='w-full lg:w-[60%] cursor-pointer py-1.5 text-[#649B8E] flex justify-center mb-1 font-bold'>View Feedbacks <span className='text-gray-400 pl-4'>public</span></p>        
        </div> 
 
        <div className='flex mb-3'>
         <span className='w-1/3'>Hostedt BY</span>
-        <span className='w-2/3'>:<span className='ml-3 font-semibold'>Ravichandra Ashwin</span></span>
+        <span className='w-2/3'>:<span className='ml-3 font-semibold'>{(eventDetail && eventDetail.profile) ? eventDetail.profile.fname : '-'}</span></span>
        </div>
        <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>
         <span className='w-1/3'>Mobile No</span>
-        <span className='w-2/3'>:<span className='ml-3 font-bold'>+1 8146369384</span></span>
+        <span className='w-2/3'>:<span className='ml-3 font-bold'>{(eventDetail && eventDetail.profile) ? eventDetail.profile.eventHostPhnNumber : '-'}</span></span>
        </div>
        <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>
         <span className='w-1/3'>Food Availability</span>
-        <span className='w-2/3'>:<span className='ml-3 font-bold'>Yes</span></span>
+        <span className='w-2/3'>:<span className='ml-3 font-bold'>{(eventDetail && eventDetail.food) ? 'Yes': 'No'}</span></span>
        </div>
-       <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>
+       <div className={`${(politicalPartyFeedback || publics || political) ? 'hidden' : ''} flex mb-3`}>
         <span className='w-1/3'>Event Live Stream</span>
-        <span className='w-2/3'>:<span className='ml-3 font-bold'>Yes</span></span>
+        <span className='w-2/3'>:<span className='ml-3 font-bold'>{eventDetail ? 'Yes': 'No'}</span></span>
        </div>
        {online ? (
-       <div className='flex mb-3'>
+       <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>
         <div className='w-1/3'>Online</div>
         <div className='w-2/3 flex text-[#649B8E]'>:<div className='ml-3 font-bold cursor-pointer'>www.uynite.com</div></div>        
        </div> ) : (
        <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>
         <div className='w-1/3'>Location</div>
-        <div className='w-2/3 flex'>:<div className='ml-3 font-bold'>168, Address Living, South Africa - 626987</div><img src={navigation} className='w-8 h-8 cursor-pointer' /></div>        
+        <div className='w-2/3 flex'>:<div className='ml-3 font-bold'>{eventDetail ? eventDetail.eventAddress : null}</div><img src={navigation} className='w-8 h-8 cursor-pointer' /></div>        
        </div>
        )}
 
@@ -91,13 +112,13 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
        <div className='flex mb-3'>        
         <span className='w-1/3'>Start Date & Time</span>
         <div className='flex flex-col w-2/3'>
-         <span className=''>:<span className='ml-3 font-bold'>06:00 pm - 12.00 pm, 28th Apr 2023</span></span>
+         <div className=''>:<span className='ml-3 font-bold'>{(eventDetail && eventDetail.startdate ) ? new Date(eventDetail.startdate).toLocaleString('en-Us', options) : null}</span></div>
         </div>        
        </div>
        <div className='flex mb-3'>        
         <span className='w-1/3'>End Date & Time</span>
         <div className='flex flex-col w-2/3'>
-         <span className=''>:<span className='ml-3 font-bold'>06:00 pm - 12.00 pm, 28th Apr 2023</span></span>
+         <span className=''>:<span className='ml-3 font-bold'>{(eventDetail && eventDetail.enddate) ? new Date(eventDetail.enddate).toLocaleString('en-Us', options) : null}</span></span>
          <span className={`${politicalPartyFeedback ? 'hidden' : ''} text-[#649B8E] ml-3 font-semibold cursor-pointer`}>Add to calender</span>
         </div>        
        </div>
@@ -107,7 +128,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
         <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex mb-3`}>        
          <span className='w-1/3'>Date & Time</span>
          <div className='flex flex-col w-2/3'>
-          <span className=''>:<span className='ml-3 font-bold'>06:00 pm - 12.00 pm, 28th Apr 2023</span></span>
+          <span className=''>:<span className='ml-3 font-bold'>{eventDetail ? eventDetail.eventdateAndTime : null}</span></span>
           <span className='text-[#649B8E] ml-3 font-semibold cursor-pointer'>Add to calender</span>
          </div>        
         </div>
@@ -115,7 +136,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent, handleEditE
 
        <div className='flex pb-4 border-b-2 border-gray-300'>
         <span className='w-1/3'>About</span>
-        <span className='w-2/3'>:<span className='ml-3 font-bold'>Go like a fire</span></span>
+        <span className='w-2/3'>:<span className='ml-3 font-bold'>{eventDetail ? eventDetail.aboutevent : null}</span></span>
        </div>
       </div>            
       

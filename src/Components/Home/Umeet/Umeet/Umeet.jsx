@@ -18,6 +18,7 @@ import SuccessCreate from './SuccessCreate'
 import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
 import PersonalOtherGuest from './Modal/PersonalOtherGuest'
+import ViewFeedbacks from './Modal/ViewFeedbacks'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -42,6 +43,7 @@ export default function Umeet(){
   const [showAddGroupPersonalOthers, setShowAddGroupPersonalOthers] = useState(false)
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
   const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
+  const [showFeedbackModule, setShowFeedbackModule] = useState(false)
 
   const [state, setState] = useState({})
   const { templateImage }  = state
@@ -84,6 +86,7 @@ export default function Umeet(){
               myEvent={myEvent} 
               handleRvspModal={()=>setShowRvspModal(true)}
               singleEvent={singleEvent}
+              handleFeedbacks={()=>setShowFeedbackModule(true)}
               />
     }
   }
@@ -124,13 +127,13 @@ export default function Umeet(){
     setState({...state, templateImage: url})
   }
 
-  const handleEventDetails = (singleEvent)=>{
+  const handleEventDetails = (idData)=>{
     setNoCreateEvent(false)
     setCreateEvent(false)
     setNoMyEvent(false)
     setEventCreated(false)
     setEventDetails(true)
-    setSingleEvent(singleEvent)
+    setSingleEvent(idData)
   }
 
   const handleImageChange = (event) => {
@@ -308,6 +311,7 @@ export default function Umeet(){
      {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={()=>setShowAddGroupPersonalOthers(false)} />}
      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
      {showPoliticalFeedbackQuestionModal&& <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
+     {showFeedbackModule&& <ViewFeedbacks onClose={()=>setShowFeedbackModule(false)} />}
     </div>
   )
 }

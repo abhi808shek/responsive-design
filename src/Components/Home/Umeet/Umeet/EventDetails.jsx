@@ -5,7 +5,7 @@ import EventGuests from "./EventGuests";
 import EventChat from "./EventChat";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
-import { getEventDetails } from "../../../../redux/actionCreators/umeetActionCreator";
+import { getEventDetails, getAllEventChatMessage } from "../../../../redux/actionCreators/umeetActionCreator";
 import { useSelector, useDispatch } from "react-redux";
 
 const responsive = {
@@ -35,38 +35,26 @@ const EventDetails = ({
   handleShareEvent,
   handleRvspModal,
   singleEvent,
+  handleFeedbacks
 }) => {
   const [details, setDetails] = useState(true);
   const [guests, setGuests] = useState(false);
   const [chat, setChat] = useState(false);
 
   const dispatch = useDispatch();
-  const { umeetReducer } = useSelector((state) => state);
+  const { umeetReducer } = useSelector(state=>state)
+  
+  const eventDetail = umeetReducer.eventDetail
 
   useEffect(() => {
     dispatch(getEventDetails(singleEvent));
   }, []);
-
-
-  useEffect(()=>{
-    dispatch(getEventDetails(singleEvent))
-  }, [])
-  
-  console.log(umeetReducer.eventDetail, singleEvent)
   
   const handleDetails = ()=>{
     setDetails(true)
     setGuests(false)
     setChat(false)
   }
-
-  console.log(umeetReducer?.eventDetail)
-
-  const handleDetails = () => {
-    setDetails(true);
-    setGuests(false);
-    setChat(false);
-  };
 
   const handleGuests = () => {
     setDetails(false);
@@ -78,6 +66,7 @@ const EventDetails = ({
     setDetails(false);
     setGuests(false);
     setChat(true);
+    dispatch(getAllEventChatMessage(umeetReducer.eventDetail.id))
   };
 
   function RenderStatus() {
@@ -88,10 +77,12 @@ const EventDetails = ({
           handleDeleteEvent={handleDeleteEvent}
           handleEditEvent={handleEditEvent}
           handleShareEvent={handleShareEvent}
+          handleFeedbacks={handleFeedbacks}
+          eventDetail={eventDetail}
         />
       );
     else if (guests) return <EventGuests />;
-    else if (chat) return <EventChat />;
+    else if (chat) return <EventChat chatMessages={umeetReducer.eventChatMessages} />;
   }
 
   return (
@@ -105,7 +96,7 @@ const EventDetails = ({
           </h3>
           <div className="w-full overflow-hidden">
             <img
-              src={wishes}
+              src={eventDetail ? eventDetail.eventTemplate : wishes}
               className="w-full h-[300px] object-cover rounded-xl"
             />
           </div>
@@ -154,9 +145,10 @@ const EventDetails = ({
               responsive={responsive}
               containerClass={`w-full pl-2 z-[1]`}
             >
-              {[1, 2, 3, 4, 5, 6, 7]?.map((data) => (
+              {[1, 2, 3, 4, 5, 6, 7]?.map((data, i) => (
                 <img
                   id={data}
+                  key={i}
                   src={wishes}
                   className="w-[250px] px-1 rounded-xl h-36 object-cover cursor-pointer"
                 />
