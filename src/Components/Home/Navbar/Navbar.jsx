@@ -58,8 +58,7 @@ const Navbar = () => {
     navigate(option.url);
   };
 
-  return
-    (
+  return(
       <section className="h-[65px] w-full fixed flex bg-white z-20 responsive_navbar2">
         {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
         {/* Left Section */}
