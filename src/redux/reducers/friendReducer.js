@@ -8,8 +8,9 @@ const  friendReducer= (state = initialState, action) => {
     case "GET_USERS":
       return { ...state, usersList: action.payload.data };
     case "GET_REQUEST_LIST":
-      return { ...state, resuestList: action.payload.data};
-      
+      return { ...state, resuestList: action.payload.data };
+    case "FRIEND_LIST":
+      return { ...state, friends: action.payload.data };
     default:
       return state;
   }

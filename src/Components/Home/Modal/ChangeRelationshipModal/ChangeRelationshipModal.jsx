@@ -12,7 +12,7 @@ const ChangeRelationshipModal = ({
 }) => {
   const isPersonal = true;
 
-  console.log(relationOption, "+++++++++++++++++++++");
+  // console.log(relationOption, "+++++++++++++++++++++");
   return (
     <div className=" w-[80%] sm:w-[40%] lg:w-[30%] xl:w-[25%] bg-white flex flex-col rounded-lg">
       <h1 className="text-center my-2 font-bold text-sm">{title}</h1>

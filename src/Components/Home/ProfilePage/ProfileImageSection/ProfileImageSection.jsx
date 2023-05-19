@@ -9,7 +9,8 @@ import Portals from "../../../Portals/Portals";
 import { useDispatch } from "react-redux";
 import { getFollower, getFollowing } from "../../../../redux/actionCreators/profileAction";
 import { data } from "autoprefixer";
-import { getFriendsList } from "../../../../redux/actionCreators/friendsAction";
+import { cancelFriendRequest, getFriendsList, removeFollowers, unfollow } from "../../../../redux/actionCreators/friendsAction";
+import { toast } from "react-toastify";
 
 const ProfileImageSection = ({ isOther, data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
   const { id } = data || {}
@@ -34,6 +35,27 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
       dispatch(getFollowing(id))
        setState({...state, showModal: true, modalName: name, modalData: following})
     }
+  }
+  const handleRemove = (friend) => {
+    // console.log(friend, data, 'PPPPPPP FFFFFFFFFFF');
+    const payload = {
+      profileid: id,
+      friendprofileid: friend?.id
+    };
+    if(modalName === "Friends"){
+      
+    }
+    dispatch(
+      modalName === "Friends" ? cancelFriendRequest(payload) :
+      modalName === "Following" ? unfollow(payload) :
+      modalName === "Followers" ? removeFollowers(payload) : {type: ""}
+      ).then((res) => {
+      if(res?.status){
+        toast.success(res?.message)
+      }else{
+        toast.error(res?.message)
+      }
+    })
   }
   return (
     <div className="w-[95%] lg:w-[80%] xl:w-[70%] bg-white rounded-xl flex flex-col items-center mb-3">
@@ -68,7 +90,7 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
           />
           <label
             htmlFor={`${isOther ? "" : "profile-pic"}`}
-            className="w-[115px] sm:w-[200px] lg:w-[265px] h-[70px] sm:h-[115px] lg:h-[150px] xl:w-[350px] xl:h-[180px] 2xl:w-[200px] relative top-[-30px] sm:top-[-60px] lg:top-[-40px]"
+            className="sm:min-w-[180px] sm:h-[180px] min-w-[125px] h-[125px] relative top-[-30px] sm:top-[-60px] lg:top-[-40px]"
           >
             <img
               src={profileImg || data?.pimage}
@@ -132,7 +154,9 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
       } */}
       {showModal && (
         <Portals closeModal={() => setState({ ...state, showModal: false })}>
-          <FollowersModal modalName={`Your ${modalName}`} data={modalData} />
+          <FollowersModal handleClick={handleRemove} modalName={`Your ${modalName}`} 
+          emptyMessage= { `No ${modalName}`}
+          data={modalData} />
         </Portals>
       )}
     </div>

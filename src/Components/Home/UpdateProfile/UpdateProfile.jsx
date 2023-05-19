@@ -3,6 +3,7 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Dropdown from "../../Login/Content/Modal/Dropdown";
 import {
+  checkingIsEmailExist,
   getAssenbly,
   getCountryList,
   getDistrict,
@@ -21,6 +22,7 @@ import Input from "../../input/input";
 import PersonalAccount from "./PersonalAccount";
 import OrganizationAccount from "./OrganizationAccount";
 import { getEducationDetail } from "../../../redux/actionCreators/profileAction";
+import { Typography } from "@material-tailwind/react";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -30,9 +32,10 @@ const UpdateProfile = () => {
     return {
       profileDetail: state?.profileReducer?.profileDetail?.data,
       educationDetails: state?.profileReducer?.educationDetails?.data,
+      profile: state?.profileReducer?.profile,
     };
   });
-  const { profileDetail, educationDetails } = reducerData;
+  const { profileDetail, educationDetails, profile } = reducerData;
   const [states, setState] = useState(profileDetail || {});
   const [country, setCountry] = useState(profileDetail);
   const [education, setEducation] = useState(educationDetails || {});
@@ -99,6 +102,13 @@ const UpdateProfile = () => {
   }
 
   const handleSubmit = async () => {
+    if (email !== profile?.email) {
+      const checkEmail = await dispatch(checkingIsEmailExist(email));
+      console.log(checkEmail, );
+      if(checkEmail?.status){
+        return toast.error("Email id is already registered with us")
+      }
+    }
     const payloads = {
       id: id,
       assembly: assembly?.assembly, //default value.
@@ -161,6 +171,9 @@ const UpdateProfile = () => {
   }
   const handleEducation = (name, value) => setEducation({...education, [name]: value})
   // console.log(profileDetail, stateName, moment(dob).format('YYYY-MM-DD'), 'PPPPPPPPPPPPPPP');
+  const checkDisable = () => {
+    return !(fname || lname)
+  }
   return (
     <div className="bg-[#E4E7EC] w-[100%]  p-6">
       <div className="updateTitle text-center rounded-xl flex-wrap mt-2 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
@@ -268,6 +281,28 @@ const UpdateProfile = () => {
                   }}
                 />
               </div>
+              {fname || lname ? (
+                ""
+              ) : (
+                <div className="-mt-2 flex gap-2">
+                  {fname ? (
+                    <></>
+                  ) : (
+                    <Typography className="w-1/2" variant="small" color="red">
+                      {" "}
+                      Enter first name
+                    </Typography>
+                  )}
+                  {lname ? (
+                    <></>
+                  ) : (
+                    <Typography variant="small" color="red">
+                      {" "}
+                      Enter last name
+                    </Typography>
+                  )}
+                </div>
+              )}
               <Input
                 classes={"flex my-2"}
                 label={"Email"}
@@ -281,7 +316,7 @@ const UpdateProfile = () => {
               />
               <div className="my-3 gap-2 flex w-full justify-between">
                 <Dropdown
-                    style={'w-1/2'}
+                  style={"w-1/2"}
                   label={"Phone"}
                   options={[{ code: "+91" }, { code: "+1" }]}
                   keyName={"code"}
@@ -307,26 +342,26 @@ const UpdateProfile = () => {
               </div>
               <div className=" gap-2 my-2 ">
                 <div className="">
-                    <Input
-                    labelclass={'min-w-[165px]'}
+                  <Input
+                    labelclass={"min-w-[165px]"}
                     classes={"flex"}
                     label={"Date of birth*"}
                     attributes={{
-                        name: "dob",
-                        onChange: (e) =>
+                      name: "dob",
+                      onChange: (e) =>
                         handleChange(e.target.name, e.target.value),
-                        type: "date",
-                        placeholder: "",
-                        value: dob ,
+                      type: "date",
+                      placeholder: "",
+                      value: dob,
                     }}
-                    />
+                  />
                 </div>
                 <div className="flex items-center mt-3">
                   {/* <label className="block me-6 text-gray-900">
                     Gender
                   </label> */}
                   <Dropdown
-                    label={'Gender'}
+                    label={"Gender"}
                     style={"w-full"}
                     name={"Gender"}
                     options={[{ name: "Male" }, { name: "Female" }]}
@@ -336,18 +371,26 @@ const UpdateProfile = () => {
                   />
                 </div>
               </div>
-            {
-            isPersonal?
-              <PersonalAccount states={states} education={education}
-                 country={country} handleCountry={handleCountry} 
-                 handleChange={handleChange} handleEducation={handleEducation}/>
-              : 
-              <OrganizationAccount states={states} orgDetail={orgDetail}
-              handleChange={handleOrganization} />
-              }
+              {isPersonal ? (
+                <PersonalAccount
+                  states={states}
+                  education={education}
+                  country={country}
+                  handleCountry={handleCountry}
+                  handleChange={handleChange}
+                  handleEducation={handleEducation}
+                />
+              ) : (
+                <OrganizationAccount
+                  states={states}
+                  orgDetail={orgDetail}
+                  handleChange={handleOrganization}
+                />
+              )}
               {/* form button */}
               <div className="flext w-full text-center">
                 <button
+                  disabled={ checkDisable() }
                   onClick={handleSubmit}
                   className="w-[180px] pr-3 bg-[#7991BD] p-1 px-2 rounded-lg text-white mt-4"
                 >

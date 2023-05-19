@@ -33,7 +33,7 @@ const MyFriendsPage = () => {
       dispatch(getFriendsList(profileid));
     }
   }, []);
-  console.log(isEmpty(friends), "CHHHH", friends);
+  // console.log(isEmpty(friends), "CHHHH", friends);
   const option = useMemo(() => {
     const forPersonalAcc = [
       { name: "All", key: "all" },
@@ -82,9 +82,9 @@ const MyFriendsPage = () => {
 
         <section className="h-[600px] overflow-y-scroll pt-2 flex flex-col gap-4">
           {
-            // isEmpty(friends)
-            // ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
-            // :
+            isEmpty(friends)
+            ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
+            :
             [1, 2, 3, 4,3,4,5,6,6].map((elem, index) => (
               <FriendList icon={true} desc={true} data={elem} />
             ))

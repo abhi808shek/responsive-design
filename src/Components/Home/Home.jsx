@@ -45,7 +45,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
          };
          dispatch(getLatestKicks(params, data));
       // dispatch(getKicksVideosWithLimit(data));
-      // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+      dispatch(getAllPostWithLimit(profile.id));
       dispatch(
         getUnionListByProfileId(defaultRootData?.data?.postdata?.profileid)
       );

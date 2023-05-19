@@ -1,4 +1,3 @@
-
 import React, { useEffect, useRef, useState } from "react";
 import Input from "../InputBox/Input";
 import PasswordInput from "../InputBox/PasswordInput";
@@ -10,21 +9,24 @@ import { useFormik } from "formik";
 import * as Yup from "yup";
 import { createPortal } from "react-dom";
 import Modal from "../Modal/Modal";
-import { saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
+import { checkingIsEmailExist, saveUserSignupData } from "../../../../redux/actionCreators/authActionCreator";
 import { useDispatch } from "react-redux";
 import firebaseApp, { auth } from "../../../../config/firebase";
-import { RecaptchaVerifier, getAuth, signInWithPhoneNumber } from "firebase/auth";
-
+import {
+  RecaptchaVerifier,
+  getAuth,
+  signInWithPhoneNumber,
+} from "firebase/auth";
 
 import { initializeApp } from "firebase/app";
-import firebase from 'firebase/compat/app';
+import firebase from "firebase/compat/app";
 import "firebase/auth";
 import { document } from "postcss";
-
+import { isEmpty, toasterFunction } from "../../../Utility/utility";
+import { toast } from "react-toastify";
 
 const Signup = () => {
-
-  const captchaEl = useRef()
+  const captchaEl = useRef();
   const [state, setState] = useState({});
   const [profileType, setProfileType] = useState("");
   const { showModal, modalType } = state;
@@ -33,7 +35,6 @@ const Signup = () => {
   const phoneNumberRules = /[0-9]{10}$/;
   const navigate = useNavigate();
 
-
   const formik = useFormik({
     validateOnMount: true,
     initialValues: {
@@ -41,37 +42,53 @@ const Signup = () => {
       password: "",
       phone: "",
       termsAndConditions: false,
+      profileType: "",
     },
-    // validationSchema: Yup.object({
-    //   // profile: Yup.string().oneOf(["Personal", "Organization"], "Please select profile type.").required("Required"),
-    //   email: Yup.string()
-    //     .email('"Email address incorrect. Please Try again"')
-    //     .required("Required"),
-    //   password: Yup.string()
-    //     .min(
-    //       8,
-    //       "Password should be minimum of 8 length characters with one numerical value"
-    //     )
-    //     .matches(passwordRules, {
-    //       message:
-    //         "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
-    //     })
-    //     .required("Required"),
-    //   // phone: Yup.string()
-    //   //   // .min(10, "Phone no is incorrect. Please Try again")
-    //   //   // .max(10, "Phone no is incorrect. Please Try again")
-    //   //   .matches(phoneNumberRules, {
-    //   //     excludeEmptyString: true,
-    //   //     message: "Please enter a valid phone number"
-    //   //   })
-    //     // .required("Required"),
-    //   // termsAndConditions: Yup.bool().oneOf(
-    //   //   [true],
-    //   //   "You need to accept the terms and conditions"
-    //   // ),
-    // }),
+    validationSchema: Yup.object({
+      // profile: Yup.string().profileType("Please select profile type.").required("Required"),
+      email: Yup.string()
+        .when("phone", (phone, schema) => {
+          if (!isEmpty(phone)) {
+            return schema.notRequired();
+          } else {
+            return schema.required("email required");
+          }
+        })
+        .email('"Email address incorrect. Please Try again"'),
+      password: Yup.string()
+        .min(
+          8,
+          "Password should be minimum of 8 length characters with one numerical value"
+        )
+        .matches(passwordRules, {
+          message:
+            "min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit",
+        })
+        .required("Required"),
+      phone: Yup.string()
+        // .min(10, "Phone no is incorrect. Please Try again")
+        // .max(10, "Phone no is incorrect. Please Try again")
+        .matches(phoneNumberRules, {
+          excludeEmptyString: true,
+          message: "Please enter a valid phone number"
+        }),
+      termsAndConditions: Yup.bool().oneOf(
+        [true],
+        "You need to accept the terms and conditions"
+      ),
+    }),
     onSubmit: async (event) => {
+      const isExist = await checkUserExist(formik.values.email || formik.values.phone);
+      if(isExist && formik.values.email){
+        return toast.error('Your email already registered with us, please try to login')
+      }else if(isExist && formik.values.phone){
+        return toast.error('Your phone number already registered with us, please try to login')
+      }
       // event.preventDefault();
+      captchaEl.current.innerHTML = '';
+      if (!profileType) {
+        return toasterFunction("Please select profile type");
+      }
       const dataObj = {
         datetime: Date.now().toString(),
         profileType: profileType,
@@ -80,67 +97,67 @@ const Signup = () => {
       };
       const response = await dispatch(saveUserSignupData(dataObj));
       if (formik.values.phone) {
-
-        signIn("+91" + formik.values.phone)
-      } else
-        if (response.status === 200) {
-          navigate(`/auth/verification/signup?${profileType}`)
-        }
+        signIn(
+          formik?.values.phone?.includes("91")
+            ? formik.values.phone
+            : `+91${formik.values.phone}`
+        );
+      } else if (response.status === 200) {
+        toast.success('Successfully sent code to email address-'+ `${formik.values.email}`)
+        navigate(`/auth/verification/signup?${profileType}`);
+      }
     },
   });
-  // function configureRecaptcha(phoneNumber){
-  //     console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
-  //     window.recaptchaVerifier = new firebase.auth.RecaptchaVerifier("sign-in-button",
-  //     {
-  //       "size": "invisible",
-  //       "callback": (response) => {
-  //         console.log(response, 'otppppppppppp sentttttt');
-  //         signIn(phoneNumber);
-  //       }
-  //     })
-  //   }
+
 
   function configureRecaptcha(phoneNumber, auth) {
-    console.log("<>>>>>>>>>>>>>>>>", phoneNumber);
-    window.recaptchaVerifier = new RecaptchaVerifier("sign-in-button",
+    window.recaptchaVerifier = new RecaptchaVerifier(
+      "sign-in-button",
       {
-        "size": "invisible",
-        "callback": (response) => {
-          console.log(response, 'otppppppppppp sentttttt');
+        size: "invisible",
+        callback: (response) => {
           // signIn(phoneNumber);
-        }
+        },
       },
-      auth)
+      auth
+    );
   }
 
   function signIn(phoneNumber) {
-    console.log("HHHHHHHHHH");
-    const auth = getAuth()
+    const auth = getAuth();
     try {
-      configureRecaptcha(formik.values.phone, auth);
+      configureRecaptcha(phoneNumber, auth);
     } catch (err) {
-      console.log(err, 'captcha error');
+      console.log(err, "captcha error");
     }
 
     // const auth = getAuth();
     const appVerifier = window.recaptchaVerifier;
-    signInWithPhoneNumber(auth, phoneNumber, appVerifier).then((confirmation) => {
-      window.confirmation = confirmation;
-      console.log('otp send');
-    }).catch((err) => {
-      captchaEl.current.innerHTML = null
-      console.log('otp not send because send', err);
-    })
+    signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+      .then((confirmationResult) => {
+        window.confirmationResult = confirmationResult;
+        captchaEl.current.innerHTML = '';
+        navigate(`/auth/verification/signup?${profileType}`);
+      })
+      .catch((err) => {
+        captchaEl.current.innerHTML = '';
+        toast.error(err.message);
+      });
   }
 
   const handleClick = (event) => {
     setProfileType(event.target.id);
-
-    // setState({ ...state, showModal: false, modalType: event.target.id})
   };
-  const handleClose = () => {
-    setProfileType(event.target.id)
-    // setState({ ...state, showModal: false, modalType: ''})
+  function checkUserExist(email){
+    if(email){
+      return dispatch(checkingIsEmailExist(email)).then((res) => {
+        if(res?.data?.id){
+          return true
+        }else {
+          return false
+        }
+      })
+    }
   }
 
   return (
@@ -151,6 +168,7 @@ const Signup = () => {
         <div className="flex w-full justify-between mb-2">
           <span>
             <input
+              va
               type="radio"
               name="signUp"
               id="Personal"
@@ -168,7 +186,6 @@ const Signup = () => {
             <span className="ml-2">Organization</span>
           </span>
         </div>
-
 
         <Input
           title="Email"
@@ -226,20 +243,25 @@ const Signup = () => {
           onHandleChange={formik.handleChange}
           touched={formik.touched.password}
           onBlur={formik.handleBlur}
+          inpu
         />
         <div className="w-full flex flex-col mb-2">
           <div className="flex w-full gap-1 items-center">
-            <input type="checkbox"
+            <input
+              type="checkbox"
               name="termsAndConditions"
+              value={formik.values.termsAndConditions}
+              onChange={formik.handleChange}
               touched={formik.values.termsAndConditions}
-              onBlur={formik.handleBlur} />
+              onBlur={formik.handleBlur}
+            />
             <p className="text-[10px] font-semibold">
               I agree to all Terms,Cookies and Privacy
             </p>
             <br />
           </div>
           {formik.touched.termsAndConditions &&
-            formik.errors.termsAndConditions ? (
+          formik.errors.termsAndConditions ? (
             <p className="text-[10px] text-[red] self-start w-[80%] ">
               {formik.errors.termsAndConditions}
             </p>
@@ -247,10 +269,10 @@ const Signup = () => {
         </div>
         <div ref={captchaEl} id="sign-in-button"></div>
         <Button2
-          id='sign'
+          id="sign"
           title="Sign Up"
           bgColor="#7991BD"
-          disabled={!formik.isValid}
+          // disabled={!formik.isValid}
           onClick={formik.handleSubmit}
         />
         <p className="text-[10px] font-bold text-gray-500 mb-2 mt-3">

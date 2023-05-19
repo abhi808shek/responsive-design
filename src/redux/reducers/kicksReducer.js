@@ -14,47 +14,84 @@ const kicksReducer = (state = initialState, action) => {
       return { ...state, trendingKicks: action.payload.data };
     case "GET_FOLLOWING_KICKS":
       return { ...state, followingKicks: action.payload.data };
-    case "ADD_LIKE":
-      const {  followingKicks, latestKicks, trendingKicks} = state;
-      console.log(trendingKicks, state.segment, "{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{{");
+    case "INCREASE_LIKE":
+      const { followingKicks, latestKicks, trendingKicks } = state;
       if (state.segment === "Following") {
         const liked = followingKicks.content.map((item) => {
-          return action.payload.data.postid === item.id
-            ? { ...item, isliked: true }
+          return action.payload === item.id
+            ? { ...item, isliked: true, likecount: item?.likecount + 1 }
             : item;
         });
         return {
           ...state,
           totalLikes: action.payload.data,
-          followingKicks: {...followingKicks, content: liked},
+          followingKicks: { ...followingKicks, content: liked },
         };
       } else if (state.segment === "Trending") {
         const liked = trendingKicks.content.map((item) => {
-          return action.payload.data.data.postid === item.id
-            ? { ...item, isliked: true }
+          return action.payload === item.id
+            ? { ...item, isliked: true, likecount: item?.likecount + 1 }
             : item;
         });
         return {
           ...state,
           totalLikes: action.payload.data,
-          trendingKicks: {...trendingKicks, content:liked},
+          trendingKicks: { ...trendingKicks, content: liked },
         };
       } else if (state.segment === "Latest") {
         const liked = latestKicks.content.map((item) => {
-          return action.payload.data.postid === item.id
-            ? { ...item, isliked: true }
+          console.log(action.payload === item.id);
+          return action.payload === item.id
+            ? { ...item, isliked: true, likecount: item?.likecount + 1 }
             : item;
         });
         return {
           ...state,
           totalLikes: action.payload.data,
-          latestKicks: {...latestKicks, content: liked},
+          latestKicks: { ...latestKicks, content: liked },
+        };
+      }
+
+    case "INCREASE_LIKE":
+      const { followingKicks: followingKick, latestKicks: latestKick, trendingKicks: trendingKick } = state;
+      if (state.segment === "Following") {
+        const liked = followingKick.content.map((item) => {
+          return action.payload === item.id
+            ? { ...item, isliked: false, likecount: item?.likecount - 1 }
+            : item;
+        });
+        return {
+          ...state,
+          totalLikes: action.payload.data,
+          followingKicks: { ...followingKick, content: liked },
+        };
+      } else if (state.segment === "Trending") {
+        const liked = trendingKick.content.map((item) => {
+          return action.payload === item.id
+            ? { ...item, isliked: false, likecount: item?.likecount - 1 }
+            : item;
+        });
+        return {
+          ...state,
+          totalLikes: action.payload.data,
+          trendingKicks: { ...trendingKick, content: liked },
+        };
+      } else if (state.segment === "Latest") {
+        const liked = latestKick.content.map((item) => {
+          console.log(action.payload === item.id);
+          return action.payload === item.id
+            ? { ...item, isliked: false, likecount: item?.likecount - 1 }
+            : item;
+        });
+        return {
+          ...state,
+          totalLikes: action.payload.data,
+          latestKicks: { ...latestKick, content: liked },
         };
       }
     case "COMMENTS_LIST":
       return { ...state, comments: action.payload.data };
     case "KICKS_SEGMENT":
-      console.log(action.payload, "_______________TTTTTTTTTTTTTTTTT");
       return { ...state, segment: action.payload };
     default:
       return state;

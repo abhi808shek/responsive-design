@@ -9,7 +9,7 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { getEducationDetail, getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
 import { getUserDataFromLocalStorage, toasterFunction } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
@@ -28,23 +28,26 @@ const ProfilePage = ({ isOther }) => {
     return  isOther ? { id: params?.id} : getUserDataFromLocalStorage();
   }, [isOther, params.id])
 
+  
   const reducerData = useSelector((state) => {
     return {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
-      friends: state?.profileReducer?.friends,
+      friends: state?.friendReducer?.friends,
       profileDetail: state?.profileReducer?.profileDetail?.data,
       profile: state.profileReducer.profile
     }
   });
   const { following, followers, friends,profileDetail, profile} = reducerData;
-
+  
+  const isPersonal = profile?.profiletype === "Personal";
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
+     isPersonal ? getEducation(): '';
+
     dispatch(checkingIsEmailExist())
     dispatch(getProfileById(user?.id)).then((res) => {
-      console.log('profile resppppppp', res);
       if(!res.status){
         toasterFunction(res.message)
         // toast.error(res.message)
@@ -69,6 +72,9 @@ const ProfilePage = ({ isOther }) => {
       let payloads = {...profileDetail, pimage: uploadResponse.path};
       dispatch(updateProfile(payloads));
     }
+  }
+  function getEducation (){
+    dispatch(getEducationDetail(profile?.id))
   }
   return (
     <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">

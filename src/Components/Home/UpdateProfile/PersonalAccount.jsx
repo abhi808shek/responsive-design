@@ -135,9 +135,11 @@ const PersonalAccount = ({
         Education Detail:
       </div>
       <p>Let's start with school</p>
-      <div className="flex my-2 gap-3">
-        {/* <AutocompletePlace /> */}
-        <Input
+      <div className="flex w-full my-2 gap-3">
+      <div className="w-full">
+        <AutocompletePlace livePlace={(schoolLocation) => handleEducation("schoolname", schoolLocation)} placeholder={'Enter your school'} />
+      </div>
+        {/* <Input
           attributes={{
             name: "school",
             placeholder: "School Name",
@@ -145,7 +147,8 @@ const PersonalAccount = ({
             onChange: (e) => handleEducation(e.target.name, e.target.value),
             value: `${schoolname || ""} ${schooladdress || ""}`,
           }}
-        />
+        /> */}
+
         <Dropdown
           name={"Choose Year"}
           style={"w-full"}

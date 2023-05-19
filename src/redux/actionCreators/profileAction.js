@@ -306,9 +306,9 @@ export const getEducationDetail= (data) => async (dispatch) => {
         console.log(response);
         dispatch({
             type: 'GET_SCHOOL_DETAIL',
-            payload: response.data
+            payload: response.data.data
         })
-        return response.data
+        return response.data.data
     }catch(error){
         throw error
     }
