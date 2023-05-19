@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
 import { createEvent, updateEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useDispatch, useSelector } from 'react-redux'
+import {v4 as uuidv4} from 'uuid'
 import AutocompletePlace from '../../../../googlemap/AutocompletePlace';
 import ToastWarning from '../../../../common/ToastWarning';
 import { toast } from 'react-toastify';
@@ -76,7 +77,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     "eventFrndId": "need",
     "eventType": selectedSpecificEvent,
     "hostmailid": formState.hostmailid,
-    "id": '608a36dee1c7ec43cf93644f'
+    "id": uuidv4(),
   }
 
   const handleCreateEvent = () => {
@@ -144,10 +145,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
             <span className='font-bold text-xl text-gray-600'>Event Mode</span>
             <div className='px-6 flex items-center'>
-              <input type='radio' className='accent-[#649B8E] w-5 h-5' id='cation' /><label for='cation' className='pl-2'>At Location</label>
+              <input type='radio' className='accent-[#649B8E] w-5 h-5' id='location' /><label htmlFor='location' className='pl-2'>At Location</label>
             </div>
             <div className='px-6 flex items-center'>
-              <input type='radio' className='accent-[#649B8E] w-5 h-5' id='location' /><label for='location' className='pl-2'>Online</label>
+              <input type='radio' className='accent-[#649B8E] w-5 h-5' id='online' /><label htmlFor='online' className='pl-2'>Online</label>
             </div>
           </div>
 
@@ -187,7 +188,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
           <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex my-7 justify-between`}>
             <span className='text-gray-700'>Food Availability</span>
-            <div className="py-">
+            <div className="">
               <ToggleButton />
             </div>
           </div>
@@ -211,7 +212,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
           <div className={`${politicalPartyFeedback ? '' : 'hidden'} flex my-7 justify-between`}>
             <span className='text-gray-700'>Feedback only visible to me</span>
-            <div className="py-">
+            <div className="">
               <ToggleButton />
             </div>
           </div>

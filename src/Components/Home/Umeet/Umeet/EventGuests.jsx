@@ -82,7 +82,7 @@ export default function EventGuests(){
 
       {
         dataList.map((data, i)=>(
-        <div className='py-4 border-t flex justify-between'>
+        <div key={i} className='py-4 border-t flex justify-between'>
           <div className='flex'>
            <img src={data.img} className='h-10 mr-2 w-10 rounded-full object-cover' />
            <div className='flex flex-col'>

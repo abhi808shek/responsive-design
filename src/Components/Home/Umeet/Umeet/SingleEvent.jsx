@@ -7,7 +7,7 @@ import editImg from '../../../../Assets/Images/Edit profile.png'
 import deleteImg from '../../../../Assets/Images/Delete.png'
 import shareImg from '../../../../Assets/Images/External share.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllEvents, getEventList } from '../../../../redux/actionCreators/umeetActionCreator'
+import { getAllEvents, getEventList, getEventByProfileid, getEventDetails } from '../../../../redux/actionCreators/umeetActionCreator'
 
 function EventStatus({ data }) {
   if (data.eventstatus == 'attending') {
@@ -30,17 +30,23 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
   const reducerData = useSelector((state) => {
     return {
       profile: state?.profileReducer?.profile,
-      allEvents: state?.umeetReducer?.allEvents?.slice(0, 30)
+      allEvents: state?.umeetReducer?.allEvents?.slice(1, 10),
+      allMyEvents: state?.umeetReducer?.allMyEvents?.slice(1, 10) 
     }
   });
 
-  const { profile, allEvents } = reducerData
-  console.log(allEvents, profile?.id)
-
+  const { profile, allEvents, allMyEvents } = reducerData
+  
   useEffect(() => {
-    dispatch(getEventList(profile?.id))
-    dispatch(getAllEvents(profile?.id))
+    dispatch(getEventList(profile?.userid))
+    dispatch(getEventByProfileid(profile?.userid))
+    //dispatch(getAllEvents(profile?.id))    
   }, [])
+
+  const handleBothDetails = (id)=>{
+    handleEventDetails(id)
+    dispatch(getEventDetails(id))
+  }
 
   return (
     <>
@@ -48,7 +54,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
         myEvent ? (<>
           {myEventataList &&
             myEventataList.map((data, i) => (
-              <div key={i} onClick={() => handleEventDetails(data.id)} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+              <div key={i} onClick={() => handleBothDetails(data.id)} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
                 {/* Img section */}
                 <div className='w-1/4 flex items-center justify-center'>
                   <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />
@@ -94,9 +100,9 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
           } </>
         ) : (
           <>
-            {allEvents &&
+            {allEvents ?
               allEvents?.map((data, i) => (
-                <div key={i} onClick={() => handleEventDetails(data.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
+                <div key={i} onClick={()=>handleBothDetails(data.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
                   {/* Img section */}
                   <div className='w-4/12 fle h-[75px] items-center justify-center'>
                     <img src={data.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
@@ -120,7 +126,7 @@ const SingleEvent = ({ dataList, myEventataList, handleEventDetails,
                   </div>
                 </div>
               ))
-            }
+            : <p>Loading</p>}
           </>)
       }
 

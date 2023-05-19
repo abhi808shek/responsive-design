@@ -3,7 +3,9 @@ const initialState = {
   allEvents: [],
   eventDetail: {},
   guestByStateList:[],
-  emailList:[]
+  emailList:[],
+  allMyEvents: [],
+  eventChatMessages: []
 };
 
 const umeetReducer = (state = initialState, action) => {
@@ -14,6 +16,8 @@ const umeetReducer = (state = initialState, action) => {
         return { ...state, eventCreateSuccess: false };
       case "GET_ALL_EVEVTS":
         return { ...state, allEvents: action.payload.data };
+      case "GET_ALL_MYEVEVTS":
+        return { ...state, allMyEvents: action.payload.data };
       case "SINGLE_EVEVT_DETAIL":
         return { ...state, eventDetail: action.payload.data };
       case "ADD_GUEST_BY_STATE":
@@ -22,6 +26,8 @@ const umeetReducer = (state = initialState, action) => {
       case "ADD_EMAIL_TO_LIST":
         console.log("emailList", action.payload);
         return { ...state, emailList: [...state.emailList,action.payload] };
+      case "EVEVT_CHAT_DETAIL":
+        return { ...state, eventChatMessages: action.payload.data }
       default:
         return state;
     }

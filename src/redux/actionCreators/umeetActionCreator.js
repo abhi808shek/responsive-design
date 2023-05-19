@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const token = JSON.parse(localStorage.getItem('userCredential')).token
+
 export const createEvent = (data) => async (dispatch) => {
     try {
         const response = await axios.post(
@@ -21,7 +23,6 @@ export const updateEvent = (data) => async (dispatch) => {
             `http://3.233.82.34:8080/event/api/event/updateEvent`,
             data
         );
-        console.log(response);
         dispatch({
             type: "",
             payload: response.data,
@@ -37,24 +38,39 @@ export const deleteEvent = (data) => async (dispatch) => {
         const response = await axios.delete(
             `http://3.233.82.34:8080/event/api/event/deleteEvent/${data}`
         );
-        console.log(response);
         dispatch({
             type: "",
             payload: response.data,
         });
-        response.data;
+        console.log(response.data, 'deleted')
     } catch (error) {
         console.log(error);
         throw error;
     }
 };
 
+export const cancelEvent = (data) => async (dispatch) => {
+    try {
+        const response = await axios.post(
+            `http://3.233.82.34:8080/event/api/event/admin/cancelevent`, data
+        );
+        dispatch({
+            type: "",
+            payload: response.data,
+        });
+        console.log(response.data, 'deleted event')
+    } catch (error) {
+        console.log(error);
+        throw error;
+    }
+};
+// ok
 export const getEventDetails = (data) => async (dispatch) => {
     try {
         const response = await axios.get(
-            `http://3.233.82.34:8080/event/api/event/geteventbyid/${data}`
+            `http://3.233.82.34:8080/event/api/event/geteventbyid/${data}/${Date.now()}`
         );
-        console.log(response);
+        console.log(response, 'single event details');
         dispatch({
             type: "SINGLE_EVEVT_DETAIL",
             payload: response.data,
@@ -64,13 +80,17 @@ export const getEventDetails = (data) => async (dispatch) => {
     }
 };
 
+// ok
 export const getEventList = (data) => async (dispatch) => {
     try {
         const response = await axios.get(
-            `http://3.233.82.34:8080/event/api/event/getEvent?limit_10`,
-            data
+            `http://3.233.82.34:8080/event/api/event/getEvent`,
+            data,
+        {
+            headers:{"Authorization":`Bearer ${token}`}
+        }            
         );
-        console.log(response);
+        console.log(response, 'getAllEventList')
         dispatch({
             type: "GET_ALL_EVEVTS",
             payload: response.data,
@@ -81,14 +101,18 @@ export const getEventList = (data) => async (dispatch) => {
     }
 };
 
+// all events creatd by user by Ajith ok but no data returns
 export const getEventByProfileid = (data) => async (dispatch) => {
     try {
         const response = await axios.get(
-            `http://3.233.82.34:8080/event/api/event/getmyallevent/id1`, data
+            `http://3.233.82.34:8080/event/api/event/getmyallevent/${data}/${Date.now()}`,
+           {
+            headers:{"Authorization":`Bearer ${token}`}
+           }            
         );
-        console.log(response);
+        console.log(response, 'myevents by id', data)
         dispatch({
-            type: "",
+            type: "GET_ALL_MYEVEVTS",
             payload: response.data,
         });
     } catch (error) {
@@ -101,7 +125,6 @@ export const getInviteList = (data) => async (dispatch) => {
         const response = await axios.get(
             `http://3.233.82.34:8080/event/api/invities/getprofiles/${data}/true`
         );
-        console.log(response);
         dispatch({
             type: "",
             payload: response.data,
@@ -329,6 +352,51 @@ export const allEmailInvites = (emailList) => async (dispatch) => {
         dispatch({
             type: "ALL_EMAIL_INVITES",
             //   payload: emailList,
+        });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllEventChatMessage = (data) => async (dispatch) => {
+    try {
+        const response = await axios.get(
+            `http://3.233.82.34:8080/event/api/eventmessage/getallmessage/${data}`
+        );
+        console.log(response, 'eventmessages');
+        dispatch({
+            type: "EVEVT_CHAT_DETAIL",
+            payload: response.data,
+        });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllUgFriends = (data) => async (dispatch) => {
+    try {
+        const response = await axios.post(
+            `http://3.233.82.34:8080/profile/api/education/getugfriends`, data
+        );
+        console.log(response.data, 'getAllUgFriends');
+        dispatch({
+            type: "GET_UG_FRIENDS",
+            payload: response.data,
+        });
+    } catch (error) {
+        throw error;
+    }
+};
+
+export const getAllPgFriends = (data) => async (dispatch) => {
+    try {
+        const response = await axios.post(
+            `http://3.233.82.34:8080/profile/api/education/getpgfriends`, data
+        );
+        console.log(response.data, 'getAllPgFriends');
+        dispatch({
+            type: "GET_UG_FRIENDS",
+            payload: response.data,
         });
     } catch (error) {
         throw error;

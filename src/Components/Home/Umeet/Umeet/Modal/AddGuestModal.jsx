@@ -2,6 +2,8 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { useState } from 'react'
 import AddPeopleModal from './AddPeopleModal'
+import { useDispatch, useSelector } from 'react-redux'
+import { getAllUgFriends, getAllPgFriends } from '../../../../../redux/actionCreators/umeetActionCreator'
 
 const dataList = [
   {
@@ -21,8 +23,23 @@ const dataList = [
 const AddGuestModal = ({ onClose }) => {
   const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
 
-  const handleShowAddPeopleModal = ()=>{
-   setShowAddPeopleModal(true)
+  const dispatch = useDispatch()
+  const j = useSelector(state=>state)
+
+  const postData = {
+   "ugaddress": null,
+   "ugdegree": null,
+   "ugbranch": null,
+   "ugpassyear": null,
+  }
+
+  const handleShowAddPeopleModal = (qualification)=>{
+    setShowAddPeopleModal(true)
+    if(qualification.toLowerCase() == 'graduation'){
+      dispatch(getAllUgFriends(postData))
+    }else if(qualification.toLowerCase().includes('post')){
+      dispatch(getAllPgFriends(postData))
+    }
   }
 
   return (
@@ -34,7 +51,7 @@ const AddGuestModal = ({ onClose }) => {
       </div>
       {
         dataList?.map((data, i)=>(
-          <div key={i} onClick={handleShowAddPeopleModal} className='flex cursor-pointer justify-between py-3 px-3 items-center border-t'>
+          <div key={i} onClick={()=>handleShowAddPeopleModal(data.qualification)} className='flex cursor-pointer justify-between py-3 px-3 items-center border-t'>
            <div className='flex flex-col w-5/6'>
             <span className='font-medium text-gray-800'>{data.qualification}</span>
             <span className='text-gray-600 text-[15px]'>{data.address}</span>
