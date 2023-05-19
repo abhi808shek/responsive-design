@@ -58,10 +58,7 @@ const Navbar = () => {
     navigate(option.url);
   };
 
-  return (
-    {
-      /* navbar scrollable to fixed postion and its relative class removed */
-    },
+  return
     (
       <section className="h-[65px] w-full fixed flex bg-white z-20 responsive_navbar2">
         {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
@@ -185,7 +182,7 @@ const Navbar = () => {
         </div>
       </div>
     </section>
-  );
+  )
 };
 
 export default Navbar;
