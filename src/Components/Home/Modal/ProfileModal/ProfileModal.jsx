@@ -7,7 +7,7 @@ import { settingUserLoginData } from "../../../../redux/actionCreators/userActio
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const ProfileModal = ({profile}) => {
+const ProfileModal = ({profile = {}}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onHandleClick = (option) => {

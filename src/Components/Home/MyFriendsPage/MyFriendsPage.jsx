@@ -22,10 +22,11 @@ const MyFriendsPage = () => {
       // following: state?.profileReducer?.following,
       // followers: state?.profileReducer?.followers,
       // friends: state?.profileReducer?.friends?.data,
-      friendList : state.friendReducer.friends
+      friendList : state.friendReducer.friends,
+      profile: state.profileReducer.profile
     };
   });
-  const { following, followers, friendList } = reducerData;
+  const { following, followers, friendList, profile } = reducerData;
   const [state, setState] = useState({});
   const { relation = { name: "All", key: "all" } } = state;
   useEffect(() => {

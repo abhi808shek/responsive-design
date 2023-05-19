@@ -14,9 +14,9 @@ import { toast } from "react-toastify";
 
 const ProfileImageSection = ({ isOther, data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
   const { id } = data || {}
-  const friendsCount =  friends?.data?.length || 0;
-  const followingCount = following?.data?.length || 0;
-  const followersCount = followers?.data?.length || 0;
+  const friendsCount =  friends?.length || 0;
+  const followingCount = following?.length || 0;
+  const followersCount = followers?.length || 0;
 
   const userName = data?.fname + data?.lname;
 

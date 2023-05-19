@@ -12,6 +12,7 @@ export const getProfileById= (data) => async (dispatch) => {
                 "Authorization":`Bearer ${token}`
             }
       })
+       localStorage.setItem("profile", JSON.stringify(response?.data?.data));
       console.log(response.data, "<<<<<<<<<<????????");
         dispatch({
             type: 'GET_PROFILE_DETAILS',

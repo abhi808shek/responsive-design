@@ -58,9 +58,11 @@ export const addFriend= (data) => async (dispatch) => {
 }
 
 export const updateRelation = (data) => async (dispatch) => {
-    const { user1, user2} = data
+    // const { user1, user2} = data
     try{
-        const response = await axios.put(`http://3.233.82.34:8080/friend/api/friend/update/${user1}/${user2}`);
+        const response = await axios.post(
+          `http://3.233.82.34:8080/friend/api/friend/add`, data
+        );
         console.log(response);
         dispatch({
             type: '',

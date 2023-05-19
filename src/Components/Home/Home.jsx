@@ -31,11 +31,6 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     if (!Object.keys(defaultRootData)?.length) {
       dispatch(defaultRootScreen());
     } else {
-      // const data = {
-      //   profileId: defaultRootData?.data?.postdata?.profileid,
-      //   rootRequest: true,
-      //   segment: "FOLLOWING",
-      // };
          let params = { index: 0, size: 10 };
          const data = {
            categories: [],

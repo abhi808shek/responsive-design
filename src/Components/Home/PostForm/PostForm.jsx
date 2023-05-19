@@ -8,8 +8,9 @@ const PostForm = ({ width, bgColor }) => {
   const [state,setState] = useState({});
   const { showModal} = state
   const createPostModal = () => {
-    setState({...state, showModal: true})
+    setState({...state, showModal: !showModal})
   };
+  console.log(state);
   return (
     <div className="flex justify-between w-full" onClick={createPostModal}>
         <input
@@ -24,9 +25,8 @@ const PostForm = ({ width, bgColor }) => {
         <Portals>
           <CreatePostModal
             title={"Create"}
-            // setShowCreatePostModal={setShowCreatePostModal}
             handleCloseModal={() => {
-              setState(prev => ({...prev, showModal: false}))
+              setState(prev => ({...prev,naehal: true, showModal: false}))
             }}
           />
         </Portals>

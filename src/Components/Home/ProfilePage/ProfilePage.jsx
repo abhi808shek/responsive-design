@@ -35,11 +35,12 @@ const ProfilePage = ({ isOther }) => {
       followers: state?.profileReducer?.followers,
       friends: state?.friendReducer?.friends,
       profileDetail: state?.profileReducer?.profileDetail?.data,
-      profile: state.profileReducer.profile || {}
+      friendDetail: state.profileReducer.friendDetail,
+      profile: state.profileReducer.profile 
     }
   });
-  const { following, followers, friends,profileDetail, profile} = reducerData;
-  
+  const { following, followers, friends, friendDetail, profile} = reducerData;
+
   const isPersonal = profile?.profiletype === "Personal";
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
@@ -47,14 +48,12 @@ const ProfilePage = ({ isOther }) => {
      isPersonal ? getEducation(): '';
 
     dispatch(checkingIsEmailExist())
-    dispatch(
-      isOther ? getFriendProfile(user?.id) : getProfileById(user?.id)
-    ).then((res) => {
+     isOther ? dispatch(getFriendProfile(user?.id)).then((res) => {
       if (!res.status) {
         toasterFunction(res.message);
         // toast.error(res.message)
       }
-    });
+    }): "";
     dispatch(getFollowing(user?.id));
     dispatch(getFollower(user?.id));
     dispatch(getFriendsList(user?.id));
@@ -68,10 +67,10 @@ const ProfilePage = ({ isOther }) => {
     const uploadResponse =await dispatch(imageUploadApi(coverImg))
     
     if(name === "coverImg"){
-      let payloads = {...profileDetail, pcoverimage: uploadResponse.path}
+      let payloads = {...profile, pcoverimage: uploadResponse.path}
       dispatch(updateProfile(payloads))
     }else if(name === "profileImg"){
-      let payloads = {...profileDetail, pimage: uploadResponse.path};
+      let payloads = {...profile, pimage: uploadResponse.path};
       dispatch(updateProfile(payloads));
     }
   }
@@ -83,7 +82,7 @@ const ProfilePage = ({ isOther }) => {
       <section className="flex sm:w-[50%] flex-col mt-2 items-center lg:items-end">
         <ProfileImageSection
           uploadImage={handleUploadImage}
-          data={profile || {}}
+          data={ isOther ? friendDetail : profile }
           friends={friends}
           following={following}
           followers={followers}
@@ -93,7 +92,7 @@ const ProfilePage = ({ isOther }) => {
         />
 
         {/* About Section */}
-        <AboutSection isOther={isOther} data={profileDetail || {}} />
+        <AboutSection isOther={isOther} data={isOther ? friendDetail : profile} />
       </section>
       <section className="flex sm:w-[50%] flex-col items-center">
         {/* Category Section */}
