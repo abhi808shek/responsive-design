@@ -59,9 +59,6 @@ const Navbar = () => {
   };
 
   return (
-    {
-      /* navbar scrollable to fixed postion and its relative class removed */
-    },    
       <section className="h-[65px] w-full fixed flex bg-white z-20 responsive_navbar2">
         {/* -------------------------------------------------------------------------------------------------------------------------------------------------- */}
         {/* Left Section */}
