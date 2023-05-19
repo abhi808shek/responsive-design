@@ -7,7 +7,7 @@ import { settingUserLoginData } from "../../../../redux/actionCreators/userActio
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const ProfileModal = () => {
+const ProfileModal = ({profile = {}}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onHandleClick = (option) => {
@@ -32,15 +32,15 @@ const ProfileModal = () => {
       <Link to="/profile">
         <div className="flex items-center gap-2 py-2  px-3">
           <img
-            src="./images/events.jpg"
+            src={profile?.pimage}
             alt=""
             className="w-[48px] h-[48px] object-cover rounded-full"
           />
 
           <div className="flex flex-col">
-            <span className="font-bold text-lg ml-1"> Joe D</span>
+            <span className="font-bold text-lg ml-1"> {profile?.fname || ""} {profile?.lname || ""}</span>
             <span className="text-sm text-gray-600 font-semibold">
-              @Software Developer
+              {profile.job || ""}
             </span>
           </div>
         </div>

@@ -22,7 +22,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
   const { defaultRootData } = useSelector((state) => state.eventReducer);
   const reducerData = useSelector((state) => {
     return {
-      profile: state.profileReducer.profile
+      profile: state.profileReducer.profile || {}
     }
   })
   const { profile } = reducerData
@@ -31,11 +31,6 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     if (!Object.keys(defaultRootData)?.length) {
       dispatch(defaultRootScreen());
     } else {
-      // const data = {
-      //   profileId: defaultRootData?.data?.postdata?.profileid,
-      //   rootRequest: true,
-      //   segment: "FOLLOWING",
-      // };
          let params = { index: 0, size: 10 };
          const data = {
            categories: [],
@@ -45,7 +40,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
          };
          dispatch(getLatestKicks(params, data));
       // dispatch(getKicksVideosWithLimit(data));
-      // dispatch(getAllPostWithLimit(defaultRootData?.data?.postdata?.profileid));
+      dispatch(getAllPostWithLimit(profile.id));
       dispatch(
         getUnionListByProfileId(defaultRootData?.data?.postdata?.profileid)
       );
@@ -59,7 +54,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
     <div className="w-full bg-[#E4E7EC] flex flex-col items-center">
       {/* NAVBAR */}
 
-      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-red-500">
+      <div className="w-full flex py-2 sm:w-[50%] lg:w-[40%] bg-white rounded-lg pl-2">
         <PostForm />
       </div>
       <HeroSection />

@@ -9,6 +9,8 @@ export const createEvent = (data) => async (dispatch) => {
             data
         );
         dispatch({ type: "EVENT_CREATE_SUCCESS", payload: response.data });
+        // console.log(response);
+        return response?.data
     } catch (error) {
         dispatch({ type: "EVENT_CREATE_FAILURE", payload: error.message });
         throw error;
@@ -25,6 +27,7 @@ export const updateEvent = (data) => async (dispatch) => {
             type: "",
             payload: response.data,
         });
+        return response.data
     } catch (error) {
         throw error;
     }

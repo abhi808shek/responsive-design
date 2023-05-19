@@ -50,7 +50,6 @@ export default function SelectedVideoModal({ onClose, selectedVideo }) {
       if (uploadVideo?.status) {
         payload.video = uploadVideo?.path
         const createPost = await dispatch(createKicksPost(payload));
-        console.log(createPost, "{{{{{{{{{{ CCCCCCCCCC");
         if (createPost.status) {
           toast.success(createPost.message)
           onClose()
@@ -63,13 +62,12 @@ export default function SelectedVideoModal({ onClose, selectedVideo }) {
     }
   }
 
-  // console.log(profile, "++++++++++++++PPPPPPPPPPPPPPPPPPPPP");
   return (
     <div
       className="top-0 absolute  left-0 fixed flex justify-center items-center w-full h-full z-40"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.5)" }}
     >
-      <div className="bg-white p-4 w-[82%] rounded-lg min-h-[83%]">
+      <div className="bg-white p-4 w-[50%] rounded-lg m-auto">
         <p className="py-1 border-b mb-2 font-semibold text-orange-600 flex justify-center text-xl">
           Add Kicks
         </p>

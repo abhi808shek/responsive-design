@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import UnionsFriendsList from "./UnionsFriendsList";
 import UnionFindFriends from "./UnionFindFriends";
@@ -23,13 +23,15 @@ const UnionsSearchList = () => {
   });
   const { profile, usersList, friendList, activeItem} = reducerData
 
-  const relationOption = [
+  const relationOptions = [
      { name: "Friends", key: "friend", checked: false},
      { name: "Relative", key: "relative", checked: false },
      { name: "Classmate", key: "classmate", checked: false },
      { name: "Officemate", key: "officemate", checked: false },
      { name: activeItem?.groupName, key: activeItem?.groupId, checked: true, disable: true}
    ];
+   const [state, setState] = useState({})
+   const { relationOption = relationOptions} = state
   useEffect(() => {
     dispatch(getFriendsList(profile?.id));
   }, [])
@@ -55,6 +57,17 @@ const UnionsSearchList = () => {
       }
     })
   }
+
+  
+    const handleRelation = (e) => {
+      const name = e.target.name;
+      const value = e.target.checked;
+      console.log(name, value);
+      const selected = relationOption.map((item) => {
+        return item?.name === name ? { ...item, checked: value } : item;
+      });
+      setState({ ...state, relationOption: selected });
+    };
   return (
     <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-[#E4E7EC] mx-auto flex flex-col items-center gap-3 mt-[4px] h-[88%] py-2 px-4">
       <div className="flex gap-2 w-full">
@@ -94,6 +107,7 @@ const UnionsSearchList = () => {
         {unionFriendsTab === "Find Friends" &&
           usersList?.map(( item) => <UnionFindFriends item={item}
           relationOption={relationOption} 
+          handleRelation={handleRelation}
           handleSendRequest={() => handleInvite(item)} />)}
       </div>
     </div>

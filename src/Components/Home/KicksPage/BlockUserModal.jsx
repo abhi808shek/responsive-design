@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { FaUserSlash } from 'react-icons/fa'
 
-const BlockUserModal = ({ onClose }) => {
+const BlockUserModal = ({ onClose, handleBlock }) => {
   return (
   <section className='fixed justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.7)' }}>
    <div className='w-[25%] flex flex-col  p-4 bg-white ml-[9%] mt-[4%] rounded-2xl'> 

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Portals from "../../Portals/Portals";
 import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 
-const UnionFindFriends = ({ item = {}, handleSendRequest, relationOption}) => {
+const UnionFindFriends = ({ item = {}, handleSendRequest, relationOption, handleRelation}) => {
   const {fname, lname, id} = item;
   const [openModal, setOpenModal] = useState(false);
 
@@ -40,6 +40,7 @@ const UnionFindFriends = ({ item = {}, handleSendRequest, relationOption}) => {
       {openModal && (
         <Portals>
           <ChangeRelationshipModal
+            handleRelation={handleRelation}
             relationOption={relationOption}
             button="Send Request"
             title="Wanna Send Friend Request"

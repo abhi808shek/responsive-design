@@ -4,7 +4,7 @@ import { FaUserSlash } from 'react-icons/fa'
 import BlockUserModal from './BlockUserModal'
 import ReportModal from './ReportModal'
 
-const OtherUserVideoModal = ({ onClose }) => {
+const OtherUserVideoModal = ({ onClose, handleBlock }) => {
   const [blockUserModal, setBlockUserModal] = useState(false)
   const [reportModal, setReportModal] = useState(false)
 
@@ -27,7 +27,7 @@ const OtherUserVideoModal = ({ onClose }) => {
           </div>
         </section>
       </div>
-      {blockUserModal && <BlockUserModal onClose={() => setBlockUserModal(false)} />}
+      {blockUserModal && <BlockUserModal handleBlock={handleBlock} onClose={() => setBlockUserModal(false)} />}
       {reportModal && <ReportModal onClose={() => setReportModal(false)} />}
     </section>
   )

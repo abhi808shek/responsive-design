@@ -12,6 +12,8 @@ import { Input } from '@material-tailwind/react'
 import TypeMessage from '../../chat/TypeMessage'
 import { addCommentOnKicks, getCommentsByPostid } from '../../../redux/actionCreators/kicksActionCreator'
 import moment from 'moment'
+import { toast } from 'react-toastify'
+import { imageUploadApi } from '../../../redux/actionCreators/rootsActionCreator'
 
 export default function 
 VideoCommentsModal({ onClose }){
@@ -25,25 +27,47 @@ VideoCommentsModal({ onClose }){
   });
   const { commentsList = [], activePost, profile} = reducerData
   const [state, setState] = useState({})
-  const {} =  state;
+  const { commentImage, imgFile, alert } = state;
 
-  const handleSendComment = (msgText) => {
-    if(msgText?.trim()){
+  const handleSendComment = async (msgText) => {
+    if(!msgText){
+      setState({...state, alert : true})
+    }
+    let imgPath;
+    if(commentImage){
+      imgPath = await dispatch(imageUploadApi(imgFile))
+    }
+    if(msgText?.trim() || imgPath){
         const payload = {
           profileid: profile?.id,
           postid: activePost?.id,
           text: msgText,
-          image: "image",
+          image: imgPath?.path,
           emogi: "emogi",
           datetime: moment().format("YYYY-MM-DDTHH:mm:ms"),
         };  
         dispatch(addCommentOnKicks(payload)).then((res) => {
+          console.log(res);
           if(res?.status) {
             dispatch(getCommentsByPostid(activePost?.id))
+          }else{
+            toast.error(res?.message)
           }
+        }).catch((err) => {
+          console.log(err);
+          toast.error(err.message)
         })
       }
     }
+
+    const handleLike = (itemId) => {
+    }
+
+    const handleFile = (e) => {
+      const file = URL.createObjectURL(e.target.files[0])
+      console.log(file, ">>>>>>>>>>>>>>>>");
+      setState({...state, commentImage: file, imgFile: e.target.files[0] })
+    } 
  return (
    <section
      className="fixed items-stretch justify-center z-10 top-0 left-0 h-full w-full flex"
@@ -57,10 +81,8 @@ VideoCommentsModal({ onClose }){
            className="w-7 h-7 text-gray-700 cursor-pointer"
          />
        </div>
-       {commentsList?.map((data, i) => {
-         {
-           /* console.log(data, "CCCCCCCCCCCCCMMMMMMMMMMMMMMMMMM") */
-         }
+       {(commentsList?.content ? commentsList.content : commentsList)?.map((data, i) => {
+
          const { profile, text, id, likecount, replycount, datetime } = data;
          const name = profile?.fname + profile?.lname;
          return (
@@ -150,17 +172,20 @@ VideoCommentsModal({ onClose }){
                      </div>
                    </div>
 
-                   <div className="w-1/6 pl-2 text-[#666666]">
+                   <button onClick={() => handleLike(id)} className="w-1/6 pl-2 text-[#666666]">
                      <AiFillHeart className="text-2xl" />
-                   </div>
+                   </button>
                  </div>
                );
              })}
            </>
          );
        })}
-       <div className="mt-auto absolute -bottom-1 bg-blue-200 rounded-md px-3">
+       <div className="mt-auto absolute -bottom-1 bg-blue-200 rounded-md px-2">
          <TypeMessage
+         alert={alert}
+          msgFile= { commentImage}
+         handleFile={handleFile}
            placeholder="Add comment"
            sendMessage={handleSendComment}
          />

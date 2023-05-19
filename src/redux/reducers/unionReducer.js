@@ -1,8 +1,9 @@
-const initialState ={
-    unionList: [],
-    myUnionList: [],
-    unionMemberList: [],
-}
+const initialState = {
+  unionList: [],
+  myUnionList: [],
+  unionMemberList: [],
+  unionInviteeList: [],
+};
 
 const unionReducer = (state = initialState, action) => {
     switch(action.type){

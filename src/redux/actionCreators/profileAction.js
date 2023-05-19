@@ -12,6 +12,7 @@ export const getProfileById= (data) => async (dispatch) => {
                 "Authorization":`Bearer ${token}`
             }
       })
+       localStorage.setItem("profile", JSON.stringify(response?.data?.data));
       console.log(response.data, "<<<<<<<<<<????????");
         dispatch({
             type: 'GET_PROFILE_DETAILS',
@@ -22,6 +23,30 @@ export const getProfileById= (data) => async (dispatch) => {
         throw error
     }
 }
+
+export const getFriendProfile = (data) => async (dispatch) => {
+  const token = JSON.parse(localStorage.getItem("userCredential")).token;
+  try {
+    const response = await axios.get(
+      `http://3.233.82.34:8080/profile/api/profile/profilebyuser/${data}`,
+      {
+        headers: {
+          "Accept-Language": "en",
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+    console.log(response.data, "<<<<<<<<<<????????");
+    dispatch({
+      type: "GET_FRIEND_DETAILS",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
+  }
+};
 
 // export const addProfile= (data) => async (dispatch) => {
 //     try{
@@ -306,9 +331,9 @@ export const getEducationDetail= (data) => async (dispatch) => {
         console.log(response);
         dispatch({
             type: 'GET_SCHOOL_DETAIL',
-            payload: response.data
+            payload: response.data.data
         })
-        return response.data
+        return response.data.data
     }catch(error){
         throw error
     }

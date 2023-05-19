@@ -9,7 +9,7 @@ import GridBoxes from "../GridBoxes/GridBoxes";
 import SearchComponent from "../SearchComponent/SearchComponent";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getFollower, getFollowing, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { getEducationDetail, getFollower, getFollowing, getFriendProfile, getProfileById, updateProfile } from "../../../redux/actionCreators/profileAction";
 import { getUserDataFromLocalStorage, toasterFunction } from "../../Utility/utility";
 import { useMemo } from "react";
 import { checkingIsEmailExist } from "../../../redux/actionCreators/authActionCreator";
@@ -25,34 +25,38 @@ const ProfilePage = ({ isOther }) => {
   const dispatch = useDispatch();
   const params = useParams()
   const user = useMemo(() => {
-    return  isOther ? { id: params?.id} : getUserDataFromLocalStorage();
+    return  isOther ? { id: params?.id} : { id: localStorage.getItem('profileid')};
   }, [isOther, params.id])
 
+  
   const reducerData = useSelector((state) => {
     return {
       following: state?.profileReducer?.following,
       followers: state?.profileReducer?.followers,
-      friends: state?.profileReducer?.friends,
+      friends: state?.friendReducer?.friends,
       profileDetail: state?.profileReducer?.profileDetail?.data,
-      profile: state.profileReducer.profile
+      friendDetail: state.profileReducer.friendDetail,
+      profile: state.profileReducer.profile 
     }
   });
-  const { following, followers, friends,profileDetail, profile} = reducerData;
+  const { following, followers, friends, friendDetail, profile} = reducerData;
 
+  const isPersonal = profile?.profiletype === "Personal";
   const [state, setState ] = useState({})
   const { coverImg, profileImg, showEditModal} = state
   useEffect(() => {
+     isPersonal ? getEducation(): '';
+
     dispatch(checkingIsEmailExist())
-    dispatch(getProfileById(user?.id)).then((res) => {
-      console.log('profile resppppppp', res);
-      if(!res.status){
-        toasterFunction(res.message)
+     isOther ? dispatch(getFriendProfile(user?.id)).then((res) => {
+      if (!res.status) {
+        toasterFunction(res.message);
         // toast.error(res.message)
       }
-    });
-    dispatch(getFollowing(profile?.id));
-    dispatch(getFollower(profile?.id));
-    dispatch(getFriendsList(profile?.id));
+    }): "";
+    dispatch(getFollowing(user?.id));
+    dispatch(getFollower(user?.id));
+    dispatch(getFriendsList(user?.id));
   }, []);
 
   const handleUploadImage = async (name, value) => {
@@ -63,19 +67,22 @@ const ProfilePage = ({ isOther }) => {
     const uploadResponse =await dispatch(imageUploadApi(coverImg))
     
     if(name === "coverImg"){
-      let payloads = {...profileDetail, pcoverimage: uploadResponse.path}
+      let payloads = {...profile, pcoverimage: uploadResponse.path}
       dispatch(updateProfile(payloads))
     }else if(name === "profileImg"){
-      let payloads = {...profileDetail, pimage: uploadResponse.path};
+      let payloads = {...profile, pimage: uploadResponse.path};
       dispatch(updateProfile(payloads));
     }
+  }
+  function getEducation (){
+    dispatch(getEducationDetail(user?.id))
   }
   return (
     <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">
       <section className="flex sm:w-[50%] flex-col mt-2 items-center lg:items-end">
         <ProfileImageSection
           uploadImage={handleUploadImage}
-          data={profile || {}}
+          data={ isOther ? friendDetail : profile }
           friends={friends}
           following={following}
           followers={followers}
@@ -85,7 +92,7 @@ const ProfilePage = ({ isOther }) => {
         />
 
         {/* About Section */}
-        <AboutSection isOther={isOther} data={profileDetail || {}} />
+        <AboutSection isOther={isOther} data={isOther ? friendDetail : profile} />
       </section>
       <section className="flex sm:w-[50%] flex-col items-center">
         {/* Category Section */}

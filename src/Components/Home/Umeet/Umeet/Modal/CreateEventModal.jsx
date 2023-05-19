@@ -5,6 +5,9 @@ import ToggleButton from './ToggleButton';
 import { createEvent, updateEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useDispatch, useSelector } from 'react-redux'
 import {v4 as uuidv4} from 'uuid'
+import AutocompletePlace from '../../../../googlemap/AutocompletePlace';
+import ToastWarning from '../../../../common/ToastWarning';
+import { toast } from 'react-toastify';
 
 const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   handleCreatedEvent, handleShowTemplate, handleShowAddGroup,
@@ -17,11 +20,14 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     eventdateAndTime: '',
     eventAddress: '',
     eventHostPhnNumber: '',
-    hostmailid: ''
+    hostmailid: '',
+    eventEndDate: ''
   })
 
   const dispatch = useDispatch()
-  const { profileReducer } = useSelector(state => state)
+  const { profileReducer } = useSelector(state => state);
+  const phoneNumberRules = /[0-9]{10}$/;
+
 
   const [enabled, setEnabled] = useState(false)
   const [selectedImage, setSelectedImage] = useState(null);
@@ -53,6 +59,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     }))
   }
 
+  const handleLocation = (location) => {
+    setFormState({...formState, location})
+  }
+
   const postData = {
     "eventName": formState.eventName,
     "date_created": new Date(),
@@ -70,6 +80,30 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     "id": uuidv4(),
   }
 
+  const handleCreateEvent = () => {
+    if(!postData?.eventName) {
+      return ToastWarning('Event name is required')
+    }
+    if(whichType === 'personal'){
+      if (!formState?.eventdateAndTime) {
+         return ToastWarning("Start date and time is required");
+      }else if(!formState?.eventEndDate){
+        return ToastWarning("End date and time is required")
+      }
+      else if (phoneNumberRules.test(formState?.eventHostPhnNumber)) {
+        return ToastWarning("Add valid mobile number")
+      }else if(formState.hostmailid.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
+        return ToastWarning("Add valid host mail id")
+      }
+    }
+    dispatch(createEvent(postData)).then((res) => {
+       if(res?.status){
+        toast.success(res?.message)
+      }else{
+      toast.error(res?.message)
+      }
+    })
+  }
   // useEffect(()=>{
   //   if(eventCreateSuccess) handleCreatedEvent()
   // },[eventCreateSuccess])
@@ -107,7 +141,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
           <input name='eventName' onChange={handleChange} className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*' />
           <input name='eventdateAndTime' onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*' />
-          <input className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*' />
+          <input name='eventEndDate' onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*' />
           <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
             <span className='font-bold text-xl text-gray-600'>Event Mode</span>
             <div className='px-6 flex items-center'>
@@ -118,7 +152,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
             </div>
           </div>
 
-          <input name='eventAddress' onChange={handleChange} className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*' />
+          {/* <input name='eventAddress' onChange={handleChange} className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*' /> */}
+          <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''}`}>
+             <AutocompletePlace livePlace={handleLocation} placeholder={'Location'} />
+          </div>
 
           <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
             <div>
@@ -183,7 +220,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           <div className='flex flex-col my-1'>
             {editMyEvent ?
               <button onClick={() => dispatch(updateEvent(postData))} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>Update</button>
-              : <button onClick={() => dispatch(createEvent(postData))} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
+              : <button onClick={handleCreateEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
             }
             <button className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>
           </div>

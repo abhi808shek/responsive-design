@@ -82,7 +82,7 @@ const OriginalPostModal = ({ handleCloseModal }) => {
           </button>
         </div>
 
-        {postHistory.map((elem,index) => {
+        {postHistory?.map((elem,index) => {
           const { image, profile, text, location} = elem?.post
           return (
           <div className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]" key={index}>

@@ -1,12 +1,39 @@
 import React, { useState } from "react";
 import Input from "../../Login/Content/InputBox/Input";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { addUnion } from "../../../redux/actionCreators/unionActionCreator";
+import { red } from "@mui/material/colors";
 
 const CreateUnion = () => {
+  const dispatch = useDispatch()
   const [createUnion, setCreateUnion] = useState("");
   const navigate = useNavigate();
+
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile
+    }
+  });
+  const { profile } = reducerData
   const onCreateUnion = () => {
-    navigate("/unions-searchlist");
+    if(createUnion?.length < 4){
+      toast.error("Please enter minimum three character")
+    }else{
+      const payload = {
+        groupName: createUnion,
+        profileId: profile?.id,
+      };
+      dispatch(addUnion(payload)).then((res) => {
+        if(res?.status){
+          navigate("/unions-searchlist");
+          toast.success("Group Added")
+        }else{
+          toast.error(res.message)
+        }
+      })
+    }
   };
 
   const onHandleChange = (event) => {

@@ -1,8 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
-
-const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
-  console.log(data, 'modal dattaaaaaaaa');
+import User from "../../../../Assets/Images/user.png"
+const FollowersModal = ({title, modalName, data, emptyMessage= '', handleClick}) => {
   return (
     <div onClick={(e) => e.stopPropagation()} className=' w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
         <div className="my-2">{modalName}</div>
@@ -10,9 +9,9 @@ const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
              <div className="bg-gray-500 w-full h-[1px] mb-1"></div>
          <section className=" w-[95%] flex rounded-md flex-col items-center mt-2 h-[350px] overflow-scroll">
          {
-          data?.data?.length ?
-          data?.data?.map((friend) =>{
-            const {fname, lname, pimage} = friend
+          data?.length ?
+          data?.map((friend) =>{
+            const {fname, lname, pimage} = friend?.profile || friend
             const name = fname+lname
             return(
                 <>
@@ -20,13 +19,13 @@ const FollowersModal = ({title, modalName, data, emptyMessage= 'No data'}) => {
                  <div className="flex items-center py-1">
                  <div className="flex items-center gap-2 flex-1">
                       <img
-                          src={pimage}
+                          src={pimage || User}
                           alt=""
                           className="w-[40px] h-[40px] rounded-full" />
                       <span className="font-bold text-sm">{`${name ? `${fname} ${lname}`: 'User'}`}</span>
                   </div>
                   <div className="flex ">
-                    <button className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>Remove</button>
+                    <button onClick={() => handleClick(friend)} className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>Remove</button>
                   </div>
                  </div>
               </div></>

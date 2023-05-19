@@ -10,13 +10,12 @@ import OldPassword from "./OldPassword";
 import CreatenewPassword from "./CreatenewPassword";
 
 const Setting = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [oldPassword, setOldPassword] = useState(false);
 
-  const OldPasswordChange = ()=>{
-    setOldPassword(true)
-  }
+  const OldPasswordChange = () => {
+    setOldPassword(true);
+  };
   const [openDropdown, setOpenDropdown] = useState({
     changePassword: false,
     deActivate: false,
@@ -100,9 +99,9 @@ const Setting = () => {
             >
               <h1 className="text-sm flex-1">Change your password</h1>
               <img
-                src="./images/groups.png"
+                src="./images/dropdown.png"
                 alt=""
-                className="w-[20px] h-[20px]"
+                className="w-[12px] h-[12px]"
               />
             </div>
 
@@ -124,9 +123,9 @@ const Setting = () => {
             <div className="flex cursor-pointer w-full my-2">
               <h1 className="text-sm flex-1">Blocked users</h1>
               <img
-                src="./images/groups.png"
+                src="./images/dropdown.png"
                 alt=""
-                className="w-[20px] h-[20px]"
+                className="w-[12px] h-[12px]"
               />
             </div>
           </div>
@@ -139,9 +138,9 @@ const Setting = () => {
               <h1 className="text-sm flex-1">De-Activate Account</h1>
 
               <img
-                src="./images/groups.png"
+                src="./images/dropdown.png"
                 alt=""
-                className="w-[20px] h-[20px]"
+                className="w-[12px] h-[12px]"
               />
             </div>
             <div

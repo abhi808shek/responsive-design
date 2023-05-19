@@ -12,8 +12,10 @@ import { createPost, updatePost } from "../../../../redux/actionCreators/postAct
 import moment from "moment";
 import { getAllPostWithLimit, imageUploadApi } from "../../../../redux/actionCreators/rootsActionCreator";
 import { toast } from "react-toastify";
+import AutocompletePlace from "../../../googlemap/AutocompletePlace";
+import { Alert } from "@material-tailwind/react";
 const CreatePostModal = ({
-  setShowCreatePostModal,
+  // setShowCreatePostModal,
   title,
   handleCloseModal,
 }) => {
@@ -32,16 +34,15 @@ const CreatePostModal = ({
   const {
     postPrivacy = isEdit ? activePost?.shareto : "",
     postContent = isEdit ? activePost?.text : "",
+    location = isEdit ? activePost?.location : "",
     uploadFileList,
+    alert,
   } = state;
 
   const [ImageFile, setImageFile] = useState(isEdit ? [activePost?.image] : []);
   const [VideoFile, setVideoFile] = useState([]);
 
   const navigate = useNavigate();
-  const onCloseCreatePostModal = () => {
-    setShowCreatePostModal(false);
-  };
 
   const handlePostContent = (e) => {
     setState({ ...state, "postContent": e.target.value });
@@ -79,9 +80,18 @@ const CreatePostModal = ({
   }
 
   const handlePostPrivacy = (selectedValue) => {
-    setState({ ...state, postPrivacy: selectedValue });
-  };
+    if (selectedValue?.name === "Friends") {
+      setState({ ...state, alert: true, postPrivacy: selectedValue });
+    }else{
+      setState({ ...state, alert: true, postPrivacy: selectedValue });
+    }
 
+    setTimeout(() => {
+      setState({...state,postPrivacy: selectedValue, alert: false})
+    }, 1000)
+    // setState({ ...state, postPrivacy: selectedValue });
+  };
+  // console.log(alert, selectedValue?.name, "ALLLLLLLLLLLLL");
   const handleCreatePost = () => {
     const payload = {
       shareto: postPrivacy?.name,
@@ -94,6 +104,7 @@ const CreatePostModal = ({
       delete: false,
       close: "close",
       profileid: profile?.id,
+      city: location,
       postdate: moment().format('DD-MM-YYYY HH:mm:ms'),
     };
     const updatePayload = {
@@ -108,12 +119,13 @@ const CreatePostModal = ({
       delete: false,
       close: "close",
       postid: activePost?.id,
+      location: location,
       datetime: moment().format("DD-MM-YYYY HH:mm:ms"),
     };
     isEdit ?
       dispatch(updatePost(updatePayload)).then((res) => {
         handleCloseModal()
-        handleCloseModal();
+        // handleCloseModal();
         dispatch(getAllPostWithLimit(profile?.id));
       })
       :
@@ -127,8 +139,11 @@ const CreatePostModal = ({
         }
       });
   };
+  const handlePlace = (location) => {
+    setState({...state, location})
+  }
   return (
-    <div className="overflow-y-scroll bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-20">
+    <div className="overflow-y-scroll bg-white top-[5rem] sm:top-8 w-[90%] sm:w-[80%] lg:w-[77%] sm:h-[70%] lg:h-[75%] xl:h-[80%] xl:w-[70%] py-[10px] px-2 sm:px-4 rounded-2xl mx-auto relative z-50">
       {/* create post */}
       <div className="flex justify-between">
         <div className="w-full">
@@ -149,7 +164,6 @@ const CreatePostModal = ({
           </button>
         </div>
       </div>
-
       <hr className="w-100 h-[2px] sm:h-1 bg-gray-200 border-0 rounded my-2 sm:my-3 dark:bg-gray-900" />
       <div className="grid sm:grid-cols-2 gap-2 ">
         <div className="">
@@ -164,7 +178,7 @@ const CreatePostModal = ({
                 {name ? `${profile?.fname} ${profile?.lname}` : "User"}
               </span>
             </section>
-            <section className="flex items-center ">
+            <section className="flex items-center relative ">
               <span className=" text-xs w-[40%] sm:text-[10px] lg:w-[30%] xl:w[22%] flex items-center">
                 Share with
               </span>
@@ -182,11 +196,19 @@ const CreatePostModal = ({
                   { name: "Officemates" },
                   {
                     name: "Create your own union",
-                    onClick: "/create-union",
+                    onClick: true,
+                    link: "/create-union",
                   },
                 ]}
                 keyName="name"
               />
+              {alert && (
+                <div className="absolute z-40 -bottom-8 right-0">
+                  <Alert variant="outlined" className="z-[50] bg-transparent text-gray-600">
+                    You do not have {postPrivacy?.name}
+                  </Alert>
+                </div>
+              )}
             </section>
           </div>
           <div className="absolute sm:left-2/4 sm:ml-0.5 sm:w-0.5 h-[70%] top-[90px] bg-gray-300"></div>
@@ -201,15 +223,18 @@ const CreatePostModal = ({
               ></textarea>
             </div>
             {/* add location */}
-            <div className="w-[90%] flex p-2 text-sm border-b-2 items-center border-gray-400  font-bold placeholder-gray-500">
-              <input
+            <div className="w-full flex p-2 text-sm  items-center placeholder-gray-500">
+              {/* <input
                 type="text"
                 placeholder="Add Location"
                 className="flex-1  p-2 outline-none"
+              /> */}
+              <AutocompletePlace
+                placeholder={"Add location"}
+                value={location}
+                livePlace={handlePlace}
               />
-
-              <SlLocationPin size={20} />
-
+              <SlLocationPin size={20} className="ml-4" />
             </div>
           </div>
         </div>
