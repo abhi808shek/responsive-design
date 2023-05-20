@@ -30,7 +30,10 @@ const OriginalPostModal = ({ handleCloseModal }) => {
 
             <div className="flex flex-col flex-1 justify-center ml-2">
               <div className="flex items-start">
-                <span className="text-sm ml-1 font-bold"> {`${profile?.fname} ${profile?.lname}`}</span>
+                <span className="text-sm ml-1 font-bold">
+                  {" "}
+                  {`${profile?.fname} ${profile?.lname}`}
+                </span>
                 {/* <span className="text-xs ml-2 font-semibold mt-0.5">
                   @Software Developer
                 </span> */}
@@ -50,20 +53,17 @@ const OriginalPostModal = ({ handleCloseModal }) => {
 
           <section className="w-full flex flex-col items-center px-2">
             <div className=" w-full h-full pl-3">
-              <p className="text-[13px] font-[400] text-gray-500">
-                {text}
-              </p>
+              <p className="text-[13px] font-[400] text-gray-500">{text}</p>
             </div>
-                {
-                  image &&
-            <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
-              <img
-                src={image}
-                alt=""
-                className="w-full h-[100px] sm:h-[175px] lg:h-[180px] xl:h-[270px] rounded-xl"
-              />
-            </div>
-                }
+            {image && (
+              <div className="m-3 mb-0 w-full h-[60%] rounded-xl">
+                <img
+                  src={image}
+                  alt=""
+                  className="w-full h-[100px] sm:h-[175px] lg:h-[180px] xl:h-[270px] rounded-xl"
+                />
+              </div>
+            )}
           </section>
         </div>
       </div>
@@ -82,48 +82,54 @@ const OriginalPostModal = ({ handleCloseModal }) => {
           </button>
         </div>
 
-        {postHistory?.map((elem,index) => {
-          const { image, profile, text, location} = elem?.post
-          return (
-          <div className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]" key={index}>
-            <section className="w-full flex items-center ml-3 justify-around">
-              <div className="flex w-[50px] h-[50px]">
-                <img
-                  src= {profile?.pimage}
-                  alt=""
-                  className="w-[45px] h-[45px] rounded-full"
-                />
-              </div>
+        {Array.isArray(postHistory) &&
+          postHistory?.map((elem, index) => {
+            const { image, profile, text, location } = elem?.post;
+            return (
+              <div
+                className="bg-[#E4E7EC] flex flex-col rounded-xl gap-2 mt-[10px] pt-[6px]"
+                key={index}
+              >
+                <section className="w-full flex items-center ml-3 justify-around">
+                  <div className="flex w-[50px] h-[50px]">
+                    <img
+                      src={profile?.pimage}
+                      alt=""
+                      className="w-[45px] h-[45px] rounded-full"
+                    />
+                  </div>
 
-              <div className="flex flex-col flex-1 justify-center ml-2">
-                <div className="flex items-start">
-                  <span className="text-sm ml-1 font-bold">{`${profile?.fname} ${profile.lname}`}</span>
-                  <span className="text-xs ml-2 font-semibold mt-0.5">
-                    {/* @Software Developer */}
-                  </span>
+                  <div className="flex flex-col flex-1 justify-center ml-2">
+                    <div className="flex items-start">
+                      <span className="text-sm ml-1 font-bold">{`${profile?.fname} ${profile.lname}`}</span>
+                      <span className="text-xs ml-2 font-semibold mt-0.5">
+                        {/* @Software Developer */}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-1">
+                      <img
+                        src="./images/groups.png"
+                        alt=""
+                        className="w-[12px]"
+                      />
+
+                      <span className="text-xs font-semibold">1 year ago</span>
+                      <GrLocation size={10} />
+                      {/* <img src="" alt="" /> */}
+                      <span className="text-xs font-semibold"> {location}</span>
+                    </div>
+                  </div>
+                </section>
+
+                <div className=" w-full h-full flex justify-center">
+                  <p className="text-[12px] text-gray-500 w-[95%] mb-[6px] text-semibold">
+                    {text}
+                  </p>
                 </div>
-
-                <div className="flex items-center gap-1">
-                  <img src="./images/groups.png" alt="" className="w-[12px]" />
-
-                  <span className="text-xs font-semibold">1 year ago</span>
-                  <GrLocation size={10} />
-                  {/* <img src="" alt="" /> */}
-                  <span className="text-xs font-semibold"> {location}</span>
-                </div>
               </div>
-            </section>
-
-            <div className=" w-full h-full flex justify-center">
-              <p className="text-[12px] text-gray-500 w-[95%] mb-[6px] text-semibold">
-                {text}
-              </p>
-            </div>
-          </div>
-        )
-        }
-        )
-        }
+            );
+          })}
       </div>
     </div>
   );

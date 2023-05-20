@@ -4,7 +4,7 @@ import { getUserDataFromLocalStorage } from "../../Components/Utility/utility";
 export const getEventData = () => async (dispatch) => {
   try {
     const eventData = await axios.get(
-      "http://3.233.82.34:8080/post/api/post/getspost",
+      "https://web.uynite.com/post/api/post/getspost",
       {
         headers: {
           "Accept-Language": "en",
@@ -26,7 +26,7 @@ export const defaultRootScreen = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
     const defaultRootResult = await axios.get(
-      `http://3.233.82.34:8080/post/api/post/getspost`,
+      `https://web.uynite.com/post/api/post/getspost`,
       {
         headers: {
           "Accept-Language": "en",
@@ -51,7 +51,7 @@ export const defaultEventScreen = (profileid) => async (dispatch) => {
     const getStoredData = await getUserDataFromLocalStorage();
 
     const defaultEventResult = await axios.get(
-      ` http://3.233.82.34:8080/post/api/post/getpostbypostid/${profileid}`,
+      ` https://web.uynite.com/post/api/post/getpostbypostid/${profileid}`,
 
       {
         headers: {
@@ -75,7 +75,7 @@ export const addEventPost = (data) => async (dispatch) => {
     const getStoredData = await getUserDataFromLocalStorage();
 
     const eventResult = await axios.post(
-      "http://3.233.82.34:8080/post/api/post/add",
+      "https://web.uynite.com/post/api/post/add",
       data,
       {
         headers: {
@@ -87,7 +87,7 @@ export const addEventPost = (data) => async (dispatch) => {
     dispatch({
       type: "ADD_EVENT_POST_DATA",
     });
-    return eventResult?.data
+    return eventResult?.data;
   } catch (error) {
     console.log(error.message);
   }
@@ -97,12 +97,11 @@ export const addEventPost = (data) => async (dispatch) => {
 export const getAllEventPost = (eventpostid, profileid) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-console.log("eventpostid",eventpostid);
-console.log("profileid",profileid);
-
+    console.log("eventpostid", eventpostid);
+    console.log("profileid", profileid);
 
     const allEventResult = await axios.get(
-      `http://3.233.82.34:8080/post/api/post/getsponser/${eventpostid}/${profileid}`,
+      `https://web.uynite.com/post/api/post/getsponser/${eventpostid}/${profileid}`,
 
       {
         headers: {
@@ -111,7 +110,7 @@ console.log("profileid",profileid);
         },
       }
     );
-    console.log("allEventResult",allEventResult);
+    console.log("allEventResult", allEventResult);
     dispatch({
       type: "GET_ALL_EVENTS_POST_LIST",
       payload: allEventResult?.data,
@@ -128,7 +127,7 @@ export const getAllTrendingPost =
       const getStoredData = await getUserDataFromLocalStorage();
 
       const trendingPostResult = await axios.get(
-        `http://3.233.82.34:8080/post/api/post/topgetsponser/${eventpostid}/${profileid}`,
+        `https://web.uynite.com/post/api/post/topgetsponser/${eventpostid}/${profileid}`,
 
         {
           headers: {
@@ -146,15 +145,16 @@ export const getAllTrendingPost =
     }
   };
 
-export const imageUploadApi =  (image) => async (dispatch) => {
-console.log(image, '[[[[[');
-    try{
-const getUploadedResult = await axios.post(
-      `http://35.183.76.174:9098/s3/upload`, image,
+export const imageUploadApi = (image) => async (dispatch) => {
+  console.log(image, "[[[[[");
+  try {
+    const getUploadedResult = await axios.post(
+      `http://35.183.76.174:9098/s3/upload`,
+      image,
       {
         headers: {
           "Accept-Language": "en",
-          "Content-Type": "multipart/formdata"
+          "Content-Type": "multipart/formdata",
           // Authorization: `Bearer ${getStoredData?.token}`,
         },
       }
@@ -165,9 +165,8 @@ const getUploadedResult = await axios.post(
       payload: getUploadedResult,
     });
     return getUploadedResult;
-    } catch (error) {
-      console.log(error.message);
-      throw error.message
-    }
-}
-
+  } catch (error) {
+    console.log(error.message);
+    throw error.message;
+  }
+};

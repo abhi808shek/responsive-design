@@ -1,24 +1,25 @@
 import axios from "axios";
 
-export const addProfilePrivacy= (data) => async (dispatch) => {
-    try{
-        const response = await axios.get(
-          `http://3.233.82.34:8080/profile/api/profile/privacy/add`, data
-        );
-        console.log(response);
-        dispatch({
-            type: '',
-            payload: response.data
-        })
-    }catch(error){
-        throw error
-    }
-}
+export const addProfilePrivacy = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/profile/api/profile/privacy/add`,
+      data
+    );
+    console.log(response);
+    dispatch({
+      type: "",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
 
 export const getBlockedUser = (data) => async (dispatch) => {
   try {
     const response = axios.post(
-      `http://3.233.82.34:8080/friend/api/friend/getblockedlistprofile/${data}`
+      `https://web.uynite.com/friend/api/friend/getblockedlistprofile/${data}`
     );
     dispatch({
       type: "",
@@ -29,13 +30,12 @@ export const getBlockedUser = (data) => async (dispatch) => {
     throw err;
   }
 };
-
 
 export const updatePassword = (data) => async (dispatch) => {
-    const { uemail, oldPassword, newPassword} = data
+  const { uemail, oldPassword, newPassword } = data;
   try {
     const response = axios.post(
-      `http://3.233.82.34:8080/login/api/user/changepassword/${uemail}/${oldPassword}/${newPassword}`
+      `https://web.uynite.com/login/api/user/changepassword/${uemail}/${oldPassword}/${newPassword}`
     );
     dispatch({
       type: "",
@@ -47,5 +47,4 @@ export const updatePassword = (data) => async (dispatch) => {
   }
 };
 
-
-// http://3.233.82.34:8080/profile/api/profile/search/63074634dc8af05b8822b62e/duman 
+// https://web.uynite.com/profile/api/profile/search/63074634dc8af05b8822b62e/duman

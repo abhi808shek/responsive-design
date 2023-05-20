@@ -24,10 +24,6 @@ const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
   const dispatch = useDispatch();
   const params = useParams()
-  const user = useMemo(() => {
-    return  isOther ? { id: params?.id} : { id: localStorage.getItem('profileid')};
-  }, [isOther, params.id])
-
   
   const reducerData = useSelector((state) => {
     return {
@@ -40,6 +36,10 @@ const ProfilePage = ({ isOther }) => {
     }
   });
   const { following, followers, friends, friendDetail, profile} = reducerData;
+
+    const user = useMemo(() => {
+    return  isOther ? { id: params?.id} : profile;
+  }, [isOther, params.id])
 
   const isPersonal = profile?.profiletype === "Personal";
   const [state, setState ] = useState({})
@@ -68,10 +68,23 @@ const ProfilePage = ({ isOther }) => {
     
     if(name === "coverImg"){
       let payloads = {...profile, pcoverimage: uploadResponse.path}
-      dispatch(updateProfile(payloads))
+      dispatch(updateProfile(payloads)).then((res) => {
+        if(res?.status){
+          toast.success(res?.message)
+        }else{
+          toast.error(res?.message)
+        }
+      })
     }else if(name === "profileImg"){
-      let payloads = {...profile, pimage: uploadResponse.path};
-      dispatch(updateProfile(payloads));
+      let payloads = {...profile,state: '', pimage: uploadResponse.path};
+      dispatch(updateProfile(payloads)).then((res) => {
+        if(res?.message){
+          toast.success(res?.message)
+        }else{
+          toast.error(res?.message)
+        }
+      })
+      ;
     }
   }
   function getEducation (){

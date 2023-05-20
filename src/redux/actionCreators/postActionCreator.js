@@ -3,7 +3,7 @@ import { getQueryParams } from "../../Components/Utility/utility";
 
 export const createPost = (postData) => async (dispatch) => {
   const postDataResult = await axios.post(
-    "http://3.233.82.34:8080/post/api/post/add",
+    "https://web.uynite.com/post/api/post/add",
     postData,
     {
       headers: {
@@ -17,13 +17,12 @@ export const createPost = (postData) => async (dispatch) => {
     type: "SET_POST_DATA",
     payload: postDataResult.data,
   });
-  return postDataResult
+  return postDataResult;
 };
-
 
 export const updatePost = (postData) => async (dispatch) => {
   const postDataResult = await axios.put(
-    `http://3.233.82.34:8080/post/api/post/updatePost`,
+    `https://web.uynite.com/post/api/post/updatePost`,
     postData,
     {
       headers: {
@@ -40,10 +39,9 @@ export const updatePost = (postData) => async (dispatch) => {
   return postDataResult.data;
 };
 
-
 export const getPostHistory = (postData) => async (dispatch) => {
   const postDataResult = await axios.get(
-    `http://3.233.82.34:8080/post/api/post/posthistory/${postData}`,
+    `https://web.uynite.com/post/api/post/posthistory/${postData}`,
     postData,
     {
       headers: {
@@ -60,10 +58,9 @@ export const getPostHistory = (postData) => async (dispatch) => {
   return postDataResult.data;
 };
 
-
 export const getPostLike = (postid, params) => async (dispatch) => {
   const postDataResult = await axios.get(
-    `http://3.233.82.34:8080/post/api/like/${postid}?${getQueryParams(params)}`,
+    `https://web.uynite.com/post/api/like/${postid}?${getQueryParams(params)}`,
     {
       headers: {
         "Accept-Language": "en",
@@ -85,5 +82,3 @@ export const setLikes = (likeObject) => (dispatch) => {
     payload: likeObject,
   });
 };
-
-

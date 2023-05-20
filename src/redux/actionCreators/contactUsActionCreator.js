@@ -5,7 +5,7 @@ export const addContactDetails = (data) => async (dispatch) => {
     const getStoredData = await getUserDataFromLocalStorage();
 
     const eventResult = await axios.post(
-      "http://3.233.82.34:8080/post/api/post/add",
+      "https://web.uynite.com/post/api/post/add",
       data,
       {
         headers: {

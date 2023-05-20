@@ -30,7 +30,7 @@ const UpdateProfile = () => {
 
   const reducerData = useSelector((state) => {
     return {
-      profileDetail: state?.profileReducer?.profileDetail?.data,
+      profileDetail: state?.profileReducer?.profileDetail?.data || state.profileReducer.profile,
       educationDetails: state?.profileReducer?.educationDetails?.data,
       profile: state?.profileReducer?.profile,
     };
@@ -100,7 +100,7 @@ const UpdateProfile = () => {
   const handleOrganization = (name, value) => {
     setOrgDetail({...orgDetail, [name]: value})
   }
-
+console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   const handleSubmit = async () => {
     if (email !== profile?.email) {
       const checkEmail = await dispatch(checkingIsEmailExist(email));

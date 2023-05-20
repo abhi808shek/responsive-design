@@ -12,7 +12,7 @@ export const saveUserSignupData = (data) => async (dispatch) => {
   };
   try {
     const result = await axios.put(
-      `http://3.233.82.34:8080/api/user/registerotp`,
+      `https://web.uynite.com/api/user/registerotp`,
       datalist,
       {
         headers: {
@@ -45,7 +45,7 @@ export const settingOtp = (otp) => async (dispatch) => {
 export const allSingupDetails = (data) => async (dispatch) => {
   try {
     const result = await axios.post(
-      ` http://3.233.82.34:8080/api/user/registration`,
+      ` https://web.uynite.com/api/user/registration`,
       {
         headers: {
           "Accept-Language": "en",
@@ -68,7 +68,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
   try {
     console.log("emailId", emailId);
     const userExist = await axios.get(
-      `http://3.233.82.34:8080/api/user/usersbyemail/${emailId}`,
+      `https://web.uynite.com/api/user/usersbyemail/${emailId}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -91,7 +91,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
 export const sendingMailForOtp = (data) => async (dispatch) => {
   try {
     const mailSend = await axios.put(
-      `http://3.233.82.34:8080/api/user/otp`,
+      `https://web.uynite.com/api/user/otp`,
       data,
       {
         headers: {
@@ -113,7 +113,7 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
 export const matchingOtp = (mailId, otp) => async (dispatch) => {
   try {
     const result = await axios.get(
-      `http://3.233.82.34:8080/api/user/otp/${mailId}/${otp}`,
+      `https://web.uynite.com/api/user/otp/${mailId}/${otp}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -134,7 +134,7 @@ export const matchingOtp = (mailId, otp) => async (dispatch) => {
 export const savingNewPassword = (data) => async (dispatch) => {
   try {
     const savedPassword = await axios.put(
-      `http://3.233.82.34:8080/api/user/forgotpassword`,
+      `https://web.uynite.com/api/user/forgotpassword`,
       data,
       {
         headers: {
@@ -155,7 +155,7 @@ export const loginUser = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/api/user/authenticate`,
+      `https://web.uynite.com/api/user/authenticate`,
       data,
       {
         headers: {
@@ -178,7 +178,7 @@ export const userRegistration = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/api/user/registration`,
+      `https://web.uynite.com/api/user/registration`,
       data,
       {
         headers: {
@@ -204,7 +204,7 @@ export const userRegistration = (data) => async (dispatch) => {
 export const getOrgCategory = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/profile/api/businesscategory/category`,
+      `https://web.uynite.com/profile/api/businesscategory/category`,
       {
         headers: {
           "Accept-Language": "en",
@@ -228,7 +228,7 @@ export const getOrgCategory = (data) => async (dispatch) => {
 export const createProfile = (data) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `http://3.233.82.34:8080/profile/api/profile/add`,
+      `https://web.uynite.com/profile/api/profile/add`,
       data,
       {
         headers: {
@@ -280,7 +280,7 @@ export const uploadImage = (data) => async (dispatch) => {
 export const getCountryList = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/api/user/country/countrylist`,
+      `https://web.uynite.com/api/user/country/countrylist`,
       {
         headers: {
           "Accept-Language": "us",
@@ -305,7 +305,7 @@ export const getCountryList = () => async (dispatch) => {
 export const getStateList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/api/user/country/getstate/${data}`,
+      `https://web.uynite.com/api/user/country/getstate/${data}`,
       {
         headers: {
           "Accept-Language": "us",
@@ -329,7 +329,7 @@ export const getStateList = (data) => async (dispatch) => {
 export const getDistrict = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/api/user/country/getcity/${data}`,
+      `https://web.uynite.com/api/user/country/getcity/${data}`,
       {
         headers: {
           "Accept-Language": "us",
@@ -353,7 +353,7 @@ export const getDistrict = (data) => async (dispatch) => {
 export const getLoksabha = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/profile/api/country/getlocasaba/${data}`,
+      `https://web.uynite.com/profile/api/country/getlocasaba/${data}`,
       {
         headers: {
           "Accept-Language": "us",
@@ -378,7 +378,7 @@ export const getLoksabha = (data) => async (dispatch) => {
 export const getAssenbly = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `http://3.233.82.34:8080/profile/api/country/getassembly/${data}`,
+      `https://web.uynite.com/profile/api/country/getassembly/${data}`,
       {
         headers: {
           "Accept-Language": "us",

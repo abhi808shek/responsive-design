@@ -14,7 +14,7 @@ import {
   getUnionListByProfileId,
 } from "../../redux/actionCreators/rootsActionCreator";
 import NoPostPage from "./NoPostPage/NoPostPage";
-import { getLatestKicks } from "../../redux/actionCreators/kicksActionCreator";
+import { getFollowingKicks, getLatestKicks, getTrendingKicks } from "../../redux/actionCreators/kicksActionCreator";
 
 const Home = ({ onShowReportModal, showReportModal }) => {
   const dispatch = useDispatch();
@@ -39,6 +39,8 @@ const Home = ({ onShowReportModal, showReportModal }) => {
            segment: "LATEST",
          };
          dispatch(getLatestKicks(params, data));
+         dispatch(getTrendingKicks(params, data));
+         dispatch(getFollowingKicks(params, data))
       // dispatch(getKicksVideosWithLimit(data));
       dispatch(getAllPostWithLimit(profile.id));
       dispatch(
