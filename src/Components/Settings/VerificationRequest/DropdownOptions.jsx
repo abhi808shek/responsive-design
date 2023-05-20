@@ -1,8 +1,7 @@
 import React, { useState } from "react";
 
-const DropdownOptions = ({ elem }) => {
+const DropdownOptions = ({ elem , handleCheckBtn}) => {
     const [radioBtn,setRadioBtn] = useState(null)
-console.log("Radkdkfo",radioBtn);
   return (
     <div className="w-full mt-2 px-2 flex flex-col gap-2" key={elem?.name}>
       <h1 className="text-sm font-bold ">{elem?.title}</h1>
@@ -18,8 +17,11 @@ console.log("Radkdkfo",radioBtn);
               name={elem?.name}
               id=""
               className="cursor-pointer"
-              checked={radioBtn === item?.value}
-              onChange={(event)=>setRadioBtn(item?.value)}
+              checked={radioBtn?.value === item?.value}
+              onChange={(event)=>{
+                setRadioBtn(item);
+                handleCheckBtn(item?.title)
+              }}
             />
             {item?.title}
           </label>

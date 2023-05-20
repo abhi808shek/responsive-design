@@ -33,14 +33,17 @@ const PasswordInput = ({
           className="outline-none w-[90%] h-[34px] text-xs py-1.5 pl-2 font-semibold border-none"
           onChange={onHandleChange}
         />
-        
+
         {/* the color of icon changed */}
 
         {passwordType !== "password" ? (
-          <AiFillEye className="cursor-pointer" onClick={onShowHidePassword} />
-        ) : (          
+          <AiFillEye
+            className="cursor-pointer text-[#7991bd] mr-3 p-0"
+            onClick={onShowHidePassword}
+          />
+        ) : (
           <AiFillEyeInvisible
-            className="cursor-pointer text-[#7991bd]"
+            className="cursor-pointer text-[#7991bd] mr-3 p-0"
             onClick={onShowHidePassword}
           />
         )}

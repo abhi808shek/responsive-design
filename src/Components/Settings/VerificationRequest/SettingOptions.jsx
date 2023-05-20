@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { dataList } from "./../../Home/Umeet/data";
 
-const SettingOptions = ({ elem }) => {
+const SettingOptions = ({ elem, handleCheckBtn, type, handleClickSave }) => {
   const { title, ChildComponent, otherProps } = elem;
 
   const [showDropDownList, setShowDropDownList] = useState(false);
@@ -15,7 +15,7 @@ const SettingOptions = ({ elem }) => {
         <h1 className="text-sm flex-1 ">{title}</h1>
         <img src="./images/dropdown.png" alt="" className="w-[12px] h-[12px]" />
       </div>
-      {showDropDownList && <ChildComponent dataList={otherProps?.dataList} />}
+      {showDropDownList && <ChildComponent handleClickSave={handleClickSave} type={type} handleCheckBtn={handleCheckBtn} dataList={otherProps?.dataList} />}
     </div>
   );
 };

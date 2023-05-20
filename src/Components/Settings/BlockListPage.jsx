@@ -1,10 +1,23 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SearchComponent from "../Home/SearchComponent/SearchComponent";
 import Portals from "../Portals/Portals";
 import OopsModal from "./BlockList/OopsModal";
+import { useDispatch } from "react-redux";
+import { getBlockedUser } from "../../redux/actionCreators/privacyAction";
 
 const BlockListPage = () => {
+  const dispatch = useDispatch();
   const [unblockModal, setUnBlockModal] = useState(false);
+  const [state, setState] = useState({});
+  const { blockedUser} = state;
+
+  useEffect(() => {
+    dispatch(getBlockedUser()).then((res)=> {
+      if(res?.status){
+        setState({...state, blockedUser: res?.data})
+      }
+    })
+  }, [])
   const onUnblockClick = ()=>{
     setUnBlockModal(true)
   }

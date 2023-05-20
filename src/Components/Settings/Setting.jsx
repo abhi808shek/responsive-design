@@ -8,10 +8,20 @@ import Portals from "./../Portals/Portals";
 import DeactivateAccountModal from "./VerificationRequest/DeactivateAccountModal";
 import OldPassword from "./OldPassword";
 import CreatenewPassword from "./CreatenewPassword";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { addProfilePrivacy, updatePassword } from "../../redux/actionCreators/privacyAction";
 
 const Setting = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch()
   const [oldPassword, setOldPassword] = useState(false);
+  const reducerData = useSelector((state) => {
+    return {
+      profile: state.profileReducer.profile,
+    }
+  });
+  const { profile} = reducerData
 
   const OldPasswordChange = () => {
     setOldPassword(true);
@@ -38,6 +48,9 @@ const Setting = () => {
       deActivate: !openDropdown.deActivate,
     });
   };
+
+  const [state, setState] = useState({});
+  const { privacy } = state
   const options = [
     { title: "Public", value: "public" },
     { title: "Friends", value: "friends" },
@@ -72,11 +85,58 @@ const Setting = () => {
       title: " Who can view your Contact Information ?",
       ChildComponent: ContactInformation,
       otherProps: { dataList },
+      key: 'contact'
     },
-    { title: " Who can view your Profile ?", ChildComponent: Dropdownmenu },
-    { title: "Who can post on your Timeline ?", ChildComponent: Dropdownmenu },
-    { title: "Who can view your Friend List ?", ChildComponent: Dropdownmenu },
+    { title: " Who can view your Profile ?", ChildComponent: Dropdownmenu , key: 'profile'},
+    { title: "Who can post on your Timeline ?", ChildComponent: Dropdownmenu, key: 'timelinePost' },
+    { title: "Who can view your Friend List ?", ChildComponent: Dropdownmenu, key: 'friendList' },
   ];
+
+  const handleCheckBtn = (optionValue, optionName) => {
+    console.log(optionName, optionValue, "????????????????????????????");
+    setState({...state, privacy: {...privacy, [optionName]: optionValue}})
+  }
+
+  console.log(privacy);
+  const handleClickSave = () => {
+    const payload = {
+      friendlist: privacy?.friendList,
+      dob: privacy?.dob,
+      email: privacy?.email,
+      id: "630dbf9d67ceca0570e4bfca",
+      location: privacy?.location,
+      phonenumber: privacy?.phone,
+      profileid: profile?.id,
+      timeline: privacy?.timelinePost,
+      updatedate: "Thu May 18 12:32:09 UTC 2023",
+      viewprofile: privacy?.profile,
+    };
+    // dispatch({ type: "YYY"})
+    dispatch(addProfilePrivacy(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res?.message)
+      }else{
+        toast.error(res?.message);
+      }
+    })
+  }
+
+  const handlePasswordSave = (value = {}) => {
+    const {confirmPassword,newPassword,oldPassword} = value;
+    const payload = {
+      uemail:"",
+      oldPassword,
+      newPassword
+    }
+    dispatch(updatePassword(payload)).then((res) => {
+      if(res?.status){
+        toast.success(res?.message)
+      }else{
+        toast.error(res?.message)
+      }
+    })
+  }
+
   return (
     <>
       <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-white border-2 mx-auto rounded-b-xl flex-col flex pb-4">
@@ -84,7 +144,7 @@ const Setting = () => {
         <section className="flex flex-col">
           <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 ">Privacy</h1>
           {data?.map((elem) => (
-            <SettingOptions key={elem?.title} elem={elem} />
+            <SettingOptions handleClickSave={handleClickSave} type={elem?.key} key={elem?.key} elem={elem} handleCheckBtn={handleCheckBtn} />
           ))}
         </section>
         {/* --------------------------------------------- */}
@@ -114,7 +174,7 @@ const Setting = () => {
               {oldPassword ? (
                 <CreatenewPassword />
               ) : (
-                <OldPassword OldPasswordChange={OldPasswordChange} />
+                <OldPassword handlePasswordSave={handlePasswordSave} OldPasswordChange={OldPasswordChange} />
               )}
             </div>
           </div>

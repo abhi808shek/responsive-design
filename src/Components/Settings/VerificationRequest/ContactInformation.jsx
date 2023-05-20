@@ -1,7 +1,7 @@
 import React from "react";
 import DropdownOptions from "./DropdownOptions";
 
-const ContactInformation = ({ dataList }) => {
+const ContactInformation = ({ dataList, handleCheckBtn, handleClickSave }) => {
   return (
     <div
       className="w-full flex flex-col items-center"
@@ -18,9 +18,9 @@ const ContactInformation = ({ dataList }) => {
         <p className="text-xs w-[85%]">None - Only you</p>
       </div>
       {dataList.map((elem) => (
-      <DropdownOptions key={elem?.name} elem={elem}/>
+      <DropdownOptions key={elem?.name} elem={elem} handleCheckBtn={(optionValue) =>handleCheckBtn(optionValue, elem?.name)}/>
       ))}
-      <button className="bg-blue-400 w-[80px] h-[35px] rounded-2xl text-white text-sm font-bold  my-3">
+      <button onClick={handleClickSave} className="bg-blue-400 w-[80px] h-[35px] rounded-2xl text-white text-sm font-bold  my-3">
         Save
       </button>
     </div>

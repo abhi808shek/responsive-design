@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import MainCarousel from "../../SliderSection/MainCarousel";
 import AccordionToggle from "../../Accordian/AccordianToggle";
 import SelectDropdown from "./SelectDropdown";
@@ -14,6 +14,8 @@ import { getAllPostWithLimit, imageUploadApi } from "../../../../redux/actionCre
 import { toast } from "react-toastify";
 import AutocompletePlace from "../../../googlemap/AutocompletePlace";
 import { Alert } from "@material-tailwind/react";
+import { list } from "postcss";
+import { getMyUnion } from "../../../../redux/actionCreators/unionActionCreator";
 const CreatePostModal = ({
   // setShowCreatePostModal,
   title,
@@ -24,12 +26,14 @@ const CreatePostModal = ({
     return {
       profile: state.profileReducer.profile,
       activePost: state.rootsReducer.activePost,
+      myUnionList: state.unionReducer.myUnionList,
     };
   });
-  const { profile, activePost } = reducerData;
+  const { profile, activePost, myUnionList} = reducerData;
   const name = profile?.fname + profile?.lname;
   const [state, setState] = useState({});
   const isEdit = title === "Edit";
+  const isPersonal = profile?.profiletype === "Personal"
 
   const {
     postPrivacy = isEdit ? activePost?.shareto : "",
@@ -43,6 +47,10 @@ const CreatePostModal = ({
   const [VideoFile, setVideoFile] = useState([]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    dispatch(getMyUnion(profile?.id))
+  }, [])
 
   const handlePostContent = (e) => {
     setState({ ...state, "postContent": e.target.value });
@@ -78,7 +86,18 @@ const CreatePostModal = ({
       setState({ ...state, uploadFileList: paths });
     });
   }
-
+  let privacyList =[
+      { name: "Public" },
+      { name: "Friends" },
+      { name: "Relatives" },
+      { name: "Classmates" },
+      { name: "Officemates" },
+  ]
+  const unions = myUnionList.map((item) => {
+    return { name: item?.groupName}
+  })
+  const postPrivacyList = isPersonal ? [...privacyList, ...unions] : [{ name: "Friends"}, ...unions];
+  console.log({postPrivacyList, privacyList, unions, isPersonal});
   const handlePostPrivacy = (selectedValue) => {
     if (selectedValue?.name === "Friends") {
       setState({ ...state, alert: true, postPrivacy: selectedValue });
@@ -189,11 +208,7 @@ const CreatePostModal = ({
                 handleChange={handlePostPrivacy}
                 name="Select who can see your post"
                 options={[
-                  { name: "Public" },
-                  { name: "Friends" },
-                  { name: "Relatives" },
-                  { name: "Classmates" },
-                  { name: "Officemates" },
+                  ...postPrivacyList,
                   {
                     name: "Create your own union",
                     onClick: true,

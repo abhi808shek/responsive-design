@@ -90,9 +90,9 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
       }else if(!formState?.eventEndDate){
         return ToastWarning("End date and time is required")
       }
-      else if (phoneNumberRules.test(formState?.eventHostPhnNumber)) {
+      else if (!phoneNumberRules.test(formState?.eventHostPhnNumber)) {
         return ToastWarning("Add valid mobile number")
-      }else if(formState.hostmailid.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
+      }else if(!formState.hostmailid.match(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/)){
         return ToastWarning("Add valid host mail id")
       }
     }

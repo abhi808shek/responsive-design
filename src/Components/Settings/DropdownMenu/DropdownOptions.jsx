@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-const DropdownOptions = ({elem,radioBtn,setRadioBtn}) => {
+const DropdownOptions = ({elem,radioBtn,setRadioBtn, handleCheckBtn}) => {
   
  
   return (
@@ -12,7 +12,10 @@ const DropdownOptions = ({elem,radioBtn,setRadioBtn}) => {
           id=""
           className="cursor-pointer"
           checked={radioBtn === elem?.title}
-          onChange={()=>setRadioBtn(elem?.title)}
+          onChange={()=>{
+            handleCheckBtn(elem?.title)
+            setRadioBtn(elem?.title);
+          }}
         />
         {elem?.title}
       </label>

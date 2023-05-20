@@ -12,7 +12,8 @@ const PostForm = ({ width, bgColor }) => {
   };
   console.log(state);
   return (
-    <div className="flex justify-between w-full" onClick={createPostModal}>
+    <div className="w-full cursor-pointer">
+      <div className="flex justify-between w-full" onClick={createPostModal}>
         <input
           type="text"
           placeholder="Write Your Thoughts....."
@@ -21,12 +22,13 @@ const PostForm = ({ width, bgColor }) => {
         <span className="mr-2">
           <BsImage size={25} />
         </span>
+      </div>
       {showModal && (
         <Portals>
           <CreatePostModal
             title={"Create"}
             handleCloseModal={() => {
-              setState(prev => ({...prev,naehal: true, showModal: false}))
+              setState((prev) => ({ ...prev, naehal: true, showModal: false }));
             }}
           />
         </Portals>
