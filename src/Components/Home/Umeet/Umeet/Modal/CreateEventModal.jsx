@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
 import { createEvent, updateEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useDispatch, useSelector } from 'react-redux'
-import {v4 as uuidv4} from 'uuid'
+import { v4 as uuidv4 } from 'uuid'
 import AutocompletePlace from '../../../../googlemap/AutocompletePlace';
 import ToastWarning from '../../../../common/ToastWarning';
 import { toast } from 'react-toastify';
@@ -99,8 +99,9 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     dispatch(createEvent(postData)).then((res) => {
        if(res?.status){
         toast.success(res?.message)
+        handleCreatedEvent()
       }else{
-      toast.error(res?.message)
+        toast.error(res?.message)
       }
     })
   }

@@ -1,10 +1,20 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import notAttend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-NotAttending.png'
 import Attend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import maybe from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
+import { addInvitees } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { useSelector, useDispatch } from 'react-redux'
+import { toast } from 'react-toastify';
 
 const RvspModal = ({ onClose }) => {
   const [count, setCount] = useState(1);
+  const [eventType, setEventType] = useState('')
+  const [selectedValue, setSelectedValue] = useState('veg');
+
+  const dispatch = useDispatch()
+  const { eventDetail } = useSelector(state=>state.umeetReducer)
+
+  console.log(selectedValue)
 
   const handleIncrement = () => {
     setCount(count + 1);
@@ -12,6 +22,51 @@ const RvspModal = ({ onClose }) => {
 
   const handleDecrement = () => {
     setCount(count - 1);
+  }
+
+  useEffect(()=>{
+    if(eventDetail && eventDetail.eventName){
+      if(eventDetail.eventType.toLowerCase().includes('political')){
+        setEventType('Political')
+      }else if(eventDetail.eventType.toLowerCase().includes('public')){
+        setEventType('Public')
+      }else if(eventDetail.eventType.toLowerCase().includes('personal')){
+        setEventType('Personal')
+      }
+    }
+  }, [])  
+
+  const postData = [
+   {
+    "attend":"Send",
+    "eventid": eventDetail.id,
+    "eventtype": eventType,
+    "invitesasa": "sumanreddy38@gmail.com",
+    "nonveg": (selectedValue == 'nonveg') ? true : false,
+    "profileid":"62f62e8627c88e645560577a"
+   },
+   { 
+    "attend":"Send",
+    "eventid": eventDetail.id,
+    "eventtype": eventType,
+    "invitesasa":"vasarisuman@gmail.com",
+    "nonveg":false,
+    "profileid":"630dcba967ceca0570e4bfcf"
+   }
+  ]
+
+  const handleInvitees = ()=>{
+    dispatch(addInvitees(postData)).then((res) => {
+      if(res?.status){
+        console.log('pro')
+        toast.success(res?.message)
+      }else{
+        console.log('jd')
+      toast.error(res?.message)
+      }
+    }).catch((err)=>{
+      toast.error(err.message)
+    })
   }
 
   return (
@@ -38,10 +93,9 @@ const RvspModal = ({ onClose }) => {
 	 </div>
 
 	 <div className="relative">
-      <select className="border bg-white border-gray-300 w-full py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:border-blue-500">
-        <option>Select</option>
-        <option value="option2">Veg</option>
-        <option value="option3">Non-Veg</option>
+      <select value={selectedValue} onChange={(e) => setSelectedValue(e.target.value)} className="border bg-white border-gray-300 w-full py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:border-blue-500">
+        <option value="veg">Veg</option>
+        <option value="nonveg">Non-Veg</option>
       </select>
       <label className="absolute -top-1 left-2 -mt-px px-1 bg-white text-gray-600 text-xs">Food Preference</label>
     </div>
@@ -63,7 +117,7 @@ const RvspModal = ({ onClose }) => {
    <section>
     <div className='flex py-1 lg:py-2'>
      <button onClick={onClose} className='px-5 w-1/2 py-2 border boredr-[#649B8E] text-[#649B8E]'>Cancel</button>
-     <button className='px-5 py-2 w-1/2 text-white border bg-[#649B8E]'>Save</button>     
+     <button onClick={handleInvitees} className='px-5 py-2 w-1/2 text-white border bg-[#649B8E]'>Save</button>     
     </div>
    </section>
   </div>

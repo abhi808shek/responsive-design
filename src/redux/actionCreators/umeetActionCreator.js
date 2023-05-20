@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const token = JSON.parse(localStorage.getItem('userCredential')).token
+const token = localStorage.getItem('userCredential') ? JSON.parse(localStorage.getItem('userCredential')).token : ''
 
 export const createEvent = (data) => async (dispatch) => {
     try {
@@ -203,7 +203,7 @@ export const addInvitees = (data) => async (dispatch) => {
             `http://3.233.82.34:8080/event/api/invities/addInvities`,
             data
         );
-        console.log(response);
+        console.log(data,response.data, 'addInvitees');
         dispatch({
             type: "",
             payload: response.data,
