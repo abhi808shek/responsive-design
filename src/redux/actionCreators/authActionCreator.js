@@ -3,7 +3,6 @@ import { setDataOnStorage } from "../../Components/Utility/utility";
 
 // CHECKING USER pr Email EXIST OR NOT
 
-
 export const saveUserSignupData = (data) => async (dispatch) => {
   const datalist = {
     datetime: data.datetime,
@@ -12,7 +11,7 @@ export const saveUserSignupData = (data) => async (dispatch) => {
   };
   try {
     const result = await axios.put(
-      `https://web.uynite.com/login/api/user/registerotp`,
+      `https://web.uynite.com/api/user/registerotp`,
       datalist,
       {
         headers: {
@@ -38,14 +37,14 @@ export const settingOtp = (otp) => async (dispatch) => {
     });
   } catch (error) {
     console.log(error.message);
-    throw error.message
+    throw error.message;
   }
 };
 
 export const allSingupDetails = (data) => async (dispatch) => {
   try {
     const result = await axios.post(
-      ` https://web.uynite.com/login/api/user/registration`,
+      ` https://web.uynite.com/api/user/registration`,
       {
         headers: {
           "Accept-Language": "en",
@@ -68,7 +67,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
   try {
     console.log("emailId", emailId);
     const userExist = await axios.get(
-      `https://web.uynite.com/login/api/user/usersbyemail/${emailId}`,
+      `https://web.uynite.com/api/user/usersbyemail/${emailId}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -91,7 +90,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
 export const sendingMailForOtp = (data) => async (dispatch) => {
   try {
     const mailSend = await axios.put(
-      `https://web.uynite.com/login/api/user/otp`,
+      `https://web.uynite.com/api/user/otp`,
       data,
       {
         headers: {
@@ -113,7 +112,7 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
 export const matchingOtp = (mailId, otp) => async (dispatch) => {
   try {
     const result = await axios.get(
-      `https://web.uynite.com/login/api/user/otp/${mailId}/${otp}`,
+      `https://web.uynite.com/api/user/otp/${mailId}/${otp}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -134,7 +133,7 @@ export const matchingOtp = (mailId, otp) => async (dispatch) => {
 export const savingNewPassword = (data) => async (dispatch) => {
   try {
     const savedPassword = await axios.put(
-      `https://web.uynite.com/login/api/user/forgotpassword`,
+      `https://web.uynite.com/api/user/forgotpassword`,
       data,
       {
         headers: {
@@ -155,7 +154,7 @@ export const loginUser = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `https://web.uynite.com/login/api/user/authenticate`,
+      `https://web.uynite.com/api/user/authenticate`,
       data,
       {
         headers: {
@@ -178,7 +177,7 @@ export const userRegistration = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `https://web.uynite.com/login/api/user/registration`,
+      `https://web.uynite.com/api/user/registration`,
       data,
       {
         headers: {
@@ -276,16 +275,14 @@ export const uploadImage = (data) => async (dispatch) => {
   }
 };
 
-
-
 export const getCountryList = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/profile/api/user/country/countrylist`,
+      `https://web.uynite.com/api/user/country/countrylist`,
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -293,24 +290,23 @@ export const getCountryList = () => async (dispatch) => {
 
     dispatch({
       type: "GET_COUNTRY_LIST",
-      payload: response?.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err?.response?.data
+      payload: response?.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err?.response?.data;
   }
-}
-
+};
 
 export const getStateList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/profile/api/user/country/getstate/${data}`,
+      `https://web.uynite.com/api/user/country/getstate/${data}`,
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -318,23 +314,23 @@ export const getStateList = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_STATE_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
+};
 
 export const getDistrict = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/profile/api/user/country/getcity/${data}`,
+      `https://web.uynite.com/api/user/country/getcity/${data}`,
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -342,14 +338,13 @@ export const getDistrict = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_DISTRICT_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    throw err.response.data;
   }
-}
-
+};
 
 export const getLoksabha = (data) => async (dispatch) => {
   try {
@@ -358,7 +353,7 @@ export const getLoksabha = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -366,15 +361,14 @@ export const getLoksabha = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_LOKSABHA_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
-
+};
 
 export const getAssenbly = (data) => async (dispatch) => {
   try {
@@ -383,7 +377,7 @@ export const getAssenbly = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -391,25 +385,24 @@ export const getAssenbly = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_ASSEMBLY_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
-
+};
 
 export const getLocationsList = (data) => async (dispatch) => {
   // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
   try {
     const response = await axios.get(
-    `https://maps.googleapis.com/maps/api/js?key=${data}&libraries=places`,
+      `https://maps.googleapis.com/maps/api/js?key=${data}&libraries=places`,
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -419,9 +412,9 @@ export const getLocationsList = (data) => async (dispatch) => {
     //   type: "GET_ASSEMBLY_LIST",
     //   payload: response.data
     // })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
+};
