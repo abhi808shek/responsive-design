@@ -12,7 +12,7 @@ export const saveUserSignupData = (data) => async (dispatch) => {
   };
   try {
     const result = await axios.put(
-      `https://web.uynite.com/api/user/registerotp`,
+      `https://web.uynite.com/login/api/user/registerotp`,
       datalist,
       {
         headers: {
@@ -45,7 +45,7 @@ export const settingOtp = (otp) => async (dispatch) => {
 export const allSingupDetails = (data) => async (dispatch) => {
   try {
     const result = await axios.post(
-      ` https://web.uynite.com/api/user/registration`,
+      ` https://web.uynite.com/login/api/user/registration`,
       {
         headers: {
           "Accept-Language": "en",
@@ -68,7 +68,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
   try {
     console.log("emailId", emailId);
     const userExist = await axios.get(
-      `https://web.uynite.com/api/user/usersbyemail/${emailId}`,
+      `https://web.uynite.com/login/api/user/usersbyemail/${emailId}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -91,7 +91,7 @@ export const checkingIsEmailExist = (emailId) => async (dispatch) => {
 export const sendingMailForOtp = (data) => async (dispatch) => {
   try {
     const mailSend = await axios.put(
-      `https://web.uynite.com/api/user/otp`,
+      `https://web.uynite.com/login/api/user/otp`,
       data,
       {
         headers: {
@@ -113,7 +113,7 @@ export const sendingMailForOtp = (data) => async (dispatch) => {
 export const matchingOtp = (mailId, otp) => async (dispatch) => {
   try {
     const result = await axios.get(
-      `https://web.uynite.com/api/user/otp/${mailId}/${otp}`,
+      `https://web.uynite.com/login/api/user/otp/${mailId}/${otp}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -134,7 +134,7 @@ export const matchingOtp = (mailId, otp) => async (dispatch) => {
 export const savingNewPassword = (data) => async (dispatch) => {
   try {
     const savedPassword = await axios.put(
-      `https://web.uynite.com/api/user/forgotpassword`,
+      `https://web.uynite.com/login/api/user/forgotpassword`,
       data,
       {
         headers: {
@@ -155,7 +155,7 @@ export const loginUser = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `https://web.uynite.com/api/user/authenticate`,
+      `https://web.uynite.com/login/api/user/authenticate`,
       data,
       {
         headers: {
@@ -178,7 +178,7 @@ export const userRegistration = (data) => async (dispatch) => {
   // const { email, password } = data;
   try {
     const response = await axios.post(
-      `https://web.uynite.com/api/user/registration`,
+      `https://web.uynite.com/login/api/user/registration`,
       data,
       {
         headers: {
@@ -253,7 +253,8 @@ export const createProfile = (data) => async (dispatch) => {
 export const uploadImage = (data) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `http://35.183.49.35:9098/s3/upload`,
+      // Old Ip Change to new Ip
+      `https://web.uynite.com/fileservice/s3/upload`,
       data,
       {
         headers: {
@@ -280,7 +281,7 @@ export const uploadImage = (data) => async (dispatch) => {
 export const getCountryList = () => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/api/user/country/countrylist`,
+      `https://web.uynite.com/profile/api/user/country/countrylist`,
       {
         headers: {
           "Accept-Language": "us",
@@ -305,7 +306,7 @@ export const getCountryList = () => async (dispatch) => {
 export const getStateList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/api/user/country/getstate/${data}`,
+      `https://web.uynite.com/profile/api/user/country/getstate/${data}`,
       {
         headers: {
           "Accept-Language": "us",
@@ -329,7 +330,7 @@ export const getStateList = (data) => async (dispatch) => {
 export const getDistrict = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/api/user/country/getcity/${data}`,
+      `https://web.uynite.com/profile/api/user/country/getcity/${data}`,
       {
         headers: {
           "Accept-Language": "us",

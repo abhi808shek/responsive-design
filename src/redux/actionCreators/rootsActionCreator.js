@@ -54,7 +54,7 @@ export const getPostByPostId = (postId) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
     const getPostbyid = await axios.get(
-      `https://web.uynite.com/api/post/getpostbypostid/${postId}`,
+      `https://web.uynite.com/post/api/post/getpostbypostid/${postId}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -138,7 +138,7 @@ export const getPostHistoryByPostId = (postId) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
     const getPostHistory = await axios.get(
-      `https://web.uynite.com/api/post/posthistory/${postId}`,
+      `https://web.uynite.com/post/api/post/posthistory/${postId}`,
       {
         headers: {
           "Accept-Language": "en",
@@ -161,7 +161,7 @@ export const setPostReport = (reportResult) => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
     const postReportResult = await axios.post(
-      `https://web.uynite.com/api/post/report`,
+      `https://web.uynite.com/post/api/post/report`,
       reportResult,
       {
         headers: {
@@ -266,7 +266,7 @@ export const imageUploadApi = (file) => async (dispatch) => {
     const getStoredData = await getUserDataFromLocalStorage();
     const body = { file: file };
     const getUploadedResult = await axios.post(
-      `http://35.183.76.174:9098/s3/upload`,
+      `_197d33c59fc92cd72a135a065fd08d62.images.uynite.com.`,
       body,
       {
         headers: {
@@ -293,7 +293,7 @@ export const multipleImageUpload = (image) => async (dispatch) => {
     const getStoredData = await getUserDataFromLocalStorage();
 
     const multipleImageResult = await axios.post(
-      `http://35.183.76.174:9098/files`,
+      `https://web.uynite.com/fileservice/files`,
       image,
       {
         headers: {
@@ -317,9 +317,9 @@ export const multipleImageUpload = (image) => async (dispatch) => {
 export const getListOfImagesByPiPT = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-
+// doubt in this api
     const getImageListResult = await axios.get(
-      `http://35.183.76.174:9098/api/image/getbyid/${profileid}/${profiletype}`,
+      `http://35.183.76.174:9098/post/api/image/getbyid/${profileid}/${profiletype}`,
       image,
       {
         headers: {
@@ -343,9 +343,9 @@ export const getListOfImagesByPiPT = () => async (dispatch) => {
 export const addImageByProfileId = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-
+    // doubt in this api also
     const addImageResult = await axios.post(
-      `http://35.183.76.174:9098/api/image/add`,
+      `http://35.183.76.174:9098/post/api/image/add`,
       image,
       {
         headers: {
