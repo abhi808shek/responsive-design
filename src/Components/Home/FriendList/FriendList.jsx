@@ -7,23 +7,32 @@ import Portals from "../../Portals/Portals";
 import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRelationshipModal";
 import BlockModal from "../Modal/BlockModal/BlockModal";
 import MenuDropdown from "../../common/MenuDropdown";
-import User from '../../../Assets/Images/user.png'
+import User from "../../../Assets/Images/user.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyUnion } from "../../../redux/actionCreators/unionActionCreator";
-import { cancelFriendRequest, updateRelation } from "../../../redux/actionCreators/friendsAction";
+import {
+  cancelFriendRequest,
+  updateRelation,
+} from "../../../redux/actionCreators/friendsAction";
 import { toast } from "react-toastify";
 
 const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
-
-  const dispatch = useDispatch()
-  const { fname, lname, id, profiletype = "Personal",userid, pimage} = data.profile || {};
+  const dispatch = useDispatch();
+  const {
+    fname,
+    lname,
+    id,
+    profiletype = "Personal",
+    userid,
+    pimage,
+  } = data.profile || {};
   const name = fname + lname;
   const action = [
     { name: "Un-Friend" },
     { name: "Change Relationship" },
     { name: "Block" },
   ];
-    const profile = useSelector((state) => state.profileReducer.profile);
+  const profile = useSelector((state) => state.profileReducer.profile);
 
   const options = useMemo(() => {
     // dispatch(getMyUnion(profileid))
@@ -43,17 +52,18 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
 
   const { relation } = options;
 
-  const [ state, setState ] = useState({})
-  const { relationOption = relation, selectedItem} = state;
+  const [state, setState] = useState({});
+  const { relationOption = relation, selectedItem } = state;
 
-    const handleRelation = (e) => {
-      const name = e.target.name;
-      const value = e.target.checked;
-      const selected = relationOption.map((item) => {
-        return item?.name === name ? { ...item, checked: value } : item;
-      });
-      setState({ ...state, relationOption: selected });
-    };
+  const handleRelation = (e) => {
+    const name = e.target.name;
+    const value = e.target.checked;
+    const selected = relationOption?.map((item) => {
+      console.log("checkkkkkkkkk", item);
+      return item?.name === name ? { ...item, checked: value } : item;
+    });
+    setState({ ...state, relationOption: selected });
+  };
   const [modalType, setModalType] = useState({
     unFriend: false,
     changeRelationship: false,
@@ -86,29 +96,31 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       block: false,
     });
   };
-console.log(selectedItem);
+  console.log(selectedItem);
   const handleUnfriend = () => {
     // console.log(data, selectedItem);
 
     const payload = {
       profileid: data?.id,
-      friendprofileid: selectedItem?.id
+      friendprofileid: selectedItem?.id,
     };
     dispatch(cancelFriendRequest(payload)).then((res) => {
-      if(res?.status){
+      if (res?.status) {
         toast.success(res?.message);
-      }else{
+      } else {
         toast.error(res.message);
       }
-    })
-  }
-console.log(selectedItem, );
+    });
+  };
+  console.log(selectedItem);
   const handleUpdateRelation = () => {
-    const relations = relationOption.flatMap((item)  => item.checked && item?.name )
-    
+    const relations = relationOption.flatMap(
+      (item) => item.checked && item?.name
+    );
+
     const payloads = {
-      classment: relations.includes('Classmate'),
-      collgues: relations.includes('Officemate'),
+      classment: relations.includes("Classmate"),
+      collgues: relations.includes("Officemate"),
       fname: selectedItem?.fname,
       friendprofileid: selectedItem?.id,
       friendtype: "Friend",
@@ -122,24 +134,26 @@ console.log(selectedItem, );
       userid: "63a67001a01d8442b1348496",
     };
 
-    const relation = relationOption?.find((item) => item?.checked && !item.disable);
+    const relation = relationOption?.find(
+      (item) => item?.checked && !item.disable
+    );
     const payload = {
       user1: profile?.id,
       user2: selectedItem?.id,
-      relation: relation?.name
-    }
-    dispatch(updateRelation(payloads)).then((res) =>{
-      if(res?.status){
-        toast.success(res?.message)
-      }else{
-        toast.error(res?.message)
+      relation: relation?.name,
+    };
+    dispatch(updateRelation(payloads)).then((res) => {
+      if (res?.status) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
       }
-    })
-  }
+    });
+  };
 
   const handleBlock = () => {
     // dispatch()
-  }
+  };
 
   return (
     <>
@@ -170,7 +184,12 @@ console.log(selectedItem, );
           <div>
             <MenuDropdown
               button={
-                <div onClick={() => setState({...state, selectedItem: data?.profile})} className="flex gap-2 items-center cursor-pointer">
+                <div
+                  onClick={() =>
+                    setState({ ...state, selectedItem: data?.profile })
+                  }
+                  className="flex gap-2 items-center cursor-pointer"
+                >
                   <BsThreeDotsVertical className="" size={18} />
                 </div>
               }
@@ -195,7 +214,10 @@ console.log(selectedItem, );
 
       {modalType.unFriend && (
         <Portals>
-          <UnfriendModal handleUnfriend={handleUnfriend} closeModalOption={closeModalOption} />
+          <UnfriendModal
+            handleUnfriend={handleUnfriend}
+            closeModalOption={closeModalOption}
+          />
         </Portals>
       )}
       {modalType.changeRelationship && (
@@ -212,7 +234,10 @@ console.log(selectedItem, );
       )}
       {modalType.block && (
         <Portals>
-          <BlockModal handleBlock={handleBlock} closeModalOption={closeModalOption} />
+          <BlockModal
+            handleBlock={handleBlock}
+            closeModalOption={closeModalOption}
+          />
         </Portals>
       )}
     </>

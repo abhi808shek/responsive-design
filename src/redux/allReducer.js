@@ -9,6 +9,7 @@ import umeetReducer from "./reducers/umeetReducer";
 import { eventReducer } from './reducers/eventReducer';
 import unionReducer from "./reducers/unionReducer";
 import rootsReducer from './reducers/rootsReducer';
+import settingReducer from './reducers/settingsReducer';
 
 
 const allReducer = combineReducers({
@@ -22,6 +23,7 @@ const allReducer = combineReducers({
   kicksReducer,
   unionReducer,
   umeetReducer,
+  settingReducer,
 });
 
 

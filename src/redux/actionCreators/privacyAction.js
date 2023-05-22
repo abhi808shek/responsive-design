@@ -6,10 +6,10 @@ export const addProfilePrivacy = (data) => async (dispatch) => {
       `https://web.uynite.com/profile/api/profile/privacy/add`,
       data
     );
-    console.log(response);
+    console.log("addProfilePrivacy", response);
     dispatch({
       type: "",
-      payload: response.data,
+      payload: response?.data,
     });
   } catch (error) {
     throw error;

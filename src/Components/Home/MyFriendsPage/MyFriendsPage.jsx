@@ -8,7 +8,10 @@ import { useEffect } from "react";
 import { isEmpty } from "../../Utility/utility";
 // import { getFriendsList } from "../../../redux/actionCreators/profileAction";
 import EmptyComponent from "../../empty component/EmptyComponent";
-import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
+import {
+  getFriendsList,
+  getTypeOfFriends,
+} from "../../../redux/actionCreators/friendsAction";
 import Locations from "../../googlemap/Locations";
 import Dropdown from "../../Login/Content/Modal/Dropdown";
 import { useMemo } from "react";
@@ -22,30 +25,29 @@ const MyFriendsPage = () => {
       // following: state?.profileReducer?.following,
       // followers: state?.profileReducer?.followers,
       // friends: state?.profileReducer?.friends?.data,
-      friendList : state.friendReducer.friends,
-      profile: state.profileReducer.profile
+      friendList: state.friendReducer.friends,
+      profile: state.profileReducer.profile,
     };
   });
   const { following, followers, friendList, profile } = reducerData;
   const [state, setState] = useState({});
-  const { relation = { name: "All", key: "all" } } = state;
+  const { relation = { name: "Friends", key: "friends" } } = state;
   useEffect(() => {
     const profileid = JSON.parse(localStorage.getItem("profile"))?.id;
     if (isEmpty(friendList)) {
       dispatch(getFriendsList(profileid));
     }
+    dispatch(getTypeOfFriends(profileid));
   }, []);
   // console.log(isEmpty(friends), "CHHHH", friends);
   const option = useMemo(() => {
     const forPersonalAcc = [
-      { name: "All", key: "all" },
       { name: "Friends", key: "friends" },
       { name: "Relatives", key: "relatives" },
       { name: "Classmates", key: "classmates" },
       { name: "Officemates", key: "officemates" },
     ];
     const forOrgAcc = [
-      { name: "All", key: "all" },
       { name: "Friends", key: "friends" },
     ];
     return {
@@ -65,7 +67,7 @@ const MyFriendsPage = () => {
             <Dropdown
               label="View by"
               options={filterOptions}
-              name={"All"}
+              name={"Friends"}
               keyName={"name"}
               handleChange={(value) => handleChange("relation", value)}
               selectedValue={relation}
@@ -83,14 +85,17 @@ const MyFriendsPage = () => {
         {/* <hr className="" /> */}
 
         <section className="h-[600px] overflow-y-scroll pt-2 flex flex-col gap-4">
-          {
-            isEmpty(friendList)
-            ? <EmptyComponent message={`No ${relation?.name === 'All' ? "Friends" : relation?.name}`}/>
-            :
+          {isEmpty(friendList) ? (
+            <EmptyComponent
+              message={`No ${
+                relation?.name === "Friends" ? "Friends" : relation?.name
+              }`}
+            />
+          ) : (
             friendList?.map((elem, index) => (
               <FriendList icon={true} desc={true} data={elem} />
             ))
-          }
+          )}
         </section>
         {/* <Locations/> */}
       </div>

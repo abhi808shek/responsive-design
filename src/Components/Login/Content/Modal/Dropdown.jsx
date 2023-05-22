@@ -51,7 +51,7 @@ export default function Dropdown({label,up, style, name, options=[], handleChang
                 <EmptyComponent message={"Data not available"} />
               ) : (
                 <div className="py-1 w-[85%]">
-                  {options.map((item, index) => {
+                  {options?.map((item, index) => {
                     return (
                       <Listbox.Option key={index} value={item}>
                         {({ active }) =>

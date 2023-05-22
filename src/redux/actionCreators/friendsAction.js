@@ -35,6 +35,7 @@ export const getUserByMail = (data) => async (dispatch) => {
 };
 
 export const getUsers = (data) => async (dispatch) => {
+  console.log("data",data);
   try {
     const response = await axios.get(
       `https://web.uynite.com/profile/api/profile/search/${data}`
@@ -43,6 +44,8 @@ export const getUsers = (data) => async (dispatch) => {
       type: "GET_USERS",
       payload: response.data,
     });
+
+    console.log("reeeeeeeeeeeeeeeeee",response);
     return response.data;
   } catch (error) {
     throw error;
@@ -66,7 +69,7 @@ export const addFriend = (data) => async (dispatch) => {
 };
 
 export const updateRelation = (data) => async (dispatch) => {
-  // const { user1, user2} = data
+ 
   try {
     const response = await axios.post(
       `https://web.uynite.com/friend/api/friend/add`,
@@ -99,23 +102,6 @@ export const deleteRequest = (data) => async (dispatch) => {
   }
 };
 
-// export const getFriendsList = (data) => async (dispatch) => {
-//   try {
-//     const response = await axios.get(
-//       `https://web.uynite.com/friend/api/friend/getfriendids/${data}`, {},
-//       {
-
-//       }
-//     );
-//     dispatch({
-//       type: "FRIEND_LIST",
-//       payload: response.data,
-//     });
-//     return response.data;
-//   } catch (error) {
-//     throw error;
-//   }
-// };
 
 export const getFriendsList = (data) => async (dispatch) => {
   try {
@@ -137,7 +123,7 @@ export const getRequestList = (data) => async (dispatch) => {
     const response = await axios.get(
       `https://web.uynite.com/friend/api/friend/getfriendrequest/${data}/Send`
     );
-    console.log(response);
+    console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaa",response);
     dispatch({
       type: "GET_REQUEST_LIST",
       payload: response.data,
@@ -212,5 +198,25 @@ export const removeFollowers = (data) => async (dispatch) => {
     return response.data;
   } catch (err) {
     throw err;
+  }
+};
+
+
+
+
+
+export const getTypeOfFriends = (profileid) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/friend/api/friend/gettypeoffriends/${profileid}/Friend`
+    );
+    console.log("GET_TYPE_OF_FRIENDS", response);
+    dispatch({
+      type: "GET_TYPE_OF_FRIENDS",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (error) {
+    throw error;
   }
 };
