@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import wishes from '../../../../../Assets/Images/Umeet/wishesTemplate.webp'
@@ -7,53 +7,33 @@ import person from '../../../../../Assets/Images/Person.jpg'
 import '../../Umeet.css'
 import AddByContactModal from './AddByContactModal'
 import group from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
+import { useSelector } from 'react-redux'
 
-const dataList = [
-  {
-    name: "Smith",
-    img: person
-  },
-  {
-    name: "Russel",
-    img: person
-  },
-  {
-    name: "De-Villiers",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-]
-
-const AddPeopleModal = ({ onClose }) => {
+const AddPeopleModal = ({ onClose, education }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
+
+  const { umeetReducer } = useSelector(state=>state)
 
   const handleSelectAllChange = () => {
     setSelectAll(!selectAll);
   }
 
+  console.log(education, umeetReducer)
+
   const handleAddByContactModal = ()=>{
    setShowAddByContactModal(true)
   }
+
+  let dataList = [];
+
+  useEffect(()=>{
+    if(education == 'ug'){
+      dataList = umeetReducer.ugFriends
+    }else if(education == 'pg'){
+      dataList = umeetReducer.pgFriends
+    }
+  }, [])
 
   return (
     <div className='absolute fixe top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -77,20 +57,20 @@ const AddPeopleModal = ({ onClose }) => {
           />Select All</label>
     	</div>
     	<div className='h-[190px] md:h-[205px] lg:h-[288px] 2xl:h-[320px] hideScroll overflow-y-scroll'>
-    	{
+    	{ (dataList.length !== 0) ?
     	 dataList.map((data, i)=>(
     	  <div key={i} className='flex items-center mb-2 lg:mb-3'>    	   
     	   <div className='w-1/6'>
     	    <img src={data.img} className='w-10 h-10 rounded-full object-cover' />
     	   </div>
-    	   <span className='w-4/6 font-medium text-[15px]'>{data.name}</span>
+    	   <span className='w-4/6 font-medium text-[15px]'>{data.name}oppo</span>
     	   <div className='w-1/6 flex justify-end'>
     	    {selectAll ? <img src={selectedimg} className='h-6 w-6'/> :
     	     <input type="checkbox" className='w-4 h-4' />
     	    }
     	   </div>
     	  </div>
-    	 ))
+    	 )) : <p className='h-full flex justify-center items-center bg-sky-50'>No {education} friends were found</p>       
     	}
     	</div>
 

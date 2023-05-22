@@ -66,7 +66,7 @@ export const dataList = [
  },
 ]
 
-export const myEventataList = [
+export const myEventDataList = [
  {
   img: img,
   title: 'Moon Light Dinner',

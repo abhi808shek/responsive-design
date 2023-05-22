@@ -13,8 +13,7 @@ const RvspModal = ({ onClose }) => {
 
   const dispatch = useDispatch()
   const { eventDetail } = useSelector(state=>state.umeetReducer)
-
-  console.log(selectedValue)
+  const { umeetReducer } = useSelector(state=>state)
 
   const handleIncrement = () => {
     setCount(count + 1);
@@ -24,7 +23,12 @@ const RvspModal = ({ onClose }) => {
     setCount(count - 1);
   }
 
-  useEffect(()=>{
+  useEffect(()=>{    
+    if(umeetReducer.invitiesAdded == true){
+      toast.success('Invites added successfully')
+      onClose()
+    }
+
     if(eventDetail && eventDetail.eventName){
       if(eventDetail.eventType.toLowerCase().includes('political')){
         setEventType('Political')
@@ -33,8 +37,10 @@ const RvspModal = ({ onClose }) => {
       }else if(eventDetail.eventType.toLowerCase().includes('personal')){
         setEventType('Personal')
       }
-    }
-  }, [])  
+    }    
+
+    umeetReducer.invitiesAdded = false
+  }, [umeetReducer.invitiesAdded])  
 
   const postData = [
    {
@@ -55,18 +61,9 @@ const RvspModal = ({ onClose }) => {
    }
   ]
 
-  const handleInvitees = ()=>{
-    dispatch(addInvitees(postData)).then((res) => {
-      if(res?.status){
-        console.log('pro')
-        toast.success(res?.message)
-      }else{
-        console.log('jd')
-      toast.error(res?.message)
-      }
-    }).catch((err)=>{
-      toast.error(err.message)
-    })
+  const handleInvitees = ()=>{ 
+    umeetReducer.invitiesAdded = false   
+    dispatch(addInvitees(postData))  
   }
 
   return (

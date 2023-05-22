@@ -2,7 +2,7 @@ import BlankEvents from './BlankEvents'
 import { HiPlus } from 'react-icons/hi'
 import { BsCalendarEvent } from 'react-icons/bs'
 import { useState } from 'react'
-import { dataList, myEventataList, selectEventList, selectPersonalEventType, selectPublicEventType, selectPoliticalEventType } from '../data'
+import { dataList, myEventDataList, selectEventList, selectPersonalEventType, selectPublicEventType, selectPoliticalEventType } from '../data'
 import SingleEvent from './SingleEvent'
 import '../Umeet.css'
 import { RxChevronLeft } from 'react-icons/rx'
@@ -50,6 +50,9 @@ export default function Umeet(){
 
   {/* type of event personal, political, public local state*/}
   const [whichType, setWhichType] = useState('')
+
+  // re-union related states
+  const [education, setEducation] = useState('')
 
   {/* single event states*/}
   const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(false)
@@ -236,7 +239,7 @@ export default function Umeet(){
     </div>
     )
   }
-
+  
   function AllEvents({ handleEditEvent }){
 
     return (
@@ -260,7 +263,7 @@ export default function Umeet(){
        <SingleEvent 
         dataList={dataList} 
         myEvent={myEvent} 
-        myEventataList={myEventataList} 
+        myEventDataList={myEventDataList} 
         handleEventDetails={handleEventDetails} 
         handleDeleteEvent={()=>setShowDeleteMyEvent(true)} 
         handleEditEvent={handleEditEvent}
@@ -307,7 +310,7 @@ export default function Umeet(){
      {showShareMyEvent && <EventShareModal onClose={()=>setShowShareMyEvent(false)} />}
      {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
      {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
-     {showAddGroup && <AddGuestModal onClose={()=>setShowAddGroup(false)} />}
+     {showAddGroup && <AddGuestModal education={education} handleEducation={(eduData)=>setEducation(eduData)} onClose={()=>setShowAddGroup(false)} />}
      {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={()=>setShowAddGroupPersonalOthers(false)} />}
      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
      {showPoliticalFeedbackQuestionModal&& <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
