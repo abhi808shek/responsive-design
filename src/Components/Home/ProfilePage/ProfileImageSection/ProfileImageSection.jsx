@@ -142,10 +142,10 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
         </div>
         <div className="flex gap-2 items-center mb-3 mt-1">
           <span className="font-bold sm:text-xl lg:text-2xl flex items-center justify-center">{`${
-            userName ? `${data?.fname} ${data?.lname}` : "User"
+            userName ? `${data?.fname} ${data?.lname || ""}` : "User"
           }`}</span>
           <span className=" text-xs lg:text-sm font-medium text-gray-700  2xl:text-[20px] flex items-center justify-center">
-            @Software Engineer
+            {data?.job ? `@${data?.job}` : ""}
           </span>
         </div>
       </section>

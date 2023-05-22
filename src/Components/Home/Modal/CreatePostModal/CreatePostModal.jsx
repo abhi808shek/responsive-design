@@ -38,7 +38,7 @@ const CreatePostModal = ({
   const {
     postPrivacy = isEdit ? activePost?.shareto : "",
     postContent = isEdit ? activePost?.text : "",
-    location = isEdit ? activePost?.location : "",
+    location = isEdit ? activePost?.location : state?.location,
     uploadFileList,
     alert,
   } = state;

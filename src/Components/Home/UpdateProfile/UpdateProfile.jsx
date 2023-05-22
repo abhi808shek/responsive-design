@@ -13,7 +13,7 @@ import {
 } from "../../../redux/actionCreators/authActionCreator";
 import AutocompletePlace from "../../googlemap/AutocompletePlace";
 import Dropdown2 from "../../Login/Content/Modal/Dropdown2";
-import { addGraduation, getGraduationList, getPgList, updateEducation, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { addGraduation, getGraduationList, getPgList, getProfileById, updateEducation, updateProfile } from "../../../redux/actionCreators/profileAction";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -23,6 +23,7 @@ import PersonalAccount from "./PersonalAccount";
 import OrganizationAccount from "./OrganizationAccount";
 import { getEducationDetail } from "../../../redux/actionCreators/profileAction";
 import { Typography } from "@material-tailwind/react";
+import { getUserDataFromLocalStorage } from "../../Utility/utility";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -37,7 +38,7 @@ const UpdateProfile = () => {
   });
   const { profileDetail, educationDetails, profile } = reducerData;
   const [states, setState] = useState(profileDetail || {});
-  const [country, setCountry] = useState(profileDetail);
+  const [country, setCountry] = useState({country : profile?.country});
   const [education, setEducation] = useState(educationDetails || {});
   const [orgDetail, setOrgDetail] = useState({});
 
@@ -49,9 +50,9 @@ const UpdateProfile = () => {
     email,
     dob,
     gender,
-    state = { state: profileDetail?.state },
+    state = { state: profile?.state },
     district,
-    loksabha =  {loksabha: profileDetail?.loksabha},
+    loksabha =  {loksabha: profile?.loksabha},
     assembly,
     profiletype,
     userid,
@@ -59,6 +60,7 @@ const UpdateProfile = () => {
     profilePic,
     coverPic,
     code,
+    location=profile?.city
   } = states;
 
   const isPersonal = profiletype === "Personal";
@@ -100,7 +102,6 @@ const UpdateProfile = () => {
   const handleOrganization = (name, value) => {
     setOrgDetail({...orgDetail, [name]: value})
   }
-console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   const handleSubmit = async () => {
     if (email !== profile?.email) {
       const checkEmail = await dispatch(checkingIsEmailExist(email));
@@ -122,6 +123,7 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
       pimage: "", //if profile image is there, add the URL here.
       loksabha: loksabha?.loksabha,
       state: state?.state || '',
+      city: location,
       lname: lname, //from user input – profile lnamein SLIDE 4
       personalname: fname, //from user input – profilefnamein SLIDE 4
       profiletype: isPersonal ? "Personal" : "Organization", //profile type, while we passing in signup screen
@@ -146,6 +148,7 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
       .then((res) => {
         if (res.status) {
           navigate("/profile");
+          dispatch(getProfileById(getUserDataFromLocalStorage().id))
           toast.success(res.message);
         } else {
           toast.error(res.message);
@@ -157,7 +160,7 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   function addProfession(){
 
   }
-
+console.log(state, "STATEEEEE");
   // ---------------- for personal account ----------------------
  async function addEducation (){
   Promise.all([
@@ -174,6 +177,9 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   const checkDisable = () => {
     return !(fname || lname)
   }
+    const handleLocation = (location) => {
+      setState({...states, location})
+    };
   return (
     <div className="bg-[#E4E7EC] w-[100%]  p-6">
       <div className="updateTitle text-center rounded-xl flex-wrap mt-2 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
@@ -379,6 +385,8 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
                   handleCountry={handleCountry}
                   handleChange={handleChange}
                   handleEducation={handleEducation}
+                  handleLocation={handleLocation}
+                  location={location}
                 />
               ) : (
                 <OrganizationAccount
