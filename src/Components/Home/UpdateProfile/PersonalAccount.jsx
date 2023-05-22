@@ -8,8 +8,8 @@ import { useSelector } from "react-redux";
 import AutocompletePlace from "../../googlemap/AutocompletePlace";
 
 const PersonalAccount = ({
-  states = {},
-  education = {},
+  states ,
+  education,
   handleEducation,
   country,
   handleCountry,
@@ -85,9 +85,10 @@ const PersonalAccount = ({
 
   }
   const countryName = ['India']
+
   return (
     <>
-      <Dropdown2
+      {/* <Dropdown2
         style={"w-full"}
         label={"Country: "}
         name={"Select country"}
@@ -102,7 +103,7 @@ const PersonalAccount = ({
         options={stateList}
         selectedValue={state}
         keyName={"state"}
-        handleChange={(value) => handleChange("state", value.state)}
+        handleChange={(value) => handleChange("state", value)}
       />
       {countryName?.includes(country?.country) && (
         <>
@@ -149,7 +150,7 @@ const PersonalAccount = ({
             placeholder={"Living Location"}
           />
         </div>
-      </div>
+      </div> */}
       <div className="mb-6 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
         Education Detail:
       </div>
@@ -160,6 +161,8 @@ const PersonalAccount = ({
             livePlace={(schoolLocation) =>
               handleEducation("schoolname", schoolLocation)
             }
+            value={schoolname}
+            handleChangeLocation={(value) => handleEducation('schoolname', value)}
             placeholder={"Enter your school"}
           />
         </div>

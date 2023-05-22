@@ -26,6 +26,7 @@ const AboutSection = ({ isOther, data = {} }) => {
     hometown,
     profiletype,
     orgname,
+    businesscategory,
   } = data;
   const reducerData = useSelector((state) => {
     return {
@@ -265,16 +266,16 @@ const AboutSection = ({ isOther, data = {} }) => {
                   <div className="w-7">
                     <CgOrganisation alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">
-                    Organization Name : {orgname}
-                  </strong>
+                  Organization Name :
+                  <strong className="text-sm">{orgname}</strong>
                 </div>
                 {/* ORGANIZATION CATEGORY */}
                 <div className="flex items-center gap-2">
                   <div className="w-7">
                     <MdWorkOutline alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">Organization Type : Actor</strong>
+                  Organization Type :
+                  <strong className="text-sm">{businesscategory}</strong>
                 </div>
               </p>
             </div>

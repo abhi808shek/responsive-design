@@ -99,16 +99,16 @@ const Modal = ({ modalType, handleClose }) => {
     setState({...states, city: location });
   };
   const handleCreateProfile = async () => {
-    console.log(states, "OOOOOOO TTTTTTTTTTTTT");
     const payload = {
       celibrity: false, //default value.
       countrycode: "+91", //default selected in signup screen..
       dob: moment(dob).format("YYYY-MM-DD"), //from user input
       email: userData.uemail, //from signup screen.
-      fname: orgName, //from user input BUSINESS NAME
+      fname: fname, //from user input BUSINESS NAME
       gender: gender,
       pimage: "", //if profile image is there, add the URL here.
       businesscategory: category?.category, //from user input selection.
+      orgname: orgName,
       personalLastName: lname, //from user input – profile lnamein SLIDE 4
       personalname: fname, //from user input – profilefnamein SLIDE 4
       profiletype: isPersonal ? "Personal" : "Organization", //profile type, while we passing in signup screen
