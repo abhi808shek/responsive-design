@@ -13,7 +13,7 @@ const center = {
   lng: -38.523
 };
 
-function Autocomplete({ livePlace, placeholder, value }) {
+function Autocomplete({ livePlace, placeholder, value, types, handleChangeLocation }) {
   const [searchBox, setSearchBox] = useState();
   const [input, setInput] = useState(value)
 
@@ -21,22 +21,22 @@ function Autocomplete({ livePlace, placeholder, value }) {
     setSearchBox(ref)
   };
 
-  console.log("serch box", searchBox)
-  const handleChange = (e) => {
-    // setInput(e.target.value)
-    onPlacesChanged()
-  }
-  const onPlacesChanged = () => {
-    // console.log(searchBox.getPlaces(), '[[[[[');
+  function onPlacesChanged (value){
     const place = searchBox.getPlaces()
     // console.log(place?.[0]?.formatted_address, "PPPPPP LLLLLLLLL");
     livePlace(place?.[0]?.formatted_address);
   };
+    const handleChange = (e) => {
+      const { value } = e.target
+      // setInput(value)
+      handleChangeLocation(e.target.value)
+      // onPlacesChanged(value);
+    };
   return (
     <>
       {window.google === undefined ? (
         <LoadScript
-          libraries={[["places"]]}
+          libraries={[[ types || "places"]]}
           // googleMapsApiKey="AlzaSyCxfRNiw6DgtJadpT7aVO2lt8rVhaiGCxO"
           // googleMapsApiKey='AlzaSyAcJzppx6PHvFiGQlP3HXcC21cgDATqAoE'
           // googleMapsApiKey='AIzaSyCm0bUdRDZL9DmCxxDyFxCv9YYoGixvYko'
@@ -85,7 +85,7 @@ function Autocomplete({ livePlace, placeholder, value }) {
         <StandaloneSearchBox onLoad={onLoad} onPlacesChanged={onPlacesChanged}>
           <input
             type="text"
-            value={input}
+            value={value}
             placeholder={ placeholder }
             className="border border-gray-300 border-1 py-2 rounded-md !static w-full"
             style={{

@@ -25,7 +25,7 @@ import Autocomplete from "react-google-autocomplete";
 import { imageUploadApi } from "../../../../redux/actionCreators/eventActionCreator";
 import AutocompletePlace from "../../../googlemap/AutocompletePlace";
 import { setDataOnStorage, toasterFunction } from "../../../Utility/utility";
-import { async } from "@firebase/util";
+import { TiDelete, TiDeleteOutline } from 'react-icons/ti'
 
 const Modal = ({ modalType, handleClose }) => {
   const dispatch = useDispatch();
@@ -95,10 +95,11 @@ const Modal = ({ modalType, handleClose }) => {
     setState({ ...states, dob: e.target.value });
   };
   const handleLiveLocationn = (location) => {
-    setState({...state, city: location });
-    console.log(location, "LLLOOOOOOO S");
+    // console.log(location, "LLLLLLLLL TTTTTTTTTTTTT");
+    setState({...states, city: location });
   };
   const handleCreateProfile = async () => {
+    console.log(states, "OOOOOOO TTTTTTTTTTTTT");
     const payload = {
       celibrity: false, //default value.
       countrycode: "+91", //default selected in signup screen..
@@ -135,7 +136,7 @@ const Modal = ({ modalType, handleClose }) => {
     const file = new FormData();
     file.append("file", imgFile);
     const data = isPersonal ? payloads : payload;
-    if(isPersonal ? (fname && dob) : (selectedValue?.category && fname && orgName)){
+    if(isPersonal ? !(fname && dob) : !(category?.category && fname && orgName)){
       toasterFunction("Please enter required field");
       return;
     }
@@ -161,10 +162,11 @@ const Modal = ({ modalType, handleClose }) => {
               id: userResponse.data.id,
             };
             if (!userResponse?.status) {
+              navigate('/auth/login')
               toast.error(userResponse.message);
               return userResponse?.message;
             }
-            toast.success(userResponse?.message);
+            // toast.success(userResponse?.message);
             await setDataOnStorage(userCredential);
             navigate("/select");
           } catch (error) {
@@ -212,11 +214,16 @@ const Modal = ({ modalType, handleClose }) => {
       });
     // console.log(response);
   };
+  const countryCode = ['1']
+  console.log(countryCode?.includes(country?.code));
+  const removeProfilePic = () => {
+    setState({...states, imgFile: ''})
+  }
 
   const checkDisable = () => {
     if(isPersonal){
     }else {
-       return !(orgName && category?.category && fname)
+      //  return !(orgName && category?.category && fname)
     }
   }
   return (
@@ -250,15 +257,23 @@ const Modal = ({ modalType, handleClose }) => {
               />
               <label
                 htmlFor="profilePic"
-                className="flex justify-center items-center cursor-pointer w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto rounded-full bg-gray-200"
+                className="flex relative justify-center items-center cursor-pointer w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto rounded-full bg-gray-200"
               >
                 {imgFile ? (
-                  <img
-                    className={
-                      "w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto rounded-full block"
-                    }
-                    src={URL.createObjectURL(imgFile)}
-                  />
+                  <>
+                    <img
+                      className={
+                        "w-[10rem] h-[10rem] sm:w-[13rem] sm:h-[13rem] lg:w-[14rem] lg:h-[14rem] xl:w-[15rem] xl:h-[15rem] mx-auto relative rounded-full block"
+                      }
+                      src={URL.createObjectURL(imgFile)}
+                    />
+                    <div
+                      className="absolute top-0 right-[34px] bg-white w-[30px] h-[30px] rounded-full border-1 border-white"
+                      onClick={removeProfilePic}
+                    >
+                      <TiDeleteOutline size={30} />
+                    </div>
+                  </>
                 ) : (
                   <span>
                     <TbPhotoPlus size={45} />
@@ -271,7 +286,7 @@ const Modal = ({ modalType, handleClose }) => {
                   htmlFor="profilePic"
                   className="bg-[#6780af] text-xs sm:text-sm cursor-pointer p-[4px 20px] rounded-xl py-2 text-white font-medium mt-6 px-6"
                 >
-                  Select from computer
+                  {imgFile ? "Change profile picture" : "Select from computer"}
                 </label>
               </div>
             </div>
@@ -309,7 +324,7 @@ const Modal = ({ modalType, handleClose }) => {
                 <>
                   {/* size of radio button incresed, accent color of button changed,
                     margin top of rdio button removed and margin added to input component*/}
-                  <div className="flex justify-between my-1 items-center">
+                  <div className="flex justify-between my-3 items-center">
                     {/* input and label grouped in a div, padding added to label*/}
                     <div className="flex justify-center items-center">
                       <input
@@ -364,7 +379,7 @@ const Modal = ({ modalType, handleClose }) => {
 
                   {country ? (
                     <>
-                      <div className="flex  flex-col sm:flex-row lg:gap-2">
+                      <div className="flex  flex-col lg:gap-1">
                         <Dropdown
                           name={"State"}
                           options={stateList}
@@ -372,7 +387,10 @@ const Modal = ({ modalType, handleClose }) => {
                           keyName={"state"}
                           handleChange={(value) => handleChange("state", value)}
                         />
-                        <Dropdown
+                        {
+                          countryCode?.includes(country?.code) &&
+                          <>
+                            <Dropdown
                           name={"District"}
                           options={districtList}
                           selectedValue={district}
@@ -381,7 +399,7 @@ const Modal = ({ modalType, handleClose }) => {
                             handleChange("district", value)
                           }
                         />
-                      </div>
+                      
                       <div className="flex flex-col sm:flex-row gap-2">
                         <Dropdown
                           name={"Loksabha"}
@@ -402,10 +420,19 @@ const Modal = ({ modalType, handleClose }) => {
                           }
                         />
                       </div>
+                          </> 
+                        }
+                        
                       <div className="mt-1.5 relative">
                         {/* <Input id='autocomplete' title="Living Location*" className="w-full" onHandleChange={ handleLiveLocationn}/> */}
-                        <AutocompletePlace livePlace={handleLiveLocationn} map = {false} placeholder={'Search your city'}/>
+                        <AutocompletePlace
+                          livePlace={handleLiveLocationn}
+                          map={false}
+                          placeholder={"Search your city"}
+                          types={'cities'}
+                        />
                         {/* <input id="autocomplete" type="text"/> */}
+                      </div>
                       </div>
                     </>
                   ) : null}
@@ -460,7 +487,7 @@ const Modal = ({ modalType, handleClose }) => {
                     type="search"
                     title="Organization Name*"
                     onHandleChange={(e) =>
-                      handleChange( "orgName", e.target.value )
+                      handleChange("orgName", e.target.value)
                     }
                   />
                   <Dropdown
@@ -476,15 +503,18 @@ const Modal = ({ modalType, handleClose }) => {
 
             {/* create button positioned to top level div */}
             <div className="flex justify-center">
-            <button disabled={checkDisable()} className="flex justify-center" onClick={handleCreateProfile}>
-              <label
-                htmlFor=""
-                className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer mt-5 text-white font-medium"
+              <button
+                disabled={checkDisable()}
+                className="flex justify-center"
+                onClick={handleCreateProfile}
               >
-                Create
-              </label>
-            </button>
-
+                <label
+                  htmlFor=""
+                  className="bg-[#6780af] w-52 text-xs sm:text-sm flex justify-center py-1 rounded-xl cursor-pointer mt-5 text-white font-medium"
+                >
+                  Create
+                </label>
+              </button>
             </div>
           </div>
         </div>

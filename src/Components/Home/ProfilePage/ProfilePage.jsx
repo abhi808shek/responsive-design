@@ -67,7 +67,7 @@ const ProfilePage = ({ isOther }) => {
     const uploadResponse =await dispatch(imageUploadApi(coverImg))
     
     if(name === "coverImg"){
-      let payloads = {...profile, pcoverimage: uploadResponse.path}
+      let payloads = {...profile, state: profile?.state||"", pcoverimage: uploadResponse.data.path}
       dispatch(updateProfile(payloads)).then((res) => {
         if(res?.status){
           toast.success(res?.message)
@@ -76,7 +76,7 @@ const ProfilePage = ({ isOther }) => {
         }
       })
     }else if(name === "profileImg"){
-      let payloads = {...profile,state: '', pimage: uploadResponse.path};
+      let payloads = {...profile, state: profile?.state||"", pimage: uploadResponse.data.path};
       dispatch(updateProfile(payloads)).then((res) => {
         if(res?.message){
           toast.success(res?.message)

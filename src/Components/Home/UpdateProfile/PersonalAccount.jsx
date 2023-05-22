@@ -14,6 +14,8 @@ const PersonalAccount = ({
   country,
   handleCountry,
   handleChange,
+  handleLocation,
+  location,
 }) => {
   const { state, district, assembly, loksabha } = states;
   const {
@@ -79,14 +81,14 @@ const PersonalAccount = ({
     { year: "2008" },
     { year: "2007" },
   ];
-  console.log(states, education, "Staeeeeeee");
   const getGraduation = () => {
 
   }
+  const countryName = ['India']
   return (
     <>
       <Dropdown2
-        style={'w-full'}
+        style={"w-full"}
         label={"Country: "}
         name={"Select country"}
         country={country}
@@ -100,45 +102,67 @@ const PersonalAccount = ({
         options={stateList}
         selectedValue={state}
         keyName={"state"}
-        handleChange={(value) => handleChange("state", value)}
+        handleChange={(value) => handleChange("state", value.state)}
       />
-      <Dropdown
-        style={"w-[77%] my-2"}
-        label={"District"}
-        name={"District"}
-        options={districtList}
-        selectedValue={district}
-        keyName={"distric"}
-        handleChange={(value) => handleChange("district", value)}
-      />
-      <div className="flex gap-2">
-        <Dropdown
-          style={"w-1/2 my-2"}
-          label={"Loksabha"}
-          name={"Loksabha"}
-          keyName={"loksabha"}
-          options={loksabhaList}
-          selectedValue={loksabha}
-          handleChange={(value) => handleChange("loksabha", value)}
-        />
-        <Dropdown
-          style={"w-full my-2"}
-          label={"Assembly"}
-          name={"Assembly"}
-          keyName={"assembly"}
-          options={assemblyList}
-          selectedValue={assembly}
-          handleChange={(value) => handleChange("assembly", value)}
-        />
+      {countryName?.includes(country?.country) && (
+        <>
+          <Dropdown
+            style={"w-[77%] my-2"}
+            label={"District"}
+            name={"District"}
+            options={districtList}
+            selectedValue={district}
+            keyName={"distric"}
+            handleChange={(value) => handleChange("district", value)}
+          />
+          <div className="flex gap-2">
+            <Dropdown
+              style={"w-1/2 my-2"}
+              label={"Loksabha"}
+              name={"Loksabha"}
+              keyName={"loksabha"}
+              options={loksabhaList}
+              selectedValue={loksabha}
+              handleChange={(value) => handleChange("loksabha", value)}
+            />
+            <Dropdown
+              style={"w-full my-2"}
+              label={"Assembly"}
+              name={"Assembly"}
+              keyName={"assembly"}
+              options={assemblyList}
+              selectedValue={assembly}
+              handleChange={(value) => handleChange("assembly", value)}
+            />
+          </div>
+        </>
+      )}
+      <div className="mt-2 flex">
+        <div className="w-[165px]">Living Location</div>
+        <div className="flex-1">
+          <AutocompletePlace
+            livePlace={(location) =>
+              handleLocation(location)
+            }
+            handleChangeLocation={handleLocation}
+            value={location}
+            placeholder={"Living Location"}
+          />
+        </div>
       </div>
       <div className="mb-6 text-white ps-4 py-2 mt-6 text-[20px] bg-[#7991bd]">
         Education Detail:
       </div>
       <p>Let's start with school</p>
       <div className="flex w-full my-2 gap-3">
-      <div className="w-full">
-        <AutocompletePlace livePlace={(schoolLocation) => handleEducation("schoolname", schoolLocation)} placeholder={'Enter your school'} />
-      </div>
+        <div className="w-full">
+          <AutocompletePlace
+            livePlace={(schoolLocation) =>
+              handleEducation("schoolname", schoolLocation)
+            }
+            placeholder={"Enter your school"}
+          />
+        </div>
         {/* <Input
           attributes={{
             name: "school",
@@ -183,18 +207,22 @@ const PersonalAccount = ({
                 up={true}
                 style={"my-2 w-full"}
                 options={ugdegreeList}
-                keyName={'degree'}
+                keyName={"degree"}
                 name={"Select Degree"}
-                handleChange={(value) => handleEducation("ugdegree", value.degree)}
+                handleChange={(value) =>
+                  handleEducation("ugdegree", value.degree)
+                }
                 selectedValue={ugdegree}
               />
               <Dropdown
                 up={true}
                 style={" w-full"}
                 options={ugdegreeList}
-                keyName='branch'
+                keyName="branch"
                 name={"Select Branch"}
-                handleChange={(value) => handleEducation("ugbranch", value.branch)}
+                handleChange={(value) =>
+                  handleEducation("ugbranch", value.branch)
+                }
                 selectedValue={ugbranch}
               />
             </div>
@@ -202,9 +230,11 @@ const PersonalAccount = ({
               up={true}
               style={"my-2 w-full"}
               options={year}
-              keyName='year'
+              keyName="year"
               name={"Select Year"}
-              handleChange={(value) => handleEducation("ugpassyear", value.year)}
+              handleChange={(value) =>
+                handleEducation("ugpassyear", value.year)
+              }
               selectedValue={ugpassyear}
             />
           </Accordion>
@@ -232,18 +262,22 @@ const PersonalAccount = ({
                 up={true}
                 style={"my-2 w-full"}
                 name={"Select Degree"}
-                keyName={'degree'}
+                keyName={"degree"}
                 options={pgdegreeList}
-                handleChange={(value) => handleEducation("pgdegree", value.degree)}
+                handleChange={(value) =>
+                  handleEducation("pgdegree", value.degree)
+                }
                 selectedValue={pgdegree}
               />
               <Dropdown
                 up={true}
                 style={" w-full"}
                 options={pgdegreeList}
-                keyName='branch'
+                keyName="branch"
                 name={"Select Branch"}
-                handleChange={(value) => handleEducation("pgbranch", value.branch)}
+                handleChange={(value) =>
+                  handleEducation("pgbranch", value.branch)
+                }
                 selectedValue={pgbranch}
               />
             </div>
@@ -252,8 +286,10 @@ const PersonalAccount = ({
               style={"my-2 w-full"}
               name={"Select Year"}
               options={year}
-              keyName='year'
-              handleChange={(value) => handleEducation("pgpassyear", value.year)}
+              keyName="year"
+              handleChange={(value) =>
+                handleEducation("pgpassyear", value.year)
+              }
               selectedValue={pgpassyear}
             />
           </Accordion>
