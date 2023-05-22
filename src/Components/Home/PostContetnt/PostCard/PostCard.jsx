@@ -129,6 +129,7 @@ const PostCard = ({ userData, item }) => {
   useEffect(() => {
     setLikeButton(item?.isliked);
   }, [likedDetails]);
+  const { posts } = useSelector((state) => state.postReducer);
   const onHandleChange = (event) => {
     setInputComment(event.target.value);
   };
@@ -465,7 +466,7 @@ const PostCard = ({ userData, item }) => {
       )}
       {openModal.commentModal && (
         <Portals>
-          <VideoCommentsModal onClose={onHandleCloseModal} />
+          <VideoCommentsModal onClose={onHandleCloseModal} post={posts} />
         </Portals>
       )}
     </>

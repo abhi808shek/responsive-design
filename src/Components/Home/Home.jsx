@@ -66,13 +66,7 @@ const Home = ({ onShowReportModal, showReportModal }) => {
         showModalFunc={onShowReportModal}
         userData={userData}
       />
-      {/* <section className="w-full h-[95%] overflow-y-scroll flex flex-col items-center rounded-lg">
-        <PostContent
-          data={postList}
-          showModalFunc={onShowReportModal}
-          userData={userData}
-        />
-      </section> */}
+    
       {/* <NoPostPage /> */}
     </div>
 

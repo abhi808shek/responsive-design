@@ -4,21 +4,26 @@ import ReportModal from "../Modal/ReportModal/ReportModal";
 import userData from "../dataList";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllPostWithLimit, getPostList } from "../../../redux/actionCreators/rootsActionCreator";
+import {
+  getAllPostWithLimit,
+  getPostList,
+} from "../../../redux/actionCreators/rootsActionCreator";
 
 const PostContent = ({ data, showModalFunc, width, userData }) => {
   const dispatch = useDispatch();
   const reducerData = useSelector((state) => {
     return {
       profile: state.profileReducer.profile,
-      postList: state.rootsReducer.postList || []
-    }
+      postList: state.rootsReducer.postList || [],
+    };
   });
-  const { profile, postList  = [] } =  reducerData
+  const { profile, postList = [] } = reducerData;
 
   useEffect(() => {
-    dispatch(getAllPostWithLimit(profile?.id))
-  }, [])
+    dispatch(getAllPostWithLimit(profile?.id));
+  }, []);
+
+  console.log("Post List", postList);
   return (
     // <div className="w-full h-[100%] flex items-center justify-center flex-col">
     //   {data?.map((item, index) => (

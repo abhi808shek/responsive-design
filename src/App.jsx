@@ -123,7 +123,7 @@ const App = () => {
 
             <Route path="veiwallkicks" element={<SearchKicksPage />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
-            <Route path="find-friend" element={<FindFriendsPage />} />
+            <Route path="find-friend" element={<FindFriendsPage isFriend={false}/>} />
             <Route exact path="profile" element={<UserProfilePage />} />
             <Route path="profile/:id" element={<UserProfilePage isOther />} />
             <Route

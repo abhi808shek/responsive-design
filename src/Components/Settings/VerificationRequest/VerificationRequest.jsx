@@ -1,9 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Input from "../../Login/Content/InputBox/Input";
 import ImageUploadDesign from "../ImageUploadDesign/ImageUploadDesign";
 import LinkList from "./LinkList";
 import DropdownList from "./DropdownList";
 import { useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { defaultCallOnVerficationPage } from "../../../redux/actionCreators/settingsActionCreator";
 
 const VerificationRequest = () => {
   const navigate = useNavigate()
@@ -26,6 +28,11 @@ const VerificationRequest = () => {
       file2: event.target.files[0],
     });
   };
+  const {profile} = useSelector((state)=>state.profileReducer)
+const dispatch = useDispatch()
+  useEffect(()=>{
+    dispatch(defaultCallOnVerficationPage(profile?.id));
+  },[])
   return (
     <div className="bg-white border-2 w-[95%] sm:w-[50%] lg:w-[40%] mx-auto flex flex-col items-center px-4 gap-2 mt-1 rounded-xl pb-2">
       <h1 className="font-bold mt-2"> Welcome to verification process</h1>

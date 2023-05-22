@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
@@ -7,18 +7,17 @@ import { getLatestKicks } from "../../../redux/actionCreators/kicksActionCreator
 
 const SliderSection = () => {
   // const { kicksList } = useSelector((state) => state.rootsReducer);
-  const dispatch = useDispatch()
+
+  const dispatch = useDispatch();
   const reducerData = useSelector((state) => {
     return {
       kicksList: state.kicksReducer.latestKicks,
-      profile: state.profileReducer.profile
-    }
-  })
-  const { kicksList = { content: []}, profile}  = reducerData;
+      profile: state.profileReducer.profile,
+    };
+  });
+  const { kicksList = { content: [] }, profile } = reducerData;
 
-  useEffect(() => {
- 
-  }, [])
+  useEffect(() => {}, []);
 
   const responsive = {
     superLargeDesktop: {
@@ -47,65 +46,39 @@ const SliderSection = () => {
           <Link to="/veiwallkicks">View All</Link>
         </span>
       </div>
-      {/* Slider */}
-      {/* <Carousel
-        responsive={responsive}
-        arrows={true}
-       containerClass={`w-full h-[210px] z-[1]`}
-      >
-        {kicksList?.map((item) =>
-          item?.content?.map((data) =>(
-            <div className="w-[91%] mt-5 mb-2 h-[160px] rounded-3xl ml-1">
-            <video
-              src={data?.video}
-              alt=""
-               className=" rounded-3xl h-full"
-            />
-            title name tag added
-             <img
-              src={data?.image}
-              alt=""
-               className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
-             />
-               <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
-             {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName}
-            {data?.profile?.fname}
-             </span>
-          </div>
-          ))
-        )}
-      </Carousel> */}
-
       <Carousel
         responsive={responsive}
         arrows={true}
         containerClass={`w-full h-[200px] z-[1]`}
       >
-          {kicksList?.content?.map((data) =>{
-            const { profile, video} = data
-
-            return(
+        {kicksList?.content?.map((data) => {
+          const { profile, video } = data;
+          const shortName = ` ${profile?.fname} ${profile?.lname}`;
+          return (
             <div className="w-[91%] mt-5 mb-2 h-[160px] bg-black rounded-3xl ml-1">
               <Link to="/kicks">
-              <div className="h-full">
-                <video height={'100%'} className="h-full" width={'200px'} src={video} muted></video>
-              </div>
-              {/* title name tag added */}
-              <img
-                src={profile?.pimage}
-                alt=""
-                className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
-              />
-              <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
-                {/* {firstName.length < 5 ? firstName : firstName.substring(0,4)}.. {lastName} */}
-                {`${profile?.fname} ${profile?.lname}`}
-              </span>
-        </Link>
+                <div className="h-full">
+                  <video
+                    height={"100%"}
+                    className="h-full"
+                    width={"200px"}
+                    src={video}
+                    muted
+                  ></video>
+                </div>
+                {/* title name tag added */}
+                <img
+                  src={profile?.pimage}
+                  alt=""
+                  className="w-9 h-9 absolute  bottom-[20px] left-2 rounded-full "
+                />
+                <span className="absolute text-white font-medium text-[13px] bottom-[28px] left-[50px]">
+                  {`${shortName?.length > 6 ? shortName.slice(0,6) : shortName} `}
+                </span>
+              </Link>
             </div>
-          )
-          }
-          ) || []
-          }
+          );
+        }) || []}
       </Carousel>
     </div>
   );

@@ -26,7 +26,7 @@ const SearchFriendsPage = ({ isFriend }) => {
     };
   });
   const { userList, profile, requestList } = reducerData;
-
+console.log("userDataLisss",userList);
     const options = useMemo(() => {
     const forPersonalAcc = [
       { name: "Friends", key: "friend", checked: true, disable: true },
@@ -54,6 +54,7 @@ const SearchFriendsPage = ({ isFriend }) => {
     if(isFriend){
       dispatch(getRequestList(profile?.id));
     }
+    dispatch(getUsers("s"))
   }, []);
   const onSendRequest = () => {
     setSendRequest(true);
@@ -150,6 +151,7 @@ const SearchFriendsPage = ({ isFriend }) => {
     dispatch(cancelFriendRequest(payload)).then((res) => {
       if(res?.status){
         toast.success(res?.message)
+        onHandleCloseModal(false)
       }else {
         toast.error(res?.message)
       }
@@ -221,7 +223,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                         onClick={() => showProfileDetail(id)}
                       >
                         <img
-                          src="./images/events.jpg"
+                          src={item?.pimage}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
                         />
