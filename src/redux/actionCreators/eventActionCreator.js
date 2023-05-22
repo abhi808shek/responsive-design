@@ -149,7 +149,7 @@ export const imageUploadApi = (image) => async (dispatch) => {
   console.log(image, "[[[[[");
   try {
     const getUploadedResult = await axios.post(
-      `http://35.183.76.174:9098/s3/upload`,
+      `https://web.uynite.com/fileservice/s3/upload`,
       image,
       {
         headers: {

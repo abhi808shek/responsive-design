@@ -3,7 +3,6 @@ import { setDataOnStorage } from "../../Components/Utility/utility";
 
 // CHECKING USER pr Email EXIST OR NOT
 
-
 export const saveUserSignupData = (data) => async (dispatch) => {
   const datalist = {
     datetime: data.datetime,
@@ -38,7 +37,7 @@ export const settingOtp = (otp) => async (dispatch) => {
     });
   } catch (error) {
     console.log(error.message);
-    throw error.message
+    throw error.message;
   }
 };
 
@@ -253,7 +252,8 @@ export const createProfile = (data) => async (dispatch) => {
 export const uploadImage = (data) => async (dispatch) => {
   try {
     const response = await axios.post(
-      `http://35.183.49.35:9098/s3/upload`,
+      // Old Ip Change to new Ip
+      `https://web.uynite.com/fileservice/s3/upload`,
       data,
       {
         headers: {
@@ -275,8 +275,6 @@ export const uploadImage = (data) => async (dispatch) => {
   }
 };
 
-
-
 export const getCountryList = () => async (dispatch) => {
   try {
     const response = await axios.get(
@@ -284,7 +282,7 @@ export const getCountryList = () => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -292,15 +290,14 @@ export const getCountryList = () => async (dispatch) => {
 
     dispatch({
       type: "GET_COUNTRY_LIST",
-      payload: response?.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err?.response?.data
+      payload: response?.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err?.response?.data;
   }
-}
-
+};
 
 export const getStateList = (data) => async (dispatch) => {
   try {
@@ -309,7 +306,7 @@ export const getStateList = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -317,14 +314,14 @@ export const getStateList = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_STATE_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
+};
 
 export const getDistrict = (data) => async (dispatch) => {
   try {
@@ -333,7 +330,7 @@ export const getDistrict = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -341,14 +338,13 @@ export const getDistrict = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_DISTRICT_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    throw err.response.data;
   }
-}
-
+};
 
 export const getLoksabha = (data) => async (dispatch) => {
   try {
@@ -357,7 +353,7 @@ export const getLoksabha = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -365,15 +361,14 @@ export const getLoksabha = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_LOKSABHA_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
-
+};
 
 export const getAssenbly = (data) => async (dispatch) => {
   try {
@@ -382,7 +377,7 @@ export const getAssenbly = (data) => async (dispatch) => {
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -390,25 +385,24 @@ export const getAssenbly = (data) => async (dispatch) => {
 
     dispatch({
       type: "GET_ASSEMBLY_LIST",
-      payload: response.data
-    })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+      payload: response.data,
+    });
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
-
+};
 
 export const getLocationsList = (data) => async (dispatch) => {
   // https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"
   try {
     const response = await axios.get(
-    `https://maps.googleapis.com/maps/api/js?key=${data}&libraries=places`,
+      `https://maps.googleapis.com/maps/api/js?key=${data}&libraries=places`,
       {
         headers: {
           "Accept-Language": "us",
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
       }
     );
@@ -418,9 +412,9 @@ export const getLocationsList = (data) => async (dispatch) => {
     //   type: "GET_ASSEMBLY_LIST",
     //   payload: response.data
     // })
-    return response
-  } catch(err) {
-    console.log(err, 'errror login');
-    throw err.response.data
+    return response;
+  } catch (err) {
+    console.log(err, "errror login");
+    throw err.response.data;
   }
-}
+};
