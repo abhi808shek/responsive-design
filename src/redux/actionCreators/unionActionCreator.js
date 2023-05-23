@@ -25,6 +25,7 @@ export const getUnionList = (data) => async (dispatch) => {
       type: "UNION_LIST",
       payload: response.data,
     });
+    return response.data
   } catch (error) {
     throw error;
   }

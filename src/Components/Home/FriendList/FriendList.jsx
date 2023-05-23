@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getMyUnion } from "../../../redux/actionCreators/unionActionCreator";
 import {
   cancelFriendRequest,
+  getFriendsList,
   updateRelation,
 } from "../../../redux/actionCreators/friendsAction";
 import { toast } from "react-toastify";
@@ -101,12 +102,13 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     // console.log(data, selectedItem);
 
     const payload = {
-      profileid: data?.id,
+      profileid: profile?.id,
       friendprofileid: selectedItem?.id,
     };
     dispatch(cancelFriendRequest(payload)).then((res) => {
       if (res?.status) {
         toast.success(res?.message);
+        dispatch(getFriendsList(profile?.id))
       } else {
         toast.error(res.message);
       }

@@ -143,18 +143,18 @@ console.log(states, "STAAAAAAAA");
         orgname: orgDetail.orgname,
       }),
     };
-    if (profilePic) {
-      const file = new FormData();
-      file.append("file", profilePic);
-      let response = await dispatch(imageUploadApi(file));
-      payloads.pimage = response.data.path;
-    }
-    if (coverPic) {
-      const file = new FormData();
-      file.append("file", coverPic);
-      let response = await dispatch(imageUploadApi(file));
-      payloads.pcoverimage = response.data.path;
-    }
+    // if (profilePic) {
+    //   const file = new FormData();
+    //   file.append("file", profilePic);
+    //   let response = await dispatch(imageUploadApi(file));
+    //   payloads.pimage = response.data.path;
+    // }
+    // if (coverPic) {
+    //   const file = new FormData();
+    //   file.append("file", coverPic);
+    //   let response = await dispatch(imageUploadApi(file));
+    //   payloads.pcoverimage = response.data.path;
+    // }
     education.isEditEdu ? isPersonal ? addEducation() : addProfession() : ""
     console.log(payloads, "}}}}}}}}}}}}}}}}}} HHHhhhhhhhhh");
     dispatch(updateProfile(payloads))

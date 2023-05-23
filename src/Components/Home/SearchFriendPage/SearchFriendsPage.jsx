@@ -12,6 +12,7 @@ import moment from "moment/moment";
 import { useMemo } from "react";
 import { toast } from "react-toastify";
 import ConfirmationModal from "../../common/ConfirmationModal";
+import { getMyUnion } from "../../../redux/actionCreators/unionActionCreator";
 
 const SearchFriendsPage = ({ isFriend }) => {
   const isPersonal = true;
@@ -22,20 +23,26 @@ const SearchFriendsPage = ({ isFriend }) => {
     return {
       userList: state.friendReducer.usersList,
       profile: state.profileReducer.profile,
-      requestList: state.friendReducer.requestList
+      requestList: state.friendReducer.requestList,
+      unionList: state.unionReducer.myUnionList
     };
   });
-  const { userList, profile, requestList } = reducerData;
-console.log("userDataLisss",userList);
+  const { userList, profile, requestList, unionList } = reducerData;
+
     const options = useMemo(() => {
+      console.log("MEMOOOOOOOOO");
+    dispatch(getMyUnion(profile?.id));
+    const union = unionList.map((item) => ({ name: item.groupName, key: item.groupId}))
     const forPersonalAcc = [
       { name: "Friends", key: "friend", checked: true, disable: true },
       { name: "Relative", key: "relative", checked: false},
       { name: "Classmate", key: "classmate", checked: false},
       { name: "Officemate", key: "officemate", checked: false },
+      ...union
     ];
     const forOrgAcc = [
       {name: 'Friend', key: "friend", checked: true, disable: true},
+      ...union
     ]
     return {
       relationOption: isPersonal ? forPersonalAcc : forOrgAcc
@@ -65,13 +72,6 @@ console.log("userDataLisss",userList);
     setState({ ...state, requestModal: false });
   };
 
-  // const onAcceptRequest = ()=>{
-  //   setAcceptRequest(true)
-  // }
-
-  // const onCLoseModal = ()=>{
-  //   setAcceptRequest(false)
-  // }
   function showProfileDetail(id) {
     navigate(`/profile/${id}`);
   }
@@ -98,6 +98,7 @@ console.log("userDataLisss",userList);
   };
 
   function searchUser(value) {
+    setState({...state, loading: true})
     // var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     // const isEmail = value.match(validRegex);
    const isEmail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(value);
@@ -115,10 +116,10 @@ console.log("userDataLisss",userList);
   const handleSearch = (e) => {
     const value = e.target.value;
     const name = e.target.name
-    setState({ ...state, loading: true });
+    // setState({ ...state, });
     setSearchQuery(value)
-    searchUser(value)
-    // processChange(value);
+    // searchUser(value)
+    processChange(value);
   };
 
   const sendFriendRequest = (id) => {
@@ -178,7 +179,7 @@ console.log("userDataLisss",userList);
       }
     })
   }
-  console.log(relationOptions, '____________PPPPPPPPPPPPPPPPPPPP');
+
 // console.log(isFriend,isPersonal, "{{{{{{{{{{{{{{{{}}}}}}}}}}}}")
   return (
     <>
@@ -187,6 +188,7 @@ console.log("userDataLisss",userList);
           {/* Search Section */}
           <section className=" w-[95%] flex rounded-md justify-between items-center bg-[#E4E7EC] my-2">
             <input
+              disabled={loading}
               name="searchQuery"
               value={searchQuery}
               onChange={handleSearch}
@@ -203,8 +205,7 @@ console.log("userDataLisss",userList);
           {/* Unknown Friends List Section */}
           <section className=" w-[95%] flex rounded-md flex-col mt-2 overflow-y-scroll">
             {loading && <Loader />}
-            {(isFriend ? requestList : usersList)?.map((item) => {
-              console.log(item, "___________ITTTTTTT");
+            {(isFriend ? requestList : userList)?.map((item) => {
               const { fname = "", lname = "", id, profiletype } = item || {};
               {
                 /* console.log(usersList, item, '{{{') */

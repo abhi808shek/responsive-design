@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-const AboutSection = ({ isOther, data = {} }) => {
+const AboutSection = ({ isOther, data }) => {
   const navigate = useNavigate();
   const {
     countrycode,
@@ -27,7 +27,7 @@ const AboutSection = ({ isOther, data = {} }) => {
     profiletype,
     orgname,
     businesscategory,
-  } = data;
+  } = data || {};
   const reducerData = useSelector((state) => {
     return {
       educationDetails: state.profileReducer.educationDetails || {}
@@ -87,7 +87,7 @@ const AboutSection = ({ isOther, data = {} }) => {
           </div>
           <p className="text-sm">
             <strong className="text-md font-medium">Gender : </strong>
-            <strong>{data.gender}</strong>
+            <strong>{data?.gender}</strong>
           </p>
         </div>
 
