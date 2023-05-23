@@ -54,7 +54,7 @@ const Kicks = () => {
   const [comments, setComments] = useState(true);
   const [selectedVideo, setSelectedVideo] = useState(null);
   const [selectVideo, setSelectVideo] = useState(false);
-  const [showCategories, setShowCategories] = useState(false)
+  const [showCategories, setShowCategories] = useState(false);
   const [isMobile, setIsMobile] = useState(window.innerWidth < 900);
 
 
@@ -134,7 +134,7 @@ const Kicks = () => {
       dispatch(addCommentOnKicks(payload));
     }
   };
-  console.log("item", videoData)
+
   return (
     <>
       {/* // mobile view// */}

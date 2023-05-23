@@ -32,6 +32,7 @@ import { ToastContainer } from "react-toastify";
 import AlertSmall from "../../../common/AlertSmall";
 
 const PostCard = ({ userData, item }) => {
+  console.log("postcard", item)
   const navigate = useNavigate();
   const [showMore, setShowMore] = useState(false);
   const [showMenuList, setShowMenuList] = useState(false);
@@ -46,7 +47,7 @@ const PostCard = ({ userData, item }) => {
     originalPost: false,
     externalShare: false,
   });
-  const [ alert, setAlert] = useState()
+  const [alert, setAlert] = useState()
 
   const { likedDetails } = useSelector((state) => state.rootsReducer);
   const reducerData = useSelector((state) => {
@@ -55,7 +56,7 @@ const PostCard = ({ userData, item }) => {
       profile: state.profileReducer.profile
     }
   });
-  const { activePost, profile} = reducerData;
+  const { activePost, profile } = reducerData;
   {
     /* implementing dynamic description, some redesign the postcard component */
   }
@@ -85,8 +86,8 @@ const PostCard = ({ userData, item }) => {
 
   const onHandleOpenLikeModal = () => {
     let payload = {
-          pageNumber: 0,
-          pageSize: 10,
+      pageNumber: 0,
+      pageSize: 10,
     };
     dispatch(getPostLike(item?.id, payload))
     setOpenModal({
@@ -137,8 +138,8 @@ const PostCard = ({ userData, item }) => {
   const onLikeIncrease = async () => {
     if (item?.isliked) {
       dispatch({
-              type: "DECREASE_LIKE_COUNT",
-              payload: item?.id,
+        type: "DECREASE_LIKE_COUNT",
+        payload: item?.id,
       });
       const dislikeResponse = await dispatch(
         decreaseLikeByLikeId(
@@ -177,7 +178,7 @@ const PostCard = ({ userData, item }) => {
       profileid: item?.profileid,
       text: inputComment,
     };
-    if(!inputComment){
+    if (!inputComment) {
       setAlert(true);
       return;
     }
@@ -233,9 +234,8 @@ const PostCard = ({ userData, item }) => {
               <div className="flex items-center">
                 {/*font weight removed*/}
                 <span className="ml-1 font-bold">
-                  {`${item?.profile?.fname || "User"} ${
-                    item?.profile?.lname || ""
-                  }`}
+                  {`${item?.profile?.fname || "User"} ${item?.profile?.lname || ""
+                    }`}
                 </span>
                 <span className="text-xs ml-2 font-semibold mt-0.5">
                   {item?.profile?.job}
@@ -246,7 +246,7 @@ const PostCard = ({ userData, item }) => {
                 {/* <HiUserGroup size={16} /> */}
                 <span className="text-[11px] font-semibold">
                   {item?.updatpostdatetime === null ||
-                  item?.updatpostdatetime === ""
+                    item?.updatpostdatetime === ""
                     ? item?.postdatetime
                     : item?.updatpostdatetime}
                 </span>

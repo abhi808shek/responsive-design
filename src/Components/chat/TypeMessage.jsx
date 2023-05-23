@@ -6,12 +6,13 @@ import { MdSend } from 'react-icons/md';
 import { CgSmileMouthOpen } from 'react-icons/cg';
 import { useState } from 'react';
 import AlertSmall from '../common/AlertSmall';
+import { IoSend } from 'react-icons/io5';
 
-const TypeMessage = ({ placeholder,alert, sendMessage, handleFile, msgFile}) => {
+const TypeMessage = ({ placeholder, alert, sendMessage, handleFile, msgFile }) => {
   const [state, setState] = useState({})
   const { text } = state
   return (
-    <div className="flex items-center">
+    <div className="flex items-center px-2">
       {msgFile && (
         <img className="w-[100px] absolute -top-[180%]" src={msgFile || ""} />
       )}
@@ -34,17 +35,19 @@ const TypeMessage = ({ placeholder,alert, sendMessage, handleFile, msgFile}) => 
         />
       </div>
       {
-        <AlertSmall
-          showAlert={alert}
-          button={
-            <MdSend
-              className="cursor-pointer m-3"
-              size={30}
-              onClick={() => sendMessage(text)}
-            />
-          }
-          message={"Please add your comment to send"}
-        />
+
+        <MdSend className="cursor-pointer text-blue-400 w-[35%]"
+          size={32}
+          onClick={() => sendMessage(text)} />
+        // <AlertSmall
+        //   showAlert={alert}
+        //   button={
+        //     <IoSend className="cursor-pointer mr-5"
+        //       size={32}
+        //       onClick={() => sendMessage(text)} />
+        //   }
+        //   message={"Please add your comment to send"}
+        // />
       }
     </div>
   );

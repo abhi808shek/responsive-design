@@ -94,6 +94,7 @@ const VideoComponent = ({ dataList, data }) => {
     viptype,
     profileid,
   } = data;
+  // console.log("main like count show", likecount)
   const name = profile?.fname + profile?.lname;
   const handleDelete = () => {
     setShowOwnVideoModal(false);
@@ -130,39 +131,43 @@ const VideoComponent = ({ dataList, data }) => {
     } else if (title === "mute") {
       setState({ ...state, isMute: !isMute });
     } else if (title === "likes") {
-      if(isliked){
-         dispatch({ type: "REMOVE_LIKE", payload: id });
-         const payload = {
-           postid: id,
-           profileid: profileid,
-           type: "c",
-           datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
-         };
-         dispatch(deletePostLike(id)).then((res) => {
-           if (res.status) {
-             toast.success(res.message);
-           } else {
-             toast.error(res.message);
-           }
-         });
-      }else {
-         console.log(id, "LIKKKKKKKKKKKKKKKKK");
-         dispatch({ type: "INCREASE_LIKE", payload: id });
-         const payload = {
-           postid: id,
-           profileid: profileid,
-           type: "c",
-           datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
-         };
-         dispatch(addLikes(payload)).then((res) => {
-           if (res.status) {
-             toast.success(res.message);
-           } else {
-             toast.error(res.message);
-           }
-         });
+      // console.log("isliked", likecount)
+      if (isliked) {
+        // console.log("likes is called")
+        dispatch({ type: "REMOVE_LIKE", payload: id });
+        const payload = {
+          postid: id,
+          profileid: profileid,
+          type: "c",
+          datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
+        };
+        dispatch(deletePostLike(id)).then((res) => {
+          if (res.status) {
+            toast.success(res.message);
+          } else {
+            toast.error(res.message);
+          }
+        });
+      } else {
+        console.log(id, "LIKKKKKKKKKKKKKKKKK+++++++++++++++++");
+        dispatch({ type: "INCREASE_LIKE", payload: id });
+        const payload = {
+          postid: id,
+          profileid: profileid,
+          type: "c",
+          datetime: moment().format("YYYY-MM-DDTHH:mm:ss:ms"),
+        };
+        // console.log("add like payload", payload)
+        dispatch(addLikes(payload)).then((res) => {
+          // console.log("responce of add like", res)
+          if (res.status) {
+            toast.success(res.message);
+          } else {
+            toast.error(res.message);
+          }
+        });
       }
-     
+
     } else if (title === 'follow') {
       const payload = {
         myprofileid: profileDetail?.id,
@@ -177,10 +182,11 @@ const VideoComponent = ({ dataList, data }) => {
         }
       })
     }
+    // console.log("likes", title)
   };
 
   const handleBlock = () => {
-    
+
   }
   return (
     <div key={profile?.id} className="snap-y snap-mandatory">
@@ -258,7 +264,7 @@ const VideoComponent = ({ dataList, data }) => {
               <span className="font-semibold flex items-start">
                 {name ? `${profile?.fname} ${profile?.lname}` : "User"}
               </span>
-              <div className="flex items-start cursor-pointer z-30">
+              <div className="flex items-start cursor-pointer z-0">
                 <BsThreeDotsVertical
                   onClick={() => handleIsMyVideo(data)}
                   className="w-[27px] h-[27px] text-white"
