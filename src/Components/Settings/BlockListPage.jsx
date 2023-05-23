@@ -51,8 +51,7 @@ const [onInputChange, setOnInputChange] = useState("");
         />
 
         <div className="flex flex-col gap-3 overflow-y-scroll pb-2">
-          {searchBlockedFriend ? searchBlockedFriend  : friendBlockList
-          ?.map((elem) => (
+          {friendBlockList?.map((elem) => (
             <div className="flex gap-2" key={elem?.friend?.id}>
               <div className="flex-1 flex items-center gap-2">
                 <img

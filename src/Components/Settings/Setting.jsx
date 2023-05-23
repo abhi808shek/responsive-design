@@ -126,8 +126,10 @@ const Setting = () => {
       updatedate: "Thu May 18 12:32:09 UTC 2023",
       viewprofile: privacy?.profile,
     };
+    console.log("Proapppuyydd",payload);
     // dispatch({ type: "YYY"})
     dispatch(addProfilePrivacy(payload)).then((res) => {
+      console.log("Resss",res);
       if (res?.status) {
         toast.success(res?.message);
       } else {
