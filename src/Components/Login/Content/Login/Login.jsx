@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Link } from "react-router-dom"; // import the Link component
 import Input from "../InputBox/Input";
 import Heading from "../Heading/Heading";
@@ -17,7 +17,7 @@ import {
 } from "../../../../redux/actionCreators/authActionCreator";
 import { setDataOnStorage, toasterFunction } from "../../../Utility/utility";
 // import { auth } from "../../../../config/firebase";
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { RecaptchaVerifier, getAuth, signInWithEmailAndPassword, signInWithPhoneNumber } from "firebase/auth";
 import { toast } from "react-toastify";
 import getErrorMessage from "../../../Utility/firbaseError";
 import { getProfileById } from "../../../../redux/actionCreators/profileAction";
@@ -26,6 +26,7 @@ import axios from "axios";
 // import { onSignInSubmit } from "./firebase_login";
 
 const Login = () => {
+  const captchaEl = useRef()
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const passwordRules = /^(?=.*\d)(?=.*[a-z]).{5,}$/;
@@ -128,6 +129,12 @@ const Login = () => {
     };
     // sendOTP(formik.values.email)
     if(phoneNumberRules.test(formik.values.email)){
+      signIn(
+        (formik?.values.phone?.startsWith("91") ||
+          formik?.values.phone?.startsWith("+91"))
+          ? formik.values.email
+          : `+91${formik.values.email}`
+      );
     }else{
       const otpStatus = await dispatch(sendingMailForOtp(data));
       if (!otpStatus.status) {
@@ -137,6 +144,56 @@ const Login = () => {
       toasterFunction(otpStatus.message);
     }
   };
+
+   function configureRecaptcha(phoneNumber, auth) {
+     window.recaptchaVerifier = new RecaptchaVerifier(
+       "sign-in-button",
+       {
+         size: "invisible",
+         callback: (response) => {
+           // signIn(phoneNumber);
+         },
+       },
+       auth
+     );
+   }
+
+   function signIn(phoneNumber) {
+     const auth = getAuth();
+     try {
+       configureRecaptcha(phoneNumber, auth);
+     } catch (err) {
+       console.log(err, "captcha error");
+     }
+
+     // const auth = getAuth();
+     const appVerifier = window.recaptchaVerifier;
+     signInWithPhoneNumber(auth, phoneNumber, appVerifier)
+       .then((confirmationResult) => {
+         window.confirmationResult = confirmationResult;
+         captchaEl.current.innerHTML = "";
+      navigate("/auth/entercode");
+       })
+       .catch((err) => {
+         captchaEl.current.innerHTML = "";
+         toast.error(err.message);
+       });
+   }
+
+   const handleClick = (event) => {
+     setProfileType(event.target.id);
+   };
+   function checkUserExist(email) {
+     if (email) {
+       return dispatch(checkingIsEmailExist(email)).then((res) => {
+         if (res?.data?.id) {
+           return true;
+         } else {
+           return false;
+         }
+       });
+     }
+   }
 
   return (
     <>
@@ -188,6 +245,7 @@ const Login = () => {
             </Link>
           </p>
         </div>
+        <div ref={captchaEl} id="sign-in-button"></div>
       </div>
     </>
   );

@@ -25,7 +25,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
             setPersonal(true)
          }
 
-         if(eventDetail.eventType.toLowerCase().includes('feedback')){
+         if(eventDetail.event_category.toLowerCase().includes('feedback') || eventDetail.eventType.toLowerCase().includes('feedback')){
             setPoliticalPartyFeedback(true)
          }
       }
@@ -108,7 +108,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
        </div>
        )}
 
-       {(political || politicalPartyFeedback) && (<>
+       {(political || publics || politicalPartyFeedback) && (<>
        <div className='flex mb-3'>        
         <span className='w-1/3'>Start Date & Time</span>
         <div className='flex flex-col w-2/3'>

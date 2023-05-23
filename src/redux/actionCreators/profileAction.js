@@ -30,7 +30,7 @@ export const getFriendProfile = (data) => async (dispatch) => {
   const token = JSON.parse(localStorage.getItem("userCredential")).token;
   try {
     const response = await axios.get(
-      `https://web.uynite.com/profile/api/profile/profilebyuser/${data}`,
+      `https://web.uynite.com/profile/api/profile/${data}`,
       {
         headers: {
           "Accept-Language": "en",

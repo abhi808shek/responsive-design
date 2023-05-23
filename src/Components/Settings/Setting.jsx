@@ -10,18 +10,21 @@ import OldPassword from "./OldPassword";
 import CreatenewPassword from "./CreatenewPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { addProfilePrivacy, updatePassword } from "../../redux/actionCreators/privacyAction";
+import {
+  addProfilePrivacy,
+  updatePassword,
+} from "../../redux/actionCreators/privacyAction";
 
 const Setting = () => {
   const navigate = useNavigate();
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const [oldPassword, setOldPassword] = useState(false);
   const reducerData = useSelector((state) => {
     return {
       profile: state.profileReducer.profile,
-    }
+    };
   });
-  const { profile} = reducerData
+  const { profile } = reducerData;
 
   const OldPasswordChange = () => {
     setOldPassword(true);
@@ -50,7 +53,7 @@ const Setting = () => {
   };
 
   const [state, setState] = useState({});
-  const { privacy } = state
+  const { privacy } = state;
   const options = [
     { title: "Public", value: "public" },
     { title: "Friends", value: "friends" },
@@ -85,17 +88,29 @@ const Setting = () => {
       title: " Who can view your Contact Information ?",
       ChildComponent: ContactInformation,
       otherProps: { dataList },
-      key: 'contact'
+      key: "contact",
     },
-    { title: " Who can view your Profile ?", ChildComponent: Dropdownmenu , key: 'profile'},
-    { title: "Who can post on your Timeline ?", ChildComponent: Dropdownmenu, key: 'timelinePost' },
-    { title: "Who can view your Friend List ?", ChildComponent: Dropdownmenu, key: 'friendList' },
+    {
+      title: " Who can view your Profile ?",
+      ChildComponent: Dropdownmenu,
+      key: "profile",
+    },
+    {
+      title: "Who can post on your Timeline ?",
+      ChildComponent: Dropdownmenu,
+      key: "timelinePost",
+    },
+    {
+      title: "Who can view your Friend List ?",
+      ChildComponent: Dropdownmenu,
+      key: "friendList",
+    },
   ];
 
   const handleCheckBtn = (optionValue, optionName) => {
     console.log(optionName, optionValue, "????????????????????????????");
-    setState({...state, privacy: {...privacy, [optionName]: optionValue}})
-  }
+    setState({ ...state, privacy: { ...privacy, [optionName]: optionValue } });
+  };
 
   console.log(privacy);
   const handleClickSave = () => {
@@ -111,32 +126,38 @@ const Setting = () => {
       updatedate: "Thu May 18 12:32:09 UTC 2023",
       viewprofile: privacy?.profile,
     };
+    console.log("Proapppuyydd",payload);
     // dispatch({ type: "YYY"})
     dispatch(addProfilePrivacy(payload)).then((res) => {
-      if(res?.status){
-        toast.success(res?.message)
-      }else{
+      console.log("Resss",res);
+      if (res?.status) {
+        toast.success(res?.message);
+      } else {
         toast.error(res?.message);
       }
-    })
-  }
+    });
+  };
 
   const handlePasswordSave = (value = {}) => {
-    const {confirmPassword,newPassword,oldPassword} = value;
+    const { confirmPassword, newPassword, oldPassword } = value;
     const payload = {
-      uemail:"",
+      uemail: "",
       oldPassword,
-      newPassword
-    }
+      newPassword,
+    };
     dispatch(updatePassword(payload)).then((res) => {
-      if(res?.status){
-        toast.success(res?.message)
-      }else{
-        toast.error(res?.message)
+      if (res?.status) {
+        toast.success(res?.message);
+      } else {
+        toast.error(res?.message);
       }
-    })
-  }
+    });
+  };
 
+
+  const onHandleBlockedPage = ()=>{
+         navigate("/blocklist-page");
+  }
   return (
     <>
       <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-white border-2 mx-auto rounded-b-xl flex-col flex pb-4">
@@ -144,7 +165,13 @@ const Setting = () => {
         <section className="flex flex-col">
           <h1 className="text-md font-bold py-2 pl-2 bg-gray-500 ">Privacy</h1>
           {data?.map((elem) => (
-            <SettingOptions handleClickSave={handleClickSave} type={elem?.key} key={elem?.key} elem={elem} handleCheckBtn={handleCheckBtn} />
+            <SettingOptions
+              handleClickSave={handleClickSave}
+              type={elem?.key}
+              key={elem?.key}
+              elem={elem}
+              handleCheckBtn={handleCheckBtn}
+            />
           ))}
         </section>
         {/* --------------------------------------------- */}
@@ -174,12 +201,14 @@ const Setting = () => {
               {oldPassword ? (
                 <CreatenewPassword />
               ) : (
-                <OldPassword handlePasswordSave={handlePasswordSave} OldPasswordChange={OldPasswordChange} />
+                <OldPassword
+                  handlePasswordSave={handlePasswordSave}
+                  OldPasswordChange={OldPasswordChange}
+                />
               )}
             </div>
           </div>
-
-          <div className="px-2" onClick={() => navigate("/blocklist-page")}>
+          <div className="px-2" onClick={onHandleBlockedPage}>
             <div className="flex cursor-pointer w-full my-2">
               <h1 className="text-sm flex-1">Blocked users</h1>
               <img
@@ -189,7 +218,6 @@ const Setting = () => {
               />
             </div>
           </div>
-
           <div className="px-2">
             <div
               className="flex cursor-pointer w-full my-2"
@@ -232,7 +260,6 @@ const Setting = () => {
             </div>
           </div>
           <div className="w-full h-[2px] bg-gray-500"></div>
-
           <div className="px-2">
             <Link to="/verification-request" className="text-sm">
               Do you want to get verified ?

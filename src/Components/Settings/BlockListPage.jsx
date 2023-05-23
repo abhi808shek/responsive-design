@@ -2,29 +2,43 @@ import React, { useEffect, useState } from "react";
 import SearchComponent from "../Home/SearchComponent/SearchComponent";
 import Portals from "../Portals/Portals";
 import OopsModal from "./BlockList/OopsModal";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getBlockedUser } from "../../redux/actionCreators/privacyAction";
+import { blockedFriendList, searchBlockedFriend } from "../../redux/actionCreators/settingsActionCreator";
+import profileReducer from "./../../redux/reducers/profileReducer";
 
 const BlockListPage = () => {
   const dispatch = useDispatch();
   const [unblockModal, setUnBlockModal] = useState(false);
   const [state, setState] = useState({});
-  const { blockedUser} = state;
-
+  const { blockedUser } = state;
+  const { profile } = useSelector((state) => state.profileReducer);
+  const { friendBlockList, searchBlockedFriend } = useSelector(
+    (state) => state.settingReducer
+  );
+  console.log("searchBlockedFriend", searchBlockedFriend);
   useEffect(() => {
-    dispatch(getBlockedUser()).then((res)=> {
-      if(res?.status){
-        setState({...state, blockedUser: res?.data})
+    dispatch(getBlockedUser()).then((res) => {
+      if (res?.status) {
+        setState({ ...state, blockedUser: res?.data });
       }
-    })
-  }, [])
-  const onUnblockClick = ()=>{
-    setUnBlockModal(true)
+    });
+
+    dispatch(blockedFriendList(profile?.id));
+  }, []);
+  const onUnblockClick = () => {
+    setUnBlockModal(true);
+  };
+
+  const onOkClick = () => {
+    setUnBlockModal(false);
+  };
+const [onInputChange, setOnInputChange] = useState("");
+  const onHandleChange = (event)=>{
+    setOnInputChange(event.target.value)
+    dispatch(searchBlockedFriend(profile?.id, onInputChange));
   }
 
-  const onOkClick = ()=>{
-    setUnBlockModal(false)
-  }
   return (
     <>
       <div className="w-[95%] sm:w-[50%] lg:w-[40%] mx-auto bg-[#E4E7EC] px-3 h-[88%] mt-[5px] flex gap-3 flex-col pt-2">
@@ -32,19 +46,25 @@ const BlockListPage = () => {
           bgColor="white"
           placeholder="Search here to unblock"
           classes={"border-2"}
+          handleChange={onHandleChange}
+          inputValue={onInputChange}
         />
 
         <div className="flex flex-col gap-3 overflow-y-scroll pb-2">
-          {[1, 2, 3, 4, 5, 3, 4, 4, 55, 6, 6, 66, 6, 6, 6, 6, 6]?.map(() => (
-            <div className="flex gap-2">
+          {friendBlockList?.map((elem) => (
+            <div className="flex gap-2" key={elem?.friend?.id}>
               <div className="flex-1 flex items-center gap-2">
                 <img
-                  src="./images/events.jpg"
+                  src={
+                    elem?.profile?.pimage
+                      ? elem?.profile?.pimage
+                      : "./images/events.jpg"
+                  }
                   alt=""
                   className="w-[35px] h-[35px] sm:w-[45px] sm:h-[45px] rounded-full"
                 />
                 <span className="text-[10px] sm:text-xs lg:text-sm font-bold">
-                  name
+                  {elem?.profile?.fname}
                 </span>
               </div>
               <button

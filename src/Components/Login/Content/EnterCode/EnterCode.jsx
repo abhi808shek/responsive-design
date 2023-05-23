@@ -52,9 +52,7 @@ const EnterCode = ({ title }) => {
   const [seconds, setSeconds] = useState(5 * 60);
 
   useEffect(() => {
-    console.log("BRFORRRRRRRR");
     if (timer === false) {
-      console.log("AFTERRRRRRR");
       setTimer(true);
       setTimeout(() => {
         setTimer(false);

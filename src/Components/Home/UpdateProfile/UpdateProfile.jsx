@@ -13,7 +13,7 @@ import {
 } from "../../../redux/actionCreators/authActionCreator";
 import AutocompletePlace from "../../googlemap/AutocompletePlace";
 import Dropdown2 from "../../Login/Content/Modal/Dropdown2";
-import { addGraduation, getGraduationList, getPgList, updateEducation, updateProfile } from "../../../redux/actionCreators/profileAction";
+import { addGraduation, getGraduationList, getPgList, getProfileById, updateEducation, updateProfile } from "../../../redux/actionCreators/profileAction";
 import moment from "moment";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -23,6 +23,8 @@ import PersonalAccount from "./PersonalAccount";
 import OrganizationAccount from "./OrganizationAccount";
 import { getEducationDetail } from "../../../redux/actionCreators/profileAction";
 import { Typography } from "@material-tailwind/react";
+import { getUserDataFromLocalStorage } from "../../Utility/utility";
+import Locations from "./Locations";
 
 const UpdateProfile = () => {
   const dispatch = useDispatch();
@@ -35,40 +37,48 @@ const UpdateProfile = () => {
       profile: state?.profileReducer?.profile,
     };
   });
-  const { profileDetail, educationDetails, profile } = reducerData;
-  const [states, setState] = useState(profileDetail || {});
-  const [country, setCountry] = useState(profileDetail);
+  const { educationDetails, profile } = reducerData;
+  const [states, setState] = useState( {
+    ...profile,
+    state : { state: profile.state},
+    district : { district: profile.district},
+    loksabha :  {loksabha: profile?.loksabha},
+    assembly : { assembly: profile.assembly},
+  });
+  const [country, setCountry] = useState({country : profile?.country});
   const [education, setEducation] = useState(educationDetails || {});
-  const [orgDetail, setOrgDetail] = useState({});
+  const [orgDetail, setOrgDetail] = useState({
+    orgname: profile.orgname,
+    businesscategory: profile.businesscategory,
+  });
 
   const {
-    pcoverimage,
-    pimage,
-    fname,
-    lname,
-    email,
-    dob,
-    gender,
-    state = { state: profileDetail?.state },
-    district,
-    loksabha =  {loksabha: profileDetail?.loksabha},
-    assembly,
-    profiletype,
-    userid,
-    id,
-    profilePic,
-    coverPic,
-    code,
+    pcoverimage = profile?.pcoverimage,
+    pimage = profile?.pimage,
+    fname = profile?.fname,
+    lname = profile?.lname,
+    email = profile?.email,
+    dob = profile?.dob,
+    gender = profile.gender,
+    profiletype = profile.profiletype,
+    userid = profile.userid,
+    id = profile.id,
+    profilePic = profile.pimage,
+    coverPic = profile.pcoverimage,
+    code = profile.code,
+    location = profile?.city,
+    orgname,
+    businesscategory,
   } = states;
 
   const isPersonal = profiletype === "Personal";
 
   useEffect(() => {
+     dispatch(getCountryList());
     isPersonal ? getPersonalDetail() : dispatch(getOrgCategory());
   }, [profiletype]);
 
   const getPersonalDetail = () => {
-     dispatch(getCountryList());
      dispatch(getEducationDetail(id));
      dispatch(getPgList());
      dispatch(getGraduationList());
@@ -88,6 +98,7 @@ const UpdateProfile = () => {
     dispatch(getStateList(val.code));
   };
   const handleChange = (name, value) => {
+    console.log(name, value);
     const obj = {
       state: getDistrict(value.statecode),
       district: getLoksabha(value.did),
@@ -96,11 +107,10 @@ const UpdateProfile = () => {
     obj[name] && dispatch(obj[name]);
     setState({ ...states, [name]: value });
   };
-
+console.log(states, "STAAAAAAAA");
   const handleOrganization = (name, value) => {
     setOrgDetail({...orgDetail, [name]: value})
   }
-console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   const handleSubmit = async () => {
     if (email !== profile?.email) {
       const checkEmail = await dispatch(checkingIsEmailExist(email));
@@ -111,7 +121,7 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
     }
     const payloads = {
       id: id,
-      assembly: assembly?.assembly, //default value.
+      assembly: states.assembly?.assembly, //default value.
       celibrity: false,
       countrycode: "+91", //default selected in signup screen..
       country: country?.country || "",
@@ -120,32 +130,38 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
       fname: fname, //from user input BUSINESS NAME
       gender: gender,
       pimage: "", //if profile image is there, add the URL here.
-      loksabha: loksabha?.loksabha,
-      state: state?.state || '',
+      loksabha: states.loksabha?.loksabha,
+      state: states.state?.state || "",
+      city: location,
       lname: lname, //from user input – profile lnamein SLIDE 4
       personalname: fname, //from user input – profilefnamein SLIDE 4
       profiletype: isPersonal ? "Personal" : "Organization", //profile type, while we passing in signup screen
       updatedate: Date.now(), //Current UTC time in milliseconds
       userid: userid, // stored User ID from (Slide 3)
+      ...(!isPersonal && {
+        businesscategory: orgDetail?.businesscategory,
+        orgname: orgDetail.orgname,
+      }),
     };
-    if (profilePic) {
-      const file = new FormData();
-      file.append("file", profilePic);
-      let response = await dispatch(imageUploadApi(file));
-      payloads.pimage = response.data.path;
-    }
-    if (coverPic) {
-      const file = new FormData();
-      file.append("file", coverPic);
-      let response = await dispatch(imageUploadApi(file));
-      payloads.pcoverimage = response.data.path;
-    }
-    isPersonal ? addEducation() : addProfession()
-    
+    // if (profilePic) {
+    //   const file = new FormData();
+    //   file.append("file", profilePic);
+    //   let response = await dispatch(imageUploadApi(file));
+    //   payloads.pimage = response.data.path;
+    // }
+    // if (coverPic) {
+    //   const file = new FormData();
+    //   file.append("file", coverPic);
+    //   let response = await dispatch(imageUploadApi(file));
+    //   payloads.pcoverimage = response.data.path;
+    // }
+    education.isEditEdu ? isPersonal ? addEducation() : addProfession() : ""
+    console.log(payloads, "}}}}}}}}}}}}}}}}}} HHHhhhhhhhhh");
     dispatch(updateProfile(payloads))
       .then((res) => {
         if (res.status) {
           navigate("/profile");
+          dispatch(getProfileById(getUserDataFromLocalStorage().id))
           toast.success(res.message);
         } else {
           toast.error(res.message);
@@ -157,7 +173,6 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
   function addProfession(){
 
   }
-
   // ---------------- for personal account ----------------------
  async function addEducation (){
   Promise.all([
@@ -169,11 +184,14 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
     }
   });
   }
-  const handleEducation = (name, value) => setEducation({...education, [name]: value})
+  const handleEducation = (name, value) => setEducation({...education, isEditEdu: true, [name]: value})
   // console.log(profileDetail, stateName, moment(dob).format('YYYY-MM-DD'), 'PPPPPPPPPPPPPPP');
   const checkDisable = () => {
     return !(fname || lname)
   }
+    const handleLocation = (location) => {
+      setState({...states, location})
+    };
   return (
     <div className="bg-[#E4E7EC] w-[100%]  p-6">
       <div className="updateTitle text-center rounded-xl flex-wrap mt-2 mb-6 bg-[#FFFFFF] text-[#000] text-xl ">
@@ -371,12 +389,20 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
                   />
                 </div>
               </div>
+              {
+                <Locations
+                  states={states}
+                  handleCountry={handleCountry}
+                  country={country}
+                  handleChange={handleChange}
+                  handleLocation={handleLocation}
+                  location={location}
+                />
+              }
               {isPersonal ? (
                 <PersonalAccount
-                  states={states}
+                  states={states.id || profile}
                   education={education}
-                  country={country}
-                  handleCountry={handleCountry}
                   handleChange={handleChange}
                   handleEducation={handleEducation}
                 />
@@ -390,7 +416,7 @@ console.log(state, "{{{>>>>>>>>>>>>>>>>>");
               {/* form button */}
               <div className="flext w-full text-center">
                 <button
-                  disabled={ checkDisable() }
+                  disabled={checkDisable()}
                   onClick={handleSubmit}
                   className="w-[180px] pr-3 bg-[#7991BD] p-1 px-2 rounded-lg text-white mt-4"
                 >

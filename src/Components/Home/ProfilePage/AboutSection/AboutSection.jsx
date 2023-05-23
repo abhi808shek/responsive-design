@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import moment from "moment";
 import { useSelector } from "react-redux";
 
-const AboutSection = ({ isOther, data = {} }) => {
+const AboutSection = ({ isOther, data }) => {
   const navigate = useNavigate();
   const {
     countrycode,
@@ -26,7 +26,8 @@ const AboutSection = ({ isOther, data = {} }) => {
     hometown,
     profiletype,
     orgname,
-  } = data;
+    businesscategory,
+  } = data || {};
   const reducerData = useSelector((state) => {
     return {
       educationDetails: state.profileReducer.educationDetails || {}
@@ -86,7 +87,7 @@ const AboutSection = ({ isOther, data = {} }) => {
           </div>
           <p className="text-sm">
             <strong className="text-md font-medium">Gender : </strong>
-            <strong>{data.gender}</strong>
+            <strong>{data?.gender}</strong>
           </p>
         </div>
 
@@ -265,16 +266,16 @@ const AboutSection = ({ isOther, data = {} }) => {
                   <div className="w-7">
                     <CgOrganisation alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">
-                    Organization Name : {orgname}
-                  </strong>
+                  Organization Name :
+                  <strong className="text-sm">{orgname}</strong>
                 </div>
                 {/* ORGANIZATION CATEGORY */}
                 <div className="flex items-center gap-2">
                   <div className="w-7">
                     <MdWorkOutline alt="" className="w-6 h-6 text-[#6c6c6c]" />
                   </div>
-                  <strong className="text-sm">Organization Type : Actor</strong>
+                  Organization Type :
+                  <strong className="text-sm">{businesscategory}</strong>
                 </div>
               </p>
             </div>

@@ -1,12 +1,52 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useSelector, useDispatch } from 'react-redux'
+import { getProfileByEmail } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { toast } from 'react-toastify';
 
 const dataList = ['ak@gmail.com', 'pro@gmail.com', 'some@gmail.com', '+919345678902']
 
 const AddByContactModal = ({ onClose }) => {
-	
-  const handleContact = ()=>{
+	const [email, setEmail] = useState({
+    mail: null,
+    extension : null
+  })
 
+  const dispatch = useDispatch()
+  const { umeetReducer } = useSelector(state=>state)
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setEmail(prevState => ({
+      ...prevState,
+      [name]: value
+    }))
   }
+console.log(umeetReducer.isEmailFound)
+  const emailData = `${email.mail}@${email.extension}`
+  
+  useEffect(()=>{    
+    if(umeetReducer.isEmailFound == true){
+      toast.success('User Email Found')
+    }
+
+    umeetReducer.isEmailFound = false
+  }, [umeetReducer.isEmailFound])
+
+  const handleEmailAdd = async ()=>{
+    umeetReducer.isEmailFound = false
+
+    if(!email.mail || !email.extension){
+      toast.error('Enter valid email')
+    }else{
+      await dispatch(getProfileByEmail(emailData)).catch(err=>{
+        toast.error(err.message)
+      })
+    } 
+
+    umeetReducer.isEmailFound = false         
+  }
+
+  const handleContact = ()=>{}  
 
   return (
     <div className='absolute fixe top-0 w-full z-20 h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
@@ -19,10 +59,10 @@ const AddByContactModal = ({ onClose }) => {
        </div>
        <div className=''>        
         <div className='flex items-center my-2'>
-         <input className='w-full outline-none border bg-gray-200 border-gray-200 rounded-lg h-9 pl-1' placeholder='example' />
+         <input name='mail' onChange={handleChange} className='w-full outline-none border bg-gray-200 border-gray-200 rounded-lg h-9 pl-1' placeholder='example' />
          <span className='text-gray-600 px-0.5'>@</span>
-         <input className='w-full outline-none bg-gray-200 border border-gray-200 rounded-lg h-9 pl-1' placeholder='domain.co' />
-         <button className='px-4 py-1.5 text-sm rounded-md text-white ml-1 border bg-[#649B8E]'>Add</button>
+         <input name='extension' onChange={handleChange} className='w-full outline-none bg-gray-200 border border-gray-200 rounded-lg h-9 pl-1' placeholder='domain.co' />
+         <button onClick={handleEmailAdd} className='px-4 py-1.5 text-sm rounded-md text-white ml-1 border bg-[#649B8E]'>Add</button>
         </div>
 
         <div className='flex items-center pb-3 border-b border-gray-300'>  

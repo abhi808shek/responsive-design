@@ -10,7 +10,7 @@ const OrganizationAccount = ({ handleChange, orgDetail}) => {
     }
   })
   const {orgCategory} = reducerData;
-  const { org, website, address, intro, orgName, orgType} = orgDetail
+  const { org, website, address, intro, orgname, businesscategory } = orgDetail;
   console.log(orgDetail, "++++++++");
 
   return (
@@ -22,10 +22,10 @@ const OrganizationAccount = ({ handleChange, orgDetail}) => {
         classes={"flex"}
         label={"Organization Name"}
         attributes={{
-          name: "orgName",
+          name: "orgname",
           onChange: (e) => handleChange(e.target.name, e.target.value),
           placeholder: "Organization Name",
-          value: orgName,
+          value: orgname,
         }}
       />
       <Dropdown
@@ -34,8 +34,10 @@ const OrganizationAccount = ({ handleChange, orgDetail}) => {
         label={"Organization Type"}
         name={"Organization Type"}
         style={"w-[74%] my-2"}
-        selectedValue={orgType}
-        handleChange={(value) => handleChange("orgType", value.category)}
+        selectedValue={businesscategory}
+        handleChange={(value) =>
+          handleChange("businesscategory", value.category)
+        }
       />
       <Input
         attributes={{

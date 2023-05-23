@@ -38,7 +38,7 @@ const CreatePostModal = ({
   const {
     postPrivacy = isEdit ? activePost?.shareto : "",
     postContent = isEdit ? activePost?.text : "",
-    location = isEdit ? activePost?.location : "",
+    location = isEdit ? activePost?.location : state?.location,
     uploadFileList,
     alert,
   } = state;
@@ -78,7 +78,7 @@ const CreatePostModal = ({
 
   function uploadAllImages(files) {
     Promise.all(
-      files.map((item, index) => {
+      files?.map((item, index) => {
         return dispatch(imageUploadApi(item));
       })
     ).then((res) => {
@@ -110,7 +110,7 @@ const CreatePostModal = ({
     }, 1000)
     // setState({ ...state, postPrivacy: selectedValue });
   };
-  // console.log(alert, selectedValue?.name, "ALLLLLLLLLLLLL");
+  console.log(uploadFileList?.[0], "uploadFileList?.[0]");
   const handleCreatePost = () => {
     const payload = {
       shareto: postPrivacy?.name,

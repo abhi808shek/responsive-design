@@ -98,7 +98,8 @@ const Signup = () => {
       const response = await dispatch(saveUserSignupData(dataObj));
       if (formik.values.phone) {
         signIn(
-          formik?.values.phone?.includes("91")
+          (formik?.values.phone?.startsWith("91") ||
+            formik?.values.phone?.startsWith("+91"))
             ? formik.values.phone
             : `+91${formik.values.phone}`
         );

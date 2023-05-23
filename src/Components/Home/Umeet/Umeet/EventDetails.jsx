@@ -7,6 +7,7 @@ import Carousel from "react-multi-carousel";
 import "react-multi-carousel/lib/styles.css";
 import { getEventDetails, getAllEventChatMessage } from "../../../../redux/actionCreators/umeetActionCreator";
 import { useSelector, useDispatch } from "react-redux";
+import '../Umeet.css'
 
 const responsive = {
   superLargeDesktop: {
@@ -92,13 +93,21 @@ const EventDetails = ({
       <div className="w-[96%] lg:w-[60%] flex flex-col items-center">
         <div className="p-3 w-full bg-white rounded-xl">
           <h3 className="py-2 text-xl font-medium flex justify-center">
-            Hill pro
+            {(eventDetail && eventDetail.eventName) ? eventDetail.eventName : (
+              <div className='flex flex-col'>
+               <p className='skeleton-text skeleton'></p>
+               <p className='skeleton-text skeleton'></p>
+              </div>)
+            }
           </h3>
           <div className="w-full overflow-hidden">
-            <img
+            {eventDetail ? 
+             <img
               src={eventDetail ? eventDetail.eventTemplate : wishes}
               className="w-full h-[300px] object-cover rounded-xl"
-            />
+            /> : <div className='skeleton w-full h-[300px] rounded-xl object-cover'></div>
+            }
+            
           </div>
           <div className="flex justify-center my-4">
             <button

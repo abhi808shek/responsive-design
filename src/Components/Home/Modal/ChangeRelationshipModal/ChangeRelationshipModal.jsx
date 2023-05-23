@@ -27,7 +27,7 @@ const ChangeRelationshipModal = ({
               type="checkbox"
               className=""
               checked={elem.checked}
-              disabled={elem.disable}
+              // disabled={elem.disable}
             />
             <span className="text-xs font-semibold">{elem.name}</span>
           </div>

@@ -202,13 +202,13 @@ export const getInviteesList = (data) => async (dispatch) => {
 
 export const addInvitees = (data) => async (dispatch) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `https://web.uynite.com/event/api/invities/addInvities`,
       data
     );
-    console.log(data, response.data, "addInvitees");
+    console.log(response.data, "addInvitees");
     dispatch({
-      type: "",
+      type: "ADD_INVITIES",
       payload: response.data,
     });
   } catch (error) {
@@ -398,7 +398,38 @@ export const getAllPgFriends = (data) => async (dispatch) => {
     );
     console.log(response.data, "getAllPgFriends");
     dispatch({
-      type: "GET_UG_FRIENDS",
+      type: "GET_PG_FRIENDS",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllInvitedEvents = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/event/api/invities/getmyevent/630dbf9c67ceca0570e4bfc9/1684318282119`,
+      data
+    );
+    console.log(response.data, "getAllInvitedEvents");
+    dispatch({
+      type: "GET_ALL_INVITED_EVENTS",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getProfileByEmail = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+       `https://web.uynite.com/profile/api/profile/profilebyemail/${data}`,
+    );
+    console.log(response.data, "getProfileByEmail", data);
+    dispatch({
+      type: "GET_EMAIL_FOUND",
       payload: response.data,
     });
   } catch (error) {

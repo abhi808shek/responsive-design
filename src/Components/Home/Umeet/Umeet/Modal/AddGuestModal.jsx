@@ -1,6 +1,6 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import AddPeopleModal from './AddPeopleModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUgFriends, getAllPgFriends } from '../../../../../redux/actionCreators/umeetActionCreator'
@@ -20,27 +20,45 @@ const dataList = [
   },
 ]
 
-const AddGuestModal = ({ onClose }) => {
+const AddGuestModal = ({ onClose, handleEducation, education }) => {
   const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
 
   const dispatch = useDispatch()
-  const j = useSelector(state=>state)
+  const { umeetReducer } = useSelector(state=>state)
+  console.log(umeetReducer)
 
-  const postData = {
+  const ugPostData = {
    "ugaddress": null,
    "ugdegree": null,
    "ugbranch": null,
    "ugpassyear": null,
   }
 
+  const pgPostData = {
+   "pgaddress": null,
+   "pgdegree": null,
+   "pgbranch": null,
+   "pgpassyear": null,
+  }  
+
   const handleShowAddPeopleModal = (qualification)=>{
     setShowAddPeopleModal(true)
-    if(qualification.toLowerCase() == 'graduation'){
-      dispatch(getAllUgFriends(postData))
-    }else if(qualification.toLowerCase().includes('post')){
-      dispatch(getAllPgFriends(postData))
+    if(qualification.toLowerCase() == 'graduation'){      
+      handleEducation('ug')
+    }else if(qualification.toLowerCase().includes('post')){      
+      handleEducation('pg')
+    }else if(qualification.toLowerCase().includes('school')){
+      handleEducation('school')
     }
   }
+
+  useEffect(()=>{
+    if(education == 'ug'){
+      dispatch(getAllUgFriends(ugPostData))
+    }else if(education == 'pg'){
+      dispatch(getAllPgFriends(pgPostData))
+    }
+  }, [education])
 
   return (
     <div className='absolut fixed top-0 left-0 h-full w-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -61,7 +79,7 @@ const AddGuestModal = ({ onClose }) => {
         ))
       }              
      </div>
-     {showAddPeopleModal && <AddPeopleModal onClose={()=>setShowAddPeopleModal(false)} />}
+     {showAddPeopleModal && <AddPeopleModal education={education} onClose={()=>setShowAddPeopleModal(false)} />}
     </div>
   )
 }
