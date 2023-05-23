@@ -5,7 +5,12 @@ const initialState = {
   guestByStateList:[],
   emailList:[],
   allMyEvents: [],
-  eventChatMessages: []
+  eventChatMessages: [],
+  invitiesAdded: false,
+  allInvitedEvents: [],
+  isEmailFound: false,
+  ugFriends: [],
+  pgFriends: [],
 };
 
 const umeetReducer = (state = initialState, action) => {
@@ -28,6 +33,19 @@ const umeetReducer = (state = initialState, action) => {
         return { ...state, emailList: [...state.emailList,action.payload] };
       case "EVEVT_CHAT_DETAIL":
         return { ...state, eventChatMessages: action.payload.data }
+      case "ADD_INVITIES":
+        return { ...state, invitiesAdded: true}
+      case "GET_ALL_INVITED_EVENTS":
+        return { ...state, allInvitedEvents: action.payload.data}
+      case "GET_EMAIL_FOUND":
+        if(action.payload.data !== null){
+          return { ...state, isEmailFound: true }
+        }
+        return { ...state, isEmailFound: false}
+      case "GET_UG_FRIENDS":
+        return { ...state, ugFriends: action.payload.data }
+      case "GET_PG_FRIENDS":
+        return { ...state, pgFriends: action.payload.data }
       default:
         return state;
     }

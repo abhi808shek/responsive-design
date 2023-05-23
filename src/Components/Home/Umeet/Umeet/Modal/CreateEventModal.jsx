@@ -23,6 +23,11 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     hostmailid: '',
     eventEndDate: ''
   })
+  const [inputType, setInputType] = useState('text');
+
+  const handleToggle = () => {
+    setInputType(inputType === 'text' ? 'date' : 'text');
+  }
 
   const dispatch = useDispatch()
   const { profileReducer } = useSelector(state => state);
@@ -141,8 +146,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           </div>
           <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
           <input name='eventName' onChange={handleChange} className='border-b border-gray-300 outline-none h-10 my-2 w-full' placeholder='Event Title*' />
-          <input name='eventdateAndTime' onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='Start Date & Time*' />
-          <input name='eventEndDate' onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full' placeholder='End Date & Time*' />
+          <input name='eventdateAndTime' type={inputType} onClick={handleToggle} onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full text-gray-600' placeholder='Start Date & Time*' />
+          <input name='eventEndDate' type={inputType} onClick={handleToggle} onChange={handleChange} className='border-b outline-none border-gray-300 h-10 my-2 w-full text-gray-600' placeholder='End Date & Time*' />
           <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
             <span className='font-bold text-xl text-gray-600'>Event Mode</span>
             <div className='px-6 flex items-center'>

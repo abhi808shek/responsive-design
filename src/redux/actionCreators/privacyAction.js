@@ -2,7 +2,7 @@ import axios from "axios";
 
 export const addProfilePrivacy = (data) => async (dispatch) => {
   try {
-    const response = await axios.get(
+    const response = await axios.post(
       `https://web.uynite.com/profile/api/profile/privacy/add`,
       data
     );
@@ -11,6 +11,7 @@ export const addProfilePrivacy = (data) => async (dispatch) => {
       type: "",
       payload: response?.data,
     });
+    return response?.data;
   } catch (error) {
     throw error;
   }
