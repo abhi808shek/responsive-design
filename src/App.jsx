@@ -50,6 +50,7 @@ import HashTagPage from "./Components/Home/SearchPage/HashTagPage";
 import TermsAndConditions from "./Components/Home/ProfilePage/TermsAndConditionPage/TermsAndConditions";
 import PrivacyPolicy from "./Components/Home/ProfilePage/PrivacyPolicy/PrivacyPolicy";
 import { getProfileById } from "./redux/actionCreators/profileAction";
+import Reals from "./screens/Reals/Reals";
 
 const App = () => {
     const token = localStorage.getItem("token");
@@ -115,7 +116,7 @@ const App = () => {
         </Route>
 
         {/* Private Routes */}
-        <Route element={<PrivateRoute />}> 
+        <Route element={<PrivateRoute />}>
           <Route path="select" element={<Select />} />
           <Route path="/" element={<MainView />}>
             <Route path="/" element={<Home />} />
@@ -123,7 +124,10 @@ const App = () => {
 
             <Route path="veiwallkicks" element={<SearchKicksPage />} />
             <Route path="myfriend" element={<MyFriendsPage />} />
-            <Route path="find-friend" element={<FindFriendsPage isFriend={false}/>} />
+            <Route
+              path="find-friend"
+              element={<FindFriendsPage isFriend={false} />}
+            />
             <Route exact path="profile" element={<UserProfilePage />} />
             <Route path="profile/:id" element={<UserProfilePage isOther />} />
             <Route
@@ -154,12 +158,16 @@ const App = () => {
             <Route path="create-union" element={<CreateUnion />} />
             <Route path="contact-us" element={<ContactUs />} />
             <Route path="hashtag-page" element={<HashTagPage />} />
-            <Route path="terms-and-conditions" element={<TermsAndConditions />} />
+            <Route
+              path="terms-and-conditions"
+              element={<TermsAndConditions />}
+            />
             <Route path="privacy-policy" element={<PrivacyPolicy />} />
+            <Route path="reals" element={<Reals />} />
 
             {/* <Route path="user" element={<User />} /> */}
             {/* <Route path="friends" element={<Friends />} /> */}
-           </Route> 
+          </Route>
         </Route>
       </Routes>
     </>

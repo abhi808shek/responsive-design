@@ -19,6 +19,7 @@ import { getFriendsList } from "../../../redux/actionCreators/friendsAction";
 import { useParams } from "react-router";
 import { toast } from "react-toastify";
 import PostCard from "../PostContetnt/PostCard/PostCard";
+import { createPost } from "../../../redux/actionCreators/postActionCreator";
 
 const ProfilePage = ({ isOther }) => {
   const [selectedOption, setSelectedOption] = useState("Post");
@@ -83,12 +84,30 @@ const ProfilePage = ({ isOther }) => {
         }else{
           toast.error(res?.message)
         }
-      })
-      ;
+      });
     }
+    dispatch(handleCreatePost(uploadResponse.data?.path, name))
   }
   function getEducation (){
     dispatch(getEducationDetail(user?.id))
+  }
+
+  const handleCreatePost = (img, type) => {
+        const payload = {
+          shareto: '',
+          type: "personal",
+          template: "template1",
+          image: img,
+          text: type === 'profileImg' ? 'profile pic' : type === 'coverImg' ? 'cover pic' : "",
+          suggesttemp: "sugest1",
+          utag: null,
+          delete: false,
+          close: "close",
+          profileid: profile?.id,
+          city: '',
+          postdate: moment().format("DD-MM-YYYY HH:mm:ms"),
+        };
+        dispatch(createPost(payload))
   }
   return (
     <div className="w-full flex flex-col sm:flex-row justify-evenly bg-[#E4E7EC] mt-2">

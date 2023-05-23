@@ -1,6 +1,7 @@
 import React from "react";
 import { useEffect } from "react";
 import User from "../../../../Assets/Images/user.png"
+import { Link } from "react-router-dom";
 const FollowersModal = ({title, modalName, data, emptyMessage= '', handleClick}) => {
   return (
     <div onClick={(e) => e.stopPropagation()} className=' w-[30%] bg-white rounded-xl ml-5 flex items-center flex-col absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2'>
@@ -11,21 +12,21 @@ const FollowersModal = ({title, modalName, data, emptyMessage= '', handleClick})
          {
           data?.length ?
           data?.map((friend) =>{
-            const {fname, lname, pimage} = friend?.profile || friend
+            const {fname, lname, pimage, id} = friend?.profile || friend
             const name = fname+lname
             return(
                 <>
               <div className="flex w-full pb-1 flex-col">
                  <div className="flex items-center py-1">
-                 <div className="flex items-center gap-2 flex-1">
+                 <Link to={`/profile/${id}`} className="flex items-center gap-2 flex-1">
                       <img
                           src={pimage || User}
                           alt=""
                           className="w-[40px] h-[40px] rounded-full" />
                       <span className="font-bold text-sm">{`${name ? `${fname} ${lname}`: 'User'}`}</span>
-                  </div>
+                  </Link>
                   <div className="flex ">
-                    <button onClick={() => handleClick(friend)} className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>Remove</button>
+                    <button onClick={() => handleClick(friend)} className='font-bold text-blue-400 text-[10px] border-[1px] border-blue-300 px-3 py-0.5 rounded-sm'>{modalName === 'Your Following' ? 'Unfollow' : 'Remove'}</button>
                   </div>
                  </div>
               </div></>

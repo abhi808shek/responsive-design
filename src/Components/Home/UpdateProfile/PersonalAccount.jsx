@@ -35,6 +35,7 @@ const PersonalAccount = ({
     collegenamepg,
     graduationBranch,
     graduationYear,
+    pgaddress,
     PGbranch,
     PGdegree,
     PGyear,
@@ -161,7 +162,7 @@ const PersonalAccount = ({
             livePlace={(schoolLocation) =>
               handleEducation("schoolname", schoolLocation)
             }
-            value={schoolname}
+            value={`${schoolname} ${schooladdress}`}
             handleChangeLocation={(value) => handleEducation('schoolname', value)}
             placeholder={"Enter your school"}
           />
@@ -201,7 +202,7 @@ const PersonalAccount = ({
                 name: "collegenameug",
                 type: "text",
                 onChange: (e) => handleEducation(e.target.name, e.target.value),
-                value: collegenameug,
+                value: `${collegenameug||""} ${ugaddress}`,
                 placeholder: "College Name",
               }}
             />
@@ -256,7 +257,7 @@ const PersonalAccount = ({
                 name: "collegenamepg",
                 type: "text",
                 onChange: (e) => handleEducation(e.target.name, e.target.value),
-                value: collegenamepg,
+                value: `${collegenamepg||""} ${pgaddress}`,
                 placeholder: "College Name",
               }}
             />

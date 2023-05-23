@@ -33,8 +33,8 @@ const UpdateProfile = () => {
   const reducerData = useSelector((state) => {
     return {
       profileDetail: state?.profileReducer?.profileDetail?.data || state.profileReducer.profile,
-      educationDetails: state?.profileReducer?.educationDetails?.data,
-      profile: state?.profileReducer?.profile,
+      educationDetails: state?.profileReducer?.educationDetails,
+      profile: state?.profileReducer?.profile || {},
     };
   });
   const { educationDetails, profile } = reducerData;
@@ -107,7 +107,7 @@ const UpdateProfile = () => {
     obj[name] && dispatch(obj[name]);
     setState({ ...states, [name]: value });
   };
-console.log(states, "STAAAAAAAA");
+
   const handleOrganization = (name, value) => {
     setOrgDetail({...orgDetail, [name]: value})
   }

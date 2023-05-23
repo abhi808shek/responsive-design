@@ -5,7 +5,7 @@ import ChangeRelationshipModal from "../Modal/ChangeRelationshipModal/ChangeRela
 import { useNavigate } from "react-router";
 import { debounce, isEmpty, toasterFunction } from "../../Utility/utility";
 import { useDispatch, useSelector } from "react-redux";
-import { acceptFriendRequest, addFriend, cancelFriendRequest, getRequestList, getUserByMail, getUsers } from "../../../redux/actionCreators/friendsAction";
+import { acceptFriendRequest, addFriend, getMutualFriends, getRequestList, getUserByMail, getUsers, removeFriend } from "../../../redux/actionCreators/friendsAction";
 import EmptyComponent from "../../empty component/EmptyComponent";
 import Loader from "../../common/Loader";
 import moment from "moment/moment";
@@ -24,13 +24,13 @@ const SearchFriendsPage = ({ isFriend }) => {
       userList: state.friendReducer.usersList,
       profile: state.profileReducer.profile,
       requestList: state.friendReducer.requestList,
-      unionList: state.unionReducer.myUnionList
+      unionList: state.unionReducer.myUnionList,
+      mutualFriend: state.friendReducer.mutualFriend,
     };
   });
-  const { userList, profile, requestList, unionList } = reducerData;
+  const { userList, profile, requestList, unionList, mutualFriend } = reducerData;
 
     const options = useMemo(() => {
-      console.log("MEMOOOOOOOOO");
     dispatch(getMyUnion(profile?.id));
     const union = unionList.map((item) => ({ name: item.groupName, key: item.groupId}))
     const forPersonalAcc = [
@@ -58,11 +58,14 @@ const SearchFriendsPage = ({ isFriend }) => {
   loading, relationType, relationOptions = relationOption,  cancelModal} = state;
 
   useEffect(() => {
-    if(isFriend){
+    if (isFriend) {
       dispatch(getRequestList(profile?.id));
+    }else{
+      dispatch(getUsers("s"));
+      dispatch(getMutualFriends(profile?.id));
+      setSearchQuery('')
     }
-    dispatch(getUsers("s"))
-  }, []);
+  }, [isFriend]);
   const onSendRequest = () => {
     setSendRequest(true);
   };
@@ -115,10 +118,7 @@ const SearchFriendsPage = ({ isFriend }) => {
   const processChange = debounce((e) => searchUser(e));
   const handleSearch = (e) => {
     const value = e.target.value;
-    const name = e.target.name
-    // setState({ ...state, });
     setSearchQuery(value)
-    // searchUser(value)
     processChange(value);
   };
 
@@ -149,7 +149,7 @@ const SearchFriendsPage = ({ isFriend }) => {
       // friendprofileid: activeProfile?.id
       friendprofileid: "64467a007c2c17757005a469",
     };
-    dispatch(cancelFriendRequest(payload)).then((res) => {
+    dispatch(removeFriend(payload)).then((res) => {
       if(res?.status){
         toast.success(res?.message)
         onHandleCloseModal(false)
@@ -205,8 +205,17 @@ const SearchFriendsPage = ({ isFriend }) => {
           {/* Unknown Friends List Section */}
           <section className=" w-[95%] flex rounded-md flex-col mt-2 overflow-y-scroll">
             {loading && <Loader />}
-            {(isFriend ? requestList : userList)?.map((item) => {
-              const { fname = "", lname = "", id, profiletype } = item || {};
+            {!searchQuery && !isFriend ? (
+              <>
+              <div className="text-bold text-center text-[#05b7fd] mb-3">
+                Suggestions
+              </div>
+              </>
+            ) : (
+              ""
+            )}
+            {(isFriend ? requestList : !searchQuery ? mutualFriend : userList)?.map((item) => {
+              const { fname = "", lname = "", id, profiletype, pimage } = isFriend ? item?.profile : item || {};
               {
                 /* console.log(usersList, item, '{{{') */
               }
@@ -224,7 +233,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                         onClick={() => showProfileDetail(id)}
                       >
                         <img
-                          src={item?.pimage}
+                          src={pimage}
                           alt=""
                           className="w-[45px] h-[45px] rounded-full"
                         />
@@ -268,7 +277,7 @@ const SearchFriendsPage = ({ isFriend }) => {
                               src="./images/cancelRequest.png"
                               alt=""
                               className="w-[30px] h-[30px] cursor-pointer"
-                              onClick={() =>handleConfirmationModal(item)}
+                              onClick={() => handleConfirmationModal(item)}
                             />
                           )}
                         </div>
@@ -308,15 +317,16 @@ const SearchFriendsPage = ({ isFriend }) => {
           />
         </Portals>
       )}
-      {cancelModal &&
+      {cancelModal && (
         <Portals>
-          <ConfirmationModal title={'Are  you sure?'}
-            button={'Yes'}
-            closeModal={() => setState({...state, cancelModal: false})}
+          <ConfirmationModal
+            title={"Are  you sure?"}
+            button={"Yes"}
+            closeModal={() => setState({ ...state, cancelModal: false })}
             handleAccept={handleCancelRequest}
           />
         </Portals>
-      }
+      )}
     </>
   );
 };

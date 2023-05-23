@@ -19,7 +19,7 @@ const Post = () => {
     };
   });
 
-  const { profile = {}, postList = [] } = reducerData;
+  const { profile, postList = [] } = reducerData;
   useEffect(() => {
     dispatch(getUserPostList(profile.id));
   }, []);

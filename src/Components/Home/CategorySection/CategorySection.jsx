@@ -4,8 +4,8 @@ const CatergorySection = ({selectedOption,setSelectedOption}) => {
  
   const data = [
     { title: "Post" },
-    { title: "Videos" },
     { title: "Photos" },
+    { title: "Videos" },
     { title: "Kicks" },
   ];
   return (

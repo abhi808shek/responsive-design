@@ -11,8 +11,8 @@ import User from "../../../Assets/Images/user.png";
 import { useDispatch, useSelector } from "react-redux";
 import { getMyUnion } from "../../../redux/actionCreators/unionActionCreator";
 import {
-  cancelFriendRequest,
   getFriendsList,
+  removeFriend,
   updateRelation,
 } from "../../../redux/actionCreators/friendsAction";
 import { toast } from "react-toastify";
@@ -33,15 +33,21 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     { name: "Change Relationship" },
     { name: "Block" },
   ];
+    const friend = data?.friend;
+    const relations = [
+      friend?.classment && "classmate",
+      friend?.collgues && "colleague",
+      friend?.relative && "relative",
+    ];
   const profile = useSelector((state) => state.profileReducer.profile);
 
   const options = useMemo(() => {
     // dispatch(getMyUnion(profileid))
     const forPersonalAcc = [
       { name: "Friends", key: "friend", checked: true, disable: true },
-      { name: "Relative", key: "relative", checked: false },
-      { name: "Classmate", key: "classmate", checked: false },
-      { name: "Officemate", key: "officemate", checked: false },
+      { name: "Relative", key: "relative", checked: relations.includes('relative') },
+      { name: "Classmate", key: "classmate", checked: relations.includes('classmate') },
+      { name: "Officemate", key: "officemate", checked: relations.includes('colleague') },
     ];
     const forOrgAcc = [
       { name: "Friend", key: "friend", checked: true, disable: true },
@@ -60,7 +66,6 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
     const name = e.target.name;
     const value = e.target.checked;
     const selected = relationOption?.map((item) => {
-      console.log("checkkkkkkkkk", item);
       return item?.name === name ? { ...item, checked: value } : item;
     });
     setState({ ...state, relationOption: selected });
@@ -97,7 +102,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       block: false,
     });
   };
-  console.log(selectedItem);
+
   const handleUnfriend = () => {
     // console.log(data, selectedItem);
 
@@ -105,7 +110,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       profileid: profile?.id,
       friendprofileid: selectedItem?.id,
     };
-    dispatch(cancelFriendRequest(payload)).then((res) => {
+    dispatch(removeFriend(payload)).then((res) => {
       if (res?.status) {
         toast.success(res?.message);
         dispatch(getFriendsList(profile?.id))
@@ -114,7 +119,7 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
       }
     });
   };
-  console.log(selectedItem);
+
   const handleUpdateRelation = () => {
     const relations = relationOption.flatMap(
       (item) => item.checked && item?.name
@@ -156,19 +161,18 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
   const handleBlock = () => {
     // dispatch()
   };
-
   return (
     <>
       <div className="flex h-[50px] px-4 items-center py- relative">
         {/* {openMenuModal && <CommentMenuModal data={data} leftPosition={50} topPosition={34}/>} */}
 
-        <div className="">
+        <Link to={`/profile/${userid}`} className="">
           <img
             src={pimage || User}
             alt=""
             className="w-[45px] h-[45px] rounded-full"
           />
-        </div>
+        </Link>
         <Link
           to={`/profile/${userid}`}
           className=" flex flex-1 flex-col justify-center ml-4"
@@ -177,8 +181,10 @@ const FriendList = ({ icon, desc, handleMenuClick, data = {} }) => {
             {name ? `${fname} ${lname}` : "User"}
           </span>
           {desc && (
-            <p className="text-[10px] font-bold text-gray-500">
-              {/* Hi Joe.........will plan this week */}
+            <p className="text-[12px] font-bold text-gray-500">
+              { relations.map((item) => {
+                return <span className="mr-1">{item ? `${item}, `: ""}</span>;
+              })}
             </p>
           )}
         </Link>

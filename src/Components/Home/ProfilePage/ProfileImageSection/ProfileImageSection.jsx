@@ -4,13 +4,13 @@ import { BsPeopleFill } from 'react-icons/bs'
 import { FaWalking } from 'react-icons/fa'
 import { IoIosPeople } from 'react-icons/io'
 import FollowersModal from "../../Modal/FollowersModal/FollowersModal";
-import user from '../../../../Assets/Images/Person.jpg'
 import Portals from "../../../Portals/Portals";
 import { useDispatch } from "react-redux";
 import { getFollower, getFollowing } from "../../../../redux/actionCreators/profileAction";
 import { data } from "autoprefixer";
-import { cancelFriendRequest, getFriendsList, removeFollowers, unfollow } from "../../../../redux/actionCreators/friendsAction";
+import { getFriendsList, removeFollowers, removeFriend, unfollow } from "../../../../redux/actionCreators/friendsAction";
 import { toast } from "react-toastify";
+import User from '../../../../Assets/Images/user.png'
 
 const ProfileImageSection = ({ isOther, data={}, following, followers, friends, uploadImage, coverImg, profileImg}) => {
   const { id } = data || {}
@@ -37,20 +37,25 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
     }
   }
   const handleRemove = (friend) => {
-    // console.log(friend, data, 'PPPPPPP FFFFFFFFFFF');
     const payload = {
       profileid: id,
       friendprofileid: friend?.id
     };
-    if(modalName === "Friends"){
-      
-    }
     dispatch(
-      modalName === "Friends" ? cancelFriendRequest(payload) :
+      modalName === "Friends" ? removeFriend(payload) :
       modalName === "Following" ? unfollow(payload) :
       modalName === "Followers" ? removeFollowers(payload) : {type: ""}
       ).then((res) => {
       if(res?.status){
+        dispatch(
+          modalName === "Friends"
+            ? getFriendsList(payload)
+            : modalName === "Following"
+            ? getFollowing(payload)
+            : modalName === "Followers"
+            ? getFollower(payload)
+            : { type: "" }
+        );
         toast.success(res?.message)
       }else{
         toast.error(res?.message)
@@ -93,7 +98,7 @@ const ProfileImageSection = ({ isOther, data={}, following, followers, friends, 
             className="sm:min-w-[180px] sm:h-[180px] min-w-[125px] h-[125px] relative top-[-30px] sm:top-[-60px] lg:top-[-40px]"
           >
             <img
-              src={profileImg || data?.pimage}
+              src={profileImg || data?.pimage || User}
               alt=""
               className="w-full bg-white h-full border-2 border-[#6780af] rounded-full ml-1 object-cover"
             />

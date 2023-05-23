@@ -6,7 +6,7 @@ const PostPhotos = () => {
   const dispatch = useDispatch()
   const reducerData = useSelector((state) => {
     return {
-      profile: state.profileReducer.profile
+      profile: state.profileReducer.profile || {}
     }
   })
   const { profile } = reducerData;

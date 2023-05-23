@@ -150,7 +150,23 @@ export const acceptFriendRequest = (data) => async (dispatch) => {
   }
 };
 
-export const cancelFriendRequest = (data) => async (dispatch) => {
+
+export const getMutualFriends = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/friend/api/friend/getfriendfriends/${data}`,
+      data
+    );
+    dispatch({
+      type: "GET_MUTUAL_FRIEND",
+      payload: response.data,
+    });
+    return response.data;
+  } catch (err) {
+    throw err;
+  }
+};
+export const removeFriend = (data) => async (dispatch) => {
   const { profileid, friendprofileid } = data;
   try {
     const response = await axios.put(
@@ -171,7 +187,7 @@ export const unfollow = (data) => async (dispatch) => {
   const { profileid, friendprofileid } = data;
   try {
     const response = await axios.delete(
-      `https://web.uynite.com/friend/api/friend/delete/${profileid}/${friendprofileid}`,
+      `https://web.uynite.com/friend/api/follow/deletefollow/${profileid}/${friendprofileid}`,
       data
     );
     dispatch({

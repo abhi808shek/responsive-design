@@ -9,6 +9,7 @@ import { isTabSelected } from "../../../redux/actionCreators/userActionCreator";
 import { BsChevronCompactDown } from "react-icons/bs";
 import { Navigate, useNavigate } from "react-router-dom";
 import g from "../../../assets/images/notification1.png";
+import User from '../../../Assets/Images/user.png'
 import "./navbar.css";
 
 const Navbar = () => {
@@ -92,7 +93,6 @@ const Navbar = () => {
         <div className="responsive_navbar">
           {/* Root */}
           <section className="w-full flex h-full items-end bg-[#E4E7EC] rounded-tl-xl rounded-tr-xl relative">
-            <div className="absolute top-0 p-0 lg:p-1.5 bg-white w-full"></div>
             <div className=" h-[80%] flex w-full rounded-t-md items-end px-2 pb-1 gap-0 lg:gap-3 md:px-2">
               {dataList?.map((elem) => (
                 <div
@@ -150,7 +150,7 @@ const Navbar = () => {
             {data?.map((elem) => (
               <div
                 key={elem?.name}
-                className="flex flex-col items-center cursor-pointer relative"
+                className="flex flex-col items-center cursor-pointer relative -mb-[17px] text-[12px]"
                 onClick={() => onHandleClick(elem)}
               >
                 <img
@@ -165,11 +165,11 @@ const Navbar = () => {
 
           {/* User Profile */}
           <div
-            className="flex flex-col items-center cursor-pointer relative"
+            className="flex flex-col items-center cursor-pointer relative -mb-[19px]"
             onClick={userProfileModal}
           >
             <img
-              src={profile?.pimage}
+              src={profile?.pimage || User}
               alt=""
               className="rounded-full object-cover w-[35px] h-[35px]"
             />

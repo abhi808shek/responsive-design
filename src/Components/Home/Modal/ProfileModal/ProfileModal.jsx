@@ -7,7 +7,7 @@ import { settingUserLoginData } from "../../../../redux/actionCreators/userActio
 import { MdArrowForwardIos } from "react-icons/md";
 import { Link } from "react-router-dom";
 
-const ProfileModal = ({profile = {}}) => {
+const ProfileModal = ({profile}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const onHandleClick = (option) => {
@@ -40,7 +40,7 @@ const ProfileModal = ({profile = {}}) => {
           <div className="flex flex-col">
             <span className="font-bold text-lg ml-1"> {profile?.fname || ""} {profile?.lname || ""}</span>
             <span className="text-sm text-gray-600 font-semibold">
-              {profile.job || ""}
+              {profile?.job || ""}
             </span>
           </div>
         </div>

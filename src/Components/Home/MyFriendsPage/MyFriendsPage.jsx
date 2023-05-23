@@ -25,13 +25,13 @@ const MyFriendsPage = () => {
       // following: state?.profileReducer?.following,
       // followers: state?.profileReducer?.followers,
       // friends: state?.profileReducer?.friends?.data,
-      friendList: state.friendReducer.friends,
+      friends: state.friendReducer.friends,
       profile: state.profileReducer.profile,
     };
   });
-  const { following, followers, friendList, profile } = reducerData;
+  const { following, followers, friends, profile } = reducerData;
   const [state, setState] = useState({});
-  const { relation = { name: "Friends", key: "friends" } } = state;
+  const { relation = { name: "Friends", key: "friends" }, friendList = friends} = state;
   useEffect(() => {
     const profileid = JSON.parse(localStorage.getItem("profile"))?.id;
     if (isEmpty(friendList)) {
@@ -59,6 +59,24 @@ const MyFriendsPage = () => {
     setState({ ...state, [name]: value });
   };
   const { filterOptions } = option;
+
+  const searchFriend = (e) => {
+    const { value} = e.target;
+    const filteredList = friends.filter((item) => {
+      const friend = item?.profile;
+      const name = `${friend.fname ? friend.fname : ""} ${friend.lname ? friend.lname: ""}`.toLowerCase()
+      return name.includes(value)
+    })
+    setState({...state, friendList: filteredList })
+  }
+  const handleFilter = (value) => {
+    const key = value.key === 'relatives' ? 'relative' : value.key === "classmates" ?
+    'classment' : value.key === 'officemates' ? 'collgues' : "id"
+    const filteredList = friends.filter((item) => {
+      return item.friend[key]
+    });
+    setState(prev => ({...prev, friendList: filteredList, relation: value}))
+  }
   return (
     <div className="w-[100%] h-full bg-[#E4E7EC] flex justify-center z-10 mt-1">
       <div className="w-[95%] sm:w-[50%] lg:w-[40%] bg-white text-black mt-1">
@@ -69,13 +87,17 @@ const MyFriendsPage = () => {
               options={filterOptions}
               name={"Friends"}
               keyName={"name"}
-              handleChange={(value) => handleChange("relation", value)}
+              handleChange={(value) => {
+                handleFilter(value)
+                // handleChange("relation", value)
+              }}
               selectedValue={relation}
             />
           </div>
 
           <div className="flex w-[100%] lg:w-[58%] xl:w-[70%]">
             <SearchComponent
+              handleChange={searchFriend}
               width={98}
               bgColor={"#E4E7EC"}
               placeholder={"Search...."}
