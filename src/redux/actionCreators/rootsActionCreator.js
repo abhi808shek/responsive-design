@@ -117,6 +117,7 @@ export const addCommentOnPost = (commentDetails) => async (dispatch) => {
 };
 
 export const getCommentByPostid = (data, payload) => async (dispatch) => {
+  console.log("payload", payload)
   try {
     const response = await axios.get(
       `https://web.uynite.com/post/api/comment/${data}?${getQueryParams(
@@ -317,7 +318,7 @@ export const multipleImageUpload = (image) => async (dispatch) => {
 export const getListOfImagesByPiPT = () => async (dispatch) => {
   try {
     const getStoredData = await getUserDataFromLocalStorage();
-// doubt in this api
+    // doubt in this api
     const getImageListResult = await axios.get(
       `http://35.183.76.174:9098/post/api/image/getbyid/${profileid}/${profiletype}`,
       image,

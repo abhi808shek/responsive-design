@@ -130,6 +130,22 @@ export const getCommentsByPostid = (data) => async (dispatch) => {
   }
 };
 
+export const getCommentsReplyByPostid = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/instance/api/instancereply/${data}`
+    );
+    dispatch({
+      type: "COMMENTS_REPLY_LIST",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};
+
+
+
 export const createKicksPost = (data) => async (dispatch) => {
   try {
     const response = await axios.post(
@@ -167,6 +183,30 @@ export const addCommentOnKicks = (commentDetails) => async (dispatch) => {
     throw error;
   }
 };
+
+// add reply comments by
+export const addCommentReplyOnKicks = (commentReplyDetails) => async (dispatch) => {
+  try {
+    const getCommentReplyResult = await axios.post(
+      `https://web.uynite.com/instance/api/instancereply/add`,
+      commentReplyDetails,
+      {
+        headers: {
+          "Accept-Language": "en",
+        },
+      }
+    );
+    dispatch({
+      type: "",
+      payload: getCommentReplyResult?.data,
+    });
+    return getCommentReplyResult?.data;
+  } catch (error) {
+    throw error;
+  }
+};
+
+
 
 export const deletePostLike = (data) => async (dispatch) => {
   try {

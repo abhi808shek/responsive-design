@@ -5,12 +5,13 @@ const initialState = {
   friendsTab: " My Friends (5)",
   kicksType: "Following",
   totalComments: [],
+  totalReply: [],
   menuModalTab: "Nudity or Sexual activity",
   orgCategory: [],
   eventTabSelected: "Post",
   unionTab: "My Unions",
   unionFriendsTab: "Friends",
-  unionMembersTab:"Members"
+  unionMembersTab: "Members"
 };
 
 const userReducer = (state = initialState, action) => {
@@ -36,6 +37,11 @@ const userReducer = (state = initialState, action) => {
       return {
         ...state,
         totalComments: [...state.totalComments, action.payload],
+      };
+    case "ADD_REPLY":
+      return {
+        ...state,
+        totalReply: [...state.totalReply, action.payload],
       };
 
     case "GET_ORG_CATEGORY":
