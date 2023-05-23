@@ -1,16 +1,12 @@
 import React, { useState } from "react";
 import { CgSmileMouthOpen } from "react-icons/cg";
 
-const SearchComponent = ({
-  bgColor,
-  width,
-  placeholder,
-  classes,
-  icon,
-  handleChange,
-  inputValue,
-}) => {
-
+const SearchComponent = ({ bgColor, width, placeholder, classes, icon, handleInputChange, inputValue }) => {
+  const [state, setState] = useState('')
+  const handleChange = (e) => {
+    setState(e.target.value);
+    handleInputChange(e.target.value)
+  }
   return (
     <div
       className={`w-full h-[58px] flex items-center justify-center rounded-xl`}
@@ -40,7 +36,6 @@ const SearchComponent = ({
         </span>
       </div>
     </div>
-  );
-};
-
+  )
+}
 export default SearchComponent;
