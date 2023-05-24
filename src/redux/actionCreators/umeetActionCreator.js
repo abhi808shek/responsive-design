@@ -438,3 +438,18 @@ export const getProfileByEmail = (data) => async (dispatch) => {
     throw error;
   }
 };
+
+export const sendEmailInvites = (data) => async (dispatch) => {
+  try {
+    const response = await axios.post(
+       `https://web.uynite.com/login/api/user/sendemails`, data
+    );
+    console.log(response.data, "sendemailinvites", data);
+    dispatch({
+      type: "SEND_EMAIL_INVITES",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
+  }
+};

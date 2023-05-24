@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from 'react-redux'
 import { getProfileByEmail } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { toast } from 'react-toastify';
 
-const dataList = ['ak@gmail.com', 'pro@gmail.com', 'some@gmail.com', '+919345678902']
+const dataList = [];
 
 const AddByContactModal = ({ onClose }) => {
 	const [email, setEmail] = useState({
@@ -21,16 +21,16 @@ const AddByContactModal = ({ onClose }) => {
       [name]: value
     }))
   }
-console.log(umeetReducer.isEmailFound)
+
   const emailData = `${email.mail}@${email.extension}`
-  
+
   useEffect(()=>{    
     if(umeetReducer.isEmailFound == true){
       toast.success('User Email Found')
     }
-
+  
     umeetReducer.isEmailFound = false
-  }, [umeetReducer.isEmailFound])
+  }, [umeetReducer.isEmailFound, dataList])
 
   const handleEmailAdd = async ()=>{
     umeetReducer.isEmailFound = false
@@ -41,6 +41,12 @@ console.log(umeetReducer.isEmailFound)
       await dispatch(getProfileByEmail(emailData)).catch(err=>{
         toast.error(err.message)
       })
+      dataList.push(emailData)
+      // const filteredData = dataList.filter(item => item.includes(emailData))
+
+      // if(filteredData.length == 0){
+      //   dataList.push(emailData) 
+      // }
     } 
 
     umeetReducer.isEmailFound = false         
@@ -51,7 +57,7 @@ console.log(umeetReducer.isEmailFound)
   return (
     <div className='absolute fixe top-0 w-full z-20 h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.3)' }}>
 
-     <div className='w-[86%] md:w-[50%] lg:w-[39%] xl:w-[30%] 2xl:w-[25%] min-h-[87%] flex flex-col bg-white justify-between rounded-xl p-5'>
+     <div className='w-[86%] md:w-[50%] lg:w-[39%] xl:w-[30%] 2xl:w-[25%] h-[87%] flex flex-col bg-white justify-between rounded-xl p-5'>
       <div className=''>
        <div className='flex justify-between items-center border-b pb-2 text-gray-600'>
          <button className='px-4 py-1.5 text-sm rounded-md border text-[#649B8E] boredr-[#649B8E]'>Choose Classmate</button>
@@ -73,6 +79,7 @@ console.log(umeetReducer.isEmailFound)
          <input className='w-full outline-none bg-gray-200 border border-gray-200 rounded-lg h-9 pl-1' placeholder='9879867543' />
          <button className='px-4 py-1.5 text-sm rounded-md text-white ml-1 border bg-[#649B8E]'>Add</button>
         </div>
+        <section className='h-[200px] md:h-[250px] lg:h-[300px] hideScroll overflow-y-scroll'>
         <div className='mt-2 flex flex-wrap'>        
          {
           dataList.map((data, i)=>(
@@ -83,6 +90,7 @@ console.log(umeetReducer.isEmailFound)
           ))
          }
         </div>
+        </section>
        </div>            
       </div>
 

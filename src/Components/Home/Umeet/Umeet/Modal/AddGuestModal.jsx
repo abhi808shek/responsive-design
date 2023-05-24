@@ -25,7 +25,6 @@ const AddGuestModal = ({ onClose, handleEducation, education }) => {
 
   const dispatch = useDispatch()
   const { umeetReducer } = useSelector(state=>state)
-  console.log(umeetReducer)
 
   const ugPostData = {
    "ugaddress": null,

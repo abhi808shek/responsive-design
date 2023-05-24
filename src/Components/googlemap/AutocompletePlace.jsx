@@ -90,7 +90,8 @@ function Autocomplete({ livePlace, placeholder, value, types, handleChangeLocati
             className="border border-gray-300 border-1 py-2 rounded-md !static w-full"
             style={{
               boxSizing: `border-box`,
-              height: `32px`,
+              height: `39px`,
+              width: '100%',
               padding: `4px 12px`,
               fontSize: `14px`,
               outline: `none`,

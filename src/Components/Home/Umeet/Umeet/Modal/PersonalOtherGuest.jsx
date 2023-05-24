@@ -46,6 +46,7 @@ const dataList = [
 const PersonalOtherGuest = ({ onClose }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
+  const [selectedBy, setSelectedBy] = useState('Friends')
 
   const handleSelectAllChange = () => {
     setSelectAll(!selectAll);
@@ -55,18 +56,42 @@ const PersonalOtherGuest = ({ onClose }) => {
    setShowAddByContactModal(true)
   }
 
+  const handleSelected = (selected)=>{
+    setSelectedBy(selected)
+  }
+
   return (
     <div className='fixed top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
 
-     <div className={`w-[96%] md:w-[70%] lg:w-[45%] 2xl:w-[50%] md:h-[87%] flex flex-col justify-between bg-white rounded-xl p-3 lg:p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
+     <div className={`w-[96%] md:w-[70%] lg:w-[50%] 2xl:w-[50%] md:h-[87%] flex flex-col justify-between bg-white rounded-xl p-3 lg:p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
       <div className=''>
-       <div className='flex justify-start items-center text-[14px] lg:text-[16px] border-b pb-2 text-gray-600'>
-         <button className='px-5 py-1 rounded-md text-white border bg-[#649B8E]'>Friends</button>
-         <button className='px-5 py-1 rounded-md ml-2 border text-[#649B8E]'>Classmates</button>
-         <button className='px-5 py-1 rounded-md ml-2 border boredr-[#649B8E] text-[#649B8E]'>Relatives</button>
+       <div className='flex font-medium border-b justify-start items-center flex-wrap text-[14px] lg:text-[16px] pb-1 mb-1 text-gray-600'>
+         <button 
+         onClick={()=>handleSelected('Friends')} 
+         className={`${selectedBy == 'Friends' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 text-[#649B8E] rounded-md border`}>
+         Friends</button>
+         <button 
+         onClick={()=>handleSelected('Classmates')}  
+         className={`${selectedBy == 'Classmates' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border text-[#649B8E]`}>
+         Classmates</button>
+         <button 
+         onClick={()=>handleSelected('Relatives')}  
+         className={`${selectedBy == 'Relatives' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
+         Relatives</button>
+         <button 
+         onClick={()=>handleSelected('Officemates')}  
+         className={`${selectedBy == 'Officemates' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
+         Officemates</button>
+         <button 
+         onClick={()=>handleSelected('Unions')}  
+         className={`${selectedBy == 'Unions' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
+         Unions</button>
+         <button 
+         onClick={()=>handleSelected('Add by Email/Phone')}  
+         className={`${selectedBy == 'Add by Email/Phone' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 my-0.5 border boredr-[#649B8E] text-[#649B8E]`}>
+         Add by Email/Phone</button>
        </div>
        <div className=''>
-        <p className='py-2'>Graduation - QIS college of Engg & Tech, Tamilnadu</p>  
         <input type='search' className='h-7 p-2 h-8 outline-none border border-gray-300 w-full bg-gray-100 rounded-md' placeholder='Search....' />
         <div className='my-3 flex items-center'>
       	 <label className='text-[17px] text-gray-700 flex items-center'>

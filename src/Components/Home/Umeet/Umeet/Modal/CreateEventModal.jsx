@@ -25,7 +25,6 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     hostmailid: '',
     eventEndDate: '',
     aboutevent: '',
-    eventAddress: '',
   })
   const [inputType, setInputType] = useState('text');
   const [enabled, setEnabled] = useState(false)
@@ -36,7 +35,6 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
   const dispatch = useDispatch()
   const { profileReducer } = useSelector(state => state)
-console.log(eventMode)
   const phoneNumberRules = /[0-9]{10}$/;
 
   const handleToggle = () => {
@@ -108,7 +106,7 @@ console.log(eventMode)
     "id": uuidv4(),
     "aboutevent": formState.aboutevent
   }
-console.log(postData , 'postData')
+
   const handleCreateEvent = () => {
     if(!postData?.eventName) {
       return ToastWarning('Event name is required')
@@ -134,11 +132,7 @@ console.log(postData , 'postData')
       }
     })
   }
-  useEffect(()=>{
-    if(isValid !== true){
-      toast.error('email')
-    }
-  }, [isValid])
+
   return (
     <div className='lg:fullPage bg-white border-gray-300'>
       <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]'} border bg-white md:px-2 lg:px-3`}>
@@ -204,10 +198,10 @@ console.log(postData , 'postData')
 
           {/* <input name='eventAddress' onChange={handleChange} className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full`} placeholder='Location*' /> */}
           {(eventMode == 'location') && (          
-          <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} w-full flex justify-center`}>
+          <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} w-full my-3`}>
              <AutocompletePlace 
              livePlace={handleLocation} 
-             placeholder={'Location'} 
+             placeholder={'Location*'} 
              />
           </div>
           )}
@@ -224,7 +218,7 @@ console.log(postData , 'postData')
           <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
             <div>
               <select className='h-10 outline-none border-b bg-white px-6'>
-                <option>+91</option>
+                <option className=''>+91</option>
                 <option>USA</option>
               </select>
             </div>
@@ -258,8 +252,8 @@ console.log(postData , 'postData')
                 <option>Chat Type - Show</option>
               </>)
               }
-              <option>Guest List & Display to all</option>
-              <option>USA</option>
+              <option className={`${publicShopOpening ? 'hidden' : ''}`}>Guest List - Display to all</option>
+              <option className={`${publicShopOpening ? 'hidden' : ''}`}>Guest List - Display to host</option>
             </select>
           </div>
 

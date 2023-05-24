@@ -11,6 +11,7 @@ const initialState = {
   isEmailFound: false,
   ugFriends: [],
   pgFriends: [],
+  emailSendSuccess: false,
 };
 
 const umeetReducer = (state = initialState, action) => {
@@ -46,6 +47,10 @@ const umeetReducer = (state = initialState, action) => {
         return { ...state, ugFriends: action.payload.data }
       case "GET_PG_FRIENDS":
         return { ...state, pgFriends: action.payload.data }
+      case "SEND_EMAIL_INVITES":
+        if(action.payload.status){
+          return { ...state, emailSendSuccess: true}
+        }
       default:
         return state;
     }

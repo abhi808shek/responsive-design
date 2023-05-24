@@ -19,8 +19,6 @@ const AddPeopleModal = ({ onClose, education }) => {
     setSelectAll(!selectAll);
   }
 
-  console.log(education, umeetReducer)
-
   const handleAddByContactModal = ()=>{
    setShowAddByContactModal(true)
   }

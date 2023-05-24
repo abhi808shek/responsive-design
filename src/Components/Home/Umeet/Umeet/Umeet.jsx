@@ -64,8 +64,8 @@ export default function Umeet(){
   const [publicShopOpening, setPublicShopOpening] = useState(false)
 
   const dispatch = useDispatch()
-  const j = useSelector(state=>state)
-  console.log(j)
+  //const j = useSelector(state=>state)
+
   function EventStatus({ data }){
     if(noCreateEvent){
       return <BlankEvents event='Create Events' createEvent={createEvent} />
@@ -114,6 +114,7 @@ export default function Umeet(){
     setNoMyEvent(false)    
     setCreateEvent(false)
     setSelectedSpecificEvent(null)
+    setShowShareMyEvent(true)
   }
 
   const handleMyEvent = ()=>{

@@ -1,10 +1,30 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import notAttend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-NotAttending.png'
 import Attend from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import maybe from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
 import ToggleButton from './ToggleButton';
+import { createEvent, updateEvent, sendEmailInvites } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { useDispatch, useSelector } from 'react-redux'
+import { toast } from 'react-toastify'
 
 const EventShareModal = ({ onClose }) => {
+  const dispatch = useDispatch()
+  const { umeetReducer } = useSelector(state=>state)
+console.log(umeetReducer)
+  const handleShare = ()=>{
+    umeetReducer.emailSendSuccess = false
+    dispatch(sendEmailInvites({"eventname": "Birthday " , "umail" : "sumanreddy38@gmail.com" }))
+  }
+
+  useEffect(()=>{    
+    if(umeetReducer.emailSendSuccess){
+      onClose()
+      toast.success('Emails sended success!')
+    }       
+
+    return ()=>umeetReducer.emailSendSuccess = false 
+  }, [umeetReducer.emailSendSuccess])
+
   return (
   <section className='absolut fixed z-20 justify-center items-center top-0 left-0 h-full w-full flex' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
    <div className='w-[86%] md:w-[42%] lg:w-[36%] xl:w-[26%] flex flex-col justify-between p-3 bg-white md:ml-[9%] mt-[4%] rounded-2xl'>
@@ -18,7 +38,7 @@ const EventShareModal = ({ onClose }) => {
      <span className='w-1/6 pl-1'><ToggleButton /></span>
     </div>
     <div className='flex justify-center py-2'>
-     <button onClick={onClose} className='px-10 py-2 my-1 rounded-lg text-white border bg-[#649B8E]'>Share</button>
+     <button onClick={handleShare} className='px-10 py-2 my-1 rounded-lg text-white border bg-[#649B8E]'>Share</button>
     </div>
    </div>
   </section>
