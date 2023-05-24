@@ -11,11 +11,11 @@ import { getAllEvents, getEventList, getEventByProfileid, getEventDetails, getAl
 import EventLoadingAnimation from './EventLoadingAnimation'
  
 function EventStatus({ data }) {
-  if (data.eventstatus == 'attending') {
+  if (data?.eventstatus?.toLowerCase() == 'attending') {
     return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer' />
-  } else if (data.eventstatus == 'not attending') {
+  } else if (data?.eventstatus?.toLowerCase() == 'not attending') {
     return <img src={UmeetNotAttending} className='h-10 w-10 cursor-pointer' />
-  } else if (data.eventstatus == 'pending') {
+  } else if (data?.eventstatus?.toLowerCase() == 'pending') {
     return <img src={Umeetmaybe} className='h-10 w-10 cursor-pointer' />
   } else if(data?.eventstatus?.toLowerCase() == 'completed'){
     return <button className='px-0.5 lg:px-2 py-0.5 text-[10px] lg:text-[12px] rounded border-gray-500 text-gray-700 border mr-1'>completed</button>
@@ -23,8 +23,10 @@ function EventStatus({ data }) {
 }
 
 const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
-  myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent }) => {
+  myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent,
+  isInvitedAll }) => {
   const [showDetail, setShowDetail] = useState(false)
+  const [invitedEvents, setInvitedEvents] = useState([])
 
   const dispatch = useDispatch()
 
@@ -33,17 +35,22 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
       profile: state?.profileReducer?.profile,
       allEvents: state?.umeetReducer?.allEvents?.slice(1, 10),
       allMyEvents: state?.umeetReducer?.allMyEvents?.slice(1, 10),
-      allInvitedEvents: state?.umeetReducer?.allInvitedEvents?.slice(0, 15),
+      allInvitedEvents: state?.umeetReducer?.allInvitedEvents?.slice(0, 20),
     }
   });
 
   const { profile, allEvents, allMyEvents, allInvitedEvents } = reducerData
 
-  useEffect(() => {
-    //dispatch(getEventList(profile?.userid))
+  useEffect(() => {    
     dispatch(getEventByProfileid(profile?.userid))
     dispatch(getAllInvitedEvents(profile?.userid))
-    //dispatch(getAllEvents(profile?.id))    
+
+    if(allInvitedEvents && allInvitedEvents !== 0){
+       const d = allInvitedEvents.filter(data=>{
+       return (data?.eventdetail?.eventstatus?.toLowerCase() !== ('completed' || 'cancel'))       
+      })
+      setInvitedEvents(d)
+    }
   }, [])
 
   const handleBothDetails = (id)=>{
@@ -105,8 +112,32 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
           </>
         ) : (
           <>
-            {(allInvitedEvents.length !== 0) ?
-              allInvitedEvents?.map((data, i) => (
+            {(invitedEvents && allInvitedEvents.length !== 0) ?
+              (isInvitedAll == 'All Events') ? allInvitedEvents?.map((data, i) => (
+                <div key={i} onClick={()=>handleBothDetails(data?.eventdetail.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
+                  {/* Img section */}
+                  <div className='w-4/12 fle h-[75px] items-center justify-center'>
+                    <img src={data?.eventdetail?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
+                  </div>
+                  {/* center section */}
+                  <section className='w-6/12 pl-2'>
+                    <div className='flex w-full flex-col'>
+                      <p className='text-[#649b8e] font-medium text-[14px]'>{data?.eventdetail?.eventName}</p>
+                      <span className='text-gray-600 text-[12px]'>{data?.eventdetail?.eventdateAndTime}</span>
+                      <span className='text-[12px] text-gray-600'>Hosted by:<strong className='text-gray-800'> {data?.eventdetail?.host}</strong></span>
+                      {
+                        data.eventstatus && data.eventstatus !== 'completed' ? (
+                          <span className='text-[12px] text-gray-600'>Status:<strong className='text-gray-800'> {data?.eventdetail?.eventstatus}</strong></span>
+                        ) : null
+                      }
+                    </div>
+                  </section>
+                  {/* End status section */}
+                  <div className='w-2/12 flex items-center justify-center'>
+                    <EventStatus data={data?.eventdetail} handleEventDetails={handleEventDetails} />
+                  </div>
+                </div>
+              )): (invitedEvents && invitedEvents.length != 0) && invitedEvents?.map((data, i) => (
                 <div key={i} onClick={()=>handleBothDetails(data?.eventdetail.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
                   {/* Img section */}
                   <div className='w-4/12 fle h-[75px] items-center justify-center'>

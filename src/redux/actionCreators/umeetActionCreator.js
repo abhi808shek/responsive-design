@@ -259,6 +259,7 @@ export const getAllEvents = (data) => async (dispatch) => {
       payload: response.data,
     });
   } catch (error) {
+    console.log('jd')
     throw error;
   }
 };
@@ -418,6 +419,7 @@ export const getAllInvitedEvents = (data) => async (dispatch) => {
       payload: response.data,
     });
   } catch (error) {
+    console.log('jd2')
     throw error;
   }
 };

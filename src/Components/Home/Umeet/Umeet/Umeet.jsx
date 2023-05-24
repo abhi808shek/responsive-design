@@ -1,7 +1,7 @@
 import BlankEvents from './BlankEvents'
 import { HiPlus } from 'react-icons/hi'
-import { BsCalendarEvent } from 'react-icons/bs'
-import { useState } from 'react'
+import { BsCalendarEvent, BsInfoCircleFill } from 'react-icons/bs'
+import { useState, useEffect } from 'react'
 import { dataList, myEventDataList, selectEventList, selectPersonalEventType, selectPublicEventType, selectPoliticalEventType } from '../data'
 import SingleEvent from './SingleEvent'
 import '../Umeet.css'
@@ -19,6 +19,8 @@ import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
 import PersonalOtherGuest from './Modal/PersonalOtherGuest'
 import ViewFeedbacks from './Modal/ViewFeedbacks'
+import { getCountryList } from "../../../../redux/actionCreators/authActionCreator"
+import { useDispatch, useSelector } from 'react-redux'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -44,6 +46,8 @@ export default function Umeet(){
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
   const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
   const [showFeedbackModule, setShowFeedbackModule] = useState(false)
+  
+  const [isInvitedAll, setIsInvitedAll] = useState('Events')
 
   const [state, setState] = useState({})
   const { templateImage }  = state
@@ -59,6 +63,9 @@ export default function Umeet(){
   const [politicalPartyMeeting, setPoliticalPartyMeeting] = useState(false)
   const [publicShopOpening, setPublicShopOpening] = useState(false)
 
+  const dispatch = useDispatch()
+  const j = useSelector(state=>state)
+  console.log(j)
   function EventStatus({ data }){
     if(noCreateEvent){
       return <BlankEvents event='Create Events' createEvent={createEvent} />
@@ -78,6 +85,7 @@ export default function Umeet(){
               politicalPartyMeeting={politicalPartyMeeting}
               publicShopOpening={publicShopOpening}
               handlePersonalOtherModal={()=>setShowAddGroupPersonalOthers(true)}
+              
               />
     }else if(eventCreated){
       return <SuccessCreate />
@@ -130,6 +138,10 @@ export default function Umeet(){
     setState({...state, templateImage: url})
   }
 
+  const handleEventSelectChange = (event) => {
+    setIsInvitedAll(event.target.value);
+  }
+
   const handleEventDetails = (idData)=>{
     setNoCreateEvent(false)
     setCreateEvent(false)
@@ -145,6 +157,10 @@ export default function Umeet(){
       setSelectedImage(URL.createObjectURL(image));
     }
   };
+
+  useEffect(()=>{
+    dispatch(getCountryList())
+  }, [])
   
   const handleSelectEventType = ( data )=>{
     setSelectSpecificEvent(true)
@@ -201,6 +217,11 @@ export default function Umeet(){
        <RxChevronLeft onClick={()=>setSelectSpecificEvent(false)} className='text-[#649B8E] w-8 h-7 flex items-center cursor-pointer'/>
        <p className='font-semibold mb- w-full flex justify-center'>Create<span className='text-[#579586] pl-1'>Event</span></p>
       </div>
+      {whichType == 'personal' && (<div className='flex justify-center items-center my-1 text-gray-700'>
+        <BsInfoCircleFill className='h-5 w-5 text-gray-500'/>
+        <span className='ml-1'>By Friends, Relatives, Classmates,..</span>
+      </div>)
+      }
       {
       selectEventType.map((data,i)=>(
        <div key={i} onClick={()=>handleCreateEventForm(data)} className='bg-[#BEFEEE] hover:bg-[#69E4C5] border border-gray-300 animation duration-300 cursor-pointer rounded-xl my-3 p-1 flex'>
@@ -252,7 +273,7 @@ export default function Umeet(){
         </div>
         <div className='flex justify-end text-sm items-center my-2 mr-5'>
          <span className='text-gray-600'>view by:</span>
-         <select className='h-8 outline-none bg-white mx-2 px-6 rounded border-gray-400 border'>
+         <select onChange={handleEventSelectChange} value={isInvitedAll} className='h-8 outline-none bg-white mx-2 px-6 rounded border-gray-400 border'>
           <option>Events</option>
           <option>All Events</option>
          </select>
@@ -268,6 +289,7 @@ export default function Umeet(){
         handleDeleteEvent={()=>setShowDeleteMyEvent(true)} 
         handleEditEvent={handleEditEvent}
         handleSingleEventDetail={handleEventDetails}
+        isInvitedAll={isInvitedAll}
         />
       </div>
      </section>
@@ -313,8 +335,9 @@ export default function Umeet(){
      {showAddGroup && <AddGuestModal education={education} handleEducation={(eduData)=>setEducation(eduData)} onClose={()=>setShowAddGroup(false)} />}
      {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={()=>setShowAddGroupPersonalOthers(false)} />}
      {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
-     {showPoliticalFeedbackQuestionModal&& <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
-     {showFeedbackModule&& <ViewFeedbacks onClose={()=>setShowFeedbackModule(false)} />}
+     {showPoliticalFeedbackQuestionModal && <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
+     {showFeedbackModule && <ViewFeedbacks onClose={()=>setShowFeedbackModule(false)} />}
+     
     </div>
   )
 }
