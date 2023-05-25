@@ -8,57 +8,60 @@ import '../../Umeet.css'
 import AddByContactModal from './AddByContactModal'
 import group from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 
-const dataList = [
-  {
-    name: "Smith",
-    img: person
-  },
-  {
-    name: "Russel",
-    img: person
-  },
-  {
-    name: "De-Villiers",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
-  {
-    name: "Ajaykumar",
-    img: person
-  },
+const friendDataList = [
+  {id: 1,name: "Smith",img: person,checked: false},{name: "jd",img: person,checked: false},{name: "Ak",img: person,checked: false},
+]
+
+const classmatesDataList = [
+  {name: "Smith1",img: person,checked: false},{name: "jd1",img: person,checked: false},{name: "Ak1",img: person,checked: false},
+]
+
+
+const relativesDataList = [
+  {name: "Smith2",img: person,checked: false},{name: "jd2",img: person,checked: false},{name: "Ak1",img: person,checked: false},
+]
+
+const officematesDataList = [
+  {name: "Smith3",img: person,checked: false},{name: "jd3",img: person,checked: false},{name: "Ak1",img: person,checked: false},
+]
+
+const unionsDataList = [
+  {name: "Smith4",img: person,checked: false},{name: "jd4",img: person,checked: false},{name: "Ak1",img: person,checked: false},
 ]
 
 const PersonalOtherGuest = ({ onClose }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
   const [selectedBy, setSelectedBy] = useState('Friends')
+  const [dataList, setDataList] = useState([])
 
-  const handleSelectAllChange = () => {
-    setSelectAll(!selectAll);
+  const handleSelected = (select)=>{
+    setSelectedBy(select)
   }
 
   const handleAddByContactModal = ()=>{
    setShowAddByContactModal(true)
   }
 
-  const handleSelected = (selected)=>{
-    setSelectedBy(selected)
-  }
+  // Function to handle checkbox change
+  const handleCheckboxChange = (index) => {
+    const updatedCheckboxes = [...dataList];
+    updatedCheckboxes[index].checked = !updatedCheckboxes[index].checked;
+    setDataList(updatedCheckboxes);
+
+    const allChecked = updatedCheckboxes.every((checkbox) => checkbox.checked);
+    setSelectAll(allChecked);
+  };
+
+  // Function to handle "Select All" checkbox change
+  const handleSelectAllChange = () => {
+    const updatedCheckboxes = dataList.map((checkbox) => ({
+      ...checkbox,
+      checked: !selectAll,
+    }));
+    setDataList(updatedCheckboxes);
+    setSelectAll(!selectAll);
+  };
 
   return (
     <div className='fixed top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
@@ -67,23 +70,23 @@ const PersonalOtherGuest = ({ onClose }) => {
       <div className=''>
        <div className='flex font-medium border-b justify-start items-center flex-wrap text-[14px] lg:text-[16px] pb-1 mb-1 text-gray-600'>
          <button 
-         onClick={()=>handleSelected('Friends')} 
+         onClick={()=>{ handleSelected('Friends'); setDataList(friendDataList) }} 
          className={`${selectedBy == 'Friends' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 text-[#649B8E] rounded-md border`}>
          Friends</button>
          <button 
-         onClick={()=>handleSelected('Classmates')}  
+         onClick={()=>{ handleSelected('Classmates'); setDataList(classmatesDataList) }}  
          className={`${selectedBy == 'Classmates' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border text-[#649B8E]`}>
          Classmates</button>
          <button 
-         onClick={()=>handleSelected('Relatives')}  
+         onClick={()=>{ handleSelected('Relatives'); setDataList(relativesDataList) }}  
          className={`${selectedBy == 'Relatives' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
          Relatives</button>
          <button 
-         onClick={()=>handleSelected('Officemates')}  
+         onClick={()=>{ handleSelected('Officemates'); setDataList(officematesDataList) }}  
          className={`${selectedBy == 'Officemates' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
          Officemates</button>
          <button 
-         onClick={()=>handleSelected('Unions')}  
+         onClick={()=>{ handleSelected('Unions'); setDataList(unionsDataList) }}  
          className={`${selectedBy == 'Unions' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
          Unions</button>
          <button 
@@ -104,16 +107,18 @@ const PersonalOtherGuest = ({ onClose }) => {
     	</div>
     	<div className='h-[190px] md:h-[205px] lg:h-[288px] 2xl:h-[320px] hideScroll overflow-y-scroll'>
     	{
-    	 dataList.map((data, i)=>(
+    	 dataList?.map((data, i)=>(
     	  <div key={i} className='flex items-center mb-2 lg:mb-3'>    	   
     	   <div className='w-1/6'>
-    	    <img src={data.img} className='w-10 h-10 rounded-full object-cover' />
+    	    <img src={data?.img} className='w-10 h-10 rounded-full object-cover' />
     	   </div>
     	   <span className='w-4/6 font-medium text-[15px]'>{data.name}</span>
     	   <div className='w-1/6 flex justify-end'>
-    	    {selectAll ? <img src={selectedimg} className='h-6 w-6'/> :
-    	     <input type="checkbox" className='w-4 h-4' />
-    	    }
+    	     <input 
+            type="checkbox"
+            checked={data.checked}
+            onChange={() => handleCheckboxChange(i)}
+            className='w-4 h-4' />
     	   </div>
     	  </div>
     	 ))

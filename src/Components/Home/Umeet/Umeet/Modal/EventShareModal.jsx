@@ -10,15 +10,28 @@ import { toast } from 'react-toastify'
 const EventShareModal = ({ onClose }) => {
   const dispatch = useDispatch()
   const { umeetReducer } = useSelector(state=>state)
-console.log(umeetReducer)
+
   const handleShare = ()=>{
     umeetReducer.emailSendSuccess = false
-    dispatch(sendEmailInvites({"eventname": "Birthday " , "umail" : "sumanreddy38@gmail.com" }))
+
+    async function processShare(array) {
+      for (let i = 0; i < array.length; i++) {
+      
+      const object = array[i];
+
+      await dispatch(sendEmailInvites({
+        "eventname": umeetReducer?.createData?.eventName , 
+        "umail" : object }))
+      }
+    } 
+
+    processShare(umeetReducer.inviteEmailsUI)
+
+    onClose()          
   }
 
   useEffect(()=>{    
-    if(umeetReducer.emailSendSuccess){
-      onClose()
+    if(umeetReducer.emailSendSuccess){      
       toast.success('Emails sended success!')
     }       
 

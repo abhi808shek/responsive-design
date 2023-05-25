@@ -19,8 +19,9 @@ import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
 import PersonalOtherGuest from './Modal/PersonalOtherGuest'
 import ViewFeedbacks from './Modal/ViewFeedbacks'
-import { getCountryList } from "../../../../redux/actionCreators/authActionCreator"
+import { getEventByProfileid, getAllInvitedEvents, getEventDetails } from "../../../../redux/actionCreators/umeetActionCreator"
 import { useDispatch, useSelector } from 'react-redux'
+import AddPeopleModal from './Modal/AddPeopleModal'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -46,7 +47,8 @@ export default function Umeet(){
   const [showPoliticalAddGroup, setShowPoliticalAddGroup] = useState(false)
   const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
   const [showFeedbackModule, setShowFeedbackModule] = useState(false)
-  
+  const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
+
   const [isInvitedAll, setIsInvitedAll] = useState('Events')
 
   const [state, setState] = useState({})
@@ -64,7 +66,7 @@ export default function Umeet(){
   const [publicShopOpening, setPublicShopOpening] = useState(false)
 
   const dispatch = useDispatch()
-  //const j = useSelector(state=>state)
+  const { umeetReducer, profileReducer } = useSelector(state => state)
 
   function EventStatus({ data }){
     if(noCreateEvent){
@@ -85,7 +87,7 @@ export default function Umeet(){
               politicalPartyMeeting={politicalPartyMeeting}
               publicShopOpening={publicShopOpening}
               handlePersonalOtherModal={()=>setShowAddGroupPersonalOthers(true)}
-              
+              handleShowAddPeopleModal={handleShowAddPeopleModal}
               />
     }else if(eventCreated){
       return <SuccessCreate />
@@ -135,6 +137,10 @@ export default function Umeet(){
     setSelectedSpecificEvent(false)
   }
 
+  const handleShowAddPeopleModal = ()=>{
+    setShowAddPeopleModal(true)
+  }
+
   const handleTemplateImage = (url) => {
     setState({...state, templateImage: url})
   }
@@ -152,16 +158,18 @@ export default function Umeet(){
     setSingleEvent(idData)
   }
 
+  const handleBothDetails = (id)=>{
+    console.log(id)
+    handleEventDetails(id)
+    dispatch(getEventDetails(id))
+  }  
+
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
       setSelectedImage(URL.createObjectURL(image));
     }
   };
-
-  useEffect(()=>{
-    dispatch(getCountryList())
-  }, [])
   
   const handleSelectEventType = ( data )=>{
     setSelectSpecificEvent(true)
@@ -177,7 +185,13 @@ export default function Umeet(){
     }
   }
 
+  useEffect(() => {    
+    dispatch(getEventByProfileid(profileReducer?.profile?.userid))
+    dispatch(getAllInvitedEvents(profileReducer?.profile?.userid))
+  }, [dispatch])  
+
   const handleCreateEventForm = (data)=>{
+    umeetReducer.inviteEmailsUI = null
     setNoCreateEvent(false)
     setCreateEvent(true)
     setEditMyEvent(false)
@@ -291,6 +305,7 @@ export default function Umeet(){
         handleEditEvent={handleEditEvent}
         handleSingleEventDetail={handleEventDetails}
         isInvitedAll={isInvitedAll}
+        handleBothDetails={handleBothDetails}
         />
       </div>
      </section>
@@ -329,16 +344,43 @@ export default function Umeet(){
 
       <EventStatus />
      </section>
-     {showDeleteMyEvent && <EventDeleteModal onClose={()=>setShowDeleteMyEvent(false)} />}
-     {showShareMyEvent && <EventShareModal onClose={()=>setShowShareMyEvent(false)} />}
-     {showRvspModal && <RvspModal onClose={()=>setShowRvspModal(false)} />}
-     {showTemplate && <ChooseTemplate onClose={()=>setShowTemplate(false)} saveTemplate={handleTemplateImage} handleImageChange={handleImageChange} />}
-     {showAddGroup && <AddGuestModal education={education} handleEducation={(eduData)=>setEducation(eduData)} onClose={()=>setShowAddGroup(false)} />}
-     {showAddGroupPersonalOthers && <PersonalOtherGuest onClose={()=>setShowAddGroupPersonalOthers(false)} />}
-     {showPoliticalAddGroup && <PoliticalGuestAddModal onClose={()=>setShowPoliticalAddGroup(false)} />}  
-     {showPoliticalFeedbackQuestionModal && <PoliticalFeedbackQuestion onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
-     {showFeedbackModule && <ViewFeedbacks onClose={()=>setShowFeedbackModule(false)} />}
-     
+     {showDeleteMyEvent && 
+      <EventDeleteModal 
+      onClose={()=>setShowDeleteMyEvent(false)} />}
+     {showShareMyEvent && 
+      <EventShareModal 
+      onClose={()=>setShowShareMyEvent(false)} />}
+     {showRvspModal && 
+      <RvspModal 
+      onClose={()=>setShowRvspModal(false)} />}
+     {showTemplate && 
+      <ChooseTemplate onClose={()=>setShowTemplate(false)} 
+      saveTemplate={handleTemplateImage} 
+      handleImageChange={handleImageChange} />}
+     {showAddGroup && 
+      <AddGuestModal 
+      education={education} 
+      handleEducation={(eduData)=>setEducation(eduData)} 
+      onClose={()=>setShowAddGroup(false)} 
+      handleShowAddPeopleModal={handleShowAddPeopleModal}
+      showAddPeopleModal={showAddPeopleModal}
+      handlePeopleModalClose={()=>setShowAddPeopleModal(false)} />}
+     {showAddGroupPersonalOthers && 
+      <PersonalOtherGuest 
+      onClose={()=>setShowAddGroupPersonalOthers(false)} />}
+     {showPoliticalAddGroup && 
+      <PoliticalGuestAddModal 
+      onClose={()=>setShowPoliticalAddGroup(false)} />}  
+     {showPoliticalFeedbackQuestionModal && 
+      <PoliticalFeedbackQuestion 
+      onClose={()=>setShowPoliticalFeedbackQuestionModal(false)} />}
+     {showFeedbackModule && 
+      <ViewFeedbacks 
+      onClose={()=>setShowFeedbackModule(false)} />}
+     {showAddPeopleModal && 
+      <AddPeopleModal 
+      education={education} 
+      handlePeopleModalClose={()=>setShowAddPeopleModal(false)} />}
     </div>
   )
 }

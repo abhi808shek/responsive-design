@@ -7,10 +7,12 @@ import editImg from '../../../../Assets/Images/Edit profile.png'
 import deleteImg from '../../../../Assets/Images/Delete.png'
 import shareImg from '../../../../Assets/Images/External share.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { getAllEvents, getEventList, getEventByProfileid, getEventDetails, getAllInvitedEvents } from '../../../../redux/actionCreators/umeetActionCreator'
+import { getAllEvents, getEventList, 
+getEventByProfileid, getEventDetails, 
+getAllInvitedEvents } from '../../../../redux/actionCreators/umeetActionCreator'
 import EventLoadingAnimation from './EventLoadingAnimation'
  
-function EventStatus({ data }) {
+function EventStatus({ data, handleBothDetails }) {
   if (data?.eventstatus?.toLowerCase() == 'attending') {
     return <img src={UmeetAttending} className='h-10 w-10 cursor-pointer' />
   } else if (data?.eventstatus?.toLowerCase() == 'not attending') {
@@ -24,12 +26,7 @@ function EventStatus({ data }) {
 
 const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
   myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent,
-  isInvitedAll }) => {
-  const [showDetail, setShowDetail] = useState(false)
-  const [invitedEvents, setInvitedEvents] = useState([])
-
-  const dispatch = useDispatch()
-
+  isInvitedAll, handleBothDetails }) => {
   const reducerData = useSelector((state) => {
     return {
       profile: state?.profileReducer?.profile,
@@ -41,23 +38,36 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
 
   const { profile, allEvents, allMyEvents, allInvitedEvents } = reducerData
 
-  useEffect(() => {    
-    dispatch(getEventByProfileid(profile?.userid))
-    dispatch(getAllInvitedEvents(profile?.userid))
+  const [showDetail, setShowDetail] = useState(false)
+  const [invitedEvents, setInvitedEvents] = useState(allInvitedEvents)
 
-    if(allInvitedEvents && allInvitedEvents !== 0){
-       const d = allInvitedEvents.filter(data=>{
-       return (data?.eventdetail?.eventstatus?.toLowerCase() !== ('completed' || 'cancel'))       
-      })
-      setInvitedEvents(d)
-    }
+  const dispatch = useDispatch()
+
+
+
+  useEffect(() => { 
+     
+    // if(allInvitedEvents && allInvitedEvents !== 0){
+      //  const d = allInvitedEvents.filter(data=>{
+      //  return (data?.eventdetail?.eventstatus?.toLowerCase() !== ('completed' || 'cancel'))       
+      // })
+      //  console.log('ok google', d)
+      // setInvitedEvents(d)
+    // }
+  const filterArray = () => {
+    const filteredResult = allInvitedEvents.filter(item => 
+      (item?.eventdetail?.eventstatus?.toLowerCase() !== 'completed') 
+    );
+    setInvitedEvents(filteredResult);
+  }
+  filterArray()    
   }, [])
 
-  const handleBothDetails = (id)=>{
-    console.log(id)
-    handleEventDetails(id)
-    dispatch(getEventDetails(id))
-  }
+  // const handleBothDetails = (id)=>{
+  //   console.log(id)
+  //   handleEventDetails(id)
+  //   dispatch(getEventDetails(id))
+  // }
 
   return (
     <>

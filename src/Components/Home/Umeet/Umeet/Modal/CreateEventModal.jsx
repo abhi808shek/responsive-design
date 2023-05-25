@@ -2,7 +2,7 @@ import upload from '../../../../../Assets/Images/upload.jpeg'
 import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
-import { createEvent, updateEvent } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { createEvent, updateEvent, handleCreateDataUI } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import AutocompletePlace from '../../../../googlemap/AutocompletePlace';
@@ -15,7 +15,9 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   handleCreatedEvent, handleShowTemplate, handleShowAddGroup,
   handleShowAddPoliticalGroup, whichType, politicalPartyFeedback,
   politicalPartyMeeting, handlePoliticalFeedbackQuestion,
-  publicShopOpening, handlePersonalOtherModal }) => {
+  publicShopOpening, handlePersonalOtherModal, handleShowAddPeopleModal }) => {
+
+  const { profileReducer, umeetReducer } = useSelector(state => state)
 
   const [formState, setFormState] = useState({
     eventName: '',
@@ -34,7 +36,6 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   const [isValid, setIsValid] = useState(true);
 
   const dispatch = useDispatch()
-  const { profileReducer } = useSelector(state => state)
   const phoneNumberRules = /[0-9]{10}$/;
 
   const handleToggle = () => {
@@ -133,6 +134,36 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     })
   }
 
+  const handleEditAdd = async()=>{
+    await dispatch(handleCreateDataUI({...postData, eventMode}))
+    handleShowAddPeopleModal()
+  }
+
+  const handleGroupAndCreate = async()=>{    
+    await dispatch(handleCreateDataUI({...postData, eventMode}))
+    handleShowGroup()
+  }
+
+  const handleEventCreate = async()=>{
+    await dispatch(handleCreateDataUI({...postData, eventMode}))
+    handleCreateEvent()
+  }
+
+  useEffect(()=>{
+    if(umeetReducer.createData){
+      setEventMode(umeetReducer.createData.eventMode)
+      setFormState((prev) => ({
+       ...prev,
+       eventName: umeetReducer.createData.eventName,
+       eventAddress: umeetReducer.createData.eventAddress,
+       eventHostPhnNumber: umeetReducer.createData.eventHostPhnNumber,
+       hostmailid: umeetReducer.createData.hostmailid,
+       aboutevent: umeetReducer.createData.aboutevent,
+      }))       
+    }
+
+  }, [umeetReducer?.createData])
+
   return (
     <div className='lg:fullPage bg-white border-gray-300'>
       <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]'} border bg-white md:px-2 lg:px-3`}>
@@ -168,12 +199,25 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           </div>
           <span onClick={handleShowTemplate} className='flex cursor-pointer justify-center py-2 text-[#649B8E]'>Select Template</span>
           <input 
-          name='eventName' 
-          onChange={handleChange} 
-          className='border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100'
+           name='eventName' 
+           onChange={handleChange}
+           value={formState.eventName} 
+           className='border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100'
            placeholder='Event Title*' />
-          <input name='eventdateAndTime' type={inputType} onClick={handleToggle} onChange={handleChange} className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' placeholder='Start Date & Time*' />
-          <input name='eventEndDate' type={inputType} onClick={handleToggle} onChange={handleChange} className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' placeholder='End Date & Time*' />
+          <input            
+           name='eventdateAndTime' 
+           type={inputType} 
+           onClick={handleToggle} 
+           onChange={handleChange} 
+           className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' 
+           placeholder='Start Date & Time*' />
+          <input 
+           name='eventEndDate' 
+           type={inputType} 
+           onClick={handleToggle} 
+           onChange={handleChange} 
+           className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' 
+           placeholder='End Date & Time*' />
           <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
             <span className='font-bold text-xl text-gray-600'>Event Mode</span>
             <div className='px-6 flex items-center'>
@@ -208,7 +252,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           {(eventMode == 'online') && (          
           <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''}`}>
             <input 
-             name='eventAddress' 
+             name='eventAddress'
+             value={formState.eventAddress} 
              onChange={handleChange} 
              className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100 focus:border`} 
              placeholder='Enter url*' 
@@ -234,15 +279,20 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
           <input 
            type='email' 
-           name='hostmailid' 
+           name='hostmailid'
+           value={formState.hostmailid} 
            onChange={handleChange} 
            className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100`} 
            placeholder='Host Mail Id' 
           />
 
-          <div className='flex items-center my-2'>
-            <img onClick={handleShowGroup} src={guest} className='cursor-pointer' />
-            <label onClick={handleShowGroup} className='pl-5 cursor-pointer text-[#649B8E]'>Add Guests</label>
+          <div className='flex justify-between items-center my-2'>
+           <div className='flex items-center'>
+            <img src={guest} />
+            <label onClick={handleGroupAndCreate} className={`${umeetReducer.inviteEmailsUI ? 'hidden' : ''} pl-5 cursor-pointer text-[#649B8E]`}>Add Guests</label>
+            <label onClick={handleEditAdd} className={`${umeetReducer.inviteEmailsUI ? '' : 'hidden'} pl-5 cursor-pointer text-[#649B8E]`}>{umeetReducer?.inviteEmailsUI?.length} Guests Added</label>
+           </div>
+           <span onClick={handleEditAdd} className={`${umeetReducer.inviteEmailsUI ? '' : 'hidden'} cursor-pointer text-[#649B8E] border border-[#649B8E] px-2 py-0.5 rounded-md`}>Edit List</span>
           </div>
 
           <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b`}>
@@ -273,12 +323,21 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
             </div>
           }
           <label className=''>About Event</label>
-          <textarea name='aboutevent' onChange={handleChange} rows='3' placeholder='say something...' className='w-full outline-none my-2 rounded-xl relative border p-2' />
+          <textarea 
+           name='aboutevent' 
+           onChange={handleChange} 
+           rows='3' 
+           value={formState.aboutevent}
+           placeholder='say something...' 
+           className='w-full text-gray-700 outline-none my-2 rounded-xl relative border p-2' />
 
           <div className={`${politicalPartyFeedback ? '' : 'hidden'} `}>
             <p onClick={handlePoliticalFeedbackQuestion} className='py-2 font-bold text-[18px] cursor-pointer text-[#519d8b]'>Create Your Question</p>
             <label className=''>Your Question</label>
-            <textarea placeholder='What about it?' rows='3' className='w-full outline-none my-2 rounded-xl relative border p-2' />
+            <textarea 
+             placeholder='What about it?' 
+             rows='3' 
+             className='w-full outline-none my-2 rounded-xl relative border p-2' />
           </div>
 
           <div className={`${politicalPartyFeedback ? '' : 'hidden'} flex my-7 justify-between`}>
@@ -291,7 +350,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           <div className='flex flex-col my-1'>
             {editMyEvent ?
               <button onClick={() => dispatch(updateEvent(postData))} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>Update</button>
-              : <button onClick={handleCreateEvent} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
+              : <button onClick={handleEventCreate} className='py-2.5 my-2 text-[17px] rounded-lg text-white font-semibold bg-[#649B8E] '>send</button>
             }
             <button className='py-2 text-[17px] rounded-lg font-semibold border border-[#649B8E]'>Cancel</button>
           </div>

@@ -453,3 +453,26 @@ export const sendEmailInvites = (data) => async (dispatch) => {
     throw error;
   }
 };
+
+export const handleInviteEmailUI = (data) => async (dispatch) => {
+  try {
+    dispatch({
+      type: "SEND_INVITE_EMAIL_UI",
+      payload: data,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+};
+
+export const handleCreateDataUI = (data) => async (dispatch) => {
+  try {
+    console.log(data, 'ok dude')
+    dispatch({
+      type: "CREATE_DATA_UI",
+      payload: data,
+    })
+  } catch (error) {
+    console.log(error)
+  }
+};

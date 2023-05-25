@@ -9,7 +9,7 @@ import AddByContactModal from './AddByContactModal'
 import group from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useSelector } from 'react-redux'
 
-const AddPeopleModal = ({ onClose, education }) => {
+const AddPeopleModal = ({ onClose, education, handlePeopleModalClose }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
 
@@ -34,7 +34,7 @@ const AddPeopleModal = ({ onClose, education }) => {
   }, [])
 
   return (
-    <div className='absolute fixe top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+    <div className='absolut fixed top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
 
      <div className={`w-[96%] md:w-[70%] lg:w-[45%] 2xl:w-[50%] md:h-[87%] flex flex-col justify-between bg-white rounded-xl p-3 lg:p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
       <div className=''>
@@ -79,7 +79,7 @@ const AddPeopleModal = ({ onClose, education }) => {
         <img src={group} className='h-9 w-9 mr-3 mt-2.5' />
         <div className='w-5/6'>
          <button className='w-full py-1 rounded-xl text-white mt-2.5 border border-[#649B8E] bg-[#649B8E]'>Save</button>       
-         <button onClick={onClose} className='w-full py-1 my-1 rounded-xl border border-[#649B8E] text-[#649B8E]'>Cancel</button> 
+         <button onClick={handlePeopleModalClose} className='w-full py-1 my-1 rounded-xl border border-[#649B8E] text-[#649B8E]'>Cancel</button> 
         </div>
       </section>
      </div>  

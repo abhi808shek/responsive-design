@@ -47,9 +47,9 @@ const EventDetails = ({
   
   const eventDetail = umeetReducer.eventDetail
 
-  useEffect(() => {
-    dispatch(getEventDetails(singleEvent));
-  }, []);
+  // useEffect(() => {
+  //   dispatch(getEventDetails(singleEvent));
+  // }, []);
   
   const handleDetails = ()=>{
     setDetails(true)

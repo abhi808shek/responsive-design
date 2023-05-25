@@ -1,7 +1,6 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { useState, useEffect } from 'react'
-import AddPeopleModal from './AddPeopleModal'
 import { useDispatch, useSelector } from 'react-redux'
 import { getAllUgFriends, getAllPgFriends } from '../../../../../redux/actionCreators/umeetActionCreator'
 
@@ -20,9 +19,8 @@ const dataList = [
   },
 ]
 
-const AddGuestModal = ({ onClose, handleEducation, education }) => {
-  const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
-
+const AddGuestModal = ({ onClose, handleEducation, education,
+  handleShowAddPeopleModal, showAddPeopleModal, handlePeopleModalClose }) => {  
   const dispatch = useDispatch()
   const { umeetReducer } = useSelector(state=>state)
 
@@ -40,13 +38,13 @@ const AddGuestModal = ({ onClose, handleEducation, education }) => {
    "pgpassyear": null,
   }  
 
-  const handleShowAddPeopleModal = (qualification)=>{
-    setShowAddPeopleModal(true)
-    if(qualification.toLowerCase() == 'graduation'){      
+  const handleAddPeople = (qualification)=>{
+    handleShowAddPeopleModal()
+    if(qualification?.toLowerCase() == 'graduation'){      
       handleEducation('ug')
-    }else if(qualification.toLowerCase().includes('post')){      
+    }else if(qualification?.toLowerCase().includes('post')){      
       handleEducation('pg')
-    }else if(qualification.toLowerCase().includes('school')){
+    }else if(qualification?.toLowerCase().includes('school')){
       handleEducation('school')
     }
   }
@@ -68,7 +66,7 @@ const AddGuestModal = ({ onClose, handleEducation, education }) => {
       </div>
       {
         dataList?.map((data, i)=>(
-          <div key={i} onClick={()=>handleShowAddPeopleModal(data.qualification)} className='flex cursor-pointer justify-between py-3 px-3 items-center border-t'>
+          <div key={i} onClick={()=>handleAddPeople(data.qualification)} className='flex cursor-pointer justify-between py-3 px-3 items-center border-t'>
            <div className='flex flex-col w-5/6'>
             <span className='font-medium text-gray-800'>{data.qualification}</span>
             <span className='text-gray-600 text-[15px]'>{data.address}</span>
@@ -77,8 +75,7 @@ const AddGuestModal = ({ onClose, handleEducation, education }) => {
           </div>
         ))
       }              
-     </div>
-     {showAddPeopleModal && <AddPeopleModal education={education} onClose={()=>setShowAddPeopleModal(false)} />}
+     </div>     
     </div>
   )
 }
