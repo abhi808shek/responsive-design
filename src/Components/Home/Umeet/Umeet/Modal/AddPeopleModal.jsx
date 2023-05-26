@@ -5,13 +5,14 @@ import wishes from '../../../../../Assets/Images/Umeet/wishesTemplate.webp'
 import selectedimg from '../../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import person from '../../../../../Assets/Images/Person.jpg'
 import '../../Umeet.css'
-import AddByContactModal from './AddByContactModal'
+// import AddByContactModal from './AddByContactModal'
 import group from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useSelector } from 'react-redux'
 
-const AddPeopleModal = ({ onClose, education, handlePeopleModalClose }) => {
+const AddPeopleModal = ({ onClose, education, handlePeopleModalClose,
+handleAddByContactModal, showAddByContactModal }) => {
   const [selectAll, setSelectAll] = useState(false);
-  const [showAddByContactModal, setShowAddByContactModal] = useState(false)
+  // const [showAddByContactModal, setShowAddByContactModal] = useState(false)
 
   const { umeetReducer } = useSelector(state=>state)
 
@@ -19,9 +20,9 @@ const AddPeopleModal = ({ onClose, education, handlePeopleModalClose }) => {
     setSelectAll(!selectAll);
   }
 
-  const handleAddByContactModal = ()=>{
-   setShowAddByContactModal(true)
-  }
+  // const handleAddByContactModal = ()=>{
+  //  setShowAddByContactModal(true)
+  // }
 
   let dataList = [];
 
@@ -34,7 +35,7 @@ const AddPeopleModal = ({ onClose, education, handlePeopleModalClose }) => {
   }, [])
 
   return (
-    <div className='absolut fixed top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+    <div className='absolut fixed top-0 z-20 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
 
      <div className={`w-[96%] md:w-[70%] lg:w-[45%] 2xl:w-[50%] md:h-[87%] flex flex-col justify-between bg-white rounded-xl p-3 lg:p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
       <div className=''>
@@ -83,7 +84,7 @@ const AddPeopleModal = ({ onClose, education, handlePeopleModalClose }) => {
         </div>
       </section>
      </div>  
-     {showAddByContactModal && <AddByContactModal onClose={()=>setShowAddByContactModal(false)} />}
+     {/*{showAddByContactModal && <AddByContactModal onClose={()=>setShowAddByContactModal(false)} />}*/}
     </div>
   )
 }

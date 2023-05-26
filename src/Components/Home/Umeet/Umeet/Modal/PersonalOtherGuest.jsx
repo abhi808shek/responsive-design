@@ -29,7 +29,7 @@ const unionsDataList = [
   {name: "Smith4",img: person,checked: false},{name: "jd4",img: person,checked: false},{name: "Ak1",img: person,checked: false},
 ]
 
-const PersonalOtherGuest = ({ onClose }) => {
+const PersonalOtherGuest = ({ onClose, handleAddByContactModal }) => {
   const [selectAll, setSelectAll] = useState(false);
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
   const [selectedBy, setSelectedBy] = useState('Friends')
@@ -39,9 +39,9 @@ const PersonalOtherGuest = ({ onClose }) => {
     setSelectedBy(select)
   }
 
-  const handleAddByContactModal = ()=>{
-   setShowAddByContactModal(true)
-  }
+  // const handleAddByContactModal = ()=>{
+  //  setShowAddByContactModal(true)
+  // }
 
   // Function to handle checkbox change
   const handleCheckboxChange = (index) => {
@@ -64,7 +64,7 @@ const PersonalOtherGuest = ({ onClose }) => {
   };
 
   return (
-    <div className='fixed top-8 w-full h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
+    <div className='fixed top-0 w-full z-20 h-full flex justify-center items-center' style={{ backgroundColor: 'rgba(0, 0, 0, 0.2)' }}>
 
      <div className={`w-[96%] md:w-[70%] lg:w-[50%] 2xl:w-[50%] md:h-[87%] flex flex-col justify-between bg-white rounded-xl p-3 lg:p-5 ${showAddByContactModal ? '-z-10' : ''}`}>
       <div className=''>
@@ -90,7 +90,9 @@ const PersonalOtherGuest = ({ onClose }) => {
          className={`${selectedBy == 'Unions' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 border boredr-[#649B8E] text-[#649B8E]`}>
          Unions</button>
          <button 
-         onClick={()=>handleSelected('Add by Email/Phone')}  
+         onClick={()=>{
+          handleSelected('Add by Email/Phone')
+          handleAddByContactModal() }}  
          className={`${selectedBy == 'Add by Email/Phone' ? 'bg-[#649B8E] text-white' : ''} px-1 py-1 rounded-md ml-1 my-0.5 border boredr-[#649B8E] text-[#649B8E]`}>
          Add by Email/Phone</button>
        </div>

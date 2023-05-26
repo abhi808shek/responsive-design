@@ -15,7 +15,7 @@ const EventShareModal = ({ onClose }) => {
     umeetReducer.emailSendSuccess = false
 
     async function processShare(array) {
-      for (let i = 0; i < array.length; i++) {
+      for (let i = 0; i < array?.length; i++) {
       
       const object = array[i];
 

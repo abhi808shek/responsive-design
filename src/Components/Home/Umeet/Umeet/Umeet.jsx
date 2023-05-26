@@ -22,6 +22,7 @@ import ViewFeedbacks from './Modal/ViewFeedbacks'
 import { getEventByProfileid, getAllInvitedEvents, getEventDetails } from "../../../../redux/actionCreators/umeetActionCreator"
 import { useDispatch, useSelector } from 'react-redux'
 import AddPeopleModal from './Modal/AddPeopleModal'
+import AddByContactModal from './Modal/AddByContactModal'
 
 export default function Umeet(){
   const [selected, SetSelected] = useState(false)
@@ -48,6 +49,7 @@ export default function Umeet(){
   const [showPoliticalFeedbackQuestionModal, setShowPoliticalFeedbackQuestionModal] = useState(false)
   const [showFeedbackModule, setShowFeedbackModule] = useState(false)
   const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
+  const [showAddByContactModal, setShowAddByContactModal] = useState(false)
 
   const [isInvitedAll, setIsInvitedAll] = useState('Events')
 
@@ -90,7 +92,7 @@ export default function Umeet(){
               handleShowAddPeopleModal={handleShowAddPeopleModal}
               />
     }else if(eventCreated){
-      return <SuccessCreate />
+      return <SuccessCreate handleBothDetails={handleBothDetails}/>
     }else if(eventDetails){
       return <EventDetails 
               handleEditEvent={handleEditEvent} 
@@ -103,6 +105,10 @@ export default function Umeet(){
               />
     }
   }
+
+  const handleAddByContactModal = ()=>{
+   setShowAddByContactModal(true)
+  }  
 
   const handleEditEvent = ()=>{
     setEventDetails(false)
@@ -192,6 +198,7 @@ export default function Umeet(){
 
   const handleCreateEventForm = (data)=>{
     umeetReducer.inviteEmailsUI = null
+    umeetReducer.createData = null
     setNoCreateEvent(false)
     setCreateEvent(true)
     setEditMyEvent(false)
@@ -367,6 +374,7 @@ export default function Umeet(){
       handlePeopleModalClose={()=>setShowAddPeopleModal(false)} />}
      {showAddGroupPersonalOthers && 
       <PersonalOtherGuest 
+      handleAddByContactModal={handleAddByContactModal}
       onClose={()=>setShowAddGroupPersonalOthers(false)} />}
      {showPoliticalAddGroup && 
       <PoliticalGuestAddModal 
@@ -380,7 +388,12 @@ export default function Umeet(){
      {showAddPeopleModal && 
       <AddPeopleModal 
       education={education} 
+      handleAddByContactModal={handleAddByContactModal}
+      showAddByContactModal={showAddByContactModal}
       handlePeopleModalClose={()=>setShowAddPeopleModal(false)} />}
+      {showAddByContactModal && 
+       <AddByContactModal 
+       onClose={()=>setShowAddByContactModal(false)} />}
     </div>
   )
 }

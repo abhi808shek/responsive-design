@@ -124,7 +124,7 @@ const PoliticalGuestAddModal = ({ onClose }) => {
   };
   return (
     <div
-      className="absolut fixed top-8 left-0 h-full w-full flex justify-center items-center"
+      className="absolut fixed top-0 z-20 left-0 h-full w-full flex justify-center items-center"
       style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
     >
       <div className="w-[96%] md:w-[60%] lg:w-[40%] xl:w-[30%] h-[80%] bg-white rounded-xl p-3">
