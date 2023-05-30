@@ -30,26 +30,19 @@ const responsive = {
 };
 
 const EventDetails = ({
-  myEvent,
-  handleDeleteEvent,
-  handleEditEvent,
-  handleShareEvent,
-  handleRvspModal,
-  singleEvent,
-  handleFeedbacks
-}) => {
+  myEvent, handleDeleteEvent, handleEditEvent,
+  handleShareEvent, handleRvspModal, singleEvent,
+  handleFeedbacks }) => {
   const [details, setDetails] = useState(true);
   const [guests, setGuests] = useState(false);
   const [chat, setChat] = useState(false);
 
+console.log(details, guests, chat)
+
   const dispatch = useDispatch();
   const { umeetReducer } = useSelector(state=>state)
   
-  const eventDetail = umeetReducer.eventDetail
-
-  // useEffect(() => {
-  //   dispatch(getEventDetails(singleEvent));
-  // }, []);
+  const eventDetail = umeetReducer?.eventDetail
   
   const handleDetails = ()=>{
     setDetails(true)
@@ -58,20 +51,19 @@ const EventDetails = ({
   }
 
   const handleGuests = () => {
-    setDetails(false);
-    setGuests(true);
-    setChat(false);
+    setGuests(true)
+    setDetails(false)    
+    setChat(false)
   };
 
   const handleChat = () => {
-    setDetails(false);
-    setGuests(false);
-    setChat(true);
-    dispatch(getAllEventChatMessage(umeetReducer.eventDetail.id))
+    setChat(true)
+    setDetails(false)
+    setGuests(false)      
   };
 
   function RenderStatus() {
-    if (details)
+    if (details){
       return (
         <DetailsOfEvent
           myEvent={myEvent}
@@ -80,15 +72,17 @@ const EventDetails = ({
           handleShareEvent={handleShareEvent}
           handleFeedbacks={handleFeedbacks}
           eventDetail={eventDetail}
-        />
-      );
-    else if (guests) return <EventGuests />;
-    else if (chat) return <EventChat chatMessages={umeetReducer.eventChatMessages} />;
+        />)
+    }else if(guests){
+     return <EventGuests />;
+    }else if(chat){
+     return <EventChat />;
+    }     
   }
 
   return (
     <section
-      className={`w-full mr-1 flex items-center ${chat ? "mb-3" : "mb-12"}`}
+      className={`w-full mr-1 flex items-center ${chat ? "mb-3" : "mb-12"} `}
     >
       <div className="w-[96%] lg:w-[60%] flex flex-col items-center">
         <div className="p-3 w-full bg-white rounded-xl">

@@ -1,10 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-function ToggleButton() {
+function ToggleButton({ handleFoodCreate }) {
   const [isOn, setIsOn] = useState(true);
 
   const handleClick = () => {
     setIsOn(prevState => !prevState);
+    handleFoodCreate(!isOn)
   };
 
   return (

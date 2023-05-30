@@ -107,7 +107,7 @@ const PersonalOtherGuest = ({ onClose, handleAddByContactModal }) => {
           className='w-5 h-5 mr-2'
           />Select All</label>
     	</div>
-    	<div className='h-[190px] md:h-[205px] lg:h-[288px] 2xl:h-[320px] hideScroll overflow-y-scroll'>
+    	<div className='h-[190px] md:h-[205px] lg:h-[288px] 2xl:h-[320px] hideScrol overflow-y-scroll pr-2'>
     	{
     	 dataList?.map((data, i)=>(
     	  <div key={i} className='flex items-center mb-2 lg:mb-3'>    	   

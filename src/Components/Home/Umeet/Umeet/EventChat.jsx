@@ -1,12 +1,13 @@
-import { useState, useEffect } from 'react'
+import React,{ useState, useEffect } from 'react'
 import Send from '../../../../Assets/Images/Umeet/Umeet-Main/U-Send.png'
 import { BsCamera, BsImage } from 'react-icons/bs'
 import '../Umeet.css'
 import person from '../../../../Assets/Images/Person.jpg'
 import { useDispatch, useSelector } from 'react-redux'
 import { addEventMessage, getAllEventChatMessage } from '../../../../redux/actionCreators/umeetActionCreator'
+import axios from 'axios'
 
-export default function EventChat({ chatMessages }) {
+const EventChat = ()=>{
   const [postMessage, setPostmessage] = useState("")
   const [messages, setMessages] = useState([
     {
@@ -26,7 +27,9 @@ export default function EventChat({ chatMessages }) {
     },
   ]);
 
-  console.log(chatMessages, 'chatMessages')
+
+  const dispatch = useDispatch()
+  const { umeetReducer } = useSelector(state=>state)
   
   const sendMessage = (message) => {
     const newMessage = {
@@ -41,6 +44,16 @@ export default function EventChat({ chatMessages }) {
     dispatch(addEventMessage({ message: postMessage }))
     sendMessage(postMessage);
   }
+
+  useEffect(()=>{
+    //dispatch(getAllEventChatMessage(umeetReducer?.eventDetail?.id))
+    (async function getMessages(){
+    const response = await axios.get(
+      `https://web.uynite.com/event/api/eventmessage/getallmessage/${umeetReducer?.eventDetail?.id}`
+    );
+    console.log(response)
+    })()
+  }, [])
 
   return (
     <div className="flex flex-col h-[580px] border rounded-lg pt-2 overflow-hidden border-gray-400 w-full">
@@ -111,3 +124,5 @@ function ChatBubble({ message, sender, timestamp }) {
     </div>
   );
  }
+
+ export default React.memo(EventChat)

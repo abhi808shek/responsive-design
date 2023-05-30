@@ -93,17 +93,17 @@ export const selectEventList = [
  {
    img: Personal,
    title: 'Personal',
-   events: 'Birthday, ReUnion, Anniversary etc. With Friends, Relatives, Classmates & Officemates'
+   events: 'Birthday, ReUnion, Anniversary etc.. With Friends, Relatives, Classmates & Officemates'
  },
  {
    img: Public,
    title: 'Public',
-   events: 'Shop Opening, Product Launch, Public Meetings etc., By City, State & Country'
+   events: 'Shop Opening, Product Launch, Public Meetings etc.. By City, State & Country'
  },
  {
    img: Political,
    title: 'Political',
-   events: 'Party Meeting, Feedbacks With Party or Candidates etc., By Assembly, Lok Sabha, State & Country'
+   events: 'Party Meeting, Feedbacks With Party or Candidates etc.. By Assembly, Lok Sabha, State & Country'
  },
 ]
 
@@ -118,7 +118,7 @@ export const selectPersonalEventType = [
  },
  {
    img: MarriagePersonal,
-   event: 'Marriage'
+   event: 'Wedding'
  },
  {
    img: AnniversaryPersonal,
@@ -126,7 +126,7 @@ export const selectPersonalEventType = [
  },
  {
    img: BabyShowerPersonal,
-   event: 'BabyShower'
+   event: 'Baby Shower'
  },
  {
    img: OthersPersonal,
@@ -164,11 +164,11 @@ export const selectPoliticalEventType = [
  },
  {
    img: PartyFeedbacksPolitical,
-   event: 'Party Feedbacks'
+   event: 'Party Feedback'
  },
  {
    img: PartyCandidatesFeedbackPolitical,
-   event: 'Party Candidates Feedback'
+   event: 'Party Candidate Feedback'
  },
  // {
  //   img: PoliticalPolitical,

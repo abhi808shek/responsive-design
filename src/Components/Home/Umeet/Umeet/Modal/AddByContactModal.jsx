@@ -74,7 +74,7 @@ const AddByContactModal = ({ onClose }) => {
      <div className='w-[86%] md:w-[50%] lg:w-[39%] xl:w-[30%] 2xl:w-[25%] h-[87%] flex flex-col bg-white justify-between rounded-xl p-5'>
       <div className=''>
        <div className='flex justify-between items-center border-b pb-2 text-gray-600'>
-         <button onClick={onClose} className='px-4 py-1.5 text-sm rounded-md border text-[#649B8E] boredr-[#649B8E]'>Choose Classmate</button>
+         <button onClick={onClose} className='px-4 py-1.5 text-sm rounded-md border text-[#649B8E] boredr-[#649B8E]'>Choose by Others</button>
          <button className='px-4 py-1.5 text-sm rounded-md text-white ml-5 border bg-[#649B8E]'>Add by Email/Phone</button>
        </div>
        <div className=''>        

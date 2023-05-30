@@ -366,10 +366,10 @@ export const getAllEventChatMessage = (data) => async (dispatch) => {
       `https://web.uynite.com/event/api/eventmessage/getallmessage/${data}`
     );
     console.log(response, "eventmessages");
-    dispatch({
-      type: "EVEVT_CHAT_DETAIL",
-      payload: response.data,
-    });
+    // dispatch({
+    //   type: "EVEVT_CHAT_DETAIL",
+    //   payload: response.data,
+    // });
   } catch (error) {
     throw error;
   }

@@ -50,6 +50,7 @@ export default function Umeet(){
   const [showFeedbackModule, setShowFeedbackModule] = useState(false)
   const [showAddPeopleModal, setShowAddPeopleModal] = useState(false)
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
+  const [reunionModal, setReunionModal] = useState(true)
 
   const [isInvitedAll, setIsInvitedAll] = useState('Events')
 
@@ -90,6 +91,8 @@ export default function Umeet(){
               publicShopOpening={publicShopOpening}
               handlePersonalOtherModal={()=>setShowAddGroupPersonalOthers(true)}
               handleShowAddPeopleModal={handleShowAddPeopleModal}
+              showAddGroup={showAddGroup}
+              reunionModal={reunionModal}              
               />
     }else if(eventCreated){
       return <SuccessCreate handleBothDetails={handleBothDetails}/>
@@ -194,7 +197,7 @@ export default function Umeet(){
   useEffect(() => {    
     dispatch(getEventByProfileid(profileReducer?.profile?.userid))
     dispatch(getAllInvitedEvents(profileReducer?.profile?.userid))
-  }, [dispatch])  
+  }, [])  
 
   const handleCreateEventForm = (data)=>{
     umeetReducer.inviteEmailsUI = null
@@ -203,12 +206,12 @@ export default function Umeet(){
     setCreateEvent(true)
     setEditMyEvent(false)
     setSelectedSpecificEvent(data.event)
-    if(data.event == 'Party Feedbacks'){
+    if(data.event == 'Party Feedback'){
       setPoliticalPartyFeedback(true)
     }else if(data.event == 'Party Meeting'){
       setPoliticalPartyMeeting(true)
       setPoliticalPartyFeedback(false)
-    }else if(data.event == 'Party Candidates Feedback'){
+    }else if(data.event == 'Party Candidate Feedback'){
       setPoliticalPartyFeedback(true)
     }else if(data.event == 'Shop Opening'){
       setPoliticalPartyMeeting(false)
@@ -224,6 +227,8 @@ export default function Umeet(){
       setPublicShopOpening(true)
     }else if(data.event == 'Public Feedback'){
       setPoliticalPartyFeedback(true)
+    }else if(data.event == 'Re-Union'){
+      setReunionModal(true)
     }else{
       setPoliticalPartyFeedback(false)
       setPoliticalPartyMeeting(false)
@@ -237,16 +242,21 @@ export default function Umeet(){
      <div className='w-full h-full bg-teal-50 p-3 overflow-y-scroll hideScroll'>
       <div className='flex'>
        <RxChevronLeft onClick={()=>setSelectSpecificEvent(false)} className='text-[#649B8E] w-8 h-7 flex items-center cursor-pointer'/>
-       <p className='font-semibold mb- w-full flex justify-center'>Create<span className='text-[#579586] pl-1'>Event</span></p>
+       <p className='font-semibold text-[17px] mb- w-full flex justify-center'>Create<span className='text-[#579586] pl-1'>Event</span></p>
       </div>
-      {whichType == 'personal' && (<div className='flex justify-center items-center my-1 text-gray-700'>
+      {whichType == 'personal' && (<div className='flex ml-5 justify-center my-1 text-gray-700'>
         <BsInfoCircleFill className='h-5 w-5 text-gray-500'/>
-        <span className='ml-1'>By Friends, Relatives, Classmates,..</span>
+        <span className='ml-1 text-[14px]'>By Friends, Relatives, Classmates, Officemates, Unions & Add Email</span>
+      </div>)
+      }
+      {whichType == 'public' && (<div className='flex ml-5 justify-center my-1 text-gray-700'>
+        <BsInfoCircleFill className='h-5 w-5 text-gray-500'/>
+        <span className='ml-1 text-[14px]'>By Email, City, State & Country</span>
       </div>)
       }
       {
       selectEventType.map((data,i)=>(
-       <div key={i} onClick={()=>handleCreateEventForm(data)} className='bg-[#BEFEEE] hover:bg-[#69E4C5] border border-gray-300 animation duration-300 cursor-pointer rounded-xl my-3 p-1 flex'>
+       <div key={i} onClick={()=>handleCreateEventForm(data)} className='bg-white hover:bg-teal-100 border border-[#659b8e] animation duration-150 cursor-pointer rounded-xl my-2.5 p-1.5 flex'>
         <div className='w-2/6 flex justify-center items-center'>
           <img src={data.img} className='h-12 w-12' />
         </div>
@@ -263,10 +273,10 @@ export default function Umeet(){
   function SelectEvent(){
     return (
       <div className='w-full h-full bg-teal-50 p-3'>
-      <p className='font-semibold mb-2 flex justify-center'>Select<span className='text-[#579586] pl-1'>Event</span></p>
+      <p className='font-semibold mb-2 text-[17px] flex justify-center'>Select<span className='text-[#579586] pl-1'>Event</span></p>
       {
       selectEventList.map((data,i)=>(
-       <div key={i} onClick={()=>handleSelectEventType(data)} className='bg-[#BEFEEE] hover:bg-[#69E4C5] animation duration-300 cursor-pointer rounded-2xl my-1.5 p-1 flex min-h-[110px]'>
+       <div key={i} onClick={()=>handleSelectEventType(data)} className='bg-white hover:bg-teal-100 animation duration-150 cursor-pointer rounded-2xl my-2 p-1.5 flex border border-[#659b8e] min-h-[110px]'>
         <div className='w-2/6 flex justify-center items-center'>
          <div className='rounded-full border-[3px] flex justify-center items-center h-20 w-20 p-2.5 border-[#579586]'>
           <img src={data.img} className='p-1' />
@@ -286,7 +296,7 @@ export default function Umeet(){
   function AllEvents({ handleEditEvent }){
 
     return (
-     <section className='border overflow-y-scroll hideScroll border-gray-400 bg-white rounded mr-2 w-full h-full'>
+     <section className='border overflow-y-scroll hideScrol border-gray-400 bg-white rounded mr-2 w-full h-full'>
       {/* */}
       <div>
         <div className='flex justify-center font-medium my-2 mt-3'>
@@ -298,6 +308,10 @@ export default function Umeet(){
          <select onChange={handleEventSelectChange} value={isInvitedAll} className='h-8 outline-none bg-white mx-2 px-6 rounded border-gray-400 border'>
           <option>Events</option>
           <option>All Events</option>
+          <option>Inprogress Events</option>
+          <option>Upcoming Events</option>
+          <option>Cancelled Events</option>
+          <option>Completed Events</option>
          </select>
         </div>
       </div>
@@ -320,7 +334,7 @@ export default function Umeet(){
   }
 
   return (
-    <div className={`flex flex-col-reverse md:flex-row bg-[#e4e7ec] relative md:fullCover overflow-y-scroll hideScroll`}>
+    <div className={`flex flex-col-reverse md:flex-row bg-[#e4e7ec] relative md:fullCover overflow-y-scroll hideScrol`}>
       {/* Left All Events page */}
      <section className={`${(eventDetails || selectedSpecificEvent) ? 'hidden md:flex' : ''} border relative md:fullPage rounded md:mr-2 w-full md:w-[46%] lg:w-2/6 md:mt-[46px]`}>
       {
@@ -351,6 +365,7 @@ export default function Umeet(){
 
       <EventStatus />
      </section>
+
      {showDeleteMyEvent && 
       <EventDeleteModal 
       onClose={()=>setShowDeleteMyEvent(false)} />}
@@ -368,7 +383,7 @@ export default function Umeet(){
       <AddGuestModal 
       education={education} 
       handleEducation={(eduData)=>setEducation(eduData)} 
-      onClose={()=>setShowAddGroup(false)} 
+      onClose={()=>{setShowAddGroup(false); setReunionModal(false)} }
       handleShowAddPeopleModal={handleShowAddPeopleModal}
       showAddPeopleModal={showAddPeopleModal}
       handlePeopleModalClose={()=>setShowAddPeopleModal(false)} />}

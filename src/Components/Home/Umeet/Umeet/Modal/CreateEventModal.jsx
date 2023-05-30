@@ -15,7 +15,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   handleCreatedEvent, handleShowTemplate, handleShowAddGroup,
   handleShowAddPoliticalGroup, whichType, politicalPartyFeedback,
   politicalPartyMeeting, handlePoliticalFeedbackQuestion,
-  publicShopOpening, handlePersonalOtherModal, handleShowAddPeopleModal }) => {
+  publicShopOpening, handlePersonalOtherModal, handleShowAddPeopleModal,
+  showAddGroup, reunionModal, handleReuinion }) => {
 
   const { profileReducer, umeetReducer } = useSelector(state => state)
 
@@ -34,6 +35,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   const [previewEvent, setPreviewEvent] = useState(false)
   const [eventMode, setEventMode] = useState('location')
   const [isValid, setIsValid] = useState(true);
+  const [isVeg, setIsveg] = useState(true)
+  const [foodType, setFoodType] = useState('veg')
+  const [inputValue, setInputValue] = useState('');
+  const [characterCount, setCharacterCount] = useState(0);
 
   const dispatch = useDispatch()
   const phoneNumberRules = /[0-9]{10}$/;
@@ -60,12 +65,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   }
 
   const handleShowGroup = () => {
-    if (whichType == 'personal') {
-      if (selectedSpecificEvent == 'Re-Union') {
-        handleShowAddGroup()
-      } else {
-        handlePersonalOtherModal()
-      }
+    if (whichType == 'personal' && (selectedSpecificEvent != 'Re-Union')) {
+      handlePersonalOtherModal()
     }
     else if (whichType == 'political') handleShowAddPoliticalGroup()
     else if (whichType == 'public') handleShowAddPoliticalGroup()
@@ -149,23 +150,38 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     handleCreateEvent()
   }
 
+  const handleInputChange = (event) => {
+    const input = event.target.value;
+    if (input.length <= 200) {
+      setInputValue(input);
+      setCharacterCount(input.length);
+    } else {
+      setInputValue(input.slice(0, 200));
+      setCharacterCount(200);
+    }
+  };
+
   useEffect(()=>{
-    if(umeetReducer.createData){
-      setEventMode(umeetReducer.createData.eventMode)
+    if(selectedSpecificEvent == 'Re-Union' && reunionModal) {
+      handleShowAddGroup()      
+    }
+
+    if(umeetReducer?.createData){
+      setEventMode(umeetReducer?.createData?.eventMode)
       setFormState((prev) => ({
        ...prev,
-       eventName: umeetReducer.createData.eventName,
-       eventAddress: umeetReducer.createData.eventAddress,
-       eventHostPhnNumber: umeetReducer.createData.eventHostPhnNumber,
-       hostmailid: umeetReducer.createData.hostmailid,
-       aboutevent: umeetReducer.createData.aboutevent,
+       eventName: umeetReducer?.createData?.eventName,
+       eventAddress: umeetReducer?.createData?.eventAddress,
+       eventHostPhnNumber: umeetReducer?.createData?.eventHostPhnNumber,
+       hostmailid: umeetReducer?.createData?.hostmailid,
+       aboutevent: umeetReducer?.createData?.aboutevent,
       }))       
     }
 
-  }, [umeetReducer?.createData])
+  }, [umeetReducer?.createData, showAddGroup])
 
   return (
-    <div className='lg:fullPage bg-white border-gray-300'>
+    <div className='lg:fullPage pb-16 lg:pb-3 bg-white border-gray-300'>
       <div className={`${editMyEvent ? 'lg:w-[65%]' : 'w-full md:w-[96%]'} border bg-white md:px-2 lg:px-3`}>
        <section className='flex justify-between items-center'>
         {
@@ -178,8 +194,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
         <div className='px-7'>
           {editMyEvent ? (
             <select className='h-10 my-1 outline-none w-full border-b bg-white text-gray-600'>
-              <option>Guest List & Display to all</option>
-              <option>USA</option>
+              <option>Guest List - Display to all</option>
+              <option>Guest List - Display only to Host</option>
             </select>
           ) : (
             <>
@@ -202,21 +218,21 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
            name='eventName' 
            onChange={handleChange}
            value={formState.eventName} 
-           className='border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100'
+           className='border-b border-gray-300 h-10 my-2 w-full focus:outline-none'
            placeholder='Event Title*' />
           <input            
            name='eventdateAndTime' 
            type={inputType} 
            onClick={handleToggle} 
            onChange={handleChange} 
-           className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' 
+           className='border-b focus:outline-none h-10 my-2 w-full text-gray-500' 
            placeholder='Start Date & Time*' />
           <input 
            name='eventEndDate' 
            type={inputType} 
            onClick={handleToggle} 
            onChange={handleChange} 
-           className='border-b focus:outline-blue-100 focus:border h-10 my-2 w-full text-gray-500' 
+           className='border-b focus:outline-none h-10 my-2 w-full text-gray-500' 
            placeholder='End Date & Time*' />
           <div className={`${(politicalPartyFeedback || publicShopOpening) ? 'hidden' : ''} my-2 flex items-center`}>
             <span className='font-bold text-xl text-gray-600'>Event Mode</span>
@@ -244,8 +260,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           {(eventMode == 'location') && (          
           <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} w-full my-3`}>
              <AutocompletePlace 
-             livePlace={handleLocation} 
-             placeholder={'Location*'} 
+              livePlace={handleLocation} 
+              placeholder={'Location*'} 
              />
           </div>
           )}
@@ -255,14 +271,14 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
              name='eventAddress'
              value={formState.eventAddress} 
              onChange={handleChange} 
-             className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100 focus:border`} 
+             className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-none`} 
              placeholder='Enter url*' 
             />
           </div>
           )}          
           <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
             <div>
-              <select className='h-10 outline-none border-b bg-white px-6'>
+              <select className='h-10 outline-none border-b bg-white pr-6 text-gray-500'>
                 <option className=''>+91</option>
                 <option>USA</option>
               </select>
@@ -282,7 +298,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
            name='hostmailid'
            value={formState.hostmailid} 
            onChange={handleChange} 
-           className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-blue-100`} 
+           className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} border-b border-gray-300 h-10 my-2 w-full focus:outline-none`} 
            placeholder='Host Mail Id' 
           />
 
@@ -295,7 +311,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
            <span onClick={handleEditAdd} className={`${umeetReducer.inviteEmailsUI ? '' : 'hidden'} cursor-pointer text-[#649B8E] border border-[#649B8E] px-2 py-0.5 rounded-md`}>Edit List</span>
           </div>
 
-          <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b`}>
+          <div className={`${(politicalPartyFeedback || politicalPartyMeeting) ? 'hidden' : ''} border-b my-3 mb-6`}>
             <select className='h-10 outline-none w-full border-b bg-white text-gray-600'>
               {publicShopOpening && (<>
                 <option>Chat Type - Hide</option>
@@ -303,16 +319,26 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
               </>)
               }
               <option className={`${publicShopOpening ? 'hidden' : ''}`}>Guest List - Display to all</option>
-              <option className={`${publicShopOpening ? 'hidden' : ''}`}>Guest List - Display to host</option>
+              <option className={`${publicShopOpening ? 'hidden' : ''}`}>Guest List - Display only to host</option>
             </select>
           </div>
 
-          <div className={`${((eventMode == 'online') || politicalPartyFeedback) ? 'hidden' : ''} flex my-7 justify-between`}>
+          <div className={`${((eventMode == 'online') || politicalPartyFeedback) ? 'hidden' : ''} flex my-4 justify-between`}>
             <span className='text-gray-700'>Food Availability</span>
             <div className="">
-              <ToggleButton />
+              <ToggleButton 
+               handleFoodCreate={(value)=>setIsveg(value)} />
             </div>
           </div>
+          {isVeg && (
+            <div className={`${((eventMode == 'online') || politicalPartyFeedback) ? 'hidden' : ''} mb-3 w-full`}>
+              <select value={foodType} onChange={(e)=>setFoodType(e.target.value)} className='w-full h-10 bg-white outline-none text-gray-500 rounded-md border'>
+                <option value='veg'>Veg</option>
+                <option value='non-veg'>Non-Veg</option>
+                <option value='veg & non-veg'>Veg & Non-Veg</option>
+              </select>
+            </div>
+          )}
 
           {editMyEvent &&
             <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex my-7 justify-between`}>
@@ -322,14 +348,16 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
               </div>
             </div>
           }
-          <label className=''>About Event</label>
-          <textarea 
-           name='aboutevent' 
-           onChange={handleChange} 
+          <label className='py-1'>About Event</label>
+          <textarea  
+           value={inputValue} 
+           onChange={handleInputChange} 
            rows='3' 
-           value={formState.aboutevent}
            placeholder='say something...' 
-           className='w-full text-gray-700 outline-none my-2 rounded-xl relative border p-2' />
+           className={`${(characterCount > 200) ? 'outline-red-100' : ''} w-full text-gray-700 outline-none my-2 rounded-xl relative border p-2`} />
+          <label className={`${characterCount > 200 ? 'error' : ''} text-xs flex justify-end`}>
+            {characterCount}/200 characters
+          </label>
 
           <div className={`${politicalPartyFeedback ? '' : 'hidden'} `}>
             <p onClick={handlePoliticalFeedbackQuestion} className='py-2 font-bold text-[18px] cursor-pointer text-[#519d8b]'>Create Your Question</p>

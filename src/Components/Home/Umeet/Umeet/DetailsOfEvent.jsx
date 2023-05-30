@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
  handleEditEvent, handleShareEvent, handleFeedbacks, eventDetail }){
 
-    const [personal, setPersonal] = useState(false)
+    const [personal, setPersonal] = useState(true)
     const [publics, setPublics] = useState(false)
     const [political, setPolitical] = useState(false)
     const [online, setOnline] = useState(false)
@@ -19,10 +19,16 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
       if(eventDetail && eventDetail.eventName){
          if(eventDetail.eventType.toLowerCase().includes('political')){
             setPolitical(true)
+            setPublics(false)
+            setPersonal(false)
          }else if(eventDetail.eventType.toLowerCase().includes('public')){
             setPublics(true)
+            setPersonal(false)
+            setPolitical(false)
          }else if(eventDetail.eventType.toLowerCase().includes('personal')){
             setPersonal(true)
+            setPublics(false)
+            setPolitical(false)
          }
 
          if(eventDetail.event_category.toLowerCase().includes('feedback') || eventDetail.eventType.toLowerCase().includes('feedback')){
@@ -30,7 +36,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
          }
       }
     }, [])
-
+console.log(publics)
     const options = {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric',hour: 'numeric',minute: 'numeric',second: 'numeric',timeZone: 'UTC'}
 
     return (
