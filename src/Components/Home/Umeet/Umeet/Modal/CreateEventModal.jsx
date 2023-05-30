@@ -65,8 +65,12 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   }
 
   const handleShowGroup = () => {
-    if (whichType == 'personal' && (selectedSpecificEvent != 'Re-Union')) {
-      handlePersonalOtherModal()
+    if (whichType == 'personal') {      
+      if(selectedSpecificEvent == 'Re-Union'){
+        handleShowAddPeopleModal()
+      }else{
+        handlePersonalOtherModal()
+      }
     }
     else if (whichType == 'political') handleShowAddPoliticalGroup()
     else if (whichType == 'public') handleShowAddPoliticalGroup()
