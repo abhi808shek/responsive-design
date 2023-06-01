@@ -36,7 +36,7 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
          }
       }
     }, [])
-console.log(publics)
+
     const options = {weekday: 'long',year: 'numeric',month: 'long',day: 'numeric',hour: 'numeric',minute: 'numeric',second: 'numeric',timeZone: 'UTC'}
 
     return (

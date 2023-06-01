@@ -108,7 +108,7 @@ export const getEventList = (data) => async (dispatch) => {
 export const getEventByProfileid = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/event/api/event/getmyallevent/${data}/${Date.now()}`,
+      `https://web.uynite.com/event/api/event/getmyallevent/630dbf9c67ceca0570e4bfc9/1684318282119`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -467,12 +467,26 @@ export const handleInviteEmailUI = (data) => async (dispatch) => {
 
 export const handleCreateDataUI = (data) => async (dispatch) => {
   try {
-    console.log(data, 'ok dude')
     dispatch({
       type: "CREATE_DATA_UI",
       payload: data,
     })
   } catch (error) {
     console.log(error)
+  }
+};
+
+export const getReunionTemplates = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+       `https://web.uynite.com/event/api/eventtemp/category/Reunion`
+    );
+    console.log(response.data, "getReunionTemplates");
+    dispatch({
+      type: "GET_REUNION_TEMPLATES",
+      payload: response.data,
+    });
+  } catch (error) {
+    throw error;
   }
 };

@@ -37,8 +37,6 @@ const EventDetails = ({
   const [guests, setGuests] = useState(false);
   const [chat, setChat] = useState(false);
 
-console.log(details, guests, chat)
-
   const dispatch = useDispatch();
   const { umeetReducer } = useSelector(state=>state)
   

@@ -61,17 +61,17 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
             allMyEvents.map((data, i) => (
               <div key={i} onClick={() => handleBothDetails(data.id)} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
                 {/* Img section */}
-                <div className='w-1/4 flex items-center justify-center'>
-                  <img src={data.img} className='w-full h-5/6 object-cover rounded-md' />
+                <div className='w-4/12 fle h-[75px] items-center justify-center'>
+                  <img src={data?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
                 </div>
                 {/* center section */}
-                <div className='2/4 flex flex-col'>
-                  <p className='text-[#649b8e] font-medium text-[14px]'>{data.title}</p>
-                  <span className='text-gray-600 text-[12px]'>{data.time}</span>
+                <div className='8/12 flex flex-col'>
+                  <p className='text-[#649b8e] font-medium text-[14px]'>{data?.eventName}</p>
+                  <span className='text-gray-600 text-[12px]'>{data?.eventdateAndTime}</span>
 
                 </div>
                 {/* End status section */}
-                {data.status.toLowerCase() == 'completed' ? 
+                {data?.status?.toLowerCase() == 'completed' ? 
                 (
                   <div className='w-1/4 flex items-center justify-center'>
                     <EventStatus data={data} handleEventDetails={handleEventDetails} />

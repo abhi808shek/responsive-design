@@ -1,14 +1,21 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import wishes from '../../../../../Assets/Images/Umeet/wishesTemplate.webp';
-// import createEventTemplate from '../../'
-import { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { getReunionTemplates } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
-const ChooseTemplate = ({ onClose, handleImageChange, saveTemplate }) => {
-  const dispatch = useDispatch()
+const ChooseTemplate = ({ onClose, saveTemplate, 
+selectedSpecificEvent, setTemplateSelected }) => {  
   const [state, setState] = useState({})
   const { templatesImage = [], templates = []} = state
+  const [ tempImages, setTempImages] = useState([])
+  const [selectedImage, setSelectedImage] = useState(null)
+
+  const dispatch = useDispatch()
+  //const { personalReUnionTemplates } = useSelector(state=>state.umeetReducer)
+
   const handleUpload = (file) => {
     const payload = {
       eventid: "12",
@@ -18,15 +25,65 @@ const ChooseTemplate = ({ onClose, handleImageChange, saveTemplate }) => {
       category: "marrage",
     };
     // dispatch(createEventTemplate())
-    setState({...state, templatesImage: [...templatesImage,file], templates: [...templates, URL.createObjectURL(file)]})
+    handleImageChange()
   }
+console.log(selectedImage)
+  const handleImageChange = (data) => {
+    if (event.target.files && event.target.files[0]) {
+      const image = event.target.files[0];
+      setSelectedImage(URL.createObjectURL(image));
+    }    
+  };
+
+  const callTemp = (temps)=>{  
+   const tempData = temps?.data?.map((data)=>{
+    let temps = []
+    let imgs = data?.tempdetail?.bgimage          
+    return {...temps, imgs}
+   })
+
+   setTempImages(tempData)
+  }     
+
+console.log(tempImages)
+  useEffect(()=>{
+    if(selectedSpecificEvent == 'Re-Union'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Reunion`)                  
+        callTemp(data)
+      })()                        
+    }else if(selectedSpecificEvent == 'Birthday'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Birthday`)                  
+        callTemp(data)
+      })()                        
+    }else if(selectedSpecificEvent == 'Wedding'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Wedding`)                  
+        callTemp(data)
+      })()                        
+    }else if(selectedSpecificEvent == 'Anniversary'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Anniversary`)                  
+        callTemp(data)
+      })()                        
+    }else if(selectedSpecificEvent == 'Others'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Others`)                  
+        callTemp(data)
+      })()                        
+    }else if(selectedSpecificEvent == 'Baby Shower'){
+      (async function fetchData(){
+        const { data } = await axios.get(`https://web.uynite.com/event/api/eventtemp/category/Baby%20Shower`)                  
+        callTemp(data)
+      })()                        
+    }
+  }, [])
+
   return (
-    <div
-      className="absolut fixed top-8 w-full h-full flex justify-center items-center"
-      style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}
-    >
-      <div className="w-[98%] md:w-[70%] lg:w-[41%] flex flex-col justify-between min-h-[86%] bg-white rounded-xl p-3">
-        <div className="">
+    <div className="fixed z-20 top-0 w-full h-full flex justify-center items-center" style={{ backgroundColor: "rgba(0, 0, 0, 0.2)" }}>
+      <section className="w-[97%] md:w-[70%] lg:w-[41%] flex flex-col justify-betwee h-[94%] md:h-[87%] bg-white rounded-xl p-3">
+        <div className="h-[85%]">
           <div className="flex justify-between items-center border-b pb-2 text-gray-600">
             <span className="text-[18px] text-gray-700">Choose Template</span>
             <label
@@ -42,34 +99,40 @@ const ChooseTemplate = ({ onClose, handleImageChange, saveTemplate }) => {
               Upload
             </label>
           </div>
-          <div className="grid lg:grid-cols-4 md:grid-cols-3 2xl:grid-cols-5">
-            {templates.map((data, i) => (
+
+          <div className={`h-[88%] ${selectedImage ? '' : 'overflow-y-scroll'} `}>
+           <section className={`${selectedImage ? 'hidden' : ''} grid grid-cols-2 md:grid-cols-4 2xl:grid-cols-5`}>
+            {tempImages?.map((data, i) => (
               <div
                 key={i}
-                className="cursor-pointer justify-center py-3 px-3 items-center"
-              >
+                className="justify-center py-3 px-3 items-center"
+              >{}
                 <img
-                  src={data}
-                  onClick={handleImageChange}
-                  className="h-36 w-[110px] rounded object-cover"
+                  src={data.imgs}
+                  onClick={()=>handleImageChange(data.imgs)}
+                  className="h-52 cursor-pointer md:h-36 w-[150px] md:w-[110px] rounded object-cover"
                 />
               </div>
             ))}
+           </section>
+           {selectedImage && (
+            <section className='h-full mt-1'>
+             <img src={selectedImage} className='h-full object-cover rounded-xl w-full' />
+            </section>
+           )}
           </div>
         </div>
 
-        <div>
-          <button onClick={() => saveTemplate} className="w-full py-1 rounded-md text-white border border-[#649B8E] bg-[#649B8E]">
+        <div className='h-[15%]'>
+          <button onClick={()=>{setTemplateSelected(selectedImage); onClose()}} className="w-full py-1 rounded-md text-white border border-[#649B8E] bg-[#649B8E]">
             Save
           </button>
           <button
             onClick={onClose}
             className="w-full py-1 my-2 rounded-md  border border-[#649B8E]"
-          >
-            Cancel
-          </button>
+          >Cancel</button>
         </div>
-      </div>
+      </section>
     </div>
   );
 }

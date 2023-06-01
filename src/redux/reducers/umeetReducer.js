@@ -14,6 +14,7 @@ const initialState = {
   emailSendSuccess: false,
   inviteEmailsUI: null,
   createData: null,
+  personalReUnionTemplates: []
 };
 
 const umeetReducer = (state = initialState, action) => {
@@ -58,8 +59,9 @@ const umeetReducer = (state = initialState, action) => {
         console.log(action.payload)
         return {...state, inviteEmailsUI: action.payload}
       case "CREATE_DATA_UI":
-        console.log(action.payload)
         return { ...state, createData: action.payload }
+      case "GET_REUNION_TEMPLATES":
+        return { ...state, personalReUnionTemplates: action.payload.data}
       default:
         return state;
     }
