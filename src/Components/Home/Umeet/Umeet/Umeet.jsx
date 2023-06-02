@@ -19,7 +19,8 @@ import PoliticalGuestAddModal from './Modal/PoliticalGuestAddModal'
 import PoliticalFeedbackQuestion from './Modal/PoliticalFeedbackQuestion'
 import PersonalOtherGuest from './Modal/PersonalOtherGuest'
 import ViewFeedbacks from './Modal/ViewFeedbacks'
-import { getEventByProfileid, getAllInvitedEvents, getEventDetails } from "../../../../redux/actionCreators/umeetActionCreator"
+import { getEventByProfileid, getAllInvitedEvents, 
+getEventDetails } from "../../../../redux/actionCreators/umeetActionCreator"
 import { useDispatch, useSelector } from 'react-redux'
 import AddPeopleModal from './Modal/AddPeopleModal'
 import AddByContactModal from './Modal/AddByContactModal'
@@ -202,7 +203,11 @@ export default function Umeet(){
   useEffect(() => {    
     dispatch(getEventByProfileid(profileReducer?.profile?.userid))
     dispatch(getAllInvitedEvents(profileReducer?.profile?.userid))
-  }, [])  
+
+    if(editMyEvent){
+      setSelectedImage(umeetReducer?.eventDetail?.eventTemplate)
+    }
+  }, [umeetReducer?.eventDetail])  
 
   const handleCreateEventForm = (data)=>{
     umeetReducer.inviteEmailsUI = null
@@ -333,7 +338,7 @@ export default function Umeet(){
         handleSingleEventDetail={handleEventDetails}
         isInvitedAll={isInvitedAll}
         handleBothDetails={handleBothDetails}
-        />
+       />
       </div>
      </section>
     )

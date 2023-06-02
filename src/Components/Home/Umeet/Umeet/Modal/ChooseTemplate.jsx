@@ -1,5 +1,6 @@
 import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
+import { HiUpload } from 'react-icons/hi'
 import wishes from '../../../../../Assets/Images/Umeet/wishesTemplate.webp';
 import { getReunionTemplates } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useState, useEffect } from 'react'
@@ -7,11 +8,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
 const ChooseTemplate = ({ onClose, saveTemplate, 
-selectedSpecificEvent, setTemplateSelected }) => {  
+selectedSpecificEvent, setTemplateSelected, handleTemplateSelected }) => {  
   const [state, setState] = useState({})
   const { templatesImage = [], templates = []} = state
   const [ tempImages, setTempImages] = useState([])
   const [selectedImage, setSelectedImage] = useState(null)
+  const [imgData, setImgData] = useState(null)
 
   const dispatch = useDispatch()
   //const { personalReUnionTemplates } = useSelector(state=>state.umeetReducer)
@@ -27,6 +29,7 @@ selectedSpecificEvent, setTemplateSelected }) => {
     // dispatch(createEventTemplate())
     handleImageChange()
   }
+
 console.log(selectedImage)
   const handleImageChange = (data) => {
     if (event.target.files && event.target.files[0]) {
@@ -43,7 +46,18 @@ console.log(selectedImage)
    })
 
    setTempImages(tempData)
-  }     
+  }   
+
+  const handleTemp = ()=>{
+    if(selectedImage){
+      setTemplateSelected(selectedImage);
+    }else{          
+      //handleImageChange(imgData);
+      setTemplateSelected(imgData)
+    }
+
+    onClose()  
+  }
 
 console.log(tempImages)
   useEffect(()=>{
@@ -78,6 +92,7 @@ console.log(tempImages)
         callTemp(data)
       })()                        
     }
+
   }, [])
 
   return (
@@ -88,7 +103,7 @@ console.log(tempImages)
             <span className="text-[18px] text-gray-700">Choose Template</span>
             <label
               htmlFor="templateInput"
-              className="px-5 py-1 cursor-pointer rounded-md text-white border bg-[#649B8E]"
+              className="px-5 py-1 flex font-medium items-center cursor-pointer rounded-md text-white border bg-[#649B8E]"
             >
               <input onChange={(e) => handleUpload(e.target.files[0])}
                 type="file"
@@ -96,7 +111,8 @@ console.log(tempImages)
                 className="hidden"
                 id="templateInput"
               />
-              Upload
+              <HiUpload className='h-4 w-5 mr-0.5'/>
+              Upload              
             </label>
           </div>
 
@@ -109,7 +125,7 @@ console.log(tempImages)
               >{}
                 <img
                   src={data.imgs}
-                  onClick={()=>handleImageChange(data.imgs)}
+                  onClick={()=>setImgData(data.imgs)}
                   className="h-52 cursor-pointer md:h-36 w-[150px] md:w-[110px] rounded object-cover"
                 />
               </div>
@@ -124,7 +140,9 @@ console.log(tempImages)
         </div>
 
         <div className='h-[15%]'>
-          <button onClick={()=>{setTemplateSelected(selectedImage); onClose()}} className="w-full py-1 rounded-md text-white border border-[#649B8E] bg-[#649B8E]">
+          <button 
+            onClick={handleTemp}
+            className="w-full py-1 rounded-md text-white border border-[#649B8E] bg-[#649B8E]">
             Save
           </button>
           <button

@@ -3,6 +3,10 @@ import { MdMessage } from 'react-icons/md'
 import UmeetNotAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-NotAttending.png'
 import UmeetAttending from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-Attending.png'
 import Umeetmaybe from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet-maybe.png'
+import { getInviteesList } from "../../../../redux/actionCreators/umeetActionCreator"
+import { useState, useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import axios from 'axios'
 
 const dataList = [
  {
@@ -59,6 +63,20 @@ function EventStatus({ data }){
 
 
 export default function EventGuests(){
+
+    const dispatch = useDispatch()
+    const { profile } = useSelector(state=>state.profileReducer)
+
+    const invitees = profile
+    console.log(profile)
+    useEffect(()=>{
+      //dispatch(getInviteesList())
+      (async function getData(){
+        const response = await axios.get(`http://3.233.82.34:8080/event/api/invities/getinvitietslist/64638b810fa7dd158fd35a5a`)
+        console.log(response.data.data)
+      })()      
+    }, [])
+
     return (
     <div className='p-4 bg-white rounded-xl w-full'>
       <div className='mb-1'>
@@ -75,8 +93,9 @@ export default function EventGuests(){
        <span className='w-2/3 text-xl font-bold'>Guest List</span>
        <select className="border w-1/3 bg-white border-gray-300 w-full py-2 pl-3 pr-10 text-gray-700 focus:outline-none focus:border-blue-500">         
          <option value="option2">All Guests</option>
-         <option value="option3">By Name</option>
-         <option value="option3">Event people</option>
+         <option value="option3">Attending</option>
+         <option value="option3">Maybe</option>
+         <option value="option3">Not Attending</option>
        </select>
       </div>
 

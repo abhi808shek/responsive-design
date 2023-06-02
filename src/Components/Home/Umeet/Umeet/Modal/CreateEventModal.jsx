@@ -22,6 +22,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
 
   const { profileReducer, umeetReducer } = useSelector(state => state)
 
+  const detail = umeetReducer.eventDetail
+  console.log(detail)
   const [formState, setFormState] = useState({
     eventName: '',
     eventdateAndTime: '',
@@ -113,7 +115,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     "eventType": selectedSpecificEvent,
     "hostmailid": formState.hostmailid,
     "id": uuidv4(),
-    "aboutevent": formState.aboutevent
+    "aboutevent": inputValue
   }
 
   const handleCreateEvent = () => {
@@ -199,7 +201,20 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
        aboutevent: umeetReducer?.createData?.aboutevent,
       }))       
     }
-    
+
+    if(editMyEvent){
+      if(detail?.eventAddress) setEventMode('location')      
+      setFoodType(detail?.food)
+      setInputValue(detail?.aboutevent)
+      setFormState((prev) => ({
+       ...prev,
+       eventName: detail?.eventName,
+       eventAddress: detail?.eventAddress,
+       eventHostPhnNumber: detail?.eventHostPhnNumber,
+       hostmailid: detail?.hostmailid,
+      }))       
+    }    
+
   }, [umeetReducer?.createData, showAddGroup, dispatch])
 
   return (
@@ -246,7 +261,8 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
             <label 
              htmlFor="myfile" 
              onClick={(e)=>handleTemplateType(e)} 
-             className='flex cursor-pointer justify-center py-2 mt-3 font-medium text-[#649B8E]'>{(whichType == 'personal') ?  'Select Template' : 'Upload Template'}
+             className='flex cursor-pointer justify-center py-2 mt-3 font-medium text-[#649B8E]'>
+             {(whichType == 'personal') ?  `${selectedImage ? 'Change Template' : 'Select Template'}` : `${selectedImage ? 'Change Template' : 'Upload Template'}` }
             </label>
           </div>
 
@@ -315,7 +331,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
           <div className={`${(politicalPartyFeedback || publicShopOpening || politicalPartyMeeting) ? 'hidden' : ''} flex items-center`}>
             <div>
               <select className='h-10 outline-none border-b bg-white pr-6 text-gray-500'>
-                <option className=''>+91</option>
+                <option>+91</option>
                 <option>USA</option>
               </select>
             </div>
@@ -430,6 +446,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
        selectedSpecificEvent={selectedSpecificEvent}
        selectedImage={selectedImage}
        formState={formState}
+       inputValue={inputValue}
        profileReducer={profileReducer}
        eventMode={eventMode}
        />}

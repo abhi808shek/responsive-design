@@ -25,7 +25,7 @@ function EventStatus({ data, handleBothDetails }) {
 
 const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
   myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent,
-  isInvitedAll, handleBothDetails }) => {
+  isInvitedAll, handleBothDetails, handleImageSelect }) => {
   
   const reducerData = useSelector((state) => {
     return {
@@ -44,13 +44,13 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
   const dispatch = useDispatch()
 
   useEffect(() => { 
-  const filterArray = () => {
+   const filterArray = () => {
     const filteredResult = allInvitedEvents.filter(item => 
       (item?.eventdetail?.eventstatus?.toLowerCase() !== 'completed') 
     );
     setInvitedEvents(filteredResult);
-  }
-  filterArray()    
+   }
+   filterArray()    
   }, [])
 
   return (
@@ -59,7 +59,10 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
         <>
           {(allMyEvents && allMyEvents?.length !== 0) ?
             allMyEvents.map((data, i) => (
-              <div key={i} onClick={() => handleBothDetails(data.id)} className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+              <div 
+               key={i} 
+               onClick={()=>{handleBothDetails(data.id); handleImageSelect}} 
+               className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
                 {/* Img section */}
                 <div className='w-4/12 fle h-[75px] items-center justify-center'>
                   <img src={data?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />

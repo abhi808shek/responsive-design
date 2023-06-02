@@ -137,6 +137,7 @@ export const getInviteList = (data) => async (dispatch) => {
   }
 };
 
+
 export const getInviteListByFood = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
@@ -187,7 +188,7 @@ export const addInvitee = (data) => async (dispatch) => {
 export const getInviteesList = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/event/api/invities/add`,
+      `http://3.233.82.34:8080/event/api/invities/getinvitietslist/64638b810fa7dd158fd35a5a`,
       data
     );
     console.log(response);
