@@ -203,12 +203,13 @@ export default function Umeet(){
   useEffect(() => {    
     dispatch(getEventByProfileid(profileReducer?.profile?.userid))
     dispatch(getAllInvitedEvents(profileReducer?.profile?.userid))
+  }, [])  
 
+  useEffect(()=>{
     if(editMyEvent){
       setSelectedImage(umeetReducer?.eventDetail?.eventTemplate)
     }
-  }, [umeetReducer?.eventDetail])  
-
+  },[])
   const handleCreateEventForm = (data)=>{
     umeetReducer.inviteEmailsUI = null
     umeetReducer.createData = null
@@ -317,7 +318,6 @@ export default function Umeet(){
         <div className='flex justify-end text-sm items-center my-2 mr-5'>
          <span className='text-gray-600'>view by:</span>
          <select onChange={handleEventSelectChange} value={isInvitedAll} className='h-8 outline-none bg-white mx-2 px-6 rounded border-gray-400 border'>
-          <option>Events</option>
           <option>All Events</option>
           <option>Inprogress Events</option>
           <option>Upcoming Events</option>

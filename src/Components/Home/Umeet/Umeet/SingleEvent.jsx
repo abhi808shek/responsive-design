@@ -18,7 +18,9 @@ function EventStatus({ data, handleBothDetails }) {
     return <img src={UmeetNotAttending} className='h-10 w-10 cursor-pointer' />
   } else if (data?.eventstatus?.toLowerCase() == 'pending') {
     return <img src={Umeetmaybe} className='h-10 w-10 cursor-pointer' />
-  } else if(data?.eventstatus?.toLowerCase() == 'completed'){
+  } else if((new Date(data?.eventdetail?.enddate)) < (new Date(Date.now()) ) ){
+    return <button className='px-0.5 lg:px-2 py-0.5 text-[10px] lg:text-[12px] rounded border-gray-500 text-gray-700 border mr-1'>completed</button>
+  } else if((new Date(data?.enddate)) < (new Date(Date.now()) ) ){
     return <button className='px-0.5 lg:px-2 py-0.5 text-[10px] lg:text-[12px] rounded border-gray-500 text-gray-700 border mr-1'>completed</button>
   }
 }
@@ -26,13 +28,13 @@ function EventStatus({ data, handleBothDetails }) {
 const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
   myEvent, handleDeleteEvent, handleEditEvent, handleShareEvent,
   isInvitedAll, handleBothDetails, handleImageSelect }) => {
-  
+
   const reducerData = useSelector((state) => {
     return {
       profile: state?.profileReducer?.profile,
-      allEvents: state?.umeetReducer?.allEvents?.slice(0, 20),
-      allMyEvents: state?.umeetReducer?.allMyEvents?.slice(0, 20),
-      allInvitedEvents: state?.umeetReducer?.allInvitedEvents?.slice(0, 20),
+      allEvents: state?.umeetReducer?.allEvents?.slice(0, 30),
+      allMyEvents: state?.umeetReducer?.allMyEvents?.slice(0, 30),
+      allInvitedEvents: state?.umeetReducer?.allInvitedEvents?.slice(0, 30),
     }
   });
 
@@ -40,25 +42,81 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
 
   const [showDetail, setShowDetail] = useState(false)
   const [invitedEvents, setInvitedEvents] = useState(allInvitedEvents)
+  const [completedEvents, setCompletedEvents] = useState(null)
+  const [upcomingEvents, setUpcomingEvents] = useState(null)
+
+  const [completedMyEvents, setCompletedMyEvents] = useState(null)
+  const [upcomingMyEvents, setUpcomingMyEvents] = useState(null)
 
   const dispatch = useDispatch()
 
   useEffect(() => { 
-   const filterArray = () => {
-    const filteredResult = allInvitedEvents.filter(item => 
-      (item?.eventdetail?.eventstatus?.toLowerCase() !== 'completed') 
-    );
-    setInvitedEvents(filteredResult);
-   }
-   filterArray()    
+    if(isInvitedAll == 'Completed Events'){
+      const completed = allInvitedEvents?.filter(item =>{ 
+      const targetDateTimestamp = item?.eventdetail?.enddate;
+      const currentDateTimestamp = Date.now();
+      const targetDate = new Date(targetDateTimestamp);
+      const currentDate = new Date(currentDateTimestamp);
+
+      const hasPassed = targetDate < currentDate;
+
+      return hasPassed
+     })
+
+     setCompletedEvents(completed);
+    }else if(isInvitedAll == 'Upcoming Events'){
+      const upcoming = allInvitedEvents?.filter(item =>{ 
+      const targetDateTimestamp = item?.eventdetail?.startdate;
+      const currentDateTimestamp = Date.now();
+      const targetDate = new Date(targetDateTimestamp);
+      const currentDate = new Date(currentDateTimestamp);
+
+      const hasComing = targetDate > currentDate;
+
+      return hasComing
+     })
+
+     setUpcomingEvents(upcoming)
+    }
+
+
+    if(isInvitedAll == 'Completed Events'){
+      const completed = allMyEvents?.filter(item =>{ 
+      const targetDateTimestamp = item?.enddate;
+      const currentDateTimestamp = Date.now();
+      const targetDate = new Date(targetDateTimestamp);
+      const currentDate = new Date(currentDateTimestamp);
+
+      const hasPassed = targetDate < currentDate;
+
+      return hasPassed
+     })
+
+     setCompletedMyEvents(completed);
+    }else if(isInvitedAll == 'Upcoming Events'){
+      const upcoming = allMyEvents?.filter(item =>{ 
+      const targetDateTimestamp = item?.startdate;
+      const currentDateTimestamp = Date.now();
+      const targetDate = new Date(targetDateTimestamp);
+      const currentDate = new Date(currentDateTimestamp);
+
+      const hasComing = targetDate > currentDate;
+
+      return hasComing
+     })
+
+     setUpcomingMyEvents(upcoming)
+    }
   }, [])
 
   return (
     <>
       {myEvent ? (
         <>
-          {(allMyEvents && allMyEvents?.length !== 0) ?
-            allMyEvents.map((data, i) => (
+          {(allMyEvents && allMyEvents?.length !== 0) ? 
+          <>
+          {
+            (isInvitedAll == 'All Events') && allMyEvents.map((data, i) => (
               <div 
                key={i} 
                onClick={()=>{handleBothDetails(data.id); handleImageSelect}} 
@@ -74,15 +132,17 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
 
                 </div>
                 {/* End status section */}
-                {data?.status?.toLowerCase() == 'completed' ? 
+                {((new Date(data?.enddate)) < (new Date(Date.now())) ) ? 
                 (
                   <div className='w-1/4 flex items-center justify-center'>
                     <EventStatus data={data} handleEventDetails={handleEventDetails} />
                   </div>
                  ) : (
                   <div className='w-1/4 flex justify-end'>
+                    {/*
+                    }
                     <BsThreeDots onClick={() => setShowDetail(!showDetail)} className='w-8 h-8 cursor-pointer mr-2 text-gray-700' />
-                    {
+                    {/*
 
                       showDetail ? (
                         <section className='absolute z-30 right-[4%] top-[45%] border bg-white border-gray-300'>
@@ -100,17 +160,106 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
                           </div> 
                         </section>
                       ) : null
-                    }
+                    */}
                   </div>
                 )}
               </div>
-            )) : <EventLoadingAnimation />
+            )) 
+           }
+
+           {
+            (isInvitedAll == 'Upcoming Events') && upcomingMyEvents?.map((data, i) => (
+              <div 
+               key={i} 
+               onClick={()=>{handleBothDetails(data.id); handleImageSelect}} 
+               className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+                {/* Img section */}
+                <div className='w-4/12 fle h-[75px] items-center justify-center'>
+                  <img src={data?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
+                </div>
+                {/* center section */}
+                <div className='8/12 flex flex-col'>
+                  <p className='text-[#649b8e] font-medium text-[14px]'>{data?.eventName}</p>
+                  <span className='text-gray-600 text-[12px]'>{data?.eventdateAndTime}</span>
+
+                </div>
+                {/* End status section */}
+                {((new Date(data?.enddate)) < (new Date(Date.now())) ) ? 
+                (
+                  <div className='w-1/4 flex items-center justify-center'>
+                    <EventStatus data={data} handleEventDetails={handleEventDetails} />
+                  </div>
+                 ) : (
+                  <div className='w-1/4 flex justify-end'>
+                    ok
+                  </div>
+                )}
+              </div>
+            )) 
+           }
+
+           {
+            (isInvitedAll == 'Completed Events') && completedMyEvents?.map((data, i) => (
+              <div 
+               key={i} 
+               onClick={()=>{handleBothDetails(data.id); handleImageSelect}} 
+               className='relative cursor-pointer flex p-2.5 justify-between m-1 my-1.5 border rounded-xl border-gray-300'>
+                {/* Img section */}
+                <div className='w-4/12 fle h-[75px] items-center justify-center'>
+                  <img src={data?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
+                </div>
+                {/* center section */}
+                <div className='8/12 flex flex-col'>
+                  <p className='text-[#649b8e] font-medium text-[14px]'>{data?.eventName}</p>
+                  <span className='text-gray-600 text-[12px]'>{data?.eventdateAndTime}</span>
+
+                </div>
+                {/* End status section */}
+                {((new Date(data?.enddate)) < (new Date(Date.now())) ) ? 
+                (
+                  <div className='w-1/4 flex items-center justify-center'>
+                    <EventStatus data={data} handleEventDetails={handleEventDetails} />
+                  </div>
+                 ) : (
+                  <div className='w-1/4 flex justify-end'>
+                    ok
+                  </div>
+                )}
+              </div>
+            )) 
+           }
+          </> : <EventLoadingAnimation />
           } 
-          </>
+        </>
         ) : (
-          <>
+          <> 
             {(invitedEvents && allInvitedEvents.length !== 0) ?
-              (isInvitedAll == 'All Events') ? allInvitedEvents?.map((data, i) => (
+              (isInvitedAll == 'Completed Events') ? completedEvents?.map((data, i) => (
+                <div key={i} onClick={()=>handleBothDetails(data?.eventdetail.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
+                  {/* Img section */}
+                  <div className='w-4/12 fle h-[75px] items-center justify-center'>
+                    <img src={data?.eventdetail?.eventTemplate} className='w-11/12 h-full object-cover rounded-md' />
+                  </div>
+                  {/* center section */}
+                  <section className='w-6/12 pl-2'>
+                    <div className='flex w-full flex-col'>
+                      <p className='text-[#649b8e] font-medium text-[14px]'>{data?.eventdetail?.eventName}</p>
+                      <span className='text-gray-600 text-[12px]'>{data?.eventdetail?.eventdateAndTime}</span>
+                      <span className='text-[12px] text-gray-600'>Hosted by:<strong className='text-gray-800'> {data?.eventdetail?.host}</strong></span>
+                      {
+                        data.eventstatus && data.eventstatus !== 'completed' ? (
+                          <span className='text-[12px] text-gray-600'>Status:<strong className='text-gray-800'> {data?.eventdetail?.eventstatus}</strong></span>
+                        ) : null
+                      }
+                    </div>
+                  </section>
+                  {/* End status section */}
+                  <div className='w-2/12 flex items-center justify-center'>
+                    <EventStatus data={data} handleEventDetails={handleEventDetails} />
+                  </div>
+                </div>
+              )): 
+              (isInvitedAll == 'Upcoming Events') ? upcomingEvents?.map((data, i) => (
                 <div key={i} onClick={()=>handleBothDetails(data?.eventdetail.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
                   {/* Img section */}
                   <div className='w-4/12 fle h-[75px] items-center justify-center'>
@@ -134,7 +283,8 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
                     <EventStatus data={data?.eventdetail} handleEventDetails={handleEventDetails} />
                   </div>
                 </div>
-              )): (invitedEvents && invitedEvents.length != 0) && invitedEvents?.map((data, i) => (
+              )) : 
+              (isInvitedAll == 'All Events') ? invitedEvents?.map((data, i) => (
                 <div key={i} onClick={()=>handleBothDetails(data?.eventdetail.id)} className='flex cursor-pointer p-2 m-1 my-1.5 border rounded-xl border-gray-300'>
                   {/* Img section */}
                   <div className='w-4/12 fle h-[75px] items-center justify-center'>
@@ -155,10 +305,11 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
                   </section>
                   {/* End status section */}
                   <div className='w-2/12 flex items-center justify-center'>
-                    <EventStatus data={data?.eventdetail} handleEventDetails={handleEventDetails} />
+                    <EventStatus data={data} handleEventDetails={handleEventDetails} />
                   </div>
                 </div>
-              ))
+              )) :
+              <p className='text-green-600 flex justify-center items-center'>loading...</p>
             : <EventLoadingAnimation />}
           </>)
       }

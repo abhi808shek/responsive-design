@@ -52,17 +52,18 @@ const dataList = [
 ]
 
 function EventStatus({ data }){
-    if(data.status.toLowerCase() == 'attending'){
+    if(data?.status?.toLowerCase() == 'attending'){
         return <img src={UmeetAttending} className='h-8 w-8 cursor-pointer'/>
-    }else if(data.status.toLowerCase() == 'not attending'){
+    }else if(data?.status?.toLowerCase() == 'not attending'){
         return <img src={UmeetNotAttending} className='h-8 w-8 cursor-pointer'/>
-    }else if(data.status.toLowerCase() == 'pending'){
+    }else if(data?.status?.toLowerCase() == 'pending'){
         return <img src={Umeetmaybe} className='h-8 w-8 cursor-pointer'/>
     }
 }
 
 
 export default function EventGuests(){
+    const [guestsList, setGuestsList] = useState([])
 
     const dispatch = useDispatch()
     const { profile } = useSelector(state=>state.profileReducer)
@@ -74,6 +75,7 @@ export default function EventGuests(){
       (async function getData(){
         const response = await axios.get(`http://3.233.82.34:8080/event/api/invities/getinvitietslist/64638b810fa7dd158fd35a5a`)
         console.log(response.data.data)
+        setGuestsList(response.data.data)
       })()      
     }, [])
 
@@ -100,12 +102,12 @@ export default function EventGuests(){
       </div>
 
       {
-        dataList.map((data, i)=>(
+        guestsList?.map((data, i)=>(
         <div key={i} className='py-4 border-t flex justify-between'>
           <div className='flex'>
-           <img src={data.img} className='h-10 mr-2 w-10 rounded-full object-cover' />
+           <img src={img} className='h-10 mr-2 w-10 rounded-full object-cover' />
            <div className='flex flex-col'>
-            <div className='flex font-medium items-center'>{data.name} <span className='text-[10px] text-gray-600 pl-3'>( {data.foodType} )</span></div>
+            <div className='flex font-medium items-center'>{data?.profile?.fname} {data?.profile?.lname}<span className='text-[10px] text-gray-600 pl-3'>( {data?.invities?.nonveg ? 'non-veg' : 'veg'} )</span></div>
             <div className='flex'>
              <span>{data.guests ? <div className='text-[12px] text-gray-600'> ( {data.guests} ) </div> : null}</span>
              <span>{data.chat ? <MdMessage className='ml-3 h-5 w-5 text-green-600' /> : null}</span>            
