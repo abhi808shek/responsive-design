@@ -115,7 +115,7 @@ const SingleEvent = ({ dataList, myEventDataList, handleEventDetails,
         <>
           {(allMyEvents && allMyEvents?.length !== 0) ? 
           <>
-          {
+          { 
             (isInvitedAll == 'All Events') && allMyEvents.map((data, i) => (
               <div 
                key={i} 
