@@ -8,6 +8,7 @@ import "react-multi-carousel/lib/styles.css";
 import { getEventDetails, getAllEventChatMessage } from "../../../../redux/actionCreators/umeetActionCreator";
 import { useSelector, useDispatch } from "react-redux";
 import '../Umeet.css'
+import axios from 'axios'
 
 const responsive = {
   superLargeDesktop: {
@@ -39,7 +40,16 @@ const EventDetails = ({
 
   const dispatch = useDispatch();
   const { umeetReducer } = useSelector(state=>state)
-  
+  const [guestsList, setGuestsList] = useState([])
+
+  useEffect(()=>{
+    (async function getData(){
+      const response = await axios.get(`https://web.uynite.com/event/api/invities/getinvitietslist/${umeetReducer?.eventDetail?.id}`)
+      console.log(response.data.data)
+      setGuestsList(response.data.data)
+    })()      
+  }, [])    
+
   const eventDetail = umeetReducer?.eventDetail
   
   const handleDetails = ()=>{
@@ -70,9 +80,10 @@ const EventDetails = ({
           handleShareEvent={handleShareEvent}
           handleFeedbacks={handleFeedbacks}
           eventDetail={eventDetail}
+          guestsList={guestsList}
         />)
     }else if(guests){
-     return <EventGuests />;
+     return <EventGuests guestsList={guestsList} />;
     }else if(chat){
      return <EventChat />;
     }     

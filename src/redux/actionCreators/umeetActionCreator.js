@@ -108,7 +108,7 @@ export const getEventList = (data) => async (dispatch) => {
 export const getEventByProfileid = (data) => async (dispatch) => {
   try {
     const response = await axios.get(
-      `https://web.uynite.com/event/api/event/getmyallevent/630dbf9c67ceca0570e4bfc9/1684318282119`,
+      `https://web.uynite.com/event/api/event/getmyallevent/${data}/1684318282119`,
       {
         headers: { Authorization: `Bearer ${token}` },
       }
@@ -119,6 +119,24 @@ export const getEventByProfileid = (data) => async (dispatch) => {
       payload: response.data,
     });
   } catch (error) {
+    throw error;
+  }
+};
+
+// get invited events
+export const getAllInvitedEvents = (data) => async (dispatch) => {
+  try {
+    const response = await axios.get(
+      `https://web.uynite.com/event/api/invities/getmyevent/${data}/1684318282119`,
+      data
+    );
+    console.log(response.data, "getAllInvitedEvents");
+    dispatch({
+      type: "GET_ALL_INVITED_EVENTS",
+      payload: response.data,
+    });
+  } catch (error) {
+    console.log('jd2')
     throw error;
   }
 };
@@ -212,18 +230,21 @@ export const addInvitees = (data) => async (dispatch) => {
       type: "ADD_INVITIES",
       payload: response.data,
     });
-  } catch (error) {
+  } catch (error) { 
     throw error;
   }
 };
 
 export const createEventTemplate = (data) => async (dispatch) => {
   try {
+    // const formData = new FormData();
+    // formData.append('image', data);
+    // console.log(data, formData)
     const response = await axios.post(
       `https://web.uynite.com/event/api/eventtemp/createtemp`,
       data
     );
-    console.log(response);
+    console.log(response, 'ok ji');
     dispatch({
       type: "",
       payload: response.data,
@@ -404,23 +425,6 @@ export const getAllPgFriends = (data) => async (dispatch) => {
       payload: response.data,
     });
   } catch (error) {
-    throw error;
-  }
-};
-
-export const getAllInvitedEvents = (data) => async (dispatch) => {
-  try {
-    const response = await axios.get(
-      `https://web.uynite.com/event/api/invities/getmyevent/630dbf9c67ceca0570e4bfc9/1684318282119`,
-      data
-    );
-    console.log(response.data, "getAllInvitedEvents");
-    dispatch({
-      type: "GET_ALL_INVITED_EVENTS",
-      payload: response.data,
-    });
-  } catch (error) {
-    console.log('jd2')
     throw error;
   }
 };

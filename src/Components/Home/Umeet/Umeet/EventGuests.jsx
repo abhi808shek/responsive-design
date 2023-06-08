@@ -62,33 +62,23 @@ function EventStatus({ data }){
 }
 
 
-export default function EventGuests(){
-    const [guestsList, setGuestsList] = useState([])
+export default function EventGuests({ guestsList }){
 
     const dispatch = useDispatch()
     const { profile } = useSelector(state=>state.profileReducer)
-
+    const { eventDetail } = useSelector(state=>state.umeetReducer)
     const invitees = profile
-    console.log(profile)
-    useEffect(()=>{
-      //dispatch(getInviteesList())
-      (async function getData(){
-        const response = await axios.get(`http://3.233.82.34:8080/event/api/invities/getinvitietslist/64638b810fa7dd158fd35a5a`)
-        console.log(response.data.data)
-        setGuestsList(response.data.data)
-      })()      
-    }, [])
 
     return (
     <div className='p-4 bg-white rounded-xl w-full'>
       <div className='mb-1'>
        <span className='font-bold'>Responses</span>
-       <span className='ml-3'>10 of 25 responded</span>
+       <span className='ml-3'>0 of {guestsList ? guestsList?.length : 0} responded</span>
       </div>
       <div className='flex py-3 my-1 border-b-2 border-gray-300'>
-       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-green-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>5</span>Yes</div>
-       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-red-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>4</span>Yes</div>
-       <div className='w-1/3  flex justify-center items-center'><span className='p-2 bg-yellow-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>2</span>Yes</div>
+       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-green-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
+       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-red-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
+       <div className='w-1/3  flex justify-center items-center'><span className='p-2 bg-yellow-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
       </div>
 
       <div className='flex justify-between items-center border-b border-gray-300 py-4'>

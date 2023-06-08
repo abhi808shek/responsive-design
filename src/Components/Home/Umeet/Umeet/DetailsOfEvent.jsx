@@ -1,8 +1,10 @@
 import navigation from '../../../../Assets/Images/Umeet/Umeet-Main/Umeet navigation.png'
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import axios from 'axios'
 
 export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
- handleEditEvent, handleShareEvent, handleFeedbacks, eventDetail }){
+ handleEditEvent, handleShareEvent, handleFeedbacks, eventDetail, guestsList }){
 
     const [personal, setPersonal] = useState(true)
     const [publics, setPublics] = useState(false)
@@ -10,6 +12,8 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
     const [online, setOnline] = useState(false)
     const [politicalPartyFeedback, setPoliticalPartyFeedback] = useState(false)
     const [isPoliticalPartyFeedback, setIsPoliticalPartyFeedback] = useState(false)
+
+    const { umeetReducer } = useSelector(state=>state)
 
     const handleFeedback = ()=>{
      setIsPoliticalPartyFeedback(true)
@@ -43,15 +47,15 @@ export default function DetailsOfEvent({ myEvent, handleDeleteEvent,
      <div className='p-4 bg-white rounded-xl w-full'>
       <div className={`${politicalPartyFeedback ? 'hidden' : ''} mb-1`}>
        <span className='font-bold'>Responses</span>
-       <span className='ml-3'>10 of 25 responded</span>
+       <span className='ml-3'>0 of {guestsList ? guestsList?.length : 0} responded</span>
       </div>
       <div className={`${(political || publics) ? '' : 'hidden'} ${politicalPartyFeedback ? 'hidden' : ''}`}>
-       <span className='font-bold'>Guests Attending: 2</span>
+       <span className='font-bold'>Guests Attending: 0</span>
       </div>
       <div className={`${politicalPartyFeedback ? 'hidden' : ''} flex py-3 my-2 border-b-2 border-gray-300`}>
-       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-green-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>5</span>Yes</div>
-       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-red-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>4</span>Yes</div>
-       <div className='w-1/3  flex justify-center items-center'><span className='p-2 bg-yellow-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>2</span>Yes</div>
+       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-green-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
+       <div className='w-1/3 border-r-2 border-gray-300 py-3 flex justify-center items-center'><span className='p-2 bg-red-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
+       <div className='w-1/3  flex justify-center items-center'><span className='p-2 bg-yellow-600 w-10 flex justify-center mr-2 items-center h-10 rounded-full text-white'>0</span>Yes</div>
       </div>
 
       <div className=''>

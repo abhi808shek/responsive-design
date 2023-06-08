@@ -3,7 +3,7 @@ import guest from '../../../../../Assets/Images/Umeet/Umeet-Main/Group 1054.png'
 import { useState, useEffect } from 'react'
 import ToggleButton from './ToggleButton';
 import { createEvent, updateEvent, handleCreateDataUI,
-getReunionTemplates } from "../../../../../redux/actionCreators/umeetActionCreator";
+getReunionTemplates, createEventTemplate } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useDispatch, useSelector } from 'react-redux'
 import { v4 as uuidv4 } from 'uuid'
 import AutocompletePlace from '../../../../googlemap/AutocompletePlace';
@@ -18,12 +18,12 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   politicalPartyMeeting, handlePoliticalFeedbackQuestion,
   publicShopOpening, handlePersonalOtherModal, handleShowAddPeopleModal,
   showAddGroup, reunionModal, handleReuinion, selectedImage,
-  setSelectedImage }) => {
+  setSelectedImage, selectedImgFile }) => {
 
   const { profileReducer, umeetReducer } = useSelector(state => state)
 
   const detail = umeetReducer.eventDetail
-  console.log(detail)
+
   const [formState, setFormState] = useState({
     eventName: '',
     eventdateAndTime: '',
@@ -43,6 +43,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   const [inputValue, setInputValue] = useState('');
   const [characterCount, setCharacterCount] = useState(0);
   const [feedbackVal, setFeedbackVal] = useState(false)
+  const [noGuest, setNoGuest] = useState(null)
 
   const dispatch = useDispatch()
   const phoneNumberRules = /[0-9]{10}$/;
@@ -60,6 +61,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   const handleImageChange = (event) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
+      setSelectedImgFile(image)
       setSelectedImage(URL.createObjectURL(image));
     }
   };
@@ -115,13 +117,20 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     "eventType": selectedSpecificEvent,
     "hostmailid": formState.hostmailid,
     "id": uuidv4(),
-    "aboutevent": inputValue
+    "aboutevent": inputValue,
+    "eventmode": eventMode,
+    "eventTemplate": selectedImage
   }
-
+  console.log(noGuest)
   const handleCreateEvent = () => {
+    if(noGuest == null){
+      return ToastWarning('Please select invities')
+    }
+    
     if(!postData?.eventName) {
       return ToastWarning('Event name is required')
     }
+
     if(whichType === 'personal'){
       if (!formState?.eventdateAndTime) {
          return ToastWarning("Start date and time is required");
@@ -181,6 +190,10 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
   }
 
   useEffect(()=>{
+    if(umeetReducer?.inviteEmailsUI){
+      setNoGuest(umeetReducer?.inviteEmailsUI)
+    }
+
     if(selectedSpecificEvent == 'Re-Union' && reunionModal) {
       handleShowAddGroup()      
     }
@@ -190,6 +203,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
     }
 
     if(umeetReducer?.createData){
+      setInputValue(umeetReducer?.createData?.aboutevent)
       setEventMode(umeetReducer?.createData?.eventMode)
       setFoodType(umeetReducer?.createData?.foodType)
       setFormState((prev) => ({
@@ -197,8 +211,7 @@ const CreateEventModal = ({ selectedSpecificEvent, editMyEvent,
        eventName: umeetReducer?.createData?.eventName,
        eventAddress: umeetReducer?.createData?.eventAddress,
        eventHostPhnNumber: umeetReducer?.createData?.eventHostPhnNumber,
-       hostmailid: umeetReducer?.createData?.hostmailid,
-       aboutevent: umeetReducer?.createData?.aboutevent,
+       hostmailid: umeetReducer?.createData?.hostmailid,       
       }))       
     }
 

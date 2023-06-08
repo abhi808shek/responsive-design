@@ -2,13 +2,14 @@ import { AiOutlineCloseCircle } from 'react-icons/ai'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { HiUpload } from 'react-icons/hi'
 import wishes from '../../../../../Assets/Images/Umeet/wishesTemplate.webp';
-import { getReunionTemplates } from "../../../../../redux/actionCreators/umeetActionCreator";
+import { getReunionTemplates, createEventTemplate } from "../../../../../redux/actionCreators/umeetActionCreator";
 import { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import axios from 'axios'
 
 const ChooseTemplate = ({ onClose, saveTemplate, 
-selectedSpecificEvent, setTemplateSelected, handleTemplateSelected }) => {  
+  selectedSpecificEvent, setTemplateSelected, handleTemplateSelected,
+  handleSelectedImgFile }) => {  
   const [state, setState] = useState({})
   const { templatesImage = [], templates = []} = state
   const [ tempImages, setTempImages] = useState([])
@@ -22,18 +23,19 @@ selectedSpecificEvent, setTemplateSelected, handleTemplateSelected }) => {
     const payload = {
       eventid: "12",
       textcolor: "0",
-      bgimage: "http",
+      bgimage: selectedImage,
       textstyle: "bold",
-      category: "marrage",
+      category: selectedSpecificEvent,
     };
-    // dispatch(createEventTemplate())
+    handleSelectedImgFile(file)
+    dispatch(createEventTemplate(payload)) 
     handleImageChange()
   }
 
-console.log(selectedImage)
   const handleImageChange = (data) => {
     if (event.target.files && event.target.files[0]) {
       const image = event.target.files[0];
+      handleSelectedImgFile(image)
       setSelectedImage(URL.createObjectURL(image));
     }    
   };
@@ -48,7 +50,8 @@ console.log(selectedImage)
    setTempImages(tempData)
   }   
 
-  const handleTemp = ()=>{
+  const handleTemp = async()=>{
+    handleUpload()
     if(selectedImage){
       setTemplateSelected(selectedImage);
     }else{          
@@ -59,7 +62,6 @@ console.log(selectedImage)
     onClose()  
   }
 
-console.log(tempImages)
   useEffect(()=>{
     if(selectedSpecificEvent == 'Re-Union'){
       (async function fetchData(){

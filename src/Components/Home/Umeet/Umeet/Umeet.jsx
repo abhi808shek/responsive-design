@@ -43,6 +43,7 @@ export default function Umeet(){
   const [singleEvent, setSingleEvent] = useState('')
   const [templateSelected, setTemplateSelected] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
+  const [selectedImgFile, setSelectedImgFile] = useState(null)
 
   {/* modals related states*/}
   const [showRvspModal, setShowRvspModal] = useState(false)
@@ -56,7 +57,7 @@ export default function Umeet(){
   const [showAddByContactModal, setShowAddByContactModal] = useState(false)
   const [reunionModal, setReunionModal] = useState(true)
 
-  const [isInvitedAll, setIsInvitedAll] = useState('Events')
+  const [isInvitedAll, setIsInvitedAll] = useState('All Events')
 
   const [state, setState] = useState({})
   const { templateImage }  = state
@@ -98,7 +99,9 @@ export default function Umeet(){
               showAddGroup={showAddGroup}
               reunionModal={reunionModal}
               selectedImage={selectedImage}
-              setSelectedImage={setSelectedImage}              
+              setSelectedImage={setSelectedImage} 
+              selectedImgFile={selectedImgFile} 
+              handleSelectedImgFile={(file)=>setSelectedImgFile(file)}            
               />
     }else if(eventCreated){
       return <SuccessCreate handleBothDetails={handleBothDetails}/>
@@ -118,7 +121,7 @@ export default function Umeet(){
   const handleAddByContactModal = ()=>{
    setShowAddByContactModal(true)
   }  
-
+console.log(selectedImage)
   const handleEditEvent = ()=>{
     setEventDetails(false)
     setEditMyEvent(true); 
@@ -201,8 +204,8 @@ export default function Umeet(){
   }
 
   useEffect(() => {    
-    dispatch(getEventByProfileid(profileReducer?.profile?.userid))
-    dispatch(getAllInvitedEvents(profileReducer?.profile?.userid))
+    dispatch(getEventByProfileid(profileReducer?.profile?.id))
+    dispatch(getAllInvitedEvents(profileReducer?.profile?.id))
   }, [])  
 
   useEffect(()=>{
@@ -393,6 +396,7 @@ export default function Umeet(){
        handleImageChange={handleImageChange}
        selectedSpecificEvent={selectedSpecificEvent}
        setTemplateSelected={(urlid)=>setSelectedImage(urlid)} 
+       handleSelectedImgFile={(file)=>setSelectedImgFile(file)}
       />}
      {showAddGroup && 
       <AddGuestModal 
